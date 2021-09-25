@@ -46,20 +46,9 @@ function SignIn() {
           </SuiBox>
           <SuiInput type="password" placeholder="Password" />
         </SuiBox>
-        <SuiBox display="flex" alignItems="center">
-          <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-          <SuiTypography
-            variant="button"
-            fontWeight="regular"
-            onClick={handleSetRememberMe}
-            customClass="cursor-pointer user-select-none"
-          >
-            &nbsp;&nbsp;Remember me
-          </SuiTypography>
-        </SuiBox>
         <SuiBox mt={4} mb={1}>
           <SuiButton variant="gradient" buttonColor="info" fullWidth>
-            sign in
+            Ingresar
           </SuiButton>
         </SuiBox>
         <SuiBox mt={3} textAlign="center">
