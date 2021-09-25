@@ -1,19 +1,3 @@
-/**
-=========================================================
-* Soft UI Dashboard Material-UI - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-material-ui
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @material-ui core components
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 
@@ -54,7 +38,7 @@ function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "today's money" }}
+                title={{ text: "Hola BB" }}
                 count="$53,000"
                 percentage={{ color: "success", text: "+55%" }}
                 icon={{ color: "info", component: "paid" }}
@@ -72,7 +56,7 @@ function Dashboard() {
               <MiniStatisticsCard
                 title={{ text: "new clients" }}
                 count="+3,462"
-                percentage={{ color: "error", text: "-2%" }}
+                percentage={{ color: "success", text: "2%" }}
                 icon={{ color: "info", component: "emoji_events" }}
               />
             </Grid>
