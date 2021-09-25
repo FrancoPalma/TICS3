@@ -112,7 +112,7 @@ export default function App() {
     <StylesProvider jss={jss}>
       <ThemeProvider theme={themeRTL}>
         <CssBaseline />
-        {layout === "dashboard" && (
+        {layout === "sign-in" && (
           <>
             <Sidenav
               routes={routes}
@@ -126,7 +126,7 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Switch>
           {getRoutes(routes)}
-          <Redirect from="*" to="/dashboards/default" />
+          <Redirect from="*" to="/authentication/sign-in" />
         </Switch>
       </ThemeProvider>
     </StylesProvider>
@@ -147,7 +147,7 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Switch>
         {getRoutes(routes)}
-        <Redirect from="*" to="/dashboard" />
+        <Redirect from="*" to="/authentication/sign-in" />
       </Switch>
     </ThemeProvider>
   );

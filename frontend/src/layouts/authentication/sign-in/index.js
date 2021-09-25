@@ -25,8 +25,8 @@ function SignIn() {
 
   return (
     <CoverLayout
-      title="Welcome back"
-      description="Enter your email and password to sign in"
+      title="Bienvenido"
+      description="Ingresa tu emali y contraseña"
       image={curved9}
     >
       <SuiBox component="form" role="form">
@@ -41,7 +41,7 @@ function SignIn() {
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
             <SuiTypography component="label" variant="caption" fontWeight="bold">
-              Password
+              Contraseña
             </SuiTypography>
           </SuiBox>
           <SuiInput type="password" placeholder="Password" />
