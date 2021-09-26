@@ -15,8 +15,6 @@ const Pool = require('./config/database.js')
 app.set('port', process.env.PORT || 8000);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'));
-mongoose.set('useFindAndModify', false);
-
 
 //Middlewares
 app.use(morgan('dev'));

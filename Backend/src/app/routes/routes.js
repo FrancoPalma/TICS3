@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('../../config/passport');
-const pool = require('./database.js');
+const pool = require('../../config/database.js');
 
 router.use(passport.initialize());
 router.use(passport.session());
@@ -55,22 +55,5 @@ function isLoggedIn (req, res, next) {
 	}
 	res.redirect('/');
 }
-
-router.post('/eliminar_pedido/:id', isLoggedIn, async function(req,res){
-    let id = req.params.id;
-		await pool.quey(id, async function(err, pedido){
-			let numero_pedido = pedido.numero_pedido;
-	    await eliminarPedido.remove({_id: id}, async function(err){
-				await registro.create({fecha: Date.now(), tipo: 'Pedido', numero: numero_pedido, detalle: 'Se eliminó un pedido', empleadoLog: req.user.rut, sucursal: req.user.sucursal}, function (err){
-					if(!err){
-						res.sendStatus(201);
-					}
-					else{
-						 res.sendStatus(404);
-					}
-				});
-	    });
-	});
-});
 
 module.exports = router;
