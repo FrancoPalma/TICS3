@@ -33,8 +33,8 @@ router.post('/login', (req,res) => {
 		console.log("Usuario recibido")
 
 	req.logIn(user, function(err) {
-		if (err) { return console.log(err); }
-		console.log(user);
+		if (err) { return res.sendStatus(404); }
+		return res.json(201);
 		});
 	}) (req, res);
 });
