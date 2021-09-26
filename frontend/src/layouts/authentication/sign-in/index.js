@@ -23,6 +23,7 @@ const hist = createBrowserHistory();
 const Inicio = () => (
   <Router history={hist}>
     <Switch>
+      <Route path="/admin"/>
       <Redirect from="/authentication/sign-in" to="/dashboard" />
     </Switch>
   </Router>
