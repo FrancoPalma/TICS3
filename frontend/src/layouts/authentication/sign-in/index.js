@@ -23,16 +23,61 @@ const hist = createBrowserHistory();
 const Inicio = () => (
   <Router history={hist}>
     <Switch>
-      <Redirect from="/" to="/admin/inicio" />
+      <Redirect from="/" to="/dashboard" />
     </Switch>
   </Router>
 );
 
 export default function SignIn() {
-  const [rememberMe, setRememberMe] = useState(true);
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
-  
-  
+
+  const [rut, setRut] = useState('');
+  const [password, setPassword] = useState('');
+
+  function EnviarDatos() {
+    console.log(rut)
+    console.log(password)
+    if(1 == 1){
+      fetch('/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rut: this.state.usuario,
+        password: this.state.password,
+      })
+      })
+      .then( (response) => {
+
+        if(response.status !== 404) {
+          this.setState({isAutentificado: true})
+          return response.json()
+
+        } else {
+          console.log('FALLO EL INGRESO');
+          this.setState({estado: 2, isAutentificado: false})
+        }
+
+      })
+      .then(users => {
+        if(this.state.isAutentificado === true) {
+          console.log("LOGEADO")
+          console.log(users)
+          localStorage.setItem('usuario', JSON.stringify(users));
+          this.setState({estado: 1})
+          ReactDOM.render(<Inicio/>, document.getElementById('root'))
+        }
+
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    }else{
+      this.setState({estadorut: 3})
+
+    }
+  }
 
   return (
     <CoverLayout
@@ -47,7 +92,7 @@ export default function SignIn() {
               Rut
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="text" placeholder="RUT" />
+          <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)}/>
         </SuiBox>
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
@@ -55,10 +100,10 @@ export default function SignIn() {
               Contraseña
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="password" placeholder="Password" />
+          <SuiInput type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)}/>
         </SuiBox>
         <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth >
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarDatos}>
             Ingresar
           </SuiButton>
         </SuiBox>
