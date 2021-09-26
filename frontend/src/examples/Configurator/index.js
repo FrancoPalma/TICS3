@@ -103,9 +103,9 @@ function Configurator() {
         px={3}
       >
         <SuiBox>
-          <SuiTypography variant="h5">Soft UI Configurator</SuiTypography>
+          <SuiTypography variant="h5">Club Kiddo</SuiTypography>
           <SuiTypography variant="body2" textColor="text">
-            See our dashboard options.
+            Visualizaciones del Dashboard.
           </SuiTypography>
         </SuiBox>
 
@@ -121,7 +121,7 @@ function Configurator() {
 
       <SuiBox pt={1.25} pb={3} px={3}>
         <SuiBox>
-          <SuiTypography variant="h6">Sidenav Colors</SuiTypography>
+          <SuiTypography variant="h6">Colores del navegador</SuiTypography>
 
           <SuiBox my={0.5}>
             {sidenavColors.map((color) => (
@@ -137,9 +137,9 @@ function Configurator() {
         </SuiBox>
 
         <SuiBox mt={3}>
-          <SuiTypography variant="h6">Sidenav Type</SuiTypography>
+          <SuiTypography variant="h6">Tipos de Navegadores</SuiTypography>
           <SuiTypography variant="button" textColor="text" fontWeight="regular">
-            Choose between 2 different sidenav types.
+            Eliga entre los 2 tipos de sidenav.
           </SuiTypography>
 
           <SuiBox customClass={classes.configurator_sidenav_types}>
@@ -150,7 +150,7 @@ function Configurator() {
               disabled={disabled}
               fullWidth
             >
-              Transparent
+              Transparente
             </SuiButton>
             <SuiButton
               buttonColor="info"
@@ -159,7 +159,7 @@ function Configurator() {
               disabled={disabled}
               fullWidth
             >
-              White
+              Blanco
             </SuiButton>
           </SuiBox>
         </SuiBox>
@@ -167,76 +167,6 @@ function Configurator() {
           <SuiTypography variant="h6">Navbar Fixed</SuiTypography>
 
           <Switch checked={fixedNavbar} onChange={handleFixedNavbar} />
-        </SuiBox>
-
-        <Divider />
-
-        <SuiBox mt={3} mb={2}>
-          <SuiBox mb={2}>
-            <SuiButton
-              component={Link}
-              href="https://www.creative-tim.com/product/soft-ui-dashboard-material-ui"
-              target="_blank"
-              rel="noreferrer"
-              buttonColor="dark"
-              variant="gradient"
-              fullWidth
-            >
-              free download
-            </SuiButton>
-          </SuiBox>
-          <SuiButton
-            component={Link}
-            href="https://www.creative-tim.com/learning-lab/material-ui/quick-start/soft-ui-dashboard"
-            target="_blank"
-            rel="noreferrer"
-            buttonColor="dark"
-            variant="outlined"
-            fullWidth
-          >
-            view documentation
-          </SuiButton>
-        </SuiBox>
-        <SuiBox display="flex" justifyContent="center">
-          <GitHubButton
-            href="https://github.com/creativetimofficial/soft-ui-dashboard-material-ui"
-            data-icon="octicon-star"
-            data-size="large"
-            data-show-count="true"
-            aria-label="Star creativetimofficial/soft-ui-dashboard-material-ui on GitHub"
-          >
-            Star
-          </GitHubButton>
-        </SuiBox>
-        <SuiBox mt={3} textAlign="center">
-          <SuiBox mb={0.5}>
-            <SuiTypography variant="h6">Thank you for sharing!</SuiTypography>
-          </SuiBox>
-
-          <SuiBox display="flex" justifyContent="center">
-            <SuiBox mr={1.5}>
-              <SuiButton
-                component={Link}
-                href="//twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20%20Material-UI%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard-pro-material"
-                target="_blank"
-                rel="noreferrer"
-                buttonColor="dark"
-              >
-                <TwitterIcon />
-                &nbsp; Tweet
-              </SuiButton>
-            </SuiBox>
-            <SuiButton
-              component={Link}
-              href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard-material-ui"
-              target="_blank"
-              rel="noreferrer"
-              buttonColor="dark"
-            >
-              <FacebookIcon />
-              &nbsp; Share
-            </SuiButton>
-          </SuiBox>
         </SuiBox>
       </SuiBox>
     </Drawer>
