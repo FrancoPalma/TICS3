@@ -141,13 +141,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </SuiBox>
         {isMini ? null : (
           <SuiBox customClass={classes.navbar_row}>
-            <SuiBox pr={1}>
-              <SuiInput
-                placeholder="Type here..."
-                withIcon={{ icon: "search", direction: "left" }}
-                customClass={classes.navbar_input}
-              />
-            </SuiBox>
             <SuiBox
               color={light ? "white" : "inherit"}
               customClass={classes.navbar_section_desktop}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import ReactDOM from 'react-dom';
 // react-router-dom components
 import { Link } from "react-router-dom";
 
@@ -11,32 +11,88 @@ import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import SuiInput from "components/SuiInput";
 import SuiButton from "components/SuiButton";
-
+import { Router, Route, Redirect } from 'react-router-dom';
 // Authentication layout components
 import CoverLayout from "layouts/authentication/components/CoverLayout";
-
+import { createBrowserHistory } from "history";
 // Images
 import curved9 from "assets/images/curved-images/curved-6.jpg";
 
-function SignIn() {
-  const [rememberMe, setRememberMe] = useState(true);
+const hist = createBrowserHistory();
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+const Inicio = () => (
+  <Router history={hist}>
+    <Switch>
+      <Redirect from="/" to="/dashboard" />
+    </Switch>
+  </Router>
+);
+
+export default function SignIn() {
+
+  const [rut, setRut] = useState('');
+  const [password, setPassword] = useState('');
+
+  function EnviarDatos() {
+    console.log(rut)
+    console.log(password)
+    if(1 == 1){
+      fetch('/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rut: this.state.usuario,
+        password: this.state.password,
+      })
+      })
+      .then( (response) => {
+
+        if(response.status !== 404) {
+          this.setState({isAutentificado: true})
+          return response.json()
+
+        } else {
+          console.log('FALLO EL INGRESO');
+          this.setState({estado: 2, isAutentificado: false})
+        }
+
+      })
+      .then(users => {
+        if(this.state.isAutentificado === true) {
+          console.log("LOGEADO")
+          console.log(users)
+          localStorage.setItem('usuario', JSON.stringify(users));
+          this.setState({estado: 1})
+          ReactDOM.render(<Inicio/>, document.getElementById('root'))
+        }
+
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    }else{
+      this.setState({estadorut: 3})
+
+    }
+  }
 
   return (
     <CoverLayout
       title="Bienvenido"
-      description="Ingresa tu emali y contraseña"
+      description="Ingresa tu Rut y contraseña"
       image={curved9}
     >
       <SuiBox component="form" role="form">
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
             <SuiTypography component="label" variant="caption" fontWeight="bold">
-              Email
+              Rut
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="email" placeholder="Email" />
+          <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)}/>
         </SuiBox>
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
@@ -44,16 +100,16 @@ function SignIn() {
               Contraseña
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="password" placeholder="Password" />
+          <SuiInput type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)}/>
         </SuiBox>
         <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarDatos}>
             Ingresar
           </SuiButton>
         </SuiBox>
         <SuiBox mt={3} textAlign="center">
           <SuiTypography variant="button" textColor="text" fontWeight="regular">
-            Don&apos;t have an account?{" "}
+            ¿No estas registrado?{" "}
             <SuiTypography
               component={Link}
               to="/authentication/sign-up"
@@ -62,7 +118,7 @@ function SignIn() {
               fontWeight="medium"
               textGradient
             >
-              Sign up
+              Registrate 
             </SuiTypography>
           </SuiTypography>
         </SuiBox>
@@ -70,5 +126,3 @@ function SignIn() {
     </CoverLayout>
   );
 }
-
-export default SignIn;
