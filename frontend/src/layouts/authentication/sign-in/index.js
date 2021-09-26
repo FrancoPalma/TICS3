@@ -34,6 +34,9 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
 
   function EnviarDatos() {
+    console.log(rut)
+    console.log(password)
+    
     if(1 == 1){
       fetch('/login', {
       method: 'POST',
