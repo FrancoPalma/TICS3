@@ -34,8 +34,6 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
 
   function EnviarDatos() {
-    console.log(rut)
-    console.log(password)
     if(1 == 1){
       fetch('/login', {
       method: 'POST',
@@ -44,8 +42,8 @@ export default function SignIn() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        rut: this.state.usuario,
-        password: this.state.password,
+        rut: rut,
+        password: password,
       })
       })
       .then( (response) => {
