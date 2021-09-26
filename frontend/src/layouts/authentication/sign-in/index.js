@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import ReactDOM from 'react-dom';
 // react-router-dom components
 import { Link } from "react-router-dom";
 
@@ -11,17 +11,28 @@ import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import SuiInput from "components/SuiInput";
 import SuiButton from "components/SuiButton";
-
+import { Router, Route, Redirect } from 'react-router-dom';
 // Authentication layout components
 import CoverLayout from "layouts/authentication/components/CoverLayout";
-
+import { createBrowserHistory } from "history";
 // Images
 import curved9 from "assets/images/curved-images/curved-6.jpg";
 
-function SignIn() {
-  const [rememberMe, setRememberMe] = useState(true);
+const hist = createBrowserHistory();
 
+const Inicio = () => (
+  <Router history={hist}>
+    <Switch>
+      <Redirect from="/" to="/admin/inicio" />
+    </Switch>
+  </Router>
+);
+
+export default function SignIn() {
+  const [rememberMe, setRememberMe] = useState(true);
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  
+  
 
   return (
     <CoverLayout
@@ -47,7 +58,7 @@ function SignIn() {
           <SuiInput type="password" placeholder="Password" />
         </SuiBox>
         <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth >
             Ingresar
           </SuiButton>
         </SuiBox>
@@ -70,5 +81,3 @@ function SignIn() {
     </CoverLayout>
   );
 }
-
-export default SignIn;
