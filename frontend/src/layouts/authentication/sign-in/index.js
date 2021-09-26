@@ -26,17 +26,17 @@ function SignIn() {
   return (
     <CoverLayout
       title="Bienvenido"
-      description="Ingresa tu emali y contraseña"
+      description="Ingresa tu Rut y contraseña"
       image={curved9}
     >
       <SuiBox component="form" role="form">
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
             <SuiTypography component="label" variant="caption" fontWeight="bold">
-              Email
+              Rut
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="email" placeholder="Email" />
+          <SuiInput type="text" placeholder="RUT" />
         </SuiBox>
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
