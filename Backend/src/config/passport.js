@@ -1,6 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
 const pool = require('./database.js');
+const bcrypt= require('bcrypt');
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -15,30 +16,21 @@ passport.deserializeUser(function(user, done) {
     passwordField: 'password',
     passReqToCallback : true 
   },
-  function (req, rut, password, done) {
-    Usuario.findOne({'rut': req.body.rut}, function (err, usuario) {
+  async function (req, rut, password, done) {
+    await pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], (err, usuario) => {
       if (err) {
         return done(err);
       }
       if (usuario) {
-        return done(null, false, req.flash('signupMessage', 'the rut is already taken'));
+        return done(null, false);
       } else {
-        var newUsuario = new Usuario();
-        newUsuario.rut = rut;
-        newUsuario.nombre = req.body.nombre;
-        newUsuario.telefono = req.body.telefono;
-        newUsuario.rol = req.body.rol;
-        newUsuario.sucursal = req.body.sucursal;
-        newUsuario.password = newUsuario.generateHash(password);
-        newUsuario.gestion_empleado = req.body.gestion_empleado;
-        newUsuario.gestion_inventario = req.body.gestion_inventario;
-        newUsuario.gestion_privilegios = req.body.gestion_privilegios;
-        newUsuario.descuento_permitido = req.body.descuento_permitido;
-        newUsuario.ver_totales = req.body.ver_totales;
-        newUsuario.save(function (err) {
-          if (err) { throw err; }
-          return done(null, newUsuario);
-        });
+        let passHash = bcrypt.hash(password, 8);
+        pool.query('INSERT INTO usuario (rut, password) VALUES ($1, $2)', [rut, passHash], (err, result) => {
+          if (err){return done(null,false)}
+          else{
+            done(null, result)
+          }
+        })
       }
     });
   }));
