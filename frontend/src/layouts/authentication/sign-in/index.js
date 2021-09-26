@@ -53,7 +53,7 @@ function SignIn() {
         </SuiBox>
         <SuiBox mt={3} textAlign="center">
           <SuiTypography variant="button" textColor="text" fontWeight="regular">
-            Don&apos;t have an account?{" "}
+            ¿No estas registrado?{" "}
             <SuiTypography
               component={Link}
               to="/authentication/sign-up"
@@ -62,7 +62,7 @@ function SignIn() {
               fontWeight="medium"
               textGradient
             >
-              Sign up
+              Registrate 
             </SuiTypography>
           </SuiTypography>
         </SuiBox>
