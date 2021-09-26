@@ -52,12 +52,11 @@ export default function SignIn() {
       .then( (response) => {
 
         if(response.status !== 404) {
-          this.setState({isAutentificado: true})
+          
           return response.json()
 
         } else {
-          console.log('FALLO EL INGRESO');
-          this.setState({estado: 2, isAutentificado: false})
+          console.log('FALLO EL INGRESO');          
         }
 
       })

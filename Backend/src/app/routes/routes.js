@@ -34,7 +34,7 @@ router.post('/login', (req,res) => {
 
 	req.logIn(user, function(err) {
 		if (err) { return res.sendStatus(404); }
-		return res.json(201);
+		return res.json(user);
 		});
 	}) (req, res);
 });
