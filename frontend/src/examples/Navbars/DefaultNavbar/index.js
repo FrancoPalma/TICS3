@@ -82,7 +82,7 @@ function DefaultNavbar({ transparent, light, action }) {
       >
         <SuiBox component={Link} to="/" py={transparent ? 1.5 : 0.75}>
           <SuiTypography variant="button" fontWeight="bold" textColor={light ? "white" : "dark"}>
-            Soft UI Dashboard
+            Club Kiddo
           </SuiTypography>
         </SuiBox>
         <SuiBox color="inherit" display={{ xs: "none", lg: "flex" }} m={0} p={0}>
