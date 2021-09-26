@@ -32,11 +32,10 @@ export default function SignIn() {
 
   const [rut, setRut] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isAutentificado, setsetisAutentificado] = useState(false);
   function EnviarDatos() {
     console.log(rut)
     console.log(password)
-    
     if(1 == 1){
       fetch('/login', {
       method: 'POST',
@@ -52,19 +51,18 @@ export default function SignIn() {
       .then( (response) => {
 
         if(response.status !== 404) {
-          this.setState({isAutentificado: true})
+          setsetisAutentificado(true)
           return response.json()
 
         } else {
           console.log('FALLO EL INGRESO');
-          this.setState({estado: 2, isAutentificado: false})
+          setsetisAutentificado(false)
         }
 
       })
       .then(users => {
-        if(this.state.isAutentificado === true) {
+        if(isAutentificado === true) {
           console.log("LOGEADO")
-          console.log(users)
           localStorage.setItem('usuario', JSON.stringify(users));
           this.setState({estado: 1})
           ReactDOM.render(<Inicio/>, document.getElementById('root'))
@@ -74,9 +72,6 @@ export default function SignIn() {
       .catch((error) => {
         console.log(error)
       });
-    }else{
-      this.setState({estadorut: 3})
-
     }
   }
 
