@@ -23,7 +23,7 @@ const hist = createBrowserHistory();
 const Inicio = () => (
   <Router history={hist}>
     <Switch>
-      <Redirect from="/" to="/dashboard" />
+      <Redirect from="/authentication/sign-in" to="/dashboard" />
     </Switch>
   </Router>
 );
@@ -64,7 +64,6 @@ export default function SignIn() {
         if(isAutentificado === true) {
           console.log("LOGEADO")
           localStorage.setItem('usuario', JSON.stringify(users));
-          this.setState({estado: 1})
           ReactDOM.render(<Inicio/>, document.getElementById('root'))
         }
 
