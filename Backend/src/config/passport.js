@@ -28,7 +28,7 @@ passport.deserializeUser(function(user, done) {
         pool.query('INSERT INTO usuario (rut, password) VALUES ($1, $2)', [rut, passHash], (err, result) => {
           if (err){return done(null,false)}
           else{
-            done(null, result)
+            done(null, false)
           }
         })
       }
@@ -43,11 +43,12 @@ passport.use('local-login', new LocalStrategy({
 async function (req, rut, password, done) {
   await pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], (err, result) => {
     if (err) { return done(err); }
-    if (!result) {
-      return done(null, false, req.flash('loginMessage', 'No User found'))
-    }
     const user = result.rows[0];
     console.log(user)
+    if (user == undefined) {
+      return done(null, false, req.flash('loginMessage', 'No User found'))
+    }
+    console.log(user.rut)
     if(password != user.password){
       return done(null,false)
     }
