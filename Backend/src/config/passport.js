@@ -17,18 +17,19 @@ passport.deserializeUser(function(user, done) {
     passReqToCallback : true 
   },
   async function (req, rut, password, done) {
-    await pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], (err, usuario) => {
+    await pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], async (err, usuario) => {
       if (err) {
         return done(err);
       }
-      if (usuario) {
+      const user = usuario.rows[0]
+      if (user != undefined) {
         return done(null, false);
       } else {
-        let passHash = bcrypt.hash(password, 8);
+        let passHash = await bcrypt.hash(password, 8);
         pool.query('INSERT INTO usuario (rut, password) VALUES ($1, $2)', [rut, passHash], (err, result) => {
           if (err){return done(null,false)}
           else{
-            done(null, false)
+            done(null, result)
           }
         })
       }
@@ -44,15 +45,15 @@ async function (req, rut, password, done) {
   await pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], (err, result) => {
     if (err) { return done(err); }
     const user = result.rows[0];
-    console.log(user)
     if (user == undefined) {
       return done(null, false, req.flash('loginMessage', 'No User found'))
     }
-    console.log(user.rut)
-    if(password != user.password){
-      return done(null,false)
-    }
-    return done(null, result);
+    bcrypt.compare(password, user.password, (err, isValid) => {
+      if(!isValid){return done(null,false)}
+      else{
+        return done(null, result);
+      }
+    });
   });
 }));
 

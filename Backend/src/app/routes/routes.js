@@ -39,19 +39,19 @@ router.post('/login', (req,res) => {
 	}) (req, res);
 });
 
-router.get('/singup', (req, res) => {
+router.get('/signup', (req, res) => {
 	if (req.isLoggedIn) {
 		req.flash('message', 'Your are already logged in.')
 		res.redirect('/profile')
 	} else {
-		res.render('singup')
+		res.render('signup')
 	}
 })
 
-router.post('/singup', async (req,res) => {
+router.post('/signup', async (req,res) => {
 	await passport.authenticate('local-signup', function(err, user) {
 		if (err) { return res.sendStatus(404); }
-		if (!user) { return res.sendStatus(404); }
+		if (user == undefined) { return res.sendStatus(404); }
 		return res.sendStatus(201); //res.sendStatus(201) para mandar 201 y res.json(user) para mandar usuari
 	}) (req, res);
 });
