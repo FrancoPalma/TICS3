@@ -2,7 +2,7 @@ import { useState } from "react";
 import ReactDOM from 'react-dom';
 // react-router-dom components
 import { Link } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
 // @material-ui core components
 import Switch from "@material-ui/core/Switch";
 
@@ -18,19 +18,15 @@ import { createBrowserHistory } from "history";
 // Images
 import curved9 from "assets/images/curved-images/curved-6.jpg";
 
-const hist = createBrowserHistory();
 
-const Inicio = () => (
-  <Router history={hist}>
-    <Switch>
-      <Route path="/admin"/>
-      <Redirect from="/authentication/sign-in" to="/dashboard" />
-    </Switch>
-  </Router>
-);
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+
+
 
 export default function SignIn() {
-
+  const hist = useHistory();
   const [rut, setRut] = useState('');
   const [password, setPassword] = useState('');
   const [isAutentificado, setsetisAutentificado] = useState(false);
@@ -65,7 +61,7 @@ export default function SignIn() {
         if(isAutentificado === true) {
           console.log("LOGEADO")
           localStorage.setItem('usuario', JSON.stringify(users));
-          ReactDOM.render(<Inicio/>, document.getElementById('root'))
+          hist.push('/dashboard')
         }
 
       })
