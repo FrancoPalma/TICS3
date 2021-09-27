@@ -19,8 +19,7 @@ router.get('/inicio', isLoggedIn, (req, res) => {
 
 router.get('/login', (req, res) => {
 	if (req.isLoggedIn) {
-		req.flash('message', 'Your are already logged in.')
-		res.redirect('/profile')
+		res.redirect('/login')
 	} else {
 		res.render('login')
 	}
@@ -70,7 +69,14 @@ function isLoggedIn (req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}
-	res.redirect('/');
+	res.sendStatus(404);
 }
+
+router.get('/privilegios', isLoggedIn, (req, res) => {
+	pool.query('SELECT usuario.rut, usuario.nombre, privilegios.gestion_usuario, privilegios.gestion_ficha, privilegios.gestion_priv, privilegios.gestion_evaluacion, privilegios.gestion_infante FROM usuario, privilegios WHERE usuario.rut = privilegios.rut_usuario', (err, result) => {
+		if(err){res.sendStatus(404)}
+		return res.json(result.rows[0]);
+	});
+})
 
 module.exports = router;
