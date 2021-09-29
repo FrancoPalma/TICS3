@@ -38,7 +38,7 @@ Coded by www.creative-tim.com
 // Soft UI Dashboard Material-UI layouts
 import Dashboard from "layouts/dashboard";
 import Privilegios from "layouts/privilegios";
-import Privilegios from "layouts/empleados";
+import Empleados from "layouts/empleados";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
