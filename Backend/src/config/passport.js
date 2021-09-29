@@ -26,7 +26,7 @@ passport.deserializeUser(function(user, done) {
         return done(null, false);
       } else {
         let passHash = await bcrypt.hash(password, 8);
-        pool.query('INSERT INTO usuario (rut, password) VALUES ($1, $2)', [rut, passHash], (err, result) => {
+        pool.query('INSERT INTO usuario (rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6)', [rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err, result) => {
           if (err){return done(null,false)}
           else{
             done(null, result)

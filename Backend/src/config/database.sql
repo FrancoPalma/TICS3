@@ -7,7 +7,6 @@ especialidad varchar(50),
 password text
 );
 
-<<<<<<< HEAD
 create table privilegios (
     rut_usuario numeric(8,0),
     gestion_usuario BOOLEAN,
@@ -55,24 +54,36 @@ create table analisis (
     CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
 );
 
+create table criterio (
+    id_evaluacion INTEGER,
+    nombre VARCHAR(50),
+    puntaje INTEGER,
+    CONSTRAINT fk_evaluacion FOREIGN KEY(id_evaluacion) REFERENCES evaluacion(id)
+);
+
+create table actividad (
+    id_objetivo INTEGER,
+    descripcion TEXT,
+    CONSTRAINT fk_objetivo FOREIGN KEY(id_objetivo) REFERENCES objetivo(id)
+);
+
 create table jardin(
-id interger,
+id INTEGER PRIMARY KEY,
 nombre varchar(80),
 telefono numeric(11,0),
 direccion varchar(50),
 email varchar(50),
-rut_admin (8,0),
-CONSTRAINT fk_id FOREIGN KEY(id)
-)
+rut_admin NUMERIC(8,0)
+);
 
 create table infante(
-    id_jardin interger primary key,
-    rut varchar(10),
+    id_jardin INTEGER,
+    rut varchar(10) PRIMARY KEY,
     nombre varchar(80),
     fecha_nacimiento date,
     ficha_clinica bytea,
-    CONSTRAINT fk_rut_infante FOREIGN KEY(rut)
-)
+    CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
+);
 
 create table apoderado(
     rut varchar(10) primary key,
@@ -80,15 +91,16 @@ create table apoderado(
     nombre varchar(80),
     email varchar (50),
     telefono numeric(11,0),
-    CONSTRAINT fk_rut_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
-)
+    CONSTRAINT fk_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
+);
 
 create table modulo (
-    id_jardin interger primary key,
+    id_jardin INTEGER,
     duracion numeric(10,0),
     comienzo time,
-    fin time
-)
+    fin time,
+    CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
+);
 
 insert into usuario(rut,nombre,telefono,email,especialidad, password)
 values (1,'franco',56123456789,'hola@gmail.com','fonoaudiologo', 'hola');
