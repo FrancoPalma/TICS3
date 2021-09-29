@@ -26,12 +26,15 @@ passport.deserializeUser(function(user, done) {
         return done(null, false);
       } else {
         let passHash = await bcrypt.hash(password, 8);
-        pool.query('INSERT INTO usuario (rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6)', [rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err, result) => {
+        pool.query('BEGIN')
+        pool.query('INSERT INTO usuario (rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6)', [rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash])
+        pool.query('INSERT INTO privilegios (rut_usuario, gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante) VALUES ($1, $2, $3, $4, $5, $6)', [rut, true, true, true, true, true])
+        pool.query('COMMIT', (err, result) => {
           if (err){return done(null,false)}
           else{
             done(null, result)
           }
-        })
+        })        
       }
     });
   }));
