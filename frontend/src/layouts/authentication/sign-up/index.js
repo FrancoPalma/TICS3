@@ -71,9 +71,8 @@ function SignUp() {
             <SuiBox mb={2}>
               <SuiInput type="password" placeholder="Contraseña" />
             </SuiBox>
-            
-
-                
+          
+             
             <SuiBox mt={4} mb={1}>
               <SuiButton variant="gradient" buttonColor="dark" fullWidth>
                 Registrate
