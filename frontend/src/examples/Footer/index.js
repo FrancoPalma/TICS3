@@ -64,7 +64,7 @@ function Footer({ company, links }) {
         fontSize={size.sm}
         px={1.5}
       >
-        &copy; {new Date().getFullYear()}, made with
+        &copy; {new Date().getFullYear()}, hecho con
         <SuiBox fontSize={size.regular} color="text" mb={-0.5} mx={0.25}>
           <Icon className="material-icons-round" color="inherit" fontSize="inherit">
             favorite
@@ -76,7 +76,7 @@ function Footer({ company, links }) {
             &nbsp;{name}&nbsp;
           </SuiTypography>
         </Link>
-        for a better web.
+        para una mejor web.
       </SuiBox>
       <SuiBox component="ul" customClass={classes.footer_list}>
         {renderLinks()}

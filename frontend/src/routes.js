@@ -37,6 +37,7 @@ Coded by www.creative-tim.com
 
 // Soft UI Dashboard Material-UI layouts
 import Dashboard from "layouts/dashboard";
+import Privilegios from "layouts/privilegios";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
@@ -63,6 +64,15 @@ const routes = [
     route: "/dashboard",
     icon: <Shop size="12px" />,
     component: Dashboard,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Privilegios",
+    key: "privilegios",
+    route: "/privilegios",
+    icon: <Office size="12px" />,
+    component: Privilegios,
     noCollapse: true,
   },
   {

@@ -14,22 +14,15 @@ import SuiButton from "components/SuiButton";
 import { Router, Route, Redirect } from 'react-router-dom';
 // Authentication layout components
 import CoverLayout from "layouts/authentication/components/CoverLayout";
-import { createBrowserHistory } from "history";
 // Images
 import curved9 from "assets/images/curved-images/curved-6.jpg";
-
-
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-
-
-
 
 export default function SignIn() {
   const hist = useHistory();
   const [rut, setRut] = useState('');
   const [password, setPassword] = useState('');
   const [isAutentificado, setsetisAutentificado] = useState(false);
+  
   function EnviarDatos() {
     console.log(rut)
     console.log(password)
