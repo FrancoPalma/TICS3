@@ -1,4 +1,4 @@
-/**
+/*
 =========================================================
 * Soft UI Dashboard Material-UI - v1.0.0
 =========================================================
@@ -50,7 +50,7 @@ function SignUp() {
       <Card>
         <SuiBox p={3} mb={1} textAlign="center">
           <SuiTypography variant="h5" fontWeight="medium">
-            Register with
+            ¡Bienvenido!
           </SuiTypography>
         </SuiBox>
         <SuiBox mb={2}>
@@ -60,36 +60,27 @@ function SignUp() {
         <SuiBox pt={2} pb={3} px={3}>
           <SuiBox component="form" role="form">
             <SuiBox mb={2}>
-              <SuiInput placeholder="Name" />
+              <SuiInput placeholder="Nombre" />
+            </SuiBox>
+            <SuiBox mb={2}>
+              <SuiInput type="numeric" placeholder="Teléfono" />
             </SuiBox>
             <SuiBox mb={2}>
               <SuiInput type="email" placeholder="Email" />
             </SuiBox>
             <SuiBox mb={2}>
-              <SuiInput type="password" placeholder="Password" />
+              <SuiInput type="password" placeholder="Contraseña" />
             </SuiBox>
-            <SuiBox display="flex" alignItems="center">
-              <Checkbox checked={agreement} onChange={handleSetAgremment} />
-              <SuiTypography
-                variant="button"
-                fontWeight="regular"
-                onClick={handleSetAgremment}
-                customClass="cursor-pointer user-select-none"
-              >
-                &nbsp;&nbsp;I agree the&nbsp;
-              </SuiTypography>
-              <SuiTypography component="a" href="#" variant="button" fontWeight="bold" textGradient>
-                Terms and Conditions
-              </SuiTypography>
-            </SuiBox>
+          
+             
             <SuiBox mt={4} mb={1}>
               <SuiButton variant="gradient" buttonColor="dark" fullWidth>
-                sign up
+                Registrate
               </SuiButton>
             </SuiBox>
             <SuiBox mt={3} textAlign="center">
               <SuiTypography variant="button" textColor="text" fontWeight="regular">
-                Already have an account?&nbsp;
+                ¿Ya tienes una cuenta?&nbsp;
                 <SuiTypography
                   component={Link}
                   to="/authentication/sign-in"
@@ -98,7 +89,7 @@ function SignUp() {
                   fontWeight="bold"
                   textGradient
                 >
-                  Sign in
+                  Ingresa
                 </SuiTypography>
               </SuiTypography>
             </SuiBox>
