@@ -4,8 +4,12 @@ const fs = require('fs');
 
 informeController = {}
 
-informeController.getInforme = (req, res) => {
+informeController.getInforme = async (req, res) => {
 
+    let result = await pool.query('SELECT nombre FROM infante')
+
+    result = result.rows[0]
+    console.log(result)
     const doc = new PDF({bufferPages: true});
   
     const stream = res.writeHead(200, {
@@ -16,7 +20,9 @@ informeController.getInforme = (req, res) => {
     doc.on('data', (chunk) => stream.write(chunk),);
     doc.on('end', () => stream.end());
 
-    doc.fontSize(20).text(`A heading`);
+    doc.fontSize(20).text('Evaluación de Terapia Ocupacional', {align: 'center'});
+
+    doc.fontSize(20).text(result.nombre, {align: 'center'});
 
     doc
       .fontSize(12)
