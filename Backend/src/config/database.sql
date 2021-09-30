@@ -1,10 +1,12 @@
 create table usuario (
+id_jardin INTEGER,
 rut numeric(8,0) primary key,
 nombre varchar(80),
 telefono numeric(11,0),
 email varchar(50),
 especialidad varchar(50),
-password text
+password text,
+CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
 );
 
 create table privilegios (
@@ -14,6 +16,7 @@ create table privilegios (
     gestion_priv BOOLEAN,
     gestion_evaluacion BOOLEAN,
     gestion_infante BOOLEAN,
+    administrador BOOLEAN,
     CONSTRAINT fk_rut FOREIGN KEY(rut_usuario) REFERENCES usuario(rut)
 );
 
@@ -102,8 +105,11 @@ create table modulo (
     CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
 );
 
-insert into usuario(rut,nombre,telefono,email,especialidad, password)
-values (1,'franco',56123456789,'hola@gmail.com','fonoaudiologo', 'hola');
+insert into usuario(id_jardin,rut,nombre,telefono,email,especialidad, password)
+values (0,0,'Admin',0,'admin','admin', 'admin');
 
-insert into usuario(rut, password)
-values (1,'hola');
+insert into jardin(id,nombre,telefono,direccion,email,rut_admin, password)
+values (1,'Centro nunca más solos','56992509584','Av. Cristóbal Colón 8220, Las Condes','centronuncamassolos@gmail.com','1');
+
+insert into jardin(id)
+values (0);

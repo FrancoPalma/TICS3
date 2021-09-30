@@ -30,9 +30,12 @@ app.use(session({
 app.use(flash());
 
 //Rutas
-router = require('./app/routes/routes');
-app.use('/', router)
-//require('./app/routes', routes(passport));
+sesion = require('./app/routes/sesion');
+usuario = require('./app/routes/usuario');
+informe = require('./app/routes/informe')
+app.use('/sesion', sesion);
+app.use('/usuario', usuario);
+app.use('/informe', informe);
 
 //Static files
 app.use(express.static(path.join(__dirname,'public')));
