@@ -9,7 +9,6 @@ informeController.getInforme = async (req, res) => {
     let result = await pool.query('SELECT nombre FROM infante')
 
     result = result.rows[0]
-    console.log(result)
     const doc = new PDF({bufferPages: true});
   
     const stream = res.writeHead(200, {

@@ -4,7 +4,13 @@ const pool = require('./database.js');
 const bcrypt= require('bcrypt');
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, {
+    jardin: user.jardin,
+    rut: user.rut,
+    nombre: user.nombre,
+    telefono: user.telefono,
+    especialidad: user.especialidad
+  });
 });
 passport.deserializeUser(function(user, done) {
   done(null, user);

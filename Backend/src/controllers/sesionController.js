@@ -17,13 +17,7 @@ sesionController.postLogin = (req,res) => {
 		
 		req.logIn(user, function(err) {
 			if (err) { return res.sendStatus(404); }
-			return res.json({
-				jardin: user.jardin,
-				rut: user.rut,
-				nombre: user.nombre,
-				telefono: user.telefono,
-				especialidad: user.especialidad
-			});
+			return res.json(req.user);
 		});
 	}) (req, res);
 };
@@ -52,9 +46,9 @@ sesionController.getLogout = (req, res) => {
 
 sesionController.isLoggedIn = (req, res, next) => {
 	if (req.isAuthenticated()) {
+		console.log(req.user)
 		return next();
 	}
-	console.log(req.user)
 	res.sendStatus(404);
 }
 
