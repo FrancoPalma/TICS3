@@ -59,7 +59,7 @@ async function (req, rut, password, done) {
     bcrypt.compare(password, user.password, (err, isValid) => {
       if(!isValid){return done(null,false)}
       else{
-        return done(null, result);
+        return done(null, user);
       }
     });
   });
