@@ -108,8 +108,11 @@ create table modulo (
 insert into usuario(id_jardin,rut,nombre,telefono,email,especialidad, password)
 values (0,0,'Admin',0,'admin','admin', 'admin');
 
-insert into jardin(id,nombre,telefono,direccion,email,rut_admin, password)
-values (1,'Centro nunca más solos','56992509584','Av. Cristóbal Colón 8220, Las Condes','centronuncamassolos@gmail.com','1');
+insert into jardin(id,nombre,telefono,direccion,email,rut_admin)
+values (1,'Centro nunca más solos','56992509584','Av. Cristóbal Colón 8220, Las Condes','centronuncamassolos@gmail.com',0);
 
 insert into jardin(id)
 values (0);
+
+insert into infante(id_jardin, rut, nombre, fecha_nacimiento)
+values(1,'12345678-9', 'Juanito Perez', '1999-01-12')
