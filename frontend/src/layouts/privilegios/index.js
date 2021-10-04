@@ -10,7 +10,6 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MaterialTable from 'material-table';
-import Data from "layouts/privilegios/data/DataPrivilegios"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
@@ -42,23 +41,20 @@ function a11yProps(index) {
 
 function Privilegios() {
   const classes = styles();
-  const { columns, rows } = Data;
-  const [datos, setDatos] = useState([]);
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
   let info = JSON.parse(localStorage.getItem('usuario'));
-  let ListaPriv
-  const [gestion_privilegio, setGestion_privilegio] = useState(false);
+  let Lista;
   console.log(info)
 
   function ActualizarEmpleados() {
-    fetch('/empleados')
+    fetch('/usuario/ver_privilegios')
       .then(res => {
           return res.json()
       })
       .then(users => {
-        ListaPriv = users;
+        Lista = users;
           
       });
     }
@@ -77,7 +73,7 @@ function Privilegios() {
           <Card>
           <TabPanel value={tabValue} index={0}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiTypography variant="h6">Tabla de Datos</SuiTypography>
+            <SuiTypography variant="h6">Tabla de Datos</SuiTypography>
             </SuiBox>
             <SuiBox customClass={classes.tables_table}>
             <MaterialTable
@@ -88,7 +84,7 @@ function Privilegios() {
                       { title: 'Gestión Privilegios', field: 'gestion_privilegios', type:'boolean'},
                       { title: 'Gestión de Evaluación', field: 'gestion_evaluacion', type:'boolean'},
                       { title: 'Gestión de Infante', field: 'gestion_infante', type:'boolean'}]}
-                      data={[]}
+                      data={Lista}
                       editable={{
                         onRowAdd: newData =>
                           new Promise((resolve, reject) => {
@@ -121,7 +117,7 @@ function Privilegios() {
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiTypography variant="h6">Tabla de privilegios</SuiTypography>
+              <SuiTypography variant="h6">Tabla de Privilegios</SuiTypography>
             </SuiBox>
             <SuiBox customClass={classes.tables_table}>
             <MaterialTable
