@@ -27,7 +27,7 @@ export default function SignIn() {
     console.log(rut)
     console.log(password)
     if(1 == 1){
-      fetch('/login', {
+      fetch('/sesion/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
