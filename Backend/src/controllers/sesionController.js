@@ -17,6 +17,7 @@ sesionController.postLogin = (req,res) => {
 		
 		req.logIn(user, function(err) {
 			if (err) { return res.sendStatus(404); }
+			console.log(req.user)
 			return res.json(req.user);
 		});
 	}) (req, res);
