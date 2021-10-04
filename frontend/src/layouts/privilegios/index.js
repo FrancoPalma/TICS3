@@ -46,7 +46,7 @@ function Privilegios() {
 
   let info = JSON.parse(localStorage.getItem('usuario'));
   let Lista;
-  console.log(info)
+  console.log(info.rut)
 
   function ActualizarEmpleados() {
     fetch('/usuario/ver_privilegios')
