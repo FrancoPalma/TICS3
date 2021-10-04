@@ -54,7 +54,7 @@ async function (req, rut, password, done) {
     if (err) { return done(err); }
     const user = result.rows[0];
     if (user == undefined) {
-      return done(null, false, req.flash('loginMessage', 'No User found'))
+      return done(null, false)
     }
     bcrypt.compare(password, user.password, (err, isValid) => {
       if(!isValid){return done(null,false)}
