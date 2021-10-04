@@ -13,12 +13,12 @@ sesionController.getLogin = (req, res) => {
 sesionController.postLogin = (req,res) => {
 	passport.authenticate('local-login', function(err, user) {
 		if (err) { return res.sendStatus(404); }
-		if (!user) { return res.sendStatus(404); }
-		console.log("Usuario recibido")
-
-	req.logIn(user, function(err) {
-		if (err) { return res.sendStatus(404); }
-		return res.json(user);
+		if (user == undefined) { return res.sendStatus(404); }
+		
+		req.logIn(user, function(err) {
+			if (err) { return res.sendStatus(404); }
+			console.log(req.user)
+			return res.json(req.user);
 		});
 	}) (req, res);
 };
@@ -47,6 +47,7 @@ sesionController.getLogout = (req, res) => {
 
 sesionController.isLoggedIn = (req, res, next) => {
 	if (req.isAuthenticated()) {
+		console.log(req.user)
 		return next();
 	}
 	res.sendStatus(404);

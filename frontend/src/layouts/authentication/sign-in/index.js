@@ -24,8 +24,6 @@ export default function SignIn() {
   const [isAutentificado, setsetisAutentificado] = useState(false);
   
   function EnviarDatos() {
-    console.log(rut)
-    console.log(password)
     if(1 == 1){
       fetch('/sesion/login', {
       method: 'POST',
@@ -53,6 +51,7 @@ export default function SignIn() {
       .then(users => {
         if(isAutentificado === true) {
           console.log("LOGEADO")
+          console.log(users)
           localStorage.setItem('usuario', JSON.stringify(users));
           hist.push('/dashboard')
         }

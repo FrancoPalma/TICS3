@@ -4,7 +4,13 @@ const pool = require('./database.js');
 const bcrypt= require('bcrypt');
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, {
+    jardin: user.jardin,
+    rut: user.rut,
+    nombre: user.nombre,
+    telefono: user.telefono,
+    especialidad: user.especialidad
+  });
 });
 passport.deserializeUser(function(user, done) {
   done(null, user);
@@ -54,12 +60,12 @@ async function (req, rut, password, done) {
     if (err) { return done(err); }
     const user = result.rows[0];
     if (user == undefined) {
-      return done(null, false, req.flash('loginMessage', 'No User found'))
+      return done(null, false)
     }
     bcrypt.compare(password, user.password, (err, isValid) => {
       if(!isValid){return done(null,false)}
       else{
-        return done(null, result);
+        return done(null, user);
       }
     });
   });

@@ -5,9 +5,8 @@ const app = express();
 const session = require('express-session');
 const morgan = require('morgan');
 const path = require('path');
-const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
-
+const passport = require('passport');
 const Pool = require('./config/database.js')
 
 
@@ -27,7 +26,8 @@ app.use(session({
   secret: 'secreto'
 }));
 
-app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Rutas
 sesion = require('./app/routes/sesion');
