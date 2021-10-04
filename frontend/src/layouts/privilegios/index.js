@@ -70,11 +70,11 @@ function Privilegios() {
       <DashboardNavbar />
       <SuiBox py={3}>
         <SuiBox mb={3}>
-          <Card>
-          <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tabs value={tabValue} onChange={handleSetTabValue}>
             <Tab label="Datos" {...a11yProps(0)}/>
             <Tab label="Privilegios" {...a11yProps(1)}/>
           </Tabs>
+          <Card>
           <TabPanel value={tabValue} index={0}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
               <SuiTypography variant="h6">Tabla de Datos</SuiTypography>
