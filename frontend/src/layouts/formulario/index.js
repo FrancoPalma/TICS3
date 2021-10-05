@@ -12,6 +12,8 @@ import Footer from "examples/Footer";
 import MaterialTable from 'material-table';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import TextField from "@material-ui/core/TextField";
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -48,9 +50,9 @@ function TabPanel(props) {
 
     let info = JSON.parse(localStorage.getItem('usuario'));
     let Lista;
-
+/*
     function CrearInforme(){
-      fetch('/crear_informe')
+      fetch('informe/crear_informe')
       .then(res => {
             return res.json()
       })
@@ -61,71 +63,88 @@ function TabPanel(props) {
       });
     }
     CrearInforme();
-    if(Listo ===1){
+
+    if(Listo ===1){*/
       return(
         <DashboardLayout>
         <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
-         
+          <SuiTypography variant="h6">Informe</SuiTypography>
+          <Tabs value={tabValue} onChange={handleSetTabValue}>
+            <Tab label="Evaluación" {...a11yProps(0)}/>
+            <Tab label="Metodología" {...a11yProps(1)}/>
+            <Tab label="Objetivo" {...a11yProps(2)}/>
+            <Tab label="Análisis" {...a11yProps(3)}/>
+          </Tabs>
             <Card>
-            
-           
-              <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-                <SuiTypography variant="h6">Tabla de Privilegios</SuiTypography>
-              </SuiBox>
-              <SuiBox customClass={classes.tables_table}>
-              <MaterialTable
-                        title=''
-                        rows={[{ title: 'Nombre', field: 'nombre', editable: 'never'},
-                        {title: 'Gestión de Usuarios', field: 'gestion_usuarios', type:'boolean'},
-                        {title: 'Gestión Ficha Técnica', field: 'gestion_ficha', type:'boolean'},
-                        { title: 'Gestión Privilegios', field: 'gestion_privilegios', type:'boolean'},
-                        { title: 'Gestión de Evaluación', field: 'gestion_evaluacion', type:'boolean'},
-                        { title: 'Gestión de Infante', field: 'gestion_infante', type:'boolean'}]}
-                        
-                        data={[]}
-                        editable={{
-                          onRowAdd: newData =>
-                            new Promise((resolve, reject) => {
-                              setTimeout(() => {
-                                resolve();
-                                this.ActualizarEmpleados();
-                              }, 2000)
-                              this.AgregarEmpleado(newData);
-  
-                            }),
-                          onRowUpdate: (newData, oldData) =>
-                            new Promise((resolve) => {
-                              setTimeout(() => {
-                                resolve();
-                                this.ActualizarEmpleados();
-                              }, 2000)
-                              this.EditarEmpleado(newData)
-                            }),
-                          onRowDelete: (oldData) =>
-                            new Promise((resolve) => {
-                              setTimeout(() => {
-                                resolve();
-                                this.ActualizarEmpleados();
-                              }, 2000)
-                              this.EliminarEmpleado(oldData)
-                            }),
-                        }}
-                      />
-              </SuiBox>
+            <TabPanel value={tabValue} index={0}>       
+            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+            <SuiTypography variant="h6"></SuiTypography>
+            <TextField
+              label="Evaluación"
+              variant = "outlined"
+              fullWidth
+              multiline
+              rows={30}
+              required            
+            />
+            </SuiBox>
+            </TabPanel>
 
-            </Card>
-          </SuiBox>
-          <Card>
+            <TabPanel value={tabValue} index={1}>
+            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+              <SuiTypography variant="h6"></SuiTypography>
+              <TextField
+              label="Metodología"
+              variant = "outlined"
+              fullWidth
+              multiline
+              rows={30}
+              required            
+            />
+            </SuiBox>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={1}>
+            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+              <SuiTypography variant="h6"></SuiTypography>
+              <SuiTypography variant="h6"></SuiTypography>
+              <TextField
+              label="Objetivo"
+              variant = "outlined"
+              fullWidth
+              multiline
+              rows={30}
+              required            
+            />
+            </SuiBox>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={1}>
+            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+            <SuiTypography variant="h6"></SuiTypography>
+              <TextField
+              label="Metodología"
+              variant = "outlined"
+              fullWidth
+              multiline
+              rows={30}
+              required            
+            />
+              <SuiTypography variant="h6"></SuiTypography>
+            </SuiBox>
+          </TabPanel>
           </Card>
         </SuiBox>
-        <Footer />
-      </DashboardLayout>
-      );
-
-    }
+        <Card>
+        </Card>
+      </SuiBox>
+      <Footer />
+    </DashboardLayout>
+  );
+                    }
 
   
-  }
+ // }
   export default Formulario;
