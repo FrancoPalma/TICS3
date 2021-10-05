@@ -60,7 +60,6 @@ function Privilegios() {
       });
     }
     ActualizarEmpleados();
-    console.log(Lista);
     
   if(Listo === 1){
   return (
