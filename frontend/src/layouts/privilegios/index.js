@@ -13,6 +13,7 @@ import MaterialTable from 'material-table';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -44,39 +45,34 @@ function Privilegios() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
+  const [Lista, setLista] = useState(0);
 
   let info = JSON.parse(localStorage.getItem('usuario'));
-  let Lista;
 
-  function ActualizarEmpleados() {
+  function ActualizarEmpleados(){
     fetch('/usuario/ver_privilegios')
       .then(res => {
           return res.json()
       })
       .then(users => {
-        Lista = users;
-        console.log(users)
+        setLista( users);
         setListo(1);
       });
     }
-    ActualizarEmpleados();
+    console.log(Lista)
     
   if(Listo === 1){
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <SuiBox py={3}>
-        <SuiBox mb={3}>
+      <SuiBox py={1}>
+        <SuiBox mb={1}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
             <Tab label="Datos" {...a11yProps(0)}/>
             <Tab label="Privilegios" {...a11yProps(1)}/>
           </Tabs>
           <Card>
           <TabPanel value={tabValue} index={0}>
-            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-            <SuiTypography variant="h6">Tabla de Datos</SuiTypography>
-            </SuiBox>
-            <SuiBox customClass={classes.tables_table}>
             <MaterialTable
                       title=''
                       columns={[{ title: 'Nombre', field: 'nombre', editable: 'never'},
@@ -114,7 +110,6 @@ function Privilegios() {
                           }),
                       }}
                     />
-            </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
@@ -169,6 +164,7 @@ function Privilegios() {
     </DashboardLayout>
   );
   }else{
+    ActualizarEmpleados();
     return (
       <DashboardLayout>
         <DashboardNavbar />
@@ -277,5 +273,4 @@ function Privilegios() {
     );
   }
 }
-
 export default Privilegios;
