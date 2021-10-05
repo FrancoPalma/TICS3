@@ -28,7 +28,6 @@ sesionController.postSignup = async (req,res) => {
 		if (err) { console.log(err)
 			return res.sendStatus(404); }
 		if (user == false) { 
-			console.log(user)
 			return res.sendStatus(404); }
 		return res.sendStatus(201);
 	}) (req, res);
