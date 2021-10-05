@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card";
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
-import styles from "layouts/tables/styles";
+//import styles from "layouts/tables/styles";
 // Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -12,6 +12,66 @@ import Footer from "examples/Footer";
 import MaterialTable from 'material-table';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+
+const styles = {
+  cardCategoryWhite: {
+    "&,& a,& a:hover,& a:focus": {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0"
+    },
+    "& a,& a:hover,& a:focus": {
+      color: "#FFFFFF"
+    }
+  },
+  cardTitleWhite: {
+    color: "#FFFFFF",
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none",
+    "& small": {
+      color: "#777",
+      fontSize: "65%",
+      fontWeight: "400",
+      lineHeight: "1"
+    }
+  },
+  picker: {
+    height: 50
+  },
+  formControl: {
+    marginHorizontal: 10,
+    minWidth: 160,
+  },
+  selectEmpty: {
+    marginTop: 20,
+  },
+  root: {
+    flexGrow: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  botonera: {
+    marginRight: "auto",
+    marginLeft: 20,
+    marginBottom: 10
+  },
+  botonañadir: {
+    width: 150,
+  },
+  añadirestilo: {
+    margin: 'auto',
+    marginBottom:20,
+  },
+  formañadir: {
+    marginLeft: 5,
+    marginRight: 5
+  }
+};
 
 
 function TabPanel(props) {
@@ -41,7 +101,6 @@ function a11yProps(index) {
 }
 
 function Privilegios() {
-  const classes = styles();
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
@@ -112,10 +171,6 @@ function Privilegios() {
                     />
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
-            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiTypography variant="h6">Tabla de Privilegios</SuiTypography>
-            </SuiBox>
-            <SuiBox customClass={classes.tables_table}>
             <MaterialTable
                       title=''
                       columns={[{ title: 'Nombre', field: 'nombre', editable: 'never'},
@@ -153,7 +208,6 @@ function Privilegios() {
                           }),
                       }}
                     />
-            </SuiBox>
           </TabPanel>
           </Card>
         </SuiBox>
@@ -176,10 +230,6 @@ function Privilegios() {
             </Tabs>
             <Card>
             <TabPanel value={tabValue} index={0}>
-              <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiTypography variant="h6">Tabla de Datos</SuiTypography>
-              </SuiBox>
-              <SuiBox customClass={classes.tables_table}>
               <MaterialTable
                         title=''
                         columns={[{ title: 'Nombre', field: 'nombre', editable: 'never'},
@@ -217,13 +267,8 @@ function Privilegios() {
                             }),
                         }}
                       />
-              </SuiBox>
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
-              <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-                <SuiTypography variant="h6">Tabla de Privilegios</SuiTypography>
-              </SuiBox>
-              <SuiBox customClass={classes.tables_table}>
               <MaterialTable
                         title=''
                         columns={[{ title: 'Nombre', field: 'nombre', editable: 'never'},
@@ -261,7 +306,6 @@ function Privilegios() {
                             }),
                         }}
                       />
-              </SuiBox>
             </TabPanel>
             </Card>
           </SuiBox>
