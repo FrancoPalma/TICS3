@@ -52,7 +52,7 @@ export default function SignIn() {
         if(isAutentificado === true) {
           console.log("LOGEADO")
           console.log(users)
-          localStorage.setItem('usuario', JSON.stringify(users));
+          localStorage.setItem('usuario', JSON.stringify(users.rows[0]));
           hist.push('/dashboard')
         }
 
