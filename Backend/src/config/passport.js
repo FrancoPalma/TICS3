@@ -12,6 +12,7 @@ passport.serializeUser(function(user, done) {
     especialidad: user.especialidad
   });
 });
+
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });

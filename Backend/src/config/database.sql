@@ -32,8 +32,16 @@ create table horario (
 create table informe (
     id INTEGER PRIMARY KEY,
     rut_infante VARCHAR(10),
-    metodologia TEXT,
+    fecha DATE,
+    completado BOOLEAN,
     CONSTRAINT fk_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
+);
+
+create table metodologia (
+    id INTEGER PRIMARY KEY,
+    id_informe INTEGER,
+    descripcion TEXT,
+    CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
 );
 
 create table evaluacion (
@@ -48,6 +56,13 @@ create table objetivo (
     id_informe INTEGER,
     nombre TEXT,
     CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
+);
+
+create table sesion (
+    id_metodologia INTEGER,
+    nombre VARCHAR(50),
+    descripcion INTEGER,
+    CONSTRAINT fk_evaluacion FOREIGN KEY(id_metodologia) REFERENCES metodologia(id)
 );
 
 create table analisis (
