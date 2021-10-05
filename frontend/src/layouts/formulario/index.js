@@ -83,6 +83,7 @@ function TabPanel(props) {
                         { title: 'Gestión Privilegios', field: 'gestion_privilegios', type:'boolean'},
                         { title: 'Gestión de Evaluación', field: 'gestion_evaluacion', type:'boolean'},
                         { title: 'Gestión de Infante', field: 'gestion_infante', type:'boolean'}]}
+                        
                         data={[]}
                         editable={{
                           onRowAdd: newData =>
