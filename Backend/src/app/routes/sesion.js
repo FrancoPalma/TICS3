@@ -13,7 +13,7 @@ router.post('/login', sesionController.postLogin);
 
 router.get('/signup', sesionController.getSignup);
 
-router.post('/agregar_usuario', sesionController.postLogin)
+router.post('/agregar_usuario', sesionController.postSignup)
 
 router.get('/logout', sesionController.getLogout);
 

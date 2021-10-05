@@ -33,8 +33,11 @@ sesionController.getSignup = (req, res) => {
 
 sesionController.postSignup = async (req,res) => {
 	await passport.authenticate('local-signup', function(err, user) {
-		if (err) { return res.sendStatus(404); }
-		if (user == undefined) { return res.sendStatus(404); }
+		if (err) { console.log(err)
+			return res.sendStatus(404); }
+		if (user == false) { 
+			console.log(user)
+			return res.sendStatus(404); }
 		return res.sendStatus(201); //res.sendStatus(201) para mandar 201 y res.json(user) para mandar usuari
 	}) (req, res);
 };
