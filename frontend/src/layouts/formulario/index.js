@@ -5,6 +5,7 @@ import Card from "@material-ui/core/Card";
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import styles from "layouts/tables/styles";
+import Button from '@mui/material/Button';
 // Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -89,21 +90,18 @@ function TabPanel(props) {
               rows={30}
               required            
             />
-            <LoadingButton
-              color="secondary"
-              //onClick={handleClick}
-              loading={loading}
-              loadingPosition="start"
-              startIcon={<SaveIcon />}
-              variant="contained"
+            <Button
+              onClick={() => {
+              alert('clicked');
+            }}
             >
-              Guardar
-            </LoadingButton>
+            Guardar
+            </Button>
             <TextField
               label=""
               variant = "outlined"
               fullWidth
-              multiline
+              multilines
               rows={30}
               required            
             />
