@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
+import SuiButton from "components/SuiButton";
 import styles from "layouts/tables/styles";
 // Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -42,7 +43,7 @@ function TabPanel(props) {
     };
   }
 
-  function Formulario(){
+  function Ficha(){
     const classes = styles();
     const [tabValue, setTabValue] = useState(0);
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
@@ -70,69 +71,22 @@ function TabPanel(props) {
         <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
-          <SuiTypography variant="h6">Informe</SuiTypography>
           <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Evaluación" {...a11yProps(0)}/>
-            <Tab label="Metodología" {...a11yProps(1)}/>
-            <Tab label="Objetivo" {...a11yProps(2)}/>
-            <Tab label="Análisis" {...a11yProps(3)}/>
+            <Tab label="Subir" {...a11yProps(0)}/>
+            <Tab label="Buscar" {...a11yProps(1)}/>
           </Tabs>
             <Card>
             <TabPanel value={tabValue} index={0}>       
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-            <SuiTypography variant="h6"></SuiTypography>
-            <TextField
-              label="Evaluación"
-              variant = "outlined"
-              fullWidth
-              multiline
-              rows={30}
-              required            
-            />
+              <SuiButton variant="gradient" buttonColor="info" fullWidth>
+              Ingresar
+              </SuiButton>
             </SuiBox>
             </TabPanel>
 
             <TabPanel value={tabValue} index={1}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiTypography variant="h6"></SuiTypography>
-              <TextField
-              label="Metodología"
-              variant = "outlined"
-              fullWidth
-              multiline
-              rows={30}
-              required            
-            />
-            </SuiBox>
-          </TabPanel>
 
-          <TabPanel value={tabValue} index={2}>
-            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiTypography variant="h6"></SuiTypography>
-              <SuiTypography variant="h6"></SuiTypography>
-              <TextField
-              label="Objetivo"
-              variant = "outlined"
-              fullWidth
-              multiline
-              rows={30}
-              required            
-            />
-            </SuiBox>
-          </TabPanel>
-
-          <TabPanel value={tabValue} index={3}>
-            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-            <SuiTypography variant="h6"></SuiTypography>
-              <TextField
-              label="Análisis"
-              variant = "outlined"
-              fullWidth
-              multiline
-              rows={30}
-              required            
-            />
-              <SuiTypography variant="h6"></SuiTypography>
             </SuiBox>
           </TabPanel>
           </Card>
@@ -147,4 +101,4 @@ function TabPanel(props) {
 
   
  // }
-  export default Formulario;
+  export default Ficha;
