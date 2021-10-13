@@ -5,7 +5,8 @@ import Card from "@material-ui/core/Card";
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import styles from "layouts/tables/styles";
-import Button from '@mui/material/Button';
+import Button from '@material-ui/core/Button';
+
 // Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
