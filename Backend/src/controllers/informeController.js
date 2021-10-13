@@ -7,7 +7,7 @@ const { send } = require('process');
 
 informeController = {}
 
-informeController.getCrearInforme = async (req, res) => {
+informeController.postInforme = async (req, res) => {
 
   /*let rut_infante = req.body.rut_infante;
   let rut_usuario = req.body.rut_usuario;
@@ -19,9 +19,8 @@ informeController.getCrearInforme = async (req, res) => {
   let fecha = new Date().toISOString().slice(0, 10);
   let completado = false;
 
-  await pool.query('INSERT INTO informe (rut_infante, rut_usuario, fecha, completado)  VALUES ($1, $2, $3, $4)', [rut_infante, rut_usuario, fecha, completado], (err, result) => {
+  await pool.query('INSERT INTO informe (rut_infante, rut_usuario, fecha, completado)  VALUES ($1, $2, $3, $4) RETURNING id', [rut_infante, rut_usuario, fecha, completado], (err, result) => {
     if(err){return res.sendStatus(404)}
-    console.log(result)
     return res.json(result.rows[0]);
   })  
 };

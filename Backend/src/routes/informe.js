@@ -7,6 +7,6 @@ router.get('/ver_informe', sesionController.isLoggedIn, informeController.getInf
 
 router.get('/ver_informe_prueba', informeController.getInformePrueba);
 
-router.get('/crear_informe', informeController.getCrearInforme);
+router.get('/crear_informe', informeController.postInforme);
 
 module.exports = router;
