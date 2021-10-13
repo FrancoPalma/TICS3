@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Card from "@material-ui/core/Card";
 import SuiButton from "components/SuiButton";
+import { Button } from 'semantic-ui-react'
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import styles from "layouts/tables/styles";
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 // Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -73,36 +74,41 @@ function TabPanel(props) {
           <SuiBox mb={3}>
           <SuiTypography variant="h6">Informe</SuiTypography>
           <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Evaluación" {...a11yProps(0)}/>
-            <Tab label="Metodología" {...a11yProps(1)}/>
+            <Tab label="Metodología" {...a11yProps(0)}/>
+            <Tab label="Evaluación" {...a11yProps(1)}/>
             <Tab label="Objetivo" {...a11yProps(2)}/>
             <Tab label="Análisis" {...a11yProps(3)}/>
           </Tabs>
             <Card>
             <TabPanel value={tabValue} index={0}>       
-            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+            <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6"></SuiTypography>
             <TextField
-              label="Evaluación"
+              label="Metodología"
               variant = "outlined"
               fullWidth
               multiline
-              rows={30}
+              rows={10}
               required            
             />
         <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth >
-            Ingresar
+          <SuiButton variant="gradient" buttonColor="info" halfWidth >
+            Guardar
           </SuiButton>
         </SuiBox>
             <TextField
-              label=""
+              label="Sesión"
               variant = "outlined"
               fullWidth
               multilines
-              rows={30}
+              rows={10}
               required            
             />
+                    <SuiBox mt={4} mb={1}>
+          <SuiButton variant="gradient" buttonColor="info" halfWidth >
+            Guardar
+          </SuiButton>
+        </SuiBox>
             </SuiBox>
             </TabPanel>
 
