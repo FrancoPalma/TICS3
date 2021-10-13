@@ -19,16 +19,13 @@ import Footer from "layouts/authentication/components/Footer";
 import styles from "layouts/authentication/components/CoverLayout/styles";
 
 // Soft UI Dashboard Material-UI page layout routes
-import routes from "routes";
+
 
 function CoverLayout({ color, header, title, description, image, top, children }) {
   const classes = styles({ image });
 
   return (
     <PageLayout background="white">
-      <DefaultNavbar
-        routes={routes}
-      />
       <Grid container justifyContent="center" className={classes.coverLayout}>
         <Grid item xs={11} sm={8} md={5} xl={3}>
           <SuiBox mt={top}>

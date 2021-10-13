@@ -114,7 +114,7 @@ function Privilegios() {
           return res.json()
       })
       .then(users => {
-        setLista( users);
+        setLista(users);
         setListo(1);
       });
     }
@@ -124,8 +124,8 @@ function Privilegios() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <SuiBox py={1}>
-        <SuiBox mb={1}>
+      <SuiBox py={3}>
+        <SuiBox mb={3}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
             <Tab label="Datos" {...a11yProps(0)}/>
             <Tab label="Privilegios" {...a11yProps(1)}/>

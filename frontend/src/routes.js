@@ -89,15 +89,6 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Privilegios",
-    key: "privilegios",
-    route: "/privilegios",
-    icon: <Office size="12px" />,
-    component: Privilegios,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
     name: "Empleados",
     key: "empleados",
     route: "/empleados",
@@ -105,7 +96,7 @@ const routes = [
     component: Empleados,
     noCollapse: true,
   },
-
+/*
   {
     type: "collapse",
     name: "Tables",
@@ -151,7 +142,7 @@ const routes = [
     icon: <CustomerSupport size="12px" />,
     component: Profile,
     noCollapse: true,
-  },
+  },*/
   {
     type: "collapse",
     name: "Sign In",
@@ -169,7 +160,7 @@ const routes = [
     icon: <SpaceShip size="12px" />,
     component: SignUp,
     noCollapse: true,
-  },
+  }
 ];
 
 export default routes;
