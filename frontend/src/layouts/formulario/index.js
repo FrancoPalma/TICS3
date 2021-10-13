@@ -8,7 +8,7 @@ import Color from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
-
+import IconButton from "material-ui/IconButton";
 import AddIcon from '@material-ui/icons/Add';
 
 // Soft UI Dashboard Material-UI components
@@ -57,24 +57,17 @@ function TabPanel(props) {
     const [tabValue, setTabValue] = useState(0);
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
     const [Listo, setListo] = useState(0);
+    const [inputFields, setInputField] = useState([
+        {First: '', Second: ''},
+    ]);
 
     let info = JSON.parse(localStorage.getItem('usuario'));
     let Lista;
-/*
-    function CrearInforme(){
-      fetch('informe/crear_informe')
-      .then(res => {
-            return res.json()
-      })
-      .then(users => {
-        Lista = users;
-        console.log(users)
-        setListo(1);
-      });
-    }
-    CrearInforme();
 
-    if(Listo ===1){*/
+  const handleAddFields = () =>{
+    setInputField([...inputFields,{Second: ''}])
+  }   
+
       return(
         <DashboardLayout>
         <DashboardNavbar />
@@ -97,6 +90,7 @@ function TabPanel(props) {
               fullWidth
               multiline
               rows={10}
+              value = {inputFields.First}
               required            
             />
 
@@ -116,18 +110,16 @@ function TabPanel(props) {
               multilines
               rows={10}
               required            
-              InputProps={{endAdornment: < AddIcon/>}}
-            />
-
-
-
- 
-                    <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" buttonColor="info" halfWidth >
-            Guardar
-          </SuiButton>
-        </SuiBox>
-
+              value = {inputFields.Second}
+            /> 
+          <SuiButton startIcon ={<AddIcon/>} variant="gradient" buttonColor="error" onClick={() => handleAddFields()} halfWidth >
+            
+            </SuiButton>
+          <IconButton
+          onClick={() => handleAddFields()}
+          >
+            <AddIcon/>
+          </IconButton>
             </SuiBox>
             </TabPanel>
 
