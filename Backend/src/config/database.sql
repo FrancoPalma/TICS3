@@ -30,29 +30,31 @@ create table horario (
 );
 
 create table informe (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    rut_usuario numeric(8,0),
     rut_infante VARCHAR(10),
     fecha DATE,
     completado BOOLEAN,
+    CONSTRAINT fk_rut FOREIGN KEY(rut_usuario) REFERENCES usuario(rut),
     CONSTRAINT fk_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
 );
 
 create table metodologia (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     id_informe INTEGER,
     descripcion TEXT,
     CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
 );
 
 create table evaluacion (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     id_informe INTEGER,
     nombre TEXT,
     CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
 );
 
 create table objetivo (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     id_informe INTEGER,
     nombre TEXT,
     CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
@@ -75,6 +77,7 @@ create table analisis (
 create table criterio (
     id_evaluacion INTEGER,
     nombre VARCHAR(50),
+    descripcion TEXT,
     puntaje INTEGER,
     CONSTRAINT fk_evaluacion FOREIGN KEY(id_evaluacion) REFERENCES evaluacion(id)
 );
@@ -86,7 +89,7 @@ create table actividad (
 );
 
 create table jardin(
-id INTEGER PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 nombre varchar(80),
 telefono numeric(11,0),
 direccion varchar(50),
