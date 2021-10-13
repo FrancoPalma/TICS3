@@ -106,7 +106,7 @@ function TabPanel(props) {
             </SuiBox>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={1}>
+          <TabPanel value={tabValue} index={2}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
               <SuiTypography variant="h6"></SuiTypography>
               <SuiTypography variant="h6"></SuiTypography>
@@ -121,7 +121,7 @@ function TabPanel(props) {
             </SuiBox>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={1}>
+          <TabPanel value={tabValue} index={3}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6"></SuiTypography>
               <TextField
