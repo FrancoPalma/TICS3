@@ -89,6 +89,24 @@ function TabPanel(props) {
               rows={30}
               required            
             />
+            <LoadingButton
+              color="secondary"
+              //onClick={handleClick}
+              loading={loading}
+              loadingPosition="start"
+              startIcon={<SaveIcon />}
+              variant="contained"
+            >
+              Guardar
+            </LoadingButton>
+            <TextField
+              label=""
+              variant = "outlined"
+              fullWidth
+              multiline
+              rows={30}
+              required            
+            />
             </SuiBox>
             </TabPanel>
 
@@ -125,7 +143,7 @@ function TabPanel(props) {
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6"></SuiTypography>
               <TextField
-              label="Análisis"
+              label="Metodología"
               variant = "outlined"
               fullWidth
               multiline
