@@ -48,7 +48,7 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Test from "layouts/test";
 import Formulario from "layouts/formulario";
-
+import Ficha from "layouts/ficha";
 // Soft UI Dashboard Material-UI icons
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
@@ -94,6 +94,15 @@ const routes = [
     route: "/empleados",
     icon: <Office size="12px" />,
     component: Empleados,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Ficha",
+    key: "ficha",
+    route: "/ficha",
+    icon: <Office size="12px" />,
+    component: Ficha,
     noCollapse: true,
   },
 /*
