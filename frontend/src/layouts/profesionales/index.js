@@ -100,7 +100,7 @@ function a11yProps(index) {
   };
 }
 
-function Empleados() {
+function Profesionales() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
@@ -317,4 +317,4 @@ function Empleados() {
     );
   }
 }
-export default Empleados;
+export default Profesionales;
