@@ -27,5 +27,6 @@ export default {
   root: {
     padding: `${pxToRem(12)} ${pxToRem(16)}`,
     borderBottom: `${borderWidth[1]} solid ${light.main}`,
+    display: "inline-table",
   },
 };
