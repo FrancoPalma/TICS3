@@ -30,15 +30,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Rutas
-sesion = require('./app/routes/sesion');
-usuario = require('./app/routes/usuario');
-informe = require('./app/routes/informe')
+sesion = require('./routes/sesion');
+usuario = require('./routes/usuario');
+informe = require('./routes/informe')
 app.use('/sesion', sesion);
 app.use('/usuario', usuario);
 app.use('/informe', informe);
-
-//Static files
-app.use(express.static(path.join(__dirname,'public')));
 
 //Starting the server
 
