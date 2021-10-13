@@ -1,12 +1,11 @@
 import { useState } from "react";
 import Card from "@material-ui/core/Card";
-
+import SuiButton from "components/SuiButton";
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import styles from "layouts/tables/styles";
 import Button from '@material-ui/core/Button';
-
 // Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -91,13 +90,11 @@ function TabPanel(props) {
               rows={30}
               required            
             />
-            <Button
-              onClick={() => {
-              alert('clicked');
-            }}
-            >
-            Guardar
-            </Button>
+        <SuiBox mt={4} mb={1}>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth >
+            Ingresar
+          </SuiButton>
+        </SuiBox>
             <TextField
               label=""
               variant = "outlined"
