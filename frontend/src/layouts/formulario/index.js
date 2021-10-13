@@ -8,8 +8,8 @@ import Color from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/core/styles";
 
+import AddIcon from '@material-ui/icons/Add';
 
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
@@ -116,6 +116,7 @@ function TabPanel(props) {
               multilines
               rows={10}
               required            
+              InputProps={{endAdornment: < AddIcon/>}}
             />
 
 
