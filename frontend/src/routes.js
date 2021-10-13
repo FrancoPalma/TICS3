@@ -37,7 +37,8 @@ Coded by www.creative-tim.com
 
 // Soft UI Dashboard Material-UI layouts
 import Dashboard from "layouts/dashboard";
-import Profesionales from "layouts/profesionales";
+import Privilegios from "layouts/privilegios";
+import Empleados from "layouts/empleados";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
@@ -88,11 +89,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Profesionales",
-    key: "profesionales",
-    route: "/profesionales",
+    name: "Empleados",
+    key: "empleados",
+    route: "/empleados",
     icon: <Office size="12px" />,
-    component: Profesionales,
+    component: Empleados,
     noCollapse: true,
   },
   {

@@ -100,7 +100,7 @@ function a11yProps(index) {
   };
 }
 
-function Profesionales() {
+function Privilegios() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
@@ -135,12 +135,12 @@ function Profesionales() {
             <MaterialTable
                       title=''
                       columns={[{ title: 'Nombre', field: 'nombre', editable: 'never'},
-                      {title: 'Gestión de Usuarios', field: 'gestion_usuario', type:'boolean'},
+                      {title: 'Gestión de Usuarios', field: 'gestion_usuarios', type:'boolean'},
                       {title: 'Gestión Ficha Técnica', field: 'gestion_ficha', type:'boolean'},
-                      { title: 'Gestión Privilegios', field: 'gestion_priv', type:'boolean'},
+                      { title: 'Gestión Privilegios', field: 'gestion_privilegios', type:'boolean'},
                       { title: 'Gestión de Evaluación', field: 'gestion_evaluacion', type:'boolean'},
                       { title: 'Gestión de Infante', field: 'gestion_infante', type:'boolean'}]}
-                      data={[]}
+                      data={Lista}
                       editable={{
                         onRowAdd: newData =>
                           new Promise((resolve, reject) => {
@@ -174,12 +174,12 @@ function Profesionales() {
             <MaterialTable
                       title=''
                       columns={[{ title: 'Nombre', field: 'nombre', editable: 'never'},
-                      {title: 'Gestión de Usuarios', field: 'gestion_usuario', type:'boolean'},
+                      {title: 'Gestión de Usuarios', field: 'gestion_usuarios', type:'boolean'},
                       {title: 'Gestión Ficha Técnica', field: 'gestion_ficha', type:'boolean'},
-                      { title: 'Gestión Privilegios', field: 'gestion_priv', type:'boolean'},
+                      { title: 'Gestión Privilegios', field: 'gestion_privilegios', type:'boolean'},
                       { title: 'Gestión de Evaluación', field: 'gestion_evaluacion', type:'boolean'},
                       { title: 'Gestión de Infante', field: 'gestion_infante', type:'boolean'}]}
-                      data={Lista}
+                      data={[]}
                       editable={{
                         onRowAdd: newData =>
                           new Promise((resolve, reject) => {
@@ -211,6 +211,8 @@ function Profesionales() {
           </TabPanel>
           </Card>
         </SuiBox>
+        <Card>
+        </Card>
       </SuiBox>
       <Footer />
     </DashboardLayout>
@@ -315,4 +317,4 @@ function Profesionales() {
     );
   }
 }
-export default Profesionales;
+export default Privilegios;
