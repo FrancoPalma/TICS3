@@ -1,12 +1,20 @@
 import { useState } from "react";
 import Card from "@material-ui/core/Card";
 import SuiButton from "components/SuiButton";
-import { Button } from 'semantic-ui-react'
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Color from "@material-ui/core/colors"
+import Button from "@material-ui/core/Button";
+import SaveIcon from "@material-ui/icons/Save";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { makeStyles } from "@material-ui/core/styles";
+
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import styles from "layouts/tables/styles";
-//import Button from '@material-ui/core/Button';
+
+
 // Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -91,10 +99,14 @@ function TabPanel(props) {
               rows={10}
               required            
             />
-        <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" buttonColor="info" halfWidth >
-            Guardar
+        <SuiBox display="flex" mt={4} mb={1}>
+          <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth >
+            
           </SuiButton>
+          <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
+            
+          </SuiButton>
+         
         </SuiBox>
             <TextField
               label="Sesión"
@@ -104,6 +116,10 @@ function TabPanel(props) {
               rows={10}
               required            
             />
+
+
+
+ 
                     <SuiBox mt={4} mb={1}>
           <SuiButton variant="gradient" buttonColor="info" halfWidth >
             Guardar
