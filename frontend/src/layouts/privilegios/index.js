@@ -100,7 +100,7 @@ function a11yProps(index) {
   };
 }
 
-function Profesionales() {
+function Privilegios() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
@@ -317,4 +317,4 @@ function Profesionales() {
     );
   }
 }
-export default Profesionales;
+export default Privilegios;

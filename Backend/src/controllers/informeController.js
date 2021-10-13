@@ -9,14 +9,19 @@ informeController = {}
 
 informeController.postInforme = async (req, res) => {
 
-  let rut_infante = req.body.rut_infante;
+  /*let rut_infante = req.body.rut_infante;
   let rut_usuario = req.body.rut_usuario;
   let fecha = Date.now();
-  let completado = req.body.completado;
+  let completado = req.body.completado;*/
 
-  await pool.query('INSERT INTO informe (rut_infante, rut_usuario, fecha, completado)  VALUES ($1, $2, $3, $4)', [rut_infante, rut_usuario, fecha, completado], (err, result) => {
+  let rut_infante = '12345678-9';
+  let rut_usuario = 1;
+  let fecha = new Date().toISOString().slice(0, 10);
+  let completado = false;
+
+  await pool.query('INSERT INTO informe (rut_infante, rut_usuario, fecha, completado)  VALUES ($1, $2, $3, $4) RETURNING id', [rut_infante, rut_usuario, fecha, completado], (err, result) => {
     if(err){return res.sendStatus(404)}
-    return res.sendStatus(200);
+    return res.json(result.rows[0]);
   })  
 };
 
@@ -63,6 +68,55 @@ informeController.postAnalisis = async (req, res) => {
     if(err){return res.sendStatus(404)}
     return res.sendStatus(200);
   })  
+};
+
+informeController.postSesion = async (req, res) => {
+
+  let id_informe = req.params.id_informe;
+  let nombre = req.body.nombre;
+  let descripcion = req.body.descripcion;
+
+  await pool.query('SELECT metodologia.id FROM informe, metodologia WHERE informe.id = metodologia.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
+    if(err){return res.sendStatus(400)}
+    id_metodologia = result.rows[0];
+    await pool.query('INSERT INTO sesion (id_metodologia, nombre, descripcion) VALUES ($1, $2, $3)', [id_metodologia, nombre, descripcion], (err, result) => {
+      if(err){return res.sendStatus(404)}
+      return res.sendStatus(200);
+    })  
+  })
+};
+
+informeController.postCriterio = async (req, res) => {
+
+  let id_informe = req.params.id_informe;
+  let nombre = req.body.nombre;
+  let descripcion = req.body.descripcion;
+  let puntaje = req.body.puntaje;
+
+  await pool.query('SELECT evaluacion.id FROM informe, evaluacion WHERE informe.id = rvaluacion.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
+    if(err){return res.sendStatus(400)}
+    id_evaluacion = result.rows[0];
+    await pool.query('INSERT INTO criterio (id_evaluacion, nombre, descripcion, puntaje) VALUES ($1, $2, $3, $4)', [id_evaluacion, nombre, descripcion, puntaje], (err, result) => {
+      if(err){return res.sendStatus(404)}
+      return res.sendStatus(200);
+    })  
+  })
+};
+
+informeController.postSesion = async (req, res) => {
+
+  let id_informe = req.params.id_informe;
+  let nombre = req.body.nombre;
+  let descripcion = req.body.descripcion;
+
+  await pool.query('SELECT actividad.id FROM informe, actividad WHERE informe.id = actividad.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
+    if(err){return res.sendStatus(400)}
+    id_objetivo = result.rows[0];
+    await pool.query('INSERT INTO actividad (id_objetivo, descripcion) VALUES ($1, $2)', [id_objetivo, descripcion], (err, result) => {
+      if(err){return res.sendStatus(404)}
+      return res.sendStatus(200);
+    })  
+  })
 };
 
 informeController.getInforme = async (req, res) => {
