@@ -8,8 +8,9 @@ import Color from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "material-ui/IconButton";
+import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
@@ -58,14 +59,20 @@ function TabPanel(props) {
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
     const [Listo, setListo] = useState(0);
     const [inputFields, setInputField] = useState([
-        {First: '', Second: ''},
+        {Second: ''},
     ]);
 
     let info = JSON.parse(localStorage.getItem('usuario'));
     let Lista;
 
   const handleAddFields = () =>{
+    console.log("Hola")
     setInputField([...inputFields,{Second: ''}])
+  }
+  const handleRemoveFields = (index) =>{
+      const values = [...inputFields];
+      values.splice(index,1);
+      setInputField(values);
   }   
 
       return(
@@ -90,7 +97,6 @@ function TabPanel(props) {
               fullWidth
               multiline
               rows={10}
-              value = {inputFields.First}
               required            
             />
 
@@ -103,23 +109,31 @@ function TabPanel(props) {
           </SuiButton>
          
         </SuiBox>
-            <TextField
-              label="Sesión"
+          {inputFields.map((inputField,index)=>(
+          <div key= {index}>
+          <SuiBox>
+    
+            <TextField 
+              name= "sesion"
+              placeholder = "Sesion"
+              label="Sesion"
               variant = "outlined"
               fullWidth
-              multilines
+              multiline
               rows={10}
-              required            
-              value = {inputFields.Second}
-            /> 
-          <SuiButton startIcon ={<AddIcon/>} variant="gradient" buttonColor="error" onClick={() => handleAddFields()} halfWidth >
-            
-            </SuiButton>
-          <IconButton
-          onClick={() => handleAddFields()}
-          >
-            <AddIcon/>
-          </IconButton>
+              required   
+              value={inputField.second}
+            />
+            <IconButton onClick={() => handleRemoveFields(index)}>
+              <RemoveIcon color="secondary"/>
+            </IconButton>
+            <IconButton onClick={() => handleAddFields()}>
+              <AddIcon color="primary"/>
+            </IconButton>
+            </SuiBox>
+            </div>
+          ) )}
+              
             </SuiBox>
             </TabPanel>
 
