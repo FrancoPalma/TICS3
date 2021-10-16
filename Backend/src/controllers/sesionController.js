@@ -4,17 +4,17 @@ const sesionController = {}
 
 sesionController.getLogin = (req, res) => {
 	res.render('login')
-
 }
 
 sesionController.postLogin = (req,res) => {
 	passport.authenticate('local-login', function(err, user) {
+		console.log(user)
 		if (err) { return res.sendStatus(404); }
-		if (user == undefined) { return res.sendStatus(404); }
+		if (user == undefined || user == false) { return res.sendStatus(404); }
 		
 		req.logIn(user, function(err) {
 			if (err) { return res.sendStatus(404); }
-			return res.json(req.user);
+			return res.json(user);
 		});
 	}) (req, res);
 };
@@ -29,14 +29,14 @@ sesionController.postSignup = async (req,res) => {
 			return res.sendStatus(404); }
 		if (user == false) { 
 			return res.sendStatus(404); }
-		return res.sendStatus(201);
+		return res.sendStatus(200);
 	}) (req, res);
 };
 
 // logout
 sesionController.getLogout = (req, res) => {
 	req.logout();
-	res.sendStatus(201);
+	res.sendStatus(200);
 };
 
 sesionController.isLoggedIn = (req, res, next) => {

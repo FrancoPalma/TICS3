@@ -1,8 +1,6 @@
 const pool = require('../config/database.js');
 const PDF = require('pdfkit');
 const { options } = require('pdfkit');
-const fs = require('fs');
-const { send } = require('process');
 
 
 informeController = {}
@@ -103,7 +101,7 @@ informeController.postCriterio = async (req, res) => {
   })
 };
 
-informeController.postSesion = async (req, res) => {
+informeController.postActividad = async (req, res) => {
 
   let id_informe = req.params.id_informe;
   let nombre = req.body.nombre;

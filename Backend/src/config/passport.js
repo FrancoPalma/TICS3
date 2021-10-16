@@ -4,17 +4,15 @@ const pool = require('./database.js');
 const bcrypt= require('bcrypt');
 
 passport.serializeUser(function(user, done) {
-  done(null, {
-    jardin: user.jardin,
-    rut: user.rut,
-    nombre: user.nombre,
-    telefono: user.telefono,
-    especialidad: user.especialidad
-  });
+  pool.query('SELECT usuario.id_jardin, usuario.rut, usuario.nombre, usuario.telefono, usuario.especialidad, privilegios.gestion_usuario, privilegios.gestion_ficha, privilegios.gestion_priv, privilegios.gestion_evaluacion, privilegios.gestion_infante FROM usuario, privilegios WHERE privilegios.rut_usuario = usuario.rut AND usuario.rut = $1', [user.rut], (err, result) => {
+    console.log(result.rows[0])
+    done(null, result.rows[0]);
+  })
 });
 
 passport.deserializeUser(function(user, done) {
-  done(null, user);
+  console.log(user)
+  done(null, user)
 });
 
   // Signup
@@ -57,16 +55,28 @@ passport.use('local-login', new LocalStrategy({
   passReqToCallback: true
 },
 async function (req, rut, password, done) {
-  await pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], (err, result) => {
+  await pool.query('SELECT usuario.id_jardin, usuario.rut, usuario.nombre, usuario.telefono, usuario.especialidad, usuario.password, privilegios.gestion_usuario, privilegios.gestion_ficha, privilegios.gestion_priv, privilegios.gestion_evaluacion, privilegios.gestion_infante FROM usuario, privilegios WHERE privilegios.rut_usuario = usuario.rut AND usuario.rut = $1' , [rut], (err, result) => {
     if (err) { return done(err); }
     const user = result.rows[0];
     if (user == undefined) {
       return done(null, false)
     }
     bcrypt.compare(password, user.password, (err, isValid) => {
+      if(err){return done(err)}
       if(!isValid){return done(null,false)}
       else{
-        return done(null, user);
+        return done(null, { 
+          id_jardin: user.id_jardin,
+          rut: user.rut,
+          nombre: user.nombre,
+          telefono: user.telefono,
+          especialidad: user.especialidad,
+          gestion_usuario: user.gestion_usuario,
+          gestion_ficha: user.gestion_ficha,
+          gestion_priv: user.gestion_priv,
+          gestion_evaluacion: user.gestion_evaluacion,
+          gestion_infante: user.gestion_infante
+        });
       }
     });
   });

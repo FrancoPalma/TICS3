@@ -33,9 +33,12 @@ app.use(passport.session());
 sesion = require('./routes/sesion');
 usuario = require('./routes/usuario');
 informe = require('./routes/informe')
+infante = require('./routes/infante');
+
 app.use('/sesion', sesion);
 app.use('/usuario', usuario);
 app.use('/informe', informe);
+app.use('/infante', infante);
 
 //Starting the server
 
