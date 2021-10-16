@@ -1,8 +1,6 @@
 const pool = require('../config/database.js');
 const PDF = require('pdfkit');
 const { options } = require('pdfkit');
-const fs = require('fs');
-const { send } = require('process');
 
 
 informeController = {}
@@ -105,10 +103,9 @@ informeController.postCriterio = async (req, res) => {
   })
 };
 
-informeController.postSesion = async (req, res) => {
+informeController.postActividad = async (req, res) => {
 
   let id_informe = req.params.id_informe;
-  let nombre = req.body.nombre;
   let descripcion = req.body.descripcion;
 
   await pool.query('SELECT actividad.id FROM informe, actividad WHERE informe.id = actividad.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
@@ -121,24 +118,21 @@ informeController.postSesion = async (req, res) => {
   })
 };
 
+informeController.prueba = async (req, res) => {
+  let evaluacion = await pool.query('SELECT evaluacion.nombre, ARRAY_AGG(criterio.nombre) as criterio, ARRAY_AGG(criterio.descripcion), ARRAY_AGG(criterio.puntaje) FROM evaluacion, criterio WHERE evaluacion.id = criterio.id_evaluacion AND evaluacion.id_informe = $1 GROUP BY evaluacion.nombre', [2])
+  return res.json(evaluacion.rows)
+}
+
 informeController.getInforme = async (req, res) => {
 
-  let id_informe = req.params.id;
-
-  pool.query('BEGIN')
+  let id_informe = 2;
 
   let infante = await pool.query('SELECT informe.rut_infante, infante.nombre FROM informe, infante WHERE informe.rut_infante = infante.rut AND informe.id = $1', [id_informe])
   infante = infante.rows[0]
 
-  let informe = await pool.query('SELECT id, fecha FROM informe WHERE rut_infante = $1', [infante.rut])
-  informe = informe.rows[0]
-
-  let metodologia = await pool.query('SELECT id, descripcion FROM metodologia WHERE id_informe = $1', [informe.id])
+  let metodologia = await pool.query('SELECT id, descripcion FROM metodologia WHERE id_informe = $1', [id_informe])
   metodologia = metodologia.rows[0]  
- 
-  let evaluacion = await pool.query('SELECT id, nombre FROM metodologia WHERE id_informe = $1', [informe.id])
-  evaluacion = evaluacion.rows[0]  
-
+ /*
   let objetivo = await pool.query('SELECT id, nombre FROM objetivo WHERE id_informe = $1', [informe.id])
   objetivo = objetivo.rows[0]
   
@@ -146,56 +140,63 @@ informeController.getInforme = async (req, res) => {
   analisis = analisis.rows[0]
 
   let sesion = await pool.query('SELECT nombre, descripcion FROM sesion WHERE id_metodologia = $1', [metodologia.id])
-  sesion = sesion.rows[0]
+  sesion = sesion.rows
 
-  let criterio = await pool.query('SELECT nombre, puntaje FROM criterio WHERE id_evaluacion = $1', [evaluacion.id])
-  criterio = criterio.rows[0]
+  let criterio = await pool.query('SELECT nombre, descripcion, puntaje FROM criterio WHERE id_evaluacion = $1', [evaluacion.id])
+  criterio = criterio.rows
 
   let actividad = await pool.query('SELECT descripcion FROM actividad WHERE descripcion = $1', [objetivo.id])
-  actividad = actividad.rows[0]  
+  actividad = actividad.rows*/
 
-  pool.query('COMMIT', (err) => {
-    if(err){return res.sendStatus(404)}
-    else{
+  const doc = new PDF({bufferPages: true});
 
-    const doc = new PDF({bufferPages: true});
-    
-    const stream = res.writeHead(200, {
-        'Content-Type': 'application/pdf',
-        'Content-disposition': 'attachment;filename=informe.pdf'
-    });
-
-    doc.on('data', (chunk) => stream.write(chunk),);
-    doc.on('end', () => stream.end());
-
-    doc.fontSize(20).text('Evaluación de Terapia Ocupacional', {align: 'center'});
-    doc.fontSize(20).text(infante.rut_infante, {align: 'center'});
-    doc.fontSize(20).text(infante.nombre, {align: 'center'});
-
-    doc.fontSize(12).text(infante.nombre, {align: 'center'});
-      
-    doc
-      .fontSize(12)
-      .text(
-        `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, saepe.`
-      );
-    doc.end();
-
-
-    }
+  const stream = res.writeHead(200, {
+      'Content-Type': 'application/pdf',
+      'Content-disposition': 'attachment;filename=informe.pdf'
   });
 
-};
+  doc.on('data', (chunk) => stream.write(chunk),);
+  doc.on('end', () => stream.end(), (err) => {
+    if(err){return res.sendStatus(400)}
+  });
 
-const table = {
-  title: "Title",
-  subtitle: "Subtitle",
-  headers: ["Objetivos", "Actividades"],
-  rows: [
-    ["", "12%", "+1.12%"],
-    ["France", "67%", "-0.98%"],
-    ["England", "33%", "+4.44%"],
-  ],
+  doc.fontSize(20).text('Evaluación de Terapia Ocupacional\n', {align: 'center'});
+  doc.fontSize(12).text('\n', {align: 'right'})
+  doc.fontSize(12).font('Helvetica-Bold').text('Nombre: ', {continued: true}).font('Helvetica').text(infante.nombre);
+  doc.font('Helvetica-Bold').text('RUT: ', {continued: true}).font('Helvetica').text(infante.rut_infante);
+  doc.font('Helvetica-Bold').text('Fecha: ', {continued: true}).font('Helvetica').text(informe.fecha);
+  doc.text('\n')
+
+  doc.fontSize(18).font('Helvetica-Bold').text('Metodología de evaluación', {align:'center'})
+  doc.fontSize(12).text('\n')
+  doc.fontSize(12).font('Helvetica').text(metodologia.descripcion, {align: 'justify'});
+  doc.text('\n');
+/*
+  doc.fontSize(12).text('\n')
+  doc.fontSize(14).font('Helvetica-Bold').text('Sesiones');
+  doc.fontSize(12).text('\n');
+  for(let i=1; i<= sesion.length; i++){
+    doc.font('Helvetica-Bold').text('Sesión '+i+':', {continued: true}).font('Helvetica').text(sesion[i].descripcion);
+    doc.text('\n')
+  }
+*/
+  let evaluacion = await pool.query('SELECT evaluacion.nombre, ARRAY_AGG(criterio.nombre) as criterio, ARRAY_AGG(criterio.descripcion) as descripcion, ARRAY_AGG(criterio.puntaje) as puntaje FROM evaluacion, criterio WHERE evaluacion.id = criterio.id_evaluacion AND evaluacion.id_informe = $1 GROUP BY evaluacion.nombre', [2])
+  evaluacion = evaluacion.rows  
+  doc.addPage()
+  doc.fontSize(18).font('Helvetica-Bold').text('Evaluaciones', {align:'center'})
+  for(let i=0; i<evaluacion.length; i++){
+    doc.text('\n');
+    doc.fontSize(14).font('Helvetica-Bold').text(evaluacion[i].nombre);
+    doc.fontSize(12).text('\n');
+    for(let j=0; j<evaluacion[i].criterio.length; j++){
+      doc.font('Helvetica-Bold').text(evaluacion[i].criterio[j] + ': ', {continued: true}).font('Helvetica').text(evaluacion[i].puntaje[j])
+      doc.text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius ante metus, vitae sollicitudin urna vulputate vitae. Proin lacinia tortor nec nisi convallis, pulvinar aliquet turpis ultrices. Praesent convallis ornare nisl eu pharetra. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam ac elit nec risus congue scelerisque. Sed sagittis, sem scelerisque luctus commodo, libero velit egestas lorem, molestie tempus turpis eros nec odio. In pellentesque pretium vulputate. In et arcu tempus, tincidunt nisl sit amet, finibus libero. Aenean vitae diam id tur', {align: 'justify'})
+      doc.text('\n')
+    }
+  }
+  
+  doc.end()
+
 };
 
 informeController.getInformePrueba = async (req, res) => {
