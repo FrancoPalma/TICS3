@@ -7,6 +7,7 @@ import Color from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
+import SuiEditor from "components/SuiEditor";
 
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -64,7 +65,7 @@ function TabPanel(props) {
   }
 
   function Formulario(){
-    const [metodologia, setmetodologia] = useState('');
+    const [descripcion, setdescripcion] = useState('');
     const [sesion, setsesion] = useState('');
     const classes = styles();
     const [tabValue, setTabValue] = useState(0);
@@ -86,19 +87,25 @@ function TabPanel(props) {
       setInputField(values);
   }   
 
-  function EnviarDatos(){
+  function EnviarDescripcion(){
     if (1 == 1){
       let id = 2;
+      console.log(descripcion)
       fetch('/informe/crear_metodologia/'+id.toString(),{
         method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          descripcion: metodologia,
+          descripcion: descripcion
         })
 
       })
       .then((response) => {
 
         if(response.status !== 404){
+          console.log("chupame el pico")
           return response.json()
         }else{
           console.log("holi")
@@ -106,7 +113,32 @@ function TabPanel(props) {
       })
     }
   }
+  function EnviarSesion(){
+    if (1 == 1){
+      let id = 2;
 
+      fetch('/informe/crear_sesion/'+id.toString(),{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          descripcion: sesion
+        })
+
+      })
+      .then((response) => {
+
+        if(response.status !== 404){
+          console.log("chupame el pico")
+          return response.json()
+        }else{
+          console.log("holi")
+        }
+      })
+    }
+  }
 
       return(
         <DashboardLayout>
@@ -121,7 +153,11 @@ function TabPanel(props) {
             <Tab label="Análisis" {...a11yProps(3)}/>
           </Tabs>
             <Card>
-            <TabPanel value={tabValue} index={0}>       
+
+
+
+            <TabPanel value={tabValue} index={0}>   
+            <SuiEditor value={editorValue} onChange={setEditorValue} />    
             <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6"></SuiTypography>
             <TextField
@@ -131,50 +167,62 @@ function TabPanel(props) {
               multiline
               rows={10}
               required
-              onChange = {event => setmetodologia(event.target.value)}         
+              onChange = {event => setdescripcion(event.target.value)}         
             />
 
         <SuiBox display="flex" mt={4} mb={1}>
-          <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarDatos}>
+          <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarDescripcion}>
+            Guardar
           </SuiButton>
           <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
-    
+            Cancelar
           </SuiButton>
          
         </SuiBox>
 
 
           {inputFields.map((inputField,index)=>(
-          <div key= {index}>
-          <SuiBox>
+            <div key= {index}>
+              <SuiBox>
     
-            <TextField 
-              name= "sesion"
-              placeholder = "Sesion"
-              label="Sesion"
-              variant = "outlined"
-              fullWidth
-              multiline
-              rows={10}
-              required   
-              value={inputField.second}
-              onChange = {event => setsesion(event.target.value)}   
-            />
-            <IconButton onClick={() => handleRemoveFields(index)}>
-              <RemoveIcon color="secondary"/>
-            </IconButton>
-            <IconButton onClick={() => handleAddFields()}>
-              <AddIcon color="primary"/>
-            </IconButton>
-            </SuiBox>
-            <IconButton>
-              <SaveIcon color= "success"/>
-            </IconButton>
+                <TextField 
+                  name= "sesion"
+                  placeholder = "Sesion"
+                  label="Sesion"
+                  variant = "outlined"
+                  fullWidth
+                  multiline
+                  rows={10}
+                  required   
+                  value={inputField.second}
+                  onChange = {event => setsesion(event.target.value)}   
+                />
+
+                <IconButton onClick={() => handleRemoveFields(index)}>
+                  <RemoveIcon color="secondary"/>
+                </IconButton>
+            
+                <IconButton onClick={() => handleAddFields()}>
+                  <AddIcon color="primary"/>
+                </IconButton>            
+              </SuiBox>
+            
+              <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarSesion}>
+                Guardar
+              </SuiButton>
+              <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
+                Cancelar
+              </SuiButton>
             </div>
-          ) )}
-              
+            ) )}              
             </SuiBox>
             </TabPanel>
+
+
+
+
+
+  
 
             <TabPanel value={tabValue} index={1}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
@@ -190,7 +238,7 @@ function TabPanel(props) {
             </SuiBox>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={1}>
+          <TabPanel value={tabValue} index={2}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
               <SuiTypography variant="h6"></SuiTypography>
               <SuiTypography variant="h6"></SuiTypography>
@@ -205,7 +253,7 @@ function TabPanel(props) {
             </SuiBox>
           </TabPanel>
 
-          <TabPanel value={tabValue} index={1}>
+          <TabPanel value={tabValue} index={3}>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6"></SuiTypography>
               <TextField
@@ -229,6 +277,4 @@ function TabPanel(props) {
   );
                     }
 
-  
- // }
   export default Formulario;
