@@ -7,13 +7,9 @@ import Color from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
-<<<<<<< HEAD
-import { makeStyles } from "@material-ui/core/styles";
-=======
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
->>>>>>> 2b1277b71147474f49fed276d526ecb09bab116c
 
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
