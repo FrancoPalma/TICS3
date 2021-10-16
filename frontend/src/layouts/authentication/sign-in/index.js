@@ -52,7 +52,7 @@ export default function SignIn() {
           console.log("LOGEADO")
           console.log(users)
           localStorage.setItem('usuario', JSON.stringify(users));
-          hist.push('/empleados')
+          hist.push('/profesionales')
         }
 
       })

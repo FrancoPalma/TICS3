@@ -38,7 +38,7 @@ Coded by www.creative-tim.com
 // Soft UI Dashboard Material-UI layouts
 import Dashboard from "layouts/dashboard";
 import Privilegios from "layouts/privilegios";
-import Empleados from "layouts/empleados";
+import Profesionales from "layouts/profesionales";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
@@ -48,7 +48,7 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Test from "layouts/test";
 import Formulario from "layouts/formulario";
-
+import Ficha from "layouts/ficha";
 // Soft UI Dashboard Material-UI icons
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
@@ -89,14 +89,22 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Empleados",
-    key: "empleados",
-    route: "/empleados",
+    name: "Profesionales",
+    key: "profesionales",
+    route: "/profesionales",
     icon: <Office size="12px" />,
-    component: Empleados,
+    component: Profesionales,
     noCollapse: true,
   },
-/*
+  {
+    type: "collapse",
+    name: "Ficha",
+    key: "ficha",
+    route: "/ficha",
+    icon: <Office size="12px" />,
+    component: Ficha,
+    noCollapse: true,
+  },
   {
     type: "collapse",
     name: "Tables",
@@ -106,6 +114,7 @@ const routes = [
     component: Tables,
     noCollapse: true,
   },
+  /*
   {
     type: "collapse",
     name: "Billing",
