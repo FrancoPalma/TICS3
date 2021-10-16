@@ -150,7 +150,7 @@ function TabPanel(props) {
               <AddIcon color="primary"/>
             </IconButton>
             </SuiBox>
-            <IconButton onClick={() => output()}>
+            <IconButton>
               <SaveIcon color= "success"/>
             </IconButton>
             </div>
