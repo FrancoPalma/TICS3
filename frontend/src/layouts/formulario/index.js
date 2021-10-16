@@ -7,8 +7,7 @@ import Color from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
-import SuiEditor from "components/SuiEditor";
-
+import {Editor, EditorState} from 'draft-js'
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -74,6 +73,8 @@ function TabPanel(props) {
     const [inputFields, setInputField] = useState([
         {Second: ''},
     ]);
+
+    const [editorState, setEditorState] = useState(()=> EditorState.createEmpty())
 
     let info = JSON.parse(localStorage.getItem('usuario'));
     let Lista;
@@ -157,9 +158,8 @@ function TabPanel(props) {
 
 
             <TabPanel value={tabValue} index={0}>   
-            <SuiEditor value={editorValue} onChange={setEditorValue} />    
             <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={3}>
-            <SuiTypography variant="h6"></SuiTypography>
+          
             <TextField
               label="Metodología"
               variant = "outlined"
