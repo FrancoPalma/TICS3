@@ -86,8 +86,25 @@ function TabPanel(props) {
       setInputField(values);
   }   
 
-  function EnviarDatos(variable){
-    console.log(variable)
+  function EnviarDatos(){
+    if (1 == 1){
+      let id = 1;
+      fetch('/informe/crear_metodologia'+id.toString(),{
+        method: 'POST',
+        body: JSON.stringify({
+          metodologia: metodologia,
+        })
+
+      })
+      .then((response) => {
+
+        if(response.status !== 404){
+          return response.json()
+        }else{
+          console.log("holi")
+        }
+      })
+    }
   }
 
 
@@ -118,7 +135,7 @@ function TabPanel(props) {
             />
 
         <SuiBox display="flex" mt={4} mb={1}>
-          <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarDatos(metodologia)}>
+          <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarDatos}>
           </SuiButton>
           <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
     
