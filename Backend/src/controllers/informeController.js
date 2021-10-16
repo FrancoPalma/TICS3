@@ -26,7 +26,7 @@ informeController.postInforme = async (req, res) => {
 informeController.postMetodologia = async (req, res) => {
 
   let id_informe = req.params.id_informe;
-  let descripcion = req.body.completado;
+  let descripcion = req.body.descripcion;
 
   await pool.query('INSERT INTO metodologia (id_informe, descripcion)  VALUES ($1, $2)', [id_informe, descripcion], (err, result) => {
     if(err){return res.sendStatus(404)}
