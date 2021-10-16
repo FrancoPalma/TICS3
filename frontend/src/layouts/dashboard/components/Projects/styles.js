@@ -25,6 +25,7 @@ export default makeStyles(({ functions, borders, palette }) => {
     projects_table: {
       "& .MuiTableRow-root:not(:last-child)": {
         "& td": {
+          display:"block",
           borderBottom: `${borderWidth[1]} solid ${borderColor}`,
         },
       },

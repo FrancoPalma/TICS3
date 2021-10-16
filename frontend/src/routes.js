@@ -105,7 +105,6 @@ const routes = [
     component: Ficha,
     noCollapse: true,
   },
-/*
   {
     type: "collapse",
     name: "Tables",
@@ -115,6 +114,7 @@ const routes = [
     component: Tables,
     noCollapse: true,
   },
+  /*
   {
     type: "collapse",
     name: "Billing",

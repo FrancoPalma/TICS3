@@ -13,65 +13,8 @@ import MaterialTable from 'material-table';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-const styles = {
-  cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    "& small": {
-      color: "#777",
-      fontSize: "65%",
-      fontWeight: "400",
-      lineHeight: "1"
-    }
-  },
-  picker: {
-    height: 50
-  },
-  formControl: {
-    marginHorizontal: 10,
-    minWidth: 160,
-  },
-  selectEmpty: {
-    marginTop: 20,
-  },
-  root: {
-    flexGrow: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  botonera: {
-    marginRight: "auto",
-    marginLeft: 20,
-    marginBottom: 10
-  },
-  botonañadir: {
-    width: 150,
-  },
-  añadirestilo: {
-    margin: 'auto',
-    marginBottom:20,
-  },
-  formañadir: {
-    marginLeft: 5,
-    marginRight: 5
-  }
-};
+import styles from "layouts/tables/styles";
+
 
 
 function TabPanel(props) {
@@ -101,10 +44,11 @@ function a11yProps(index) {
 }
 
 function Profesionales() {
+  const classes = styles();
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
-  const [Lista, setLista] = useState(0);
+  const [Lista, setLista] = useState([]);
 
   let info = JSON.parse(localStorage.getItem('usuario'));
 
@@ -114,7 +58,12 @@ function Profesionales() {
           return res.json()
       })
       .then(users => {
-        setLista(users);
+        console.log("hola")
+        console.log(users)
+        for(let i=0; i < users.length;i++){
+          Lista.push({nombre:users[i].nombre, gestion_evaluacion: users[i].gestion_evaluacion, gestion_ficha: users[i].gestion_ficha, gestion_infante: users[i].gestion_infante,
+            gestion_priv: users[i].gestion_priv, gestion_usuario: users[i].gestion_usuario, rut: users[i].rut})
+        }
         setListo(1);
       });
     }
@@ -124,22 +73,23 @@ function Profesionales() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <SuiBox py={3}>
-        <SuiBox mb={3}>
+      <SuiBox py={6}>
+        <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
             <Tab label="Datos" {...a11yProps(0)}/>
             <Tab label="Privilegios" {...a11yProps(1)}/>
           </Tabs>
           <Card>
           <TabPanel value={tabValue} index={0}>
+            <SuiBox customClass={classes.tables_table}>
             <MaterialTable
                       title=''
-                      columns={[{ title: 'Nombre', field: 'nombre', editable: 'never'},
-                      {title: 'Gestión de Usuarios', field: 'gestion_usuarios', type:'boolean'},
-                      {title: 'Gestión Ficha Técnica', field: 'gestion_ficha', type:'boolean'},
-                      { title: 'Gestión Privilegios', field: 'gestion_privilegios', type:'boolean'},
-                      { title: 'Gestión de Evaluación', field: 'gestion_evaluacion', type:'boolean'},
-                      { title: 'Gestión de Infante', field: 'gestion_infante', type:'boolean'}]}
+                      columns={[{ title: 'Nombre', field: 'nombre', editable: 'never',align: "left"},
+                      {title: 'Gestión de Usuarios', field: 'gestion_usuarios', type:'boolean', align: "left"},
+                      {title: 'Gestión Ficha Técnica', field: 'gestion_ficha', type:'boolean', align: "left"},
+                      { title: 'Gestión Privilegios', field: 'gestion_privilegios', type:'boolean', align: "left"},
+                      { title: 'Gestión de Evaluación', field: 'gestion_evaluacion', type:'boolean', align: "left"},
+                      { title: 'Gestión de Infante', field: 'gestion_infante', type:'boolean', align: "left"}]}
                       data={Lista}
                       editable={{
                         onRowAdd: newData =>
@@ -169,6 +119,7 @@ function Profesionales() {
                           }),
                       }}
                     />
+                    </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
             <MaterialTable
