@@ -93,6 +93,19 @@ infanteController.getVerFicha = (req, res) => {
   return res.render('fichas')
 };
 
+infanteController.getDescargarFicha = (req, res) => {
+  let rut_infante = '12345678-9';
+
+  pool.query('SELECT  ficha_clinica FROM infante WHERE infante.rut = $1', [rut_infante], (err, result) => {
+    console.log(JSON.stringify(result, null, 4));
+    if(err){return res.sendStatus(404)}
+    
+    res.write(result.rows[0].ficha_clinica)
+    res.end('OK')
+
+  }) 
+}
+
 infanteController.postImportarFicha = async (req, res) => {
   let ficha = req.body.ficha;
   let rut_infante = '12345678-9';

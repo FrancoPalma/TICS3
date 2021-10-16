@@ -1,4 +1,5 @@
 const express = require('express');
+const { rotate } = require('pdfkit');
 const router = express.Router();
 const infanteController = require('../controllers/infanteController.js')
 
@@ -15,5 +16,7 @@ router.post('/eliminar_infante/:rut_infante', infanteController.postEliminarInfa
 router.get('/ver_ficha', infanteController.getVerFicha);
 
 router.post('/importar_ficha', infanteController.postImportarFicha);
+
+router.get('/descargar_ficha', infanteController.getDescargarFicha);
 
 module.exports = router;

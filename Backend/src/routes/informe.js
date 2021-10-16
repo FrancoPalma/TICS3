@@ -10,18 +10,18 @@ router.get('/crear_informe', informeController.postInforme);
 
 router.get('/prueba', informeController.prueba);
 
-router.post('/crear_metodologia', informeController.postMetodologia);
+router.post('/crear_metodologia/:id_informe', informeController.postMetodologia);
 
-router.post('/crear_evaluacion', informeController.postEvaluacion);
+router.post('/crear_evaluacion/:id_informe', informeController.postEvaluacion);
 
-router.post('/crear_objetivo', informeController.postObjetivo);
+router.post('/crear_objetivo/:id_informe', informeController.postObjetivo);
 
-router.post('/crear_analisis', informeController.postAnalisis);
+router.post('/crear_analisis/:id_informe', informeController.postAnalisis);
 
-router.post('/crear_sesion', informeController.postSesion);
+router.post('/crear_sesion/:id_informe', informeController.postSesion);
 
-router.post('/crear_criterio', informeController.postCriterio);
+router.post('/crear_criterio/:id_informe', informeController.postCriterio);
 
-router.post('/crear_actividad', informeController.postActividad);
+router.post('/crear_actividad/:id_informe', informeController.postActividad);
 
 module.exports = router;

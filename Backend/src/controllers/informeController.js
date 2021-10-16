@@ -104,7 +104,6 @@ informeController.postCriterio = async (req, res) => {
 informeController.postActividad = async (req, res) => {
 
   let id_informe = req.params.id_informe;
-  let nombre = req.body.nombre;
   let descripcion = req.body.descripcion;
 
   await pool.query('SELECT actividad.id FROM informe, actividad WHERE informe.id = actividad.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
