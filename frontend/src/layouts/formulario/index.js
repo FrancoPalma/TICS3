@@ -7,7 +7,13 @@ import Color from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
+<<<<<<< HEAD
 import { makeStyles } from "@material-ui/core/styles";
+=======
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+>>>>>>> 2b1277b71147474f49fed276d526ecb09bab116c
 
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
@@ -57,24 +63,23 @@ function TabPanel(props) {
     const [tabValue, setTabValue] = useState(0);
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
     const [Listo, setListo] = useState(0);
+    const [inputFields, setInputField] = useState([
+        {Second: ''},
+    ]);
 
     let info = JSON.parse(localStorage.getItem('usuario'));
     let Lista;
-/*
-    function CrearInforme(){
-      fetch('informe/crear_informe')
-      .then(res => {
-            return res.json()
-      })
-      .then(users => {
-        Lista = users;
-        console.log(users)
-        setListo(1);
-      });
-    }
-    CrearInforme();
 
-    if(Listo ===1){*/
+  const handleAddFields = () =>{
+    console.log("Hola")
+    setInputField([...inputFields,{Second: ''}])
+  }
+  const handleRemoveFields = (index) =>{
+      const values = [...inputFields];
+      values.splice(index,1);
+      setInputField(values);
+  }   
+
       return(
         <DashboardLayout>
         <DashboardNavbar />
@@ -108,23 +113,31 @@ function TabPanel(props) {
           </SuiButton>
          
         </SuiBox>
-            <TextField
-              label="Sesión"
+          {inputFields.map((inputField,index)=>(
+          <div key= {index}>
+          <SuiBox>
+    
+            <TextField 
+              name= "sesion"
+              placeholder = "Sesion"
+              label="Sesion"
               variant = "outlined"
               fullWidth
-              multilines
+              multiline
               rows={10}
-              required            
+              required   
+              value={inputField.second}
             />
-
-
-
- 
-                    <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" buttonColor="info" halfWidth >
-            Guardar
-          </SuiButton>
-        </SuiBox>
+            <IconButton onClick={() => handleRemoveFields(index)}>
+              <RemoveIcon color="secondary"/>
+            </IconButton>
+            <IconButton onClick={() => handleAddFields()}>
+              <AddIcon color="primary"/>
+            </IconButton>
+            </SuiBox>
+            </div>
+          ) )}
+              
             </SuiBox>
             </TabPanel>
 
