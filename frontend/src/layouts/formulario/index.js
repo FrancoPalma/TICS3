@@ -88,7 +88,7 @@ function TabPanel(props) {
 
   function EnviarDatos(){
     if (1 == 1){
-      let id = 1;
+      let id = 2;
       fetch('/informe/crear_metodologia'+id.toString(),{
         method: 'POST',
         body: JSON.stringify({
