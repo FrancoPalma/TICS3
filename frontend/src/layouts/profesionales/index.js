@@ -9,8 +9,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import styles from "layouts/tables/styles";
 import Table from "examples/Table";
-import Data from "layouts/profesionales/data/data"
-
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -39,15 +37,60 @@ function a11yProps(index) {
 
 function Profesionales() {
   const classes = styles();
-  const { columns, rows } = Data;
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
   const [Lista, setLista] = useState([]);
+  const columns = [
+    { name: "name", align: "left" },
+    { name: "function", align: "left" },
+    { name: "email", align: "center" },
+    { name: "employed", align: "center" },
+    { name: "id", align: "center" },];
 
-
-
-  let info = JSON.parse(localStorage.getItem('usuario'));
+  const rows = [
+    {
+      name: "John Micheal",
+      function: "Manager",
+      email: "john@user.com",
+      employed: "23/04/18",
+      id: "43431",
+    },
+    {
+      name: "Alexa Liras",
+      function: "Programator",
+      email: "alexa@user.com",
+      employed: "11/01/19",
+      id: "93021",
+    },
+    {
+      name: "Laurent Perrier",
+      function: "Executive",
+      email: "laurent@user.com",
+      employed: "19/09/17",
+      id: "10392",
+    },
+    {
+      name: "Michael Levi",
+      function: "Backend Developer",
+      email: "michael@user.com",
+      employed: "24/12/08",
+      id: "34002",
+    },
+    {
+      name: "Richard Gran",
+      function: "Manager",
+      email: "richard@user.com",
+      employed: "04/10/21",
+      id: "91879",
+    },
+    {
+      name: "Miriam Eric",
+      function: "Programtor",
+      email: "miriam@user.com",
+      employed: "14/09/20",
+      id: "23042",
+    }];
 
   function ActualizarEmpleados(){
     fetch('/usuario/ver_privilegios')
