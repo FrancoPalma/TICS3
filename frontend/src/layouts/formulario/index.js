@@ -33,6 +33,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextField from "@material-ui/core/TextField";
 import SuiInput from "components/SuiInput";
+import { OutlinedInput } from "@material-ui/core";
 
 
 function TabPanel(props) {
@@ -77,7 +78,6 @@ function TabPanel(props) {
     let Lista;
 
   const handleAddFields = () =>{
-    console.log("Hola")
     setInputField([...inputFields,{Second: ''}])
   }
   const handleRemoveFields = (index) =>{
@@ -86,9 +86,10 @@ function TabPanel(props) {
       setInputField(values);
   }   
 
-  function EnviarDatos(){
-    console.log(setmetodologia)
+  function EnviarDatos(variable){
+    console.log(variable)
   }
+
 
       return(
         <DashboardLayout>
@@ -117,7 +118,7 @@ function TabPanel(props) {
             />
 
         <SuiBox display="flex" mt={4} mb={1}>
-          <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarDatos}>
+          <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarDatos(metodologia)}>
           </SuiButton>
           <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
     
@@ -149,6 +150,9 @@ function TabPanel(props) {
               <AddIcon color="primary"/>
             </IconButton>
             </SuiBox>
+            <IconButton onClick={() => output()}>
+              <SaveIcon color= "success"/>
+            </IconButton>
             </div>
           ) )}
               
