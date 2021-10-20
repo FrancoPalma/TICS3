@@ -13,9 +13,10 @@ import { func } from "prop-types";
 import SuiButton from "components/SuiButton";
 import Icon from "@material-ui/core/Icon";
 import typography from "assets/theme/base/typography";
-
 import { Confirm,} from 'react-st-modal';
 
+import Checkbox from '@mui/material/Checkbox';
+/*npm install @mui/material @emotion/react @emotion/styled*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -41,12 +42,25 @@ function a11yProps(index) {
   };
 }
 
+function Checks(){
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+  return(
+    <div>
+      <Checkbox {...label} />
+      <Checkbox {...label} />
+      <Checkbox {...label} />
+      <Checkbox {...label} />
+      <Checkbox {...label} />
+    </div>
+  )
+}
+
 function Boton(){
   return(
     <>
     <button buttonColor="primary" iconOnly
         onClick={async () => {
-          const result = await Confirm('Сonfirmation text', 
+          const result = await Confirm(<Checks/>, 
             'Сonfirmation title');
           
           if (result) {
@@ -142,6 +156,7 @@ function Profesionales() {
       });
     }
     console.log(rows)
+
   if(Listo === 1){
   return (
     <DashboardLayout>
