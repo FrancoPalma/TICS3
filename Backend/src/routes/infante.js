@@ -1,7 +1,30 @@
 const express = require('express');
-const { rotate } = require('pdfkit');
 const router = express.Router();
 const infanteController = require('../controllers/infanteController.js')
+const multer = require('multer');
+const path = require('path');
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        console.log(__dirname)
+        cb(null, path.join(__dirname, '../public/fichas'));
+    },
+    filename: (req, file, cb) => {
+        let nombre = req.params.rut_infante
+        cb(null, 'ficha'+nombre+'.pdf')
+    }
+})
+
+const filter = function (req, file, cb) {
+    if (path.extname(file.originalname) !== '.pdf') {
+      return cb(new Error('Solo se permite PDF'))
+    }
+    cb(null, true)
+}
+
+const upload = multer({
+    fileFilter: filter,
+    storage: fileStorage})
 
 router.get('/ver_infantes', infanteController.getVerInfantes)
 
@@ -15,7 +38,7 @@ router.post('/eliminar_infante/:rut_infante', infanteController.postEliminarInfa
 
 router.get('/ver_ficha', infanteController.getVerFicha);
 
-router.post('/importar_ficha', infanteController.postImportarFicha);
+router.post('/importar_ficha/:rut_infante', upload.single('ficha'), infanteController.postImportarFicha);
 
 router.get('/descargar_ficha', infanteController.getDescargarFicha);
 
