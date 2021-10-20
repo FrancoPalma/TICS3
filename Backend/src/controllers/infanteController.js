@@ -1,4 +1,6 @@
 const pool = require('../config/database.js');
+const path = require('path')
+const fs = require('fs');
 infanteController = {}
 
 infanteController.postAgregarInfante = (req, res) => {
@@ -96,24 +98,18 @@ infanteController.getVerFicha = (req, res) => {
 infanteController.getDescargarFicha = (req, res) => {
   let rut_infante = '12345678-9';
 
-  pool.query('SELECT  ficha_clinica FROM infante WHERE infante.rut = $1', [rut_infante], (err, result) => {
-    console.log(JSON.stringify(result, null, 4));
-    if(err){return res.sendStatus(404)}
-    
-    res.write(result.rows[0].ficha_clinica)
-    res.end('OK')
-
-  }) 
+  archivo = path.join(__dirname, '../public/fichas','ficha'+rut_infante+'.pdf');
+  
+  fs.readFile(archivo , function (err,data){
+    if(err){return res.sendStatus(404);}
+    res.contentType("application/pdf");
+    res.send(data);
+});
 }
 
 infanteController.postImportarFicha = async (req, res) => {
-  let ficha = req.body.ficha;
-  let rut_infante = '12345678-9';
-
-  pool.query('UPDATE infante SET ficha_clinica =  $1 WHERE infante.rut = $2', [ficha, rut_infante], (err) => {
-    if(err){return res.sendStatus(404)}
-    return res.sendStatus(200);
-  })
+  console.log(req.file)
+  return res.sendStatus(200);
 };
 
 module.exports = infanteController;

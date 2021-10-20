@@ -11,9 +11,10 @@ import styles from "layouts/tables/styles";
 import Table from "examples/Table";
 import { func } from "prop-types";
 import SuiButton from "components/SuiButton";
-
 import Icon from "@material-ui/core/Icon";
 import typography from "assets/theme/base/typography";
+
+import { Confirm,} from 'react-st-modal';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,12 +44,34 @@ function a11yProps(index) {
 function Boton(){
   return(
     <>
-    <SuiButton buttonColor="primary" iconOnly>
-      <Icon classsName="material-icons-round">edit</Icon>
-    </SuiButton>
-    <SuiButton buttonColor="primary" iconOnly>
-      <Icon classsName="material-icons-round">delete</Icon>
-    </SuiButton>
+    <button buttonColor="primary" iconOnly
+        onClick={async () => {
+          const result = await Confirm('Сonfirmation text', 
+            'Сonfirmation title');
+          
+          if (result) {
+            // Сonfirmation confirmed
+          } else {
+            // Сonfirmation not confirmed
+          }
+        }}
+      >
+          <Icon classsName="material-icons-round">done</Icon>
+      </button>
+      <button buttonColor="primary" iconOnly
+        onClick={async () => {
+          const result = await Confirm('¿Esta seguro que desea eliminar este usuario?', 
+            'Confirmación de eliminación');
+          
+          if (result) {
+            // Сonfirmation confirmed
+          } else {
+            // Сonfirmation not confirmed
+          }
+        }}
+      >
+          <Icon classsName="material-icons-round">delete</Icon>
+      </button>
     </>
   )
 }
@@ -136,7 +159,6 @@ function Profesionales() {
             </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
-            
           </TabPanel>
           </Card>
         </SuiBox>
