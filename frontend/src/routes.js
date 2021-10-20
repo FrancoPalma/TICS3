@@ -80,15 +80,6 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Test",
-    key: "test",
-    route: "/test",
-    icon: <Shop size="12px" />,
-    component: Test,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
     name: "Profesionales",
     key: "profesionales",
     route: "/profesionales",

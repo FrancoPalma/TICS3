@@ -9,6 +9,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import styles from "layouts/tables/styles";
 import Table from "examples/Table";
+import { func } from "prop-types";
+import SuiButton from "components/SuiButton";
+
+import Icon from "@material-ui/core/Icon";
+import typography from "assets/theme/base/typography";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -35,80 +40,85 @@ function a11yProps(index) {
   };
 }
 
+function Boton(){
+  return(
+    <>
+    <SuiButton buttonColor="primary" iconOnly>
+      <Icon classsName="material-icons-round">edit</Icon>
+    </SuiButton>
+    <SuiButton buttonColor="primary" iconOnly>
+      <Icon classsName="material-icons-round">delete</Icon>
+    </SuiButton>
+    </>
+  )
+}
+
+function Check({boleano}){
+const { size } = typography;
+if(boleano){
+  return(
+    <SuiBox fontSize={size.regular} color="text" mb={-0.5} mx={0.25}>
+      <Icon className="material-icons-round" color="inherit" fontSize="inherit">
+        done
+      </Icon>
+    </SuiBox>
+  )
+}else{
+  return(
+    <SuiBox fontSize={size.regular} color="text" mb={-0.5} mx={0.25}>
+      <Icon className="material-icons-round" color="inherit" fontSize="inherit">
+        clear
+      </Icon>
+    </SuiBox>
+
+  )
+
+}
+}
+
 function Profesionales() {
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
-  const [Lista, setLista] = useState([]);
   const columns = [
-    { name: "name", align: "left" },
-    { name: "function", align: "left" },
-    { name: "email", align: "center" },
-    { name: "employed", align: "center" },
-    { name: "id", align: "center" },];
-
-  const rows = [
-    {
-      name: "John Micheal",
-      function: "Manager",
-      email: "john@user.com",
-      employed: "23/04/18",
-      id: "43431",
-    },
-    {
-      name: "Alexa Liras",
-      function: "Programator",
-      email: "alexa@user.com",
-      employed: "11/01/19",
-      id: "93021",
-    },
-    {
-      name: "Laurent Perrier",
-      function: "Executive",
-      email: "laurent@user.com",
-      employed: "19/09/17",
-      id: "10392",
-    },
-    {
-      name: "Michael Levi",
-      function: "Backend Developer",
-      email: "michael@user.com",
-      employed: "24/12/08",
-      id: "34002",
-    },
-    {
-      name: "Richard Gran",
-      function: "Manager",
-      email: "richard@user.com",
-      employed: "04/10/21",
-      id: "91879",
-    },
-    {
-      name: "Miriam Eric",
-      function: "Programtor",
-      email: "miriam@user.com",
-      employed: "14/09/20",
-      id: "23042",
-    }];
+    { name: "nombre", align: "left" },
+    { name: "rut", align: "left" },
+    { name: "evaluación", align: "center" },
+    { name: "ficha", align: "center" },
+    { name: "infante", align: "center" },
+    { name: "privilegios", align: "right" },
+    { name: "usuario", align: "right" },
+    { name: "acciones", align: "right" }
+  ];
+  const [rows] = useState([]);
 
   function ActualizarEmpleados(){
+    while(rows.length > 0) {
+      rows.pop();
+    }
     fetch('/usuario/ver_privilegios')
       .then(res => {
           return res.json()
       })
       .then(users => {
-        console.log("hola")
-        console.log(users)
+        let aux;
         for(let i=0; i < users.length;i++){
-          Lista.push({nombre:users[i].nombre, gestion_evaluacion: users[i].gestion_evaluacion, gestion_ficha: users[i].gestion_ficha, gestion_infante: users[i].gestion_infante,
-            gestion_priv: users[i].gestion_priv, gestion_usuario: users[i].gestion_usuario, rut: users[i].rut})
+          aux = [];
+          rows.push({nombre:users[i].nombre,
+            rut: users[i].rut,
+            evaluación: <Check boleano={ users[i].gestion_evaluacion}/>,
+            ficha: <Check boleano={users[i].gestion_ficha}/>,
+            infante: <Check boleano={users[i].gestion_infante}/>,
+            privilegios: <Check boleano={users[i].gestion_priv}/>,
+            usuario: <Check boleano={users[i].gestion_usuario}/>,
+            acciones: <Boton/>
+          })
         }
         setListo(1);
       });
     }
-    console.log(Lista)
-    
+    console.log(rows)
   if(Listo === 1){
   return (
     <DashboardLayout>
@@ -138,7 +148,7 @@ function Profesionales() {
   );
   }else{
     ActualizarEmpleados();
-    return (
+    return(
       <DashboardLayout>
         <DashboardNavbar />
         <SuiBox py={3}>
