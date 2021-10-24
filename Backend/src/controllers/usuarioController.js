@@ -28,6 +28,7 @@ usuarioController.postEliminarUsuario = (req, res) => {
 	let rut_usuario = req.params.rut_usuario;
 
 	pool.query('BEGIN', (err) => {
+		if(err){return res.sendStatus(404)}
 		pool.query('DELETE FROM privilegios WHERE rut_usuario = $1', [rut_usuario], (err) => {
 			if(err){return res.sendStatus(404)}
 			pool.query('DELETE FROM usuario WHERE usuario.rut = $1', [rut_usuario], (err) => {
