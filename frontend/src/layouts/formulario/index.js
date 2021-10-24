@@ -36,33 +36,6 @@ import SuiInput from "components/SuiInput";
 import { OutlinedInput } from "@material-ui/core";
 
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <SuiBox p={3}>
-            <SuiTypography>{children}</SuiTypography>
-          </SuiBox>
-        )}
-      </div>
-    );
-  }
-
-
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
-
   function Formulario(){
 
     
@@ -96,7 +69,7 @@ function TabPanel(props) {
 
 //=============================================================================================
     const [inputFields, setInputField] = useState([
-        {Second: ''},
+        {First: '', Second: ''},
     ]);
 
     const [inputCriterios, setinputCriterios] = useState([
@@ -122,7 +95,7 @@ function TabPanel(props) {
 
     //=========================================METODOLOGÍA====================================================
 const handleAddFields = () =>{
-  setInputField([...inputFields,{Second: ''}])
+  setInputField([...inputFields,{First:'' , Second: ''}])
 }
 const handleRemoveFields = (index) =>{
     const values = [...inputFields];
@@ -166,7 +139,9 @@ function EnviarDescripcion(){
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          nombre: NombreSesion,
           descripcion: DescripcionSesion
+
         })
 
       })
@@ -365,20 +340,18 @@ function EnviarDescripcion(){
         <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
-          <SuiTypography variant="h6">Informe</SuiTypography>
-          <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Metodología" {...a11yProps(0)}/>
-            <Tab label="Evaluación" {...a11yProps(1)}/>
-            <Tab label="Objetivo" {...a11yProps(2)}/>
-            <Tab label="Análisis" {...a11yProps(3)}/>
-          </Tabs>
+          <SuiTypography variant="h6"><h1>Informe de evaluación de infante</h1></SuiTypography>
             <Card>
 
 
 
-            <TabPanel value={tabValue} index={0}>   
+             
             <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={3}>
-          
+            <h2>Metodología</h2>
+
+            <Grid container direction={"column"} spacing={5}>
+              <Grid item>
+            <h3>Descripción de la Metodología</h3>
             <TextField
               label="Metodología"
               variant = "outlined"
@@ -393,29 +366,44 @@ function EnviarDescripcion(){
           <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarDescripcion}>
             Guardar
           </SuiButton>
-          <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
-            Cancelar
-          </SuiButton>
-         
+       
         </SuiBox>
-
-
+        </Grid>
+        <Grid item>
+        <h3>Sesión</h3>
           {inputFields.map((inputField,index)=>(
             <div key= {index}>
               <SuiBox>
-    
-                <TextField 
-                  name= "sesion"
-                  placeholder = "Sesion"
-                  label="Sesion"
+
+              <Grid container direction={"column"} spacing={5}>
+              <Grid item>
+              <TextField 
+                  name= "Nombre"
+                  placeholder = "Nombre"
+                  label="Nombre"
                   variant = "outlined"
                   fullWidth
                   multiline
-                  rows={10}
                   required   
                   value={inputField.second}
+                  onChange = {event => setNombreSesion(event.target.value)}   
+                />
+                </Grid>
+                <Grid item>
+                <TextField 
+                  name= "Descripción"
+                  placeholder = "Descripción"
+                  label="Descripción"
+                  variant = "outlined"
+                  fullWidth
+                  multiline
+                  rows={5}
+                  required   
+                  value={inputField.first}
                   onChange = {event => setDescripcionSesion(event.target.value)}   
                 />
+                </Grid>
+                </Grid>
 
                 <IconButton onClick={() => handleRemoveFields(index)}>
                   <RemoveIcon color="secondary"/>
@@ -429,13 +417,14 @@ function EnviarDescripcion(){
               <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarSesion}>
                 Guardar
               </SuiButton>
-              <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
-                Cancelar
-              </SuiButton>
+
             </div>
-            ) )}              
+            ) )}         
+            </Grid>     
+            </Grid>
             </SuiBox>
-            </TabPanel>
+            
+
 
 
 
@@ -443,10 +432,10 @@ function EnviarDescripcion(){
 
   
 
-            <TabPanel value={tabValue} index={1}>
+            <h2>Evaluación</h2>
             <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
 
-              <h1>Evaluación</h1>
+              <h3>Nombre de la Evaluación</h3>
               {inputEvaluacion.map((inputEvaluacion,index)=>(
                 <div key= {index}>
               <SuiTypography variant="h6"></SuiTypography>
@@ -472,11 +461,9 @@ function EnviarDescripcion(){
                 <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarEvaluacion}>
                 Guardar
                 </SuiButton>
-              <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
-                Cancelar
-              </SuiButton>
+
           </SuiBox>
-            <h2> Criterios </h2>
+            <h3> Criterios </h3>
             {inputCriterios.map((inputCriterios,index)=>(
                 <div key= {index}>
                   <SuiBox>
@@ -531,22 +518,18 @@ function EnviarDescripcion(){
               <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarSesion}>
                 Guardar
               </SuiButton>
-              <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
-                Cancelar
-              </SuiButton>
+
             </div>
             ) )}        
             </SuiBox>
 
 
-          </TabPanel>
-
-          <TabPanel value={tabValue} index={2}>
+            <h2>Objetivos</h2>
             <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
               <SuiTypography variant="h6"></SuiTypography>
               <SuiTypography variant="h6"></SuiTypography>
               
-              
+              <h3>Descripción de Objetivos</h3>
               <TextField
                   label="Objetivo"
                   placeholder = "Descripción Objetivo"
@@ -557,26 +540,27 @@ function EnviarDescripcion(){
                   required
                   value = {event => setDescripcionObjetivo(event.target.value)}            
               />
-
+              <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarObjetivo}>
+                Guardar
+              </SuiButton>
+              <h3>Descripción de Objetivos</h3>
               <TextField
                   label="Actividad"
                   placeholder = "Descripción Actividad"
                   variant = "outlined"
                   fullWidth
                   multiline
-                  rows={20}
+                  rows={10}
                   required
                   value = {event => setDescripcionActividad(event.target.value)}            
               />
 
-              <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarObjetivo}>
+              <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarActividades}>
                 Guardar
               </SuiButton>
 
             </SuiBox>
-          </TabPanel>
 
-          <TabPanel value={tabValue} index={3}>
             <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6"></SuiTypography>
             <h1>Conclusión</h1>
@@ -600,7 +584,7 @@ function EnviarDescripcion(){
                 variant = "outlined"
                 fullWidth
                 multiline
-                rows={20}
+                rows={10}
                 required
                 value = {event => setRecomendacion(event.target.value)} 
               /></Grid></Grid>
@@ -608,13 +592,11 @@ function EnviarDescripcion(){
               <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarAnalisis}>
                 Guardar
               </SuiButton>
-              <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
-                Cancelar
-              </SuiButton>
+
 
               <SuiTypography variant="h6"></SuiTypography>
             </SuiBox>
-          </TabPanel>
+
           </Card>
         </SuiBox>
         <Card>
