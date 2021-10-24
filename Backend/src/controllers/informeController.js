@@ -326,7 +326,21 @@ informeController.getEliminarInforme = (req, res) => {
 informeController.getInforme = (req, res) => {
   let id_informe = 1;
 
-  pool.query('SELECT * FROM ')
+  pool.query('SELECT id, fecha, completado FROM informe WHERE id = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(200)}
+    let informe = result.rows[0];
+    return res.json(informe)
+  })
+}
+
+informeController.getMetodologia = (req, res) => {
+  let id_informe = 1;
+
+  pool.query('SELECT descripcion FROM metodologia WHERE id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(200)}
+    let metodologia = result.rows[0];
+    return res.json(metodologia)
+  })
 }
 
 module.exports = informeController;
