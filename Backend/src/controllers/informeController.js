@@ -276,4 +276,55 @@ informeController.getInformePrueba = async (req, res) => {
 
   }
 
+informeController.postEliminarInforme = (req,res) => {
+  let id_informe = 2;
+  console.log('hola 1')
+
+  pool.query('BEGIN')
+  pool.query('DELETE FROM sesion, metodologia WHERE sesion.id_metodologia = metodologia.id AND metodologia.id_informe = $1', [id_informe], (err) => {
+    if(err){return res.sendStatus(404)}
+    console.log('hola 2')
+    pool.query('DELETE FROM metodologia WHERE metodologia.id_informe = $1', [id_informe], (err) => {
+      if(err){return res.sendStatus(404)}
+      console.log('hola 2')
+
+      pool.query('DELETE FROM metodologia WHERE metodologia.id_informe = $1', [id_informe], (err) => {
+        if(err){return res.sendStatus(404)}
+        pool.query('DELETE FROM criterio, evaluacion WHERE criterio.id_evaluacion = evaluacion.id AND evaluacion.id_informe = $1', [id_informe], (err) => {
+          if(err){return res.sendStatus(404)}
+          pool.query('DELETE FROM evaluacion WHERE evaluacion.id_informe = $1', [id_informe], (err) =>{
+            if(err){return res.sendStatus(404)}
+            pool.query('DELETE FROM actividad, objetivo WHERE actividad.id_objetivo = objetivo.id AND objetivo.id_informe = $1', [id_informe], (err) => {
+              if(err){return res.sendStatus(404)}
+              pool.query('DELETE FROM objetivo WHERE objetivo.id_informe = $1', [id_informe], (err) => {
+                if(err){return res.sendStatus(404)}
+                pool.query('DELETE FROM analisis WHERE analisis.id_informe = $1', [id_informe], (err) => {
+                  if(err){return res.sendStatus(404)}
+                  pool.query('DELETE FROM informe WHERE informe.id = $1', [id_informe], (err) => {
+                    if(err){return res.sendStatus(404)}
+                    pool.query('COMMIT', (err) => {
+                      if(err){return res.sendStatus(404);}
+                      return res.sendStatus(200)
+                    })
+                  });
+
+                });
+
+              });
+
+            });
+
+          });
+
+        });
+
+      });
+    });
+  });
+}
+
+informeController.getEliminarInforme = (req, res) => {
+  res.render('prueba')
+}
+
 module.exports = informeController;

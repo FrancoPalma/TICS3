@@ -24,4 +24,8 @@ router.post('/crear_criterio/:id_informe', informeController.postCriterio);
 
 router.post('/crear_actividad/:id_informe', informeController.postActividad);
 
+router.post('/eliminar_informe', informeController.postEliminarInforme);
+
+router.get('/eliminar_informe', informeController.getEliminarInforme);
+
 module.exports = router;
