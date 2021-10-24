@@ -19,7 +19,7 @@ usuarioController.postEditarPrivilegios = (req, res) => {
 	let gestion_infante = req.body.gestion_infante;
 
 	pool.query('UPDATE privilegios SET gestion_usuario = $1, gestion_ficha = $2, gestion_priv = $3, gestion_evaluacion = $4, gestion_infante = $5 WHERE privilegios.rut_usuario = $6', [gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante, rut_usuario], (err) => {
-		if(err){res.sendStatus(404)}
+		if(err){ return res.sendStatus(404)}
 		return res.sendStatus(200);
 	});
 };

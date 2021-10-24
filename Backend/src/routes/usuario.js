@@ -3,7 +3,7 @@ const router = express.Router();
 const usuarioController = require('../controllers/usuarioController')
 const sesionController = require('../controllers/sesionController.js')
 
-router.get('/ver_privilegios', sesionController.isLoggedIn, usuarioController.getVerPrivilegios);
+router.get('/ver_privilegios', usuarioController.getVerPrivilegios);
 
 router.post('/editar_privilegios/:rut_usuario', usuarioController.postEditarPrivilegios);
 
