@@ -104,6 +104,9 @@ export default function Profesionales() {
 
   function Checks({rut, p1,p2,p3,p4,p5}){
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+  while(aux.length > 0) {
+    aux.pop();
+  }
   aux.push(p1)
   aux.push(p2)
   aux.push(p3)
