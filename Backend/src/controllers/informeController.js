@@ -122,7 +122,7 @@ informeController.prueba = async (req, res) => {
   return res.json(evaluacion.rows)
 }
 
-informeController.getInforme = async (req, res) => {
+informeController.getDescargarInforme = async (req, res) => {
 
   let id_informe = 2;
 
@@ -195,7 +195,6 @@ informeController.getInforme = async (req, res) => {
   }
   
   doc.end()
-
 };
 
 informeController.getInformePrueba = async (req, res) => {
@@ -276,51 +275,58 @@ informeController.getInformePrueba = async (req, res) => {
   }
 
 informeController.postEliminarInforme = (req,res) => {
-  let id_informe = 2;
+  let id_informe = req.params.id_informe;
 
-  pool.query('BEGIN')
-  pool.query('DELETE FROM sesion, metodologia WHERE sesion.id_metodologia = metodologia.id AND metodologia.id_informe = $1', [id_informe], (err) => {
+  pool.query('BEGIN', (err) => {
     if(err){return res.sendStatus(404)}
-    pool.query('DELETE FROM metodologia WHERE metodologia.id_informe = $1', [id_informe], (err) => {
+    pool.query('DELETE FROM sesion WHERE sesion.id_metodologia = (SELECT metodologia.id FROM metodologia WHERE metodologia.id_informe = $1)', [id_informe], (err) => {
       if(err){return res.sendStatus(404)}
-
+      console.log('sesion delete')
       pool.query('DELETE FROM metodologia WHERE metodologia.id_informe = $1', [id_informe], (err) => {
         if(err){return res.sendStatus(404)}
-        pool.query('DELETE FROM criterio, evaluacion WHERE criterio.id_evaluacion = evaluacion.id AND evaluacion.id_informe = $1', [id_informe], (err) => {
+        console.log('metodologia delete')
+        pool.query('DELETE FROM criterio WHERE criterio.id_evaluacion IN (SELECT evaluacion.id FROM evaluacion WHERE evaluacion.id_informe = $1)', [id_informe], (err) => {
           if(err){return res.sendStatus(404)}
+          console.log('criterio delete')
           pool.query('DELETE FROM evaluacion WHERE evaluacion.id_informe = $1', [id_informe], (err) =>{
             if(err){return res.sendStatus(404)}
-            pool.query('DELETE FROM actividad, objetivo WHERE actividad.id_objetivo = objetivo.id AND objetivo.id_informe = $1', [id_informe], (err) => {
+            console.log('evaluacion delete')
+            pool.query('DELETE FROM actividad WHERE actividad.id_objetivo IN (SELECT objetivo.id FROM objetivo WHERE objetivo.id_informe = $1)', [id_informe], (err) => {
               if(err){return res.sendStatus(404)}
+              console.log('actividad delete')
               pool.query('DELETE FROM objetivo WHERE objetivo.id_informe = $1', [id_informe], (err) => {
                 if(err){return res.sendStatus(404)}
+                console.log('objetivo delete')
                 pool.query('DELETE FROM analisis WHERE analisis.id_informe = $1', [id_informe], (err) => {
                   if(err){return res.sendStatus(404)}
+                  console.log('analisis delete')
                   pool.query('DELETE FROM informe WHERE informe.id = $1', [id_informe], (err) => {
                     if(err){return res.sendStatus(404)}
+                    console.log('informe delete')
                     pool.query('COMMIT', (err) => {
                       if(err){return res.sendStatus(404);}
                       return res.sendStatus(200)
                     })
                   });
-
                 });
-
               });
-
             });
-
           });
-
         });
-
       });
     });
-  });
+  })
+
 }
 
 informeController.getEliminarInforme = (req, res) => {
   res.render('prueba')
+}
+
+informeController.getInforme = (req, res) => {
+  let id_informe = 1;
+
+  pool.query('SELECT * FROM ')
 }
 
 module.exports = informeController;
