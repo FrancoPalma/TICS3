@@ -69,7 +69,7 @@ function Check({boleano}){
   }
 }
 
-function Profesionales() {
+export default function Profesionales() {
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
@@ -86,22 +86,38 @@ function Profesionales() {
   ];
   const [rows] = useState([]);
   const [aux] = useState([]);
+  const handleChange0 = (event) => {
+    aux[0]=event.target.checked;
+  };
+  const handleChange1 = (event) => {
+    aux[1]=event.target.checked;
+  };
+  const handleChange2 = (event) => {
+    aux[2]=event.target.checked;
+  };
+  const handleChange3 = (event) => {
+    aux[3]=event.target.checked;
+  };
+  const handleChange4 = (event) => {
+    aux[4]=event.target.checked;
+  };
 
-  function Checks({p1,p2,p3,p4,p5}){
+  function Checks({rut, p1,p2,p3,p4,p5}){
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   aux.push(p1)
   aux.push(p2)
   aux.push(p3)
   aux.push(p4)
   aux.push(p5)
+  aux.push(rut)
   return(
     <div>
       <FormGroup>
-        <FormControlLabel control={<Checkbox defaultChecked={aux[0]} />} label="Gestión Evaluación" />
-        <FormControlLabel control={<Checkbox defaultChecked={aux[1]}/>} label="Gestión Ficha" />
-        <FormControlLabel control={<Checkbox defaultChecked={aux[2]}/>} label="Gestión Infante" />
-        <FormControlLabel control={<Checkbox defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
-        <FormControlLabel control={<Checkbox defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
+        <FormControlLabel control={<Checkbox onChange={handleChange0} defaultChecked={aux[0]} />} label="Gestión Evaluación" />
+        <FormControlLabel control={<Checkbox onChange={handleChange1} defaultChecked={aux[1]}/>} label="Gestión Ficha" />
+        <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Infante" />
+        <FormControlLabel control={<Checkbox onChange={handleChange3} defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
+        <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
 
       </FormGroup>
     </div>
@@ -170,17 +186,22 @@ function Boton({rut,p1,p2,p3,p4,p5}){
       });
     }
   
-  function EditarEmpleado(rut) {
+  function EditarEmpleado() {
     let regex = new RegExp("^[a-z A-Z]+$");
     let regex3 = new RegExp("^[0-9]+$");
-    fetch('/editar_privilegios/'+rut.toString(), {
+    console.log(aux[0])
+    console.log(aux[1])
+    console.log(aux[2])
+    console.log(aux[3])
+    console.log(aux[4])
+    fetch('/editar_privilegios/'+aux[5].toString(), {
     method: 'POST',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: rut,
+      rut_usuario: aux[5],
       gestion_evaluacion: aux[0],
       gestion_ficha: aux[1],
       gestion_infante: aux[2],
@@ -191,10 +212,8 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .then( (response) => {
         if(response.status === 201) {
             console.log("Editado correctamente")
-            this.setState({mensaje: 2});
         } else {
             console.log('Hubo un error')
-            this.setState({mensaje: 4});
             console.log(response.status)
         }
     })
@@ -219,10 +238,8 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .then( (response) => {
         if(response.status === 201) {
             console.log("Eliminado correctamente")
-            this.setState({mensaje: 3});
         } else {
             console.log('Hubo un error')
-            this.setState({mensaje: 4});
         }
     })
     .catch((error) => {
@@ -285,4 +302,4 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     );
   }
 }
-export default Profesionales;
+
