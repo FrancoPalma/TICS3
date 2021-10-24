@@ -27,10 +27,18 @@ usuarioController.postEditarPrivilegios = (req, res) => {
 usuarioController.postEliminarUsuario = (req, res) => {
 	let rut_usuario = req.params.rut_usuario;
 
-	pool.query('DELETE FROM usuario WHERE usuario.rut = $1', [rut_usuario], (err) => {
-		if(err){return res.sendStatus(404)}
-		return res.sendStatus(200);
-	});
+	pool.query('BEGIN', (err) => {
+		pool.query('DELETE FROM privilegios WHERE rut_usuario = $1', [rut_usuario], (err) => {
+			if(err){return res.sendStatus(404)}
+			pool.query('DELETE FROM usuario WHERE usuario.rut = $1', [rut_usuario], (err) => {
+				if(err){return res.sendStatus(404)}
+				pool.query('COMMIT', (err)=> {
+					if(err){return res.sendStatus(404)}
+					return res.sendStatus(200);
+				})
+			});
+		})
+	})
 };
 
 usuarioController.postEditarUsuario = (req, res) => {
