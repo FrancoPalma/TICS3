@@ -103,18 +103,33 @@ function TabPanel(props) {
       {Puntaje: ''}
     ]);
 
+    const [inputObjetivos, setinputObjetivos] = useState([
+      {Descripcion: ''},
+    ]);  
+
+    const [inputActividades, setinputCriterios] = useState([
+      {Nombre: ''},
+      {Descripcion: ''},
+      {Puntaje: ''}
+    ]);
+
+    const [inputEvalucion, setinputEvaluacion] = useState([
+      {Nombre: ''}
+    ]);
 
 
 
-  const handleAddFields = () =>{
-    setInputField([...inputFields,{Second: ''}])
+
+
+
+  const AddFieldsEvaluacion = () =>{
+    setinputEvaluacion([...inputEvaluacion,{Nombre: ''}])
   }
-  const handleRemoveFields = (index) =>{
-      const values = [...inputFields];
+  const RemoveFieldsEvaluacion = (index) =>{
+      const values = [...inputEvaluacion];
       values.splice(index,1);
-      setInputField(values);
-  }
-  
+      setinputEvaluacion(values);
+  }  
   const AddFieldsCriterios = () =>{
     setinputCriterios([...inputCriterios,{Nombre: '', Descripcion: '', Puntaje:'',}])
   }
@@ -123,8 +138,32 @@ function TabPanel(props) {
       values.splice(index,1);
       setinputCriterios(values);
   }
-
-  function EnviarDescripcion(){
+  const AddFieldsObjetivos = () =>{
+    setinputCriterios([...inputCriterios,{Descripcion: ''}])
+  }
+  const RemoveFieldsObjetivos = (index) =>{
+      const values = [...inputCriterios];
+      values.splice(index,1);
+      setinputCriterios(values);
+  }
+  const AddFieldsActividades = () =>{
+    setinputCriterios([...inputCriterios,{Nombre: '', Descripcion: '', Puntaje:'',}])
+  }
+  const RemoveFieldsActividades = (index) =>{
+      const values = [...inputCriterios];
+      values.splice(index,1);
+      setinputCriterios(values);
+  }
+//===================================METODOLOGÍA================================================
+const handleAddFields = () =>{
+  setInputField([...inputFields,{Second: ''}])
+}
+const handleRemoveFields = (index) =>{
+    const values = [...inputFields];
+    values.splice(index,1);
+    setInputField(values);
+}
+function EnviarDescripcion(){
     if (1 == 1){
       let id = 2;
       console.log(descripcion)
@@ -233,6 +272,34 @@ function TabPanel(props) {
       })
     }
   }
+
+  function EnviarAnalisis(){
+    if (1 == 1){
+      let id = 2;
+
+      fetch('/informe/crear_analisis/'+id.toString(),{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          conclusion: Conclusion,
+          recomendacion:Recomendacion,
+        })
+
+      })
+      .then((response) => {
+
+        if(response.status !== 404){
+
+          return response.json()
+        }else{
+          console.log("ERROR 404")
+        }
+      })
+    }
+  }
       return(
         <DashboardLayout>
         <DashboardNavbar />
@@ -320,6 +387,8 @@ function TabPanel(props) {
             <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
 
               <h1>Evaluación</h1>
+              {inputEvaluacion.map((inputEvaluacion,index)=>(
+                <div key= {index}>
               <SuiTypography variant="h6"></SuiTypography>
                 <TextField
                   label="Nombre Evaluación"
@@ -329,9 +398,16 @@ function TabPanel(props) {
                   rows={5}
                   required            
                   onChange = {event => setnombreEvaluacion(event.target.value)}         
-
                 />
-
+                <IconButton onClick={() => RemoveFieldsEvaluacion(index)}>
+                  <RemoveIcon color="secondary"/>
+                </IconButton>
+            
+                <IconButton onClick={() => AddFieldsEvaluacion()}>
+                  <AddIcon color="primary"/>
+                </IconButton>  
+                </div>
+            ) )}  
               <SuiBox display="flex" mt={4} mb={1}>
                 <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarEvaluacion}>
                 Guardar
@@ -413,6 +489,7 @@ function TabPanel(props) {
               
               <TextField
                   label="Objetivo"
+                  placeholder = "Descripción Objetivo"
                   variant = "outlined"
                   fullWidth
                   multiline
@@ -421,22 +498,58 @@ function TabPanel(props) {
                   value = {event => setDescripcionObjetivo(event.target.value)}            
               />
 
+              <TextField
+                  label="Actividad"
+                  placeholder = "Descripción Actividad"
+                  variant = "outlined"
+                  fullWidth
+                  multiline
+                  rows={20}
+                  required
+                  value = {event => setDescripcionActividad(event.target.value)}            
+              />
+
 
 
             </SuiBox>
           </TabPanel>
 
           <TabPanel value={tabValue} index={3}>
-            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+            <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6"></SuiTypography>
+            <h1>Conclusión</h1>
+            <Grid container direction={"column"} spacing={5}>
+              <Grid item>
               <TextField
-              label="Metodología"
-              variant = "outlined"
-              fullWidth
-              multiline
-              rows={30}
-              required            
-            />
+                label="Conclusión"
+                placeholder = "Conclusión"
+                variant = "outlined"
+                fullWidth
+                multiline
+                rows={20}
+                required
+                value = {event => setConclusion(event.target.value)}            
+              /></Grid>
+              <Grid item>
+              <h1>Recomendaciones</h1>
+              <TextField
+                label="Recomendación"
+                placeholder = "Recomendación"
+                variant = "outlined"
+                fullWidth
+                multiline
+                rows={20}
+                required
+                value = {event => setRecomendacion(event.target.value)} 
+              /></Grid></Grid>
+
+              <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarAnalisis}>
+                Guardar
+              </SuiButton>
+              <SuiButton startIcon ={<DeleteIcon />} variant="gradient" buttonColor="error" halfWidth >
+                Cancelar
+              </SuiButton>
+
               <SuiTypography variant="h6"></SuiTypography>
             </SuiBox>
           </TabPanel>
