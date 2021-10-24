@@ -27,8 +27,6 @@ informeController.postMetodologia = async (req, res) => {
 
   let id_informe = req.params.id_informe;
   let descripcion = req.body.descripcion;
-  console.log(id_informe)
-  console.log(descripcion)
 
   await pool.query('INSERT INTO metodologia (id_informe, descripcion)  VALUES ($1, $2)', [id_informe, descripcion], (err, result) => {
     if(err){return res.sendStatus(404)}
@@ -87,7 +85,8 @@ informeController.postSesion = async (req, res) => {
 
   await pool.query('SELECT metodologia.id FROM informe, metodologia WHERE informe.id = metodologia.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
     if(err){return res.sendStatus(400)}
-    id_metodologia = result.rows[0];
+    id_metodologia = result.rows[0].id;
+    console.log(id_metodologia)
     await pool.query('INSERT INTO sesion (id_metodologia, nombre, descripcion) VALUES ($1, $2, $3)', [id_metodologia, nombre, descripcion], (err, result) => {
       if(err){return res.sendStatus(404)}
       return res.sendStatus(200);
@@ -138,7 +137,7 @@ informeController.prueba = async (req, res) => {
   return res.json(evaluacion.rows)
 }
 
-informeController.getInforme = async (req, res) => {
+informeController.getDescargarInforme = async (req, res) => {
 
   let id_informe = 2;
 
@@ -211,7 +210,6 @@ informeController.getInforme = async (req, res) => {
   }
   
   doc.end()
-
 };
 
 informeController.getInformePrueba = async (req, res) => {
@@ -292,54 +290,58 @@ informeController.getInformePrueba = async (req, res) => {
   }
 
 informeController.postEliminarInforme = (req,res) => {
-  let id_informe = 2;
-  console.log('hola 1')
+  let id_informe = req.params.id_informe;
 
-  pool.query('BEGIN')
-  pool.query('DELETE FROM sesion, metodologia WHERE sesion.id_metodologia = metodologia.id AND metodologia.id_informe = $1', [id_informe], (err) => {
+  pool.query('BEGIN', (err) => {
     if(err){return res.sendStatus(404)}
-    console.log('hola 2')
-    pool.query('DELETE FROM metodologia WHERE metodologia.id_informe = $1', [id_informe], (err) => {
+    pool.query('DELETE FROM sesion WHERE sesion.id_metodologia = (SELECT metodologia.id FROM metodologia WHERE metodologia.id_informe = $1)', [id_informe], (err) => {
       if(err){return res.sendStatus(404)}
-      console.log('hola 2')
-
+      console.log('sesion delete')
       pool.query('DELETE FROM metodologia WHERE metodologia.id_informe = $1', [id_informe], (err) => {
         if(err){return res.sendStatus(404)}
-        pool.query('DELETE FROM criterio, evaluacion WHERE criterio.id_evaluacion = evaluacion.id AND evaluacion.id_informe = $1', [id_informe], (err) => {
+        console.log('metodologia delete')
+        pool.query('DELETE FROM criterio WHERE criterio.id_evaluacion IN (SELECT evaluacion.id FROM evaluacion WHERE evaluacion.id_informe = $1)', [id_informe], (err) => {
           if(err){return res.sendStatus(404)}
+          console.log('criterio delete')
           pool.query('DELETE FROM evaluacion WHERE evaluacion.id_informe = $1', [id_informe], (err) =>{
             if(err){return res.sendStatus(404)}
-            pool.query('DELETE FROM actividad, objetivo WHERE actividad.id_objetivo = objetivo.id AND objetivo.id_informe = $1', [id_informe], (err) => {
+            console.log('evaluacion delete')
+            pool.query('DELETE FROM actividad WHERE actividad.id_objetivo IN (SELECT objetivo.id FROM objetivo WHERE objetivo.id_informe = $1)', [id_informe], (err) => {
               if(err){return res.sendStatus(404)}
+              console.log('actividad delete')
               pool.query('DELETE FROM objetivo WHERE objetivo.id_informe = $1', [id_informe], (err) => {
                 if(err){return res.sendStatus(404)}
+                console.log('objetivo delete')
                 pool.query('DELETE FROM analisis WHERE analisis.id_informe = $1', [id_informe], (err) => {
                   if(err){return res.sendStatus(404)}
+                  console.log('analisis delete')
                   pool.query('DELETE FROM informe WHERE informe.id = $1', [id_informe], (err) => {
                     if(err){return res.sendStatus(404)}
+                    console.log('informe delete')
                     pool.query('COMMIT', (err) => {
                       if(err){return res.sendStatus(404);}
                       return res.sendStatus(200)
                     })
                   });
-
                 });
-
               });
-
             });
-
           });
-
         });
-
       });
     });
-  });
+  })
+
 }
 
 informeController.getEliminarInforme = (req, res) => {
   res.render('prueba')
+}
+
+informeController.getInforme = (req, res) => {
+  let id_informe = 1;
+
+  pool.query('SELECT * FROM ')
 }
 
 module.exports = informeController;

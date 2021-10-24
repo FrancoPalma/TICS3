@@ -8,7 +8,6 @@ sesionController.getLogin = (req, res) => {
 
 sesionController.postLogin = (req,res) => {
 	passport.authenticate('local-login', function(err, user) {
-		console.log(user)
 		if (err) { return res.sendStatus(404); }
 		if (user == undefined || user == false) { return res.sendStatus(404); }
 		
@@ -25,8 +24,7 @@ sesionController.getSignup = (req, res) => {
 
 sesionController.postSignup = async (req,res) => {
 	await passport.authenticate('local-signup', function(err, user) {
-		if (err) { console.log(err)
-			return res.sendStatus(404); }
+		if (err) { return res.sendStatus(404); }
 		if (user == false) { 
 			return res.sendStatus(404); }
 		return res.sendStatus(200);
