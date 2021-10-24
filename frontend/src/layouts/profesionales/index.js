@@ -197,7 +197,7 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     console.log(aux[2])
     console.log(aux[3])
     console.log(aux[4])
-    fetch('/editar_privilegios/'+aux[5].toString(), {
+    fetch('/usuario/editar_privilegios/'+aux[5].toString(), {
     method: 'POST',
     headers: {
         Accept: 'application/json',
@@ -227,7 +227,7 @@ function Boton({rut,p1,p2,p3,p4,p5}){
   }
 
   function EliminarEmpleado(rut) {
-    console.log(rut)
+    console.log(rut.rut)
     fetch('/delete_empleado/' + rut.toString(), {
     method: 'POST',
     headers: {
