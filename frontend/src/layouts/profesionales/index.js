@@ -276,6 +276,19 @@ function Boton({rut,p1,p2,p3,p4,p5}){
           <TabPanel value={tabValue} index={0}>
             <SuiBox customClass={classes.tables_table}>
             <Table columns={columns} rows={rows} />
+            <button buttonColor="primary" iconOnly
+            onClick={async () => {
+          const result = await Confirm(<Texto rut={1}/>, 
+            'Confirmación de eliminación');
+          
+          if (result) {
+            EliminarEmpleado()
+          } else {
+            // Сonfirmation not confirmed
+          }
+        }}
+      >
+      </button>
             </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
