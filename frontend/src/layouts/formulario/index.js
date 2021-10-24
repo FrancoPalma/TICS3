@@ -35,6 +35,30 @@ import TextField from "@material-ui/core/TextField";
 import SuiInput from "components/SuiInput";
 import { OutlinedInput } from "@material-ui/core";
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <SuiBox p={3}>
+          <SuiTypography>{children}</SuiTypography>
+        </SuiBox>
+      )}
+    </div>
+  );
+}
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
   function Formulario(){
 
@@ -340,18 +364,26 @@ function EnviarDescripcion(){
         <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
-          <SuiTypography variant="h6"><h1>Informe de evaluación de infante</h1></SuiTypography>
+          <h1>Informe de evaluación de infante</h1>
+          <Tabs value={tabValue} onChange={handleSetTabValue}>
+            <Tab label="Metodología" {...a11yProps(0)}/>
+            <Tab label="Evaluación" {...a11yProps(1)}/>
+            <Tab label="Objetivos" {...a11yProps(2)}/>
+            <Tab label="Analisis" {...a11yProps(3)}/>
+          </Tabs>
+
+          <SuiTypography variant="h6"></SuiTypography>
             <Card>
 
 
 
              
             <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={3}>
-            <h2>Metodología</h2>
 
+            <TabPanel value={tabValue} index={0}>
             <Grid container direction={"column"} spacing={5}>
               <Grid item>
-            <h3>Descripción de la Metodología</h3>
+            <h2>Descripción de la Metodología</h2>
             <TextField
               label="Metodología"
               variant = "outlined"
@@ -370,7 +402,7 @@ function EnviarDescripcion(){
         </SuiBox>
         </Grid>
         <Grid item>
-        <h3>Sesión</h3>
+        <h2>Sesión</h2>
           {inputFields.map((inputField,index)=>(
             <div key= {index}>
               <SuiBox>
@@ -422,20 +454,21 @@ function EnviarDescripcion(){
             ) )}         
             </Grid>     
             </Grid>
+            </TabPanel>
             </SuiBox>
+            
             
 
 
 
 
 
-
   
+            <TabPanel value={tabValue} index={1}>
 
-            <h2>Evaluación</h2>
             <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
 
-              <h3>Nombre de la Evaluación</h3>
+              <h2>Nombre de la Evaluación</h2>
               {inputEvaluacion.map((inputEvaluacion,index)=>(
                 <div key= {index}>
               <SuiTypography variant="h6"></SuiTypography>
@@ -463,7 +496,7 @@ function EnviarDescripcion(){
                 </SuiButton>
 
           </SuiBox>
-            <h3> Criterios </h3>
+            <h2> Criterios </h2>
             {inputCriterios.map((inputCriterios,index)=>(
                 <div key= {index}>
                   <SuiBox>
@@ -521,36 +554,41 @@ function EnviarDescripcion(){
 
             </div>
             ) )}        
+           
             </SuiBox>
+            </TabPanel>
+            
+            <TabPanel value={tabValue} index={2}>
 
-
-            <h2>Objetivos</h2>
             <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
               <SuiTypography variant="h6"></SuiTypography>
               <SuiTypography variant="h6"></SuiTypography>
-              
-              <h3>Descripción de Objetivos</h3>
+              <Grid container direction={"column"} spacing={5}>
+                  <Grid item>
+              <h2>Descripción de Objetivos</h2>
               <TextField
                   label="Objetivo"
                   placeholder = "Descripción Objetivo"
                   variant = "outlined"
                   fullWidth
                   multiline
-                  rows={20}
+                  rows={5}
                   required
                   value = {event => setDescripcionObjetivo(event.target.value)}            
               />
               <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarObjetivo}>
                 Guardar
               </SuiButton>
-              <h3>Descripción de Objetivos</h3>
+              </Grid>
+              <Grid item>
+              <h2>Descripción de Actividades</h2>
               <TextField
                   label="Actividad"
                   placeholder = "Descripción Actividad"
                   variant = "outlined"
                   fullWidth
                   multiline
-                  rows={10}
+                  rows={5}
                   required
                   value = {event => setDescripcionActividad(event.target.value)}            
               />
@@ -558,12 +596,15 @@ function EnviarDescripcion(){
               <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarActividades}>
                 Guardar
               </SuiButton>
-
+            </Grid>
+            </Grid>
             </SuiBox>
-
+            
+            </TabPanel>
+            <TabPanel value={tabValue} index={3}>
             <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6"></SuiTypography>
-            <h1>Conclusión</h1>
+            <h2>Conclusión</h2>
             <Grid container direction={"column"} spacing={5}>
               <Grid item>
               <TextField
@@ -572,19 +613,19 @@ function EnviarDescripcion(){
                 variant = "outlined"
                 fullWidth
                 multiline
-                rows={20}
+                rows={5}
                 required
                 value = {event => setConclusion(event.target.value)}            
               /></Grid>
               <Grid item>
-              <h1>Recomendaciones</h1>
+              <h2>Recomendaciones</h2>
               <TextField
                 label="Recomendación"
                 placeholder = "Recomendación"
                 variant = "outlined"
                 fullWidth
                 multiline
-                rows={10}
+                rows={5}
                 required
                 value = {event => setRecomendacion(event.target.value)} 
               /></Grid></Grid>
@@ -596,7 +637,7 @@ function EnviarDescripcion(){
 
               <SuiTypography variant="h6"></SuiTypography>
             </SuiBox>
-
+</TabPanel>
           </Card>
         </SuiBox>
         <Card>

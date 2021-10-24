@@ -38,6 +38,8 @@ informeController.postEvaluacion = async (req, res) => {
 
   let id_informe = req.params.id_informe;
   let nombre = req.body.nombre;
+  console.log("Nombre Evaluación")
+  console.log(nombre)
 
   await pool.query('INSERT INTO evaluacion (id_informe, nombre)  VALUES ($1, $2)', [id_informe, nombre], (err, result) => {
     if(err){return res.sendStatus(404)}
@@ -49,7 +51,7 @@ informeController.postObjetivo = async (req, res) => {
 
   let id_informe = req.params.id_informe;
   let nombre = req.body.nombre;
-
+  console.log(nombre)
   await pool.query('INSERT INTO objetivo (id_informe, nombre)  VALUES ($1, $2)', [id_informe, nombre], (err, result) => {
     if(err){return res.sendStatus(404)}
     return res.sendStatus(200);
@@ -61,6 +63,9 @@ informeController.postAnalisis = async (req, res) => {
   let id_informe = req.params.id_informe;
   let conclusion = req.body.conclusion;
   let recomendacion = req.body.recomendacion;
+  console.log("Analisis")
+  console.log(conclusion)
+  console.log(recomendacion)
 
   await pool.query('INSERT INTO analisis (id_informe, conclusion, recomendacion)  VALUES ($1, $2, $3)', [id_informe, conclusion, recomendacion], (err, result) => {
     if(err){return res.sendStatus(404)}
@@ -73,6 +78,10 @@ informeController.postSesion = async (req, res) => {
   let id_informe = req.params.id_informe;
   let nombre = req.body.nombre;
   let descripcion = req.body.descripcion;
+
+  console.log("Sesión")
+  console.log(nombre)
+  console.log(descripcion)
 
   await pool.query('SELECT metodologia.id FROM informe, metodologia WHERE informe.id = metodologia.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
     if(err){return res.sendStatus(400)}
@@ -92,6 +101,10 @@ informeController.postCriterio = async (req, res) => {
   let descripcion = req.body.descripcion;
   let puntaje = req.body.puntaje;
 
+  console.log("Criterios")
+  console.log(nombre)
+  console.log(descripcion)
+  console.log(puntaje)
   await pool.query('SELECT evaluacion.id FROM informe, evaluacion WHERE informe.id = rvaluacion.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
     if(err){return res.sendStatus(400)}
     id_evaluacion = result.rows[0];
@@ -106,6 +119,8 @@ informeController.postActividad = async (req, res) => {
 
   let id_informe = req.params.id_informe;
   let descripcion = req.body.descripcion;
+  console.log("Actividad")
+  console.log(descripcion)
 
   await pool.query('SELECT actividad.id FROM informe, actividad WHERE informe.id = actividad.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
     if(err){return res.sendStatus(400)}

@@ -17,7 +17,7 @@ import SuiButton from "components/SuiButton";
 import Icon from "@material-ui/core/Icon";
 import typography from "assets/theme/base/typography";
 import { Confirm,} from 'react-st-modal';
-
+import { useHistory } from "react-router-dom";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,7 +69,9 @@ function Check({boleano}){
   }
 }
 
+
 export default function Profesionales() {
+  const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
@@ -127,6 +129,16 @@ export default function Profesionales() {
   )
 }
 
+function Texto({rut}){
+  while(aux.length > 0) {
+    aux.pop();
+  }
+  aux.push(rut)
+  return(
+      <p>¿Esta seguro que desea eliminar este usuario?</p>
+  )
+}
+
 function Boton({rut,p1,p2,p3,p4,p5}){
   return(
     <>
@@ -146,11 +158,11 @@ function Boton({rut,p1,p2,p3,p4,p5}){
       </button>
       <button buttonColor="primary" iconOnly
         onClick={async () => {
-          const result = await Confirm('¿Esta seguro que desea eliminar este usuario?', 
+          const result = await Confirm(<Texto rut={rut}/>, 
             'Confirmación de eliminación'+rut.toString());
           
           if (result) {
-            EliminarEmpleado(rut={rut})
+            EliminarEmpleado()
           } else {
             // Сonfirmation not confirmed
           }
@@ -197,7 +209,7 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     console.log(aux[2])
     console.log(aux[3])
     console.log(aux[4])
-    fetch('/editar_privilegios/'+aux[5].toString(), {
+    fetch('/usuario/editar_privilegios/'+aux[5].toString(), {
     method: 'POST',
     headers: {
         Accept: 'application/json',
@@ -223,19 +235,18 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .catch((error) => {
         console.log(error)
     });
-    
+    window.location.href = window.location.href;
   }
 
-  function EliminarEmpleado(rut) {
-    console.log(rut)
-    fetch('/delete_empleado/' + rut.toString(), {
+  function EliminarEmpleado() {
+    fetch('/usuario/eliminar_usuario/' + aux[0].toString(), {
     method: 'POST',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: rut,
+      rut_usuario: aux[0],
     })
     })
     .then( (response) => {
@@ -258,8 +269,8 @@ function Boton({rut,p1,p2,p3,p4,p5}){
       <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Datos" {...a11yProps(0)}/>
-            <Tab label="Privilegios" {...a11yProps(1)}/>
+            <Tab label="Privilegios" {...a11yProps(0)}/>
+            <Tab label="Datos" {...a11yProps(1)}/>
           </Tabs>
           <Card>
           <TabPanel value={tabValue} index={0}>
