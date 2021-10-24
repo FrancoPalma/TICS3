@@ -93,6 +93,8 @@ function TabPanel(props) {
     const [Recomendacion, setRecomendacion] = useState('');
 
 
+
+//=============================================================================================
     const [inputFields, setInputField] = useState([
         {Second: ''},
     ]);
@@ -107,54 +109,18 @@ function TabPanel(props) {
       {Descripcion: ''},
     ]);  
 
-    const [inputActividades, setinputCriterios] = useState([
+    const [inputActividades, setinputActividades] = useState([
       {Nombre: ''},
       {Descripcion: ''},
       {Puntaje: ''}
     ]);
 
-    const [inputEvalucion, setinputEvaluacion] = useState([
+    const [inputEvaluacion, setinputEvaluacion] = useState([
       {Nombre: ''}
     ]);
 
 
-
-
-
-
-  const AddFieldsEvaluacion = () =>{
-    setinputEvaluacion([...inputEvaluacion,{Nombre: ''}])
-  }
-  const RemoveFieldsEvaluacion = (index) =>{
-      const values = [...inputEvaluacion];
-      values.splice(index,1);
-      setinputEvaluacion(values);
-  }  
-  const AddFieldsCriterios = () =>{
-    setinputCriterios([...inputCriterios,{Nombre: '', Descripcion: '', Puntaje:'',}])
-  }
-  const RemoveFieldsCriterios = (index) =>{
-      const values = [...inputCriterios];
-      values.splice(index,1);
-      setinputCriterios(values);
-  }
-  const AddFieldsObjetivos = () =>{
-    setinputCriterios([...inputCriterios,{Descripcion: ''}])
-  }
-  const RemoveFieldsObjetivos = (index) =>{
-      const values = [...inputCriterios];
-      values.splice(index,1);
-      setinputCriterios(values);
-  }
-  const AddFieldsActividades = () =>{
-    setinputCriterios([...inputCriterios,{Nombre: '', Descripcion: '', Puntaje:'',}])
-  }
-  const RemoveFieldsActividades = (index) =>{
-      const values = [...inputCriterios];
-      values.splice(index,1);
-      setinputCriterios(values);
-  }
-//===================================METODOLOGÍA================================================
+    //=========================================METODOLOGÍA====================================================
 const handleAddFields = () =>{
   setInputField([...inputFields,{Second: ''}])
 }
@@ -215,6 +181,23 @@ function EnviarDescripcion(){
       })
     }
   }
+//=========================================EVALUACION====================================================
+  const AddFieldsEvaluacion = () =>{
+    setinputEvaluacion([...inputEvaluacion,{Nombre: ''}])
+  }
+  const RemoveFieldsEvaluacion = (index) =>{
+      const values = [...inputEvaluacion];
+      values.splice(index,1);
+      setinputEvaluacion(values);
+  }  
+  const AddFieldsCriterios = () =>{
+    setinputCriterios([...inputCriterios,{Nombre: '', Descripcion: '', Puntaje:'',}])
+  }
+  const RemoveFieldsCriterios = (index) =>{
+      const values = [...inputCriterios];
+      values.splice(index,1);
+      setinputCriterios(values);
+  }
 
   function EnviarEvaluacion(){
     if (1 == 1){
@@ -273,6 +256,81 @@ function EnviarDescripcion(){
     }
   }
 
+
+//=========================================OBJETIVOS====================================================
+  const AddFieldsObjetivos = () =>{
+    setinputCriterios([...inputCriterios,{Descripcion: ''}])
+  }
+  const RemoveFieldsObjetivos = (index) =>{
+      const values = [...inputCriterios];
+      values.splice(index,1);
+      setinputCriterios(values);
+  }
+  const AddFieldsActividades = () =>{
+    setinputActividades([...inputActividades,{Descripcion: ''}])
+  }
+  const RemoveFieldsActividades = (index) =>{
+      const values = [...inputActividades];
+      values.splice(index,1);
+      setinputCriterios(values);
+  }
+  function EnviarObjetivo(){
+    if (1 == 1){
+      let id = 2;
+
+      fetch('/informe/crear_objetivo/'+id.toString(),{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          descripcion: DescripcionObjetivo
+        })
+
+      })
+      .then((response) => {
+
+        if(response.status !== 404){
+
+          return response.json()
+        }else{
+          console.log("ERROR 404")
+        }
+      })
+    }
+  }
+
+  function EnviarActividades(){
+    if (1 == 1){
+      let id = 2;
+
+      fetch('/informe/crear_actividad/'+id.toString(),{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          descripcion: DescripcionActividad
+        })
+
+      })
+      .then((response) => {
+
+        if(response.status !== 404){
+
+          return response.json()
+        }else{
+          console.log("ERROR 404")
+        }
+      })
+    }
+  }
+
+
+
+//=========================================ANALISIS====================================================  
   function EnviarAnalisis(){
     if (1 == 1){
       let id = 2;
@@ -300,6 +358,8 @@ function EnviarDescripcion(){
       })
     }
   }
+
+//===================================================================================================================
       return(
         <DashboardLayout>
         <DashboardNavbar />
@@ -509,7 +569,9 @@ function EnviarDescripcion(){
                   value = {event => setDescripcionActividad(event.target.value)}            
               />
 
-
+              <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarObjetivo}>
+                Guardar
+              </SuiButton>
 
             </SuiBox>
           </TabPanel>
