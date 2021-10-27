@@ -19,7 +19,7 @@ import typography from "assets/theme/base/typography";
 import { Confirm,} from 'react-st-modal';
 import { useHistory } from "react-router-dom";
 import SuiInput from "components/SuiInput";
-import { CustomDialog, useDialog } from 'react-st-modal';
+import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -103,9 +103,12 @@ export default function Profesionales() {
     aux[4]=event.target.checked;
   };
 
-  const [rut, setRut] = useState('');
-  const dialog = useDialog();
-  const [value, setValue] = useState();
+  const [rut, setRut] = useState();
+  const [nombre, setNombre] = useState();
+  const [email, setEmail] = useState();
+  const [telefono, setTelefono] = useState();
+  const [especialidad, setEspecialidad] = useState();
+  
 
   function Checks({rut, p1,p2,p3,p4,p5}){
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -177,24 +180,84 @@ function Texto({rut}){
     )
   }
 
-  function CustomDialogContent(){
+  function Formulario(){
     return(
       <>
-      <input
-        type="text"
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-      />
-      <button
-        onClick={() => {
-          // Сlose the dialog and return the value
-          dialog.close(value);
-        }}
-      >
-        Custom button
-      </button>
-    </>
+      <Grid container spacing={3}display="row">
+        <Grid item xs={6}>
+        <label>Rut: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+          type="text"
+          name="rut"
+          display="flex"
+          onChange={(e) => {
+            setRut(e.target.value);
+          }}/>
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Nombre: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="nombre"
+            display="flex"
+            onChange={(e) => {
+              setNombre(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+        <label>Teléfono: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="telefono"
+            display="flex"
+            onChange={(e) => {
+              setTelefono(e.target.value);
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Email: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="email"
+            display="flex"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Especialidad: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="especialidad"
+            display="flex"
+            onChange={(e) => {
+              setEspecialidad(e.target.value);
+            }}
+          />
+        </Grid>
+      </Grid>
+      </>
     )
   }
 
@@ -203,21 +266,24 @@ function Texto({rut}){
     return(
       <SuiButton buttonColor="info" 
             onClick={async () => {
-              const result = await CustomDialog(<CustomDialogContent />, 
-                {
-                  title: 'Edición usuario ',
-                  showCloseIcon: true,
-                });
-
+              const result = await Confirm(<Formulario/>, 
+                'Edición usuario ');
+              if (result) {
+                //nopaisnd
+              } else {
+                // Сonfirmation not confirmed
+              }
             }}
       >
-        Agregar 
+        Agregar Profesional
         <Icon className="material-icons-round" color="inherit" fontSize="inherit">
           add
         </Icon>
       </SuiButton>
     )
   }
+
+
 
   function ActualizarEmpleados(){
     if (Listo == 0){
