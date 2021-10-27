@@ -18,6 +18,8 @@ import Icon from "@material-ui/core/Icon";
 import typography from "assets/theme/base/typography";
 import { Confirm,} from 'react-st-modal';
 import { useHistory } from "react-router-dom";
+import SuiInput from "components/SuiInput";
+import { CustomDialog, useDialog } from 'react-st-modal';
 /*npm install @mui/material @emotion/react @emotion/styled*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -101,6 +103,10 @@ export default function Profesionales() {
     aux[4]=event.target.checked;
   };
 
+  const [rut, setRut] = useState('');
+  const dialog = useDialog();
+  const [value, setValue] = useState();
+
   function Checks({rut, p1,p2,p3,p4,p5}){
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   while(aux.length > 0) {
@@ -171,19 +177,41 @@ function Texto({rut}){
     )
   }
 
+  function CustomDialogContent(){
+    return(
+      <>
+      <input
+        type="text"
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          // Сlose the dialog and return the value
+          dialog.close(value);
+        }}
+      >
+        Custom button
+      </button>
+    </>
+    )
+  }
+
+
   function BotonAgregar(){
     return(
-      <SuiButton buttonColor="info" iconOnly
+      <SuiButton buttonColor="info" 
             onClick={async () => {
-              const result = await Confirm('<p>hola<p/>', 
-                'Edición usuario ');
-              if (result) {
-                //nopaisnd
-              } else {
-                // Сonfirmation not confirmed
-              }
+              const result = await CustomDialog(<CustomDialogContent />, 
+                {
+                  title: 'Edición usuario ',
+                  showCloseIcon: true,
+                });
+
             }}
       >
+        Agregar 
         <Icon className="material-icons-round" color="inherit" fontSize="inherit">
           add
         </Icon>
@@ -296,17 +324,17 @@ function Texto({rut}){
       <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Privilegios" {...a11yProps(0)}/>
-            <Tab label="Datos" {...a11yProps(1)}/>
+            <Tab label="Datos" {...a11yProps(0)}/>
+            <Tab label="Privilegios" {...a11yProps(1)}/>
           </Tabs>
           <Card>
           <TabPanel value={tabValue} index={0}>
             <BotonAgregar/>
-            <SuiBox customClass={classes.tables_table}>
-            <Table columns={columns} rows={rows} />
-            </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
+            <SuiBox customClass={classes.tables_table}>
+              <Table columns={columns} rows={rows} />
+            </SuiBox>
           </TabPanel>
           </Card>
         </SuiBox>
