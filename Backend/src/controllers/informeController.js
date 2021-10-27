@@ -374,29 +374,32 @@ informeController.postEditarInforme = (req, res) => {
 }
 
 informeController.getEditarMetodologia = (req, res) => {
-  let id_informe = req.params.id_informe;
+  let id_metodologia = req.body.id_metodologia;
   let descripcion = req.body.descripcion;
 
-  pool.query('UPDATE metodologia SET descripcion = $1 WHERE id_informe = $2', [descripcion, id_informe], (err) => {
+  pool.query('UPDATE metodologia SET descripcion = $1 WHERE id = $2', [descripcion, id_metodologia], (err) => {
     if(err){return res.sendStatus(200)}
     return res.sendStatus(200);
   })
 }
 
 informeController.getEditarSesion = (req, res) => {
-  let id_informe = 1;
+  let id_sesion = req.body.id_sesion;
+  let nombre = req.body.nombre;
+  let descripcion = req.body.descripcion;
 
-  pool.query('UPDATE sesion SET nombre = $1, descripcion = $2 WHERE sesion.id_metodolsesion.id_metodologia = metodologia.id AND metodologia.id_informe = $1', [id_informe], (err, result) => {
+  pool.query('UPDATE sesion SET nombre = $1, descripcion = $2 WHERE id = $3', [nombre, descripcion, id_sesion], (err, result) => {
     if(err){return res.sendStatus(200)}
     let sesion = result.rows;
     return res.json(sesion)
   })
 }
 
-informeController.getEvaluacion = (req, res) => {
-  let id_informe = 1;
+informeController.getEditarEvaluacion = (req, res) => {
+  let id_evaluacion = req.body.id_evaluacion;
+  let nombre = req.body.nombre;
 
-  pool.query('SELECT nombre FROM evaluacion WHERE id_informe = $1', [id_informe], (err, result) => {
+  pool.query('SELECT nombre FROM evaluacion WHERE id_informe = $1', [nombre, id_evaluacion], (err, result) => {
     if(err){return res.sendStatus(200)}
     let evaluacion = result.rows;
     return res.json(evaluacion)

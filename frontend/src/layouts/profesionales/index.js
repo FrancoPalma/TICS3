@@ -18,6 +18,8 @@ import Icon from "@material-ui/core/Icon";
 import typography from "assets/theme/base/typography";
 import { Confirm,} from 'react-st-modal';
 import { useHistory } from "react-router-dom";
+import SuiInput from "components/SuiInput";
+import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,8 +46,6 @@ function a11yProps(index) {
   };
 }
 
-
-
 function Check({boleano}){
   const { size } = typography;
   if(boleano){
@@ -68,7 +68,6 @@ function Check({boleano}){
 
   }
 }
-
 
 export default function Profesionales() {
   const hist = useHistory();
@@ -103,6 +102,13 @@ export default function Profesionales() {
   const handleChange4 = (event) => {
     aux[4]=event.target.checked;
   };
+
+  const [rut, setRut] = useState();
+  const [nombre, setNombre] = useState();
+  const [email, setEmail] = useState();
+  const [telefono, setTelefono] = useState();
+  const [especialidad, setEspecialidad] = useState();
+  
 
   function Checks({rut, p1,p2,p3,p4,p5}){
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -139,67 +145,183 @@ function Texto({rut}){
   )
 }
 
-function Boton({rut,p1,p2,p3,p4,p5}){
-  return(
-    <>
-    <button buttonColor="primary" iconOnly
-        onClick={async () => {
-          const result = await Confirm(<Checks rut={rut} p1={p1} p2={p2} p3={p3} p4={p4} p5={p5}/>, 
-            'Edición usuario '+rut.toString());
-          
-          if (result) {
-            EditarEmpleado(rut={rut})
-          } else {
-            // Сonfirmation not confirmed
-          }
-        }}
+  function Boton({rut,p1,p2,p3,p4,p5}){
+    return(
+      <>
+      <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Checks rut={rut} p1={p1} p2={p2} p3={p3} p4={p4} p5={p5}/>, 
+              'Edición usuario '+rut.toString());
+            
+            if (result) {
+              EditarEmpleado(rut={rut})
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">edit</Icon>
+        </SuiButton>
+        <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Texto rut={rut}/>, 
+              'Confirmación de eliminación'+rut.toString());
+            
+            if (result) {
+              EliminarEmpleado()
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">delete</Icon>
+        </SuiButton>
+      </>
+    )
+  }
+
+  function Formulario(){
+    return(
+      <>
+      <Grid container spacing={3}display="row">
+        <Grid item xs={6}>
+        <label>Rut: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+          type="text"
+          name="rut"
+          display="flex"
+          onChange={(e) => {
+            setRut(e.target.value);
+          }}/>
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Nombre: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="nombre"
+            display="flex"
+            onChange={(e) => {
+              setNombre(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+        <label>Teléfono: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="telefono"
+            display="flex"
+            onChange={(e) => {
+              setTelefono(e.target.value);
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Email: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="email"
+            display="flex"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Especialidad: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="especialidad"
+            display="flex"
+            onChange={(e) => {
+              setEspecialidad(e.target.value);
+            }}
+          />
+        </Grid>
+      </Grid>
+      </>
+    )
+  }
+
+
+  function BotonAgregar(){
+    return(
+      <SuiButton buttonColor="info" 
+            onClick={async () => {
+              const result = await Confirm(<Formulario/>, 
+                'Edición usuario ');
+              if (result) {
+                //nopaisnd
+              } else {
+                // Сonfirmation not confirmed
+              }
+            }}
       >
-          <Icon classsName="material-icons-round">edit</Icon>
-      </button>
-      <button buttonColor="primary" iconOnly
-        onClick={async () => {
-          const result = await Confirm(<Texto rut={rut}/>, 
-            'Confirmación de eliminación'+rut.toString());
-          
-          if (result) {
-            EliminarEmpleado()
-          } else {
-            // Сonfirmation not confirmed
-          }
-        }}
-      >
-          <Icon classsName="material-icons-round">delete</Icon>
-      </button>
-    </>
-  )
-}
+        Agregar Profesional
+        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
+          add
+        </Icon>
+      </SuiButton>
+    )
+  }
+
+
 
   function ActualizarEmpleados(){
-    console.log("Corre")
-    while(rows.length > 0) {
+    if (Listo == 0){
+      console.log("Corre")
+      while(rows.length > 0) {
       rows.pop();
+      }
+      fetch('/usuario/ver_privilegios')
+        .then(res => {
+            return res.json()
+        })
+        .then(users => {
+          
+
+          for(let i=0; i < users.length;i++){
+            let aux = true;
+            for(let e=0;e < rows.length;e++){
+              if(users[i].rut == rows[e].rut){
+                aux=false;
+              }
+            }
+            if(aux == true){
+              rows.push({nombre:users[i].nombre,
+                rut: users[i].rut,
+                evaluación: <Check boleano={ users[i].gestion_evaluacion}/>,
+                ficha: <Check boleano={users[i].gestion_ficha}/>,
+                infante: <Check boleano={users[i].gestion_infante}/>,
+                privilegios: <Check boleano={users[i].gestion_priv}/>,
+                usuario: <Check boleano={users[i].gestion_usuario}/>,
+                acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario}/>
+              })
+            }
+          }
+          setListo(1);
+        });
+
     }
-    fetch('/usuario/ver_privilegios')
-      .then(res => {
-          return res.json()
-      })
-      .then(users => {
-        let aux;
-        for(let i=0; i < users.length;i++){
-          aux = [];
-          rows.push({nombre:users[i].nombre,
-            rut: users[i].rut,
-            evaluación: <Check boleano={ users[i].gestion_evaluacion}/>,
-            ficha: <Check boleano={users[i].gestion_ficha}/>,
-            infante: <Check boleano={users[i].gestion_infante}/>,
-            privilegios: <Check boleano={users[i].gestion_priv}/>,
-            usuario: <Check boleano={users[i].gestion_usuario}/>,
-            acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario}/>
-          })
-        }
-        setListo(1);
-      });
-    }
+  }
   
   function EditarEmpleado() {
     let regex = new RegExp("^[a-z A-Z]+$");
@@ -227,6 +349,7 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .then( (response) => {
         if(response.status === 201) {
             console.log("Editado correctamente")
+            window.location.href = window.location.href;
         } else {
             console.log('Hubo un error')
             console.log(response.status)
@@ -235,7 +358,6 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .catch((error) => {
         console.log(error)
     });
-    window.location.href = window.location.href;
   }
 
   function EliminarEmpleado() {
@@ -252,6 +374,7 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .then( (response) => {
         if(response.status === 201) {
             console.log("Eliminado correctamente")
+            window.location.href = window.location.href;
         } else {
             console.log('Hubo un error')
         }
@@ -260,8 +383,6 @@ function Boton({rut,p1,p2,p3,p4,p5}){
         console.log(error)
     });
   }
-
-
   if(Listo === 1){
   return (
     <DashboardLayout>
@@ -269,29 +390,17 @@ function Boton({rut,p1,p2,p3,p4,p5}){
       <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Privilegios" {...a11yProps(0)}/>
-            <Tab label="Datos" {...a11yProps(1)}/>
+            <Tab label="Datos" {...a11yProps(0)}/>
+            <Tab label="Privilegios" {...a11yProps(1)}/>
           </Tabs>
           <Card>
           <TabPanel value={tabValue} index={0}>
-            <SuiBox customClass={classes.tables_table}>
-            <Table columns={columns} rows={rows} />
-            <button buttonColor="primary" iconOnly
-            onClick={async () => {
-          const result = await Confirm(<Texto rut={1}/>, 
-            'Confirmación de eliminación');
-          
-          if (result) {
-            EliminarEmpleado()
-          } else {
-            // Сonfirmation not confirmed
-          }
-        }}
-      >
-      </button>
-            </SuiBox>
+            <BotonAgregar/>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
+            <SuiBox customClass={classes.tables_table}>
+              <Table columns={columns} rows={rows} />
+            </SuiBox>
           </TabPanel>
           </Card>
         </SuiBox>
