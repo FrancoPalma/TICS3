@@ -133,25 +133,28 @@ insert into jardin(id)
 values (0);
 
 insert into infante(id_jardin, rut, nombre, fecha_nacimiento)
-values(1,'12345678-9', 'Juanito Perez', '1999-01-12');
+values (1,'12345678-9', 'Juanito Perez', '1999-01-12');
+
+insert into informe(rut_usuario, rut_infante, fecha, completado)
+values (1, '12345678-9', '2021-12-27', false);
 
 insert into metodologia(id_informe, descripcion)
-values (2, 'orem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis, arcu id accumsan maximus, ante nulla luctus nunc, at accumsan tellus nisl ac lacus. Proin ut consequat nulla. Ut eu est sed ligula consequat hendrerit. Ut quis ullamcorper ipsum, et tincidunt ligula. Suspendisse nec nunc in nunc viverra blandit. Nam turpis ipsum, auctor vel consequat ');
+values (14, 'orem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis, arcu id accumsan maximus, ante nulla luctus nunc, at accumsan tellus nisl ac lacus. Proin ut consequat nulla. Ut eu est sed ligula consequat hendrerit. Ut quis ullamcorper ipsum, et tincidunt ligula. Suspendisse nec nunc in nunc viverra blandit. Nam turpis ipsum, auctor vel consequat ');
 
 insert into evaluacion(id_informe, nombre)
-values (2, 'Evaluación auditiva');
+values (14, 'Evaluación auditiva');
 
 insert into evaluacion(id_informe, nombre)
-values (2, 'Evaluación motora');
+values (14, 'Evaluación motora');
 
 insert into objetivo(id_informe, descripcion)
-values (2, 'Mover el bote en todas las discos prrraaa');
+values (14, 'Mover el bote en todas las discos prrraaa');
 
 insert into objetivo(id_informe, descripcion)
-values (2, 'Mover el bote en todas las discos prrraaa');
+values (14, 'Mover el bote en todas las discos prrraaa');
 
 insert into analisis(id_informe, conclusion, recomendacion)
-values (2, 'n elementum neque nec laoreet varius. Curabitur semper mattis nisi, in posuere leo tempus id. Cras vulputate, neque ut ornare facilisis, leo nunc accumsan diam, ac lacinia libero odio at diam. Ut elementum varius velit, et tempor felis vestibulum ut. Mauris ut nisl eu velit consectetur iaculis vel at m', 'n elementum neque nec laoreet varius. Curabitur semper mattis nisi, in posuere leo tempus id. Cras vulputate, neque ut ornare facilisis, leo nunc accumsan diam, ac lacinia libero odio at diam. Ut elementum varius velit, et tempor felis vestibulum ut. Mauris ut nisl eu velit consectetur iaculis vel at m');
+values (14, 'n elementum neque nec laoreet varius. Curabitur semper mattis nisi, in posuere leo tempus id. Cras vulputate, neque ut ornare facilisis, leo nunc accumsan diam, ac lacinia libero odio at diam. Ut elementum varius velit, et tempor felis vestibulum ut. Mauris ut nisl eu velit consectetur iaculis vel at m', 'n elementum neque nec laoreet varius. Curabitur semper mattis nisi, in posuere leo tempus id. Cras vulputate, neque ut ornare facilisis, leo nunc accumsan diam, ac lacinia libero odio at diam. Ut elementum varius velit, et tempor felis vestibulum ut. Mauris ut nisl eu velit consectetur iaculis vel at m');
 
 insert into sesion(id_metodologia, nombre, descripcion)
 values (1, 'Primera sesion', 'Aenean vitae tortor erat. Fusce ut elementum nulla, sit amet tempor nisi. Vivamus sit amet ullamcorper tortor. Duis bibendum facilisis blandit. Sed finibus facilisis malesuada. ');
@@ -178,7 +181,22 @@ insert into actividad(id_objetivo, descripcion)
 values (1, 'Twerk every day');
 
 insert into actividad(id_objetivo, descripcion)
+values (1, 'm quis diam finibus, vel semper urna dapibus. Praesent sodales at diam id efficitur. Proin consequat dignissim tortor, et tincidunt ligula ultrices eu. Sed sit amet dapibus te');
+
+insert into actividad(id_objetivo, descripcion)
+values (1, 'm quis diam finibus, vel semper urna dapibus. Praesent sodales at diam id efficitur. Proin consequat dignissim tortor, et tincidunt ligula ultrices eu. Sed sit amet dapibus te');
+
+insert into actividad(id_objetivo, descripcion)
 values (2, 'm quis diam finibus, vel semper urna dapibus. Praesent sodales at diam id efficitur. Proin consequat dignissim tortor, et tincidunt ligula ultrices eu. Sed sit amet dapibus te');
 
 insert into actividad(id_objetivo, descripcion)
 values (2, 'm quis diam finibus, vel semper urna dapibus. Praesent sodales at diam id efficitur. Proin consequat dignissim tortor, et tincidunt ligula ultrices eu. Sed sit amet dapibus te');
+
+
+DROP TABLE sesion;
+DROP TABLE criterio;
+DROP TABLE actividad;
+DROP TABLE metodologia;
+DROP TABLE evaluacion; 
+DROP TABLE objetivo;
+DROP TABLE analisis;
