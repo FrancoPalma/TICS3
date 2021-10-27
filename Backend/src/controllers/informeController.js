@@ -139,28 +139,11 @@ informeController.prueba = async (req, res) => {
 
 informeController.getDescargarInforme = async (req, res) => {
 
-  let id_informe = 2;
+  let id_informe = 14;
 
-  let infante = await pool.query('SELECT informe.rut_infante, infante.nombre FROM informe, infante WHERE informe.rut_infante = infante.rut AND informe.id = $1', [id_informe])
+  let infante = await pool.query('SELECT informe.rut_infante, infante.nombre FROM informe, infante WHERE informe.id = $1', [id_informe])
   infante = infante.rows[0]
-
-  let metodologia = await pool.query('SELECT id, descripcion FROM metodologia WHERE id_informe = $1', [id_informe])
-  metodologia = metodologia.rows[0]  
- /*
-  let objetivo = await pool.query('SELECT id, nombre FROM objetivo WHERE id_informe = $1', [informe.id])
-  objetivo = objetivo.rows[0]
-  
-  let analisis = await pool.query('SELECT conclusion, recomendacion FROM analisis WHERE id_informe = $1', [informe.id])
-  analisis = analisis.rows[0]
-
-  let sesion = await pool.query('SELECT nombre, descripcion FROM sesion WHERE id_metodologia = $1', [metodologia.id])
-  sesion = sesion.rows
-
-  let criterio = await pool.query('SELECT nombre, descripcion, puntaje FROM criterio WHERE id_evaluacion = $1', [evaluacion.id])
-  criterio = criterio.rows
-
-  let actividad = await pool.query('SELECT descripcion FROM actividad WHERE descripcion = $1', [objetivo.id])
-  actividad = actividad.rows*/
+  console.log(infante)
 
   const doc = new PDF({bufferPages: true});
 
@@ -181,21 +164,25 @@ informeController.getDescargarInforme = async (req, res) => {
   doc.font('Helvetica-Bold').text('Fecha: ', {continued: true}).font('Helvetica').text(informe.fecha);
   doc.text('\n')
 
+  let metodologia = await pool.query('SELECT metodologia.descripcion as metodologia, ARRAY_AGG(sesion.nombre) as nombre, ARRAY_AGG(sesion.descripcion) as descripcion FROM metodologia, sesion WHERE sesion.id_metodologia = metodologia.id AND metodologia.id_informe = $1 GROUP BY metodologia.descripcion', [id_informe])
+  metodologia = metodologia.rows[0];
+
   doc.fontSize(18).font('Helvetica-Bold').text('Metodología de evaluación', {align:'center'})
   doc.fontSize(12).text('\n')
-  doc.fontSize(12).font('Helvetica').text(metodologia.descripcion, {align: 'justify'});
+  doc.fontSize(12).font('Helvetica').text(metodologia.metodologia, {align: 'justify'});
   doc.text('\n');
-/*
+
   doc.fontSize(12).text('\n')
   doc.fontSize(14).font('Helvetica-Bold').text('Sesiones');
   doc.fontSize(12).text('\n');
-  for(let i=1; i<= sesion.length; i++){
-    doc.font('Helvetica-Bold').text('Sesión '+i+':', {continued: true}).font('Helvetica').text(sesion[i].descripcion);
+  for(let i=0; i< metodologia.nombre.length; i++){
+    doc.font('Helvetica-Bold').text(metodologia.nombre[i]+': ', {continued: true}).font('Helvetica').text(metodologia.descripcion[i]);
     doc.text('\n')
   }
-*/
-  let evaluacion = await pool.query('SELECT evaluacion.nombre, ARRAY_AGG(criterio.nombre) as criterio, ARRAY_AGG(criterio.descripcion) as descripcion, ARRAY_AGG(criterio.puntaje) as puntaje FROM evaluacion, criterio WHERE evaluacion.id = criterio.id_evaluacion AND evaluacion.id_informe = $1 GROUP BY evaluacion.nombre', [2])
-  evaluacion = evaluacion.rows  
+
+  let evaluacion = await pool.query('SELECT evaluacion.id, evaluacion.nombre, ARRAY_AGG(criterio.nombre) as criterio, ARRAY_AGG(criterio.descripcion) as descripcion, ARRAY_AGG(criterio.puntaje) as puntaje FROM evaluacion, criterio WHERE evaluacion.id = criterio.id_evaluacion AND evaluacion.id_informe = $1 GROUP BY evaluacion.id, evaluacion.nombre', [id_informe])
+  evaluacion = evaluacion.rows
+
   doc.addPage()
   doc.fontSize(18).font('Helvetica-Bold').text('Evaluaciones', {align:'center'})
   for(let i=0; i<evaluacion.length; i++){
@@ -208,86 +195,39 @@ informeController.getDescargarInforme = async (req, res) => {
       doc.text('\n')
     }
   }
+
+  let analisis = await pool.query('SELECT conclusion, recomendacion FROM analisis WHERE id_informe = $1', [id_informe])
+  analisis = analisis.rows[0]
   
+  doc.addPage()
+  doc.fontSize(18).font('Helvetica-Bold').text('Análisis y conclusión de evaluaciones', {align:'center'})
+  doc.text('\n');
+  doc.fontSize(12).font('Helvetica').text(analisis.conclusion, {align: 'justify'});
+  doc.text('\n');
+
+  let objetivo = await pool.query('SELECT objetivo.id, objetivo.descripcion, ARRAY_AGG(actividad.descripcion) as actividad FROM objetivo, actividad WHERE objetivo.id = actividad.id_objetivo AND objetivo.id_informe = $1 GROUP BY objetivo.id', [id_informe])
+  objetivo = objetivo.rows 
+  console.log(objetivo)
+  doc.addPage()
+  doc.fontSize(18).font('Helvetica-Bold').text('Plan de intervención', {align:'center'})
+  for(let i=0; i<objetivo.length; i++){
+    doc.text('\n');
+    doc.fontSize(14).font('Helvetica-Bold').text('Objetivo ' + i);
+    doc.fontSize(12).font('Helvetica').text(objetivo.descripcion, {align:'justify'});
+    doc.fontSize(12).text('\n');
+    doc.fontSize(12).font('Helvetica-Bold').text('Actividades respectivas:');
+    doc.font('Helvetica').list(objetivo[i].actividad, )
+    doc.text('\n');
+  }
+
+  doc.addPage()
+  doc.fontSize(18).font('Helvetica-Bold').text('Recomendaciones para el hogar', {align:'center'})
+  doc.fontSize(12).text('\n')
+  doc.fontSize(12).font('Helvetica').text(analisis.recomendacion, {align: 'justify'});
+  doc.text('\n');
+
   doc.end()
 };
-
-informeController.getInformePrueba = async (req, res) => {
-
-    const doc = new PDF({bufferPages: true});
-    
-    const stream = res.writeHead(200, {
-        'Content-Type': 'application/pdf',
-        'Content-disposition': 'attachment;filename=informe.pdf'
-    });
-
-    doc.on('data', (chunk) => stream.write(chunk),);
-    doc.on('end', () => stream.end(), (err) => {
-      if(err){return res.sendStatus(400)}
-    });
-
-    doc.fontSize(20).text('Evaluación de Terapia Ocupacional\n', {align: 'center'});
-    doc.fontSize(12).text('\n', {align: 'right'})
-    doc.fontSize(12).font('Helvetica-Bold').text('Nombre: ', {continued: true}).font('Helvetica').text('Francoco Chupa los Cocos');
-    doc.font('Helvetica-Bold').text('RUT: ', {continued: true}).font('Helvetica').text('12345678-9');
-    doc.font('Helvetica-Bold').text('Fecha: ', {continued: true}).font('Helvetica').text('12-10-2021');
-    doc.text('\n')
-
-    doc.fontSize(18).font('Helvetica-Bold').text('Metodología de evaluación', {align:'center'})
-    doc.fontSize(12).text('\n')
-    doc.fontSize(12).font('Helvetica').text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius ante metus, vitae sollicitudin urna vulputate vitae. Proin lacinia tortor nec nisi convallis, pulvinar aliquet turpis ultrices. Praesent convallis ornare nisl eu pharetra. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam ac elit nec risus congue scelerisque. Sed sagittis, sem scelerisque luctus commodo, libero velit egestas lorem, molestie tempus turpis eros nec odio. In pellentesque pretium vulputate. In et arcu tempus, tincidunt nisl sit amet, finibus libero. Aenean vitae diam id turpis suscipit ultricies vitae bibendum nulla.', {align: 'justify'});
-    doc.text('\n');
-
-    doc.fontSize(12).text('\n')
-    doc.fontSize(14).font('Helvetica-Bold').text('Sesiones');
-    doc.fontSize(12).text('\n');
-    for(let i=0; i<3; i++){
-      doc.font('Helvetica-Bold').text('Sesión '+i+':', {continued: true}).font('Helvetica').text('Bla bla bla');
-      doc.text('\n')
-    }
-
-    doc.addPage()
-    doc.fontSize(18).font('Helvetica-Bold').text('Evaluaciones', {align:'center'})
-    for(let i=0; i<2; i++){
-      doc.text('\n');
-      doc.fontSize(14).font('Helvetica-Bold').text('Evaluacion ' + i);
-      doc.fontSize(12).text('\n');
-      for(let i=0; i<3; i++){
-        doc.font('Helvetica-Bold').text('Criterio ' + i + ': ', {continued: true}).font('Helvetica').text(i*2)
-        doc.text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius ante metus, vitae sollicitudin urna vulputate vitae. Proin lacinia tortor nec nisi convallis, pulvinar aliquet turpis ultrices. Praesent convallis ornare nisl eu pharetra. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam ac elit nec risus congue scelerisque. Sed sagittis, sem scelerisque luctus commodo, libero velit egestas lorem, molestie tempus turpis eros nec odio. In pellentesque pretium vulputate. In et arcu tempus, tincidunt nisl sit amet, finibus libero. Aenean vitae diam id tur', {align: 'justify'})
-        doc.text('\n')
-      }
-    }
-
-    doc.addPage()
-    doc.fontSize(18).font('Helvetica-Bold').text('Análisis y conclusión de evaluaciones', {align:'center'})
-    doc.text('\n');
-    doc.fontSize(12).font('Helvetica').text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius ante metus, vitae sollicitudin urna vulputate vitae. Proin lacinia tortor nec nisi convallis, pulvinar aliquet turpis ultrices. Praesent convallis ornare nisl eu pharetra. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam ac elit nec risus congue scelerisque. Sed sagittis, sem scelerisque luctus commodo, libero velit egestas lorem, molestie tempus turpis eros nec odio. In pellentesque pretium vulputate. In et arcu tempus, tincidunt nisl sit amet, finibus libero. Aenean vitae diam id turpis suscipit ultricies vitae bibendum nulla.', {align: 'justify'});
-    doc.text('\n');
-
-    doc.addPage()
-    doc.fontSize(18).font('Helvetica-Bold').text('Plan de intervención', {align:'center'})
-
-    for(let i=0; i<2; i++){
-      doc.text('\n');
-      doc.fontSize(14).font('Helvetica-Bold').text('Objetivo ' + i);
-      doc.fontSize(12).font('Helvetica').text('orem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius ante metus, vitae sollicitudin urna vulputate vitae. Proin lacinia tortor nec nisi convallis, pulvinar aliquet turpis ultrices. Praesent convallis ornare nisl eu pharetra. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam ac elit nec risus congue scelerisque. Sed sagittis, sem scelerisque luctus commodo, libero velit egestas lorem, molestie tempus turpis eros nec odio. In pellentesque pretium vulputate. In et arcu tempus, tincidunt nisl sit amet, finibus libero. Aenean vitae diam id turpis suscipit ultricies vitae bibendum n', {align:'justify'});
-      doc.fontSize(12).text('\n');
-      doc.fontSize(12).font('Helvetica-Bold').text('Actividades respectivas:');
-      doc.font('Helvetica').list(['rem, molestie tempus turpis eros nec odio. In pellencu tem','rem, molestie tempus turpis eros nec odio. In pellencu tem', 'rem, molestie tempus turpis eros nec odio. In pellencu tem'], )
-      doc.text('\n');
-    }
-
-    doc.addPage()
-    doc.fontSize(18).font('Helvetica-Bold').text('Recomendaciones para el hogar', {align:'center'})
-    doc.fontSize(12).text('\n')
-    doc.fontSize(12).font('Helvetica').text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius ante metus, vitae sollicitudin urna vulputate vitae. Proin lacinia tortor nec nisi convallis, pulvinar aliquet turpis ultrices. Praesent convallis ornare nisl eu pharetra. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam ac elit nec risus congue scelerisque. Sed sagittis, sem scelerisque luctus commodo, libero velit egestas lorem, molestie tempus turpis eros nec odio. In pellentesque pretium vulputate. In et arcu tempus, tincidunt nisl sit amet, finibus libero. Aenean vitae diam id turpis suscipit ultricies vitae bibendum nulla.', {align: 'justify'});
-    doc.text('\n');
-
-    doc.end();
-
-
-  }
 
 informeController.postEliminarInforme = (req,res) => {
   let id_informe = req.params.id_informe;
@@ -338,23 +278,168 @@ informeController.getEliminarInforme = (req, res) => {
   res.render('prueba')
 }
 
-informeController.getInforme = (req, res) => {
-  let id_informe = 1;
+//-----------------VER----------------------
+
+informeController.getVerInforme = (req, res) => {
+  let id_informe = req.params.id_informe;
 
   pool.query('SELECT id, fecha, completado FROM informe WHERE id = $1', [id_informe], (err, result) => {
-    if(err){return res.sendStatus(200)}
+    if(err){return res.sendStatus(404)}
     let informe = result.rows[0];
     return res.json(informe)
   })
 }
 
-informeController.getMetodologia = (req, res) => {
+informeController.getVerMetodologia = (req, res) => {
+  let id_informe = req.params.id_informe;
+
+  pool.query('SELECT id, descripcion FROM metodologia WHERE id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(404)}
+    let metodologia = result.rows;
+    return res.json(metodologia)
+  })
+}
+
+informeController.getVerSesion = (req, res) => {
+  let id_informe = req.params.id_informe;
+
+  pool.query('SELECT sesion.id, sesion.nombre, sesion.descripcion FROM sesion, metodologia WHERE sesion.id_metodologia = metodologia.id AND metodologia.id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(404)}
+    let sesion = result.rows;
+    return res.json(sesion)
+  })
+}
+
+informeController.getVerEvaluacion = (req, res) => {
+  let id_informe = req.params.id_informe;
+
+  pool.query('SELECT id, nombre FROM evaluacion WHERE id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(404)}
+    let evaluacion = result.rows;
+    return res.json(evaluacion)
+  })
+}
+
+informeController.getVerCriterio = (req, res) => {
+  let id_informe = req.params.id_informe;
+
+  pool.query('SELECT criterio.id, criterio.nombre, criterio.descripcion, criterio.puntaje FROM criterio, evaluacion WHERE criterio.id_evaluacion = evaluacion.id AND evaluacion.id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(404)}
+    let evaluacion = result.rows;
+    return res.json(criterio)
+  })
+}
+
+informeController.getVerObjetivo = (req, res) => {
+  let id_informe = req.params.id_informe;
+
+  pool.query('SELECT id, descripcion FROM objetivo WHERE id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(404)}
+    let objetivo = result.rows;
+    return res.json(objetivo)
+  })
+}
+
+informeController.getVerActividad = (req, res) => {
+  let id_informe = req.params.id_informe;
+
+  pool.query('SELECT actividad.id, actividad.descripcion FROM actividad, objtetivo WHERE actividad.id_objetivo = objetivo.id AND objetivo.id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(404)}
+    let actividad = result.rows;
+    return res.json(actividad);
+  })
+}
+
+informeController.getVerAnalisis = (req, res) => {
+  let id_informe = req.params.id_informe;
+
+  pool.query('SELECT id, conclusion, recomendacion FROM analisis WHERE id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(404)}
+    let analisis = result.rows;
+    return res.json(analisis);
+  })
+}
+
+//----------------EDITAR---------------------
+
+informeController.postEditarInforme = (req, res) => {
+  let id_informe = req.params.id_informe;
+  let fecha = new Date().toISOString().slice(0, 10);
+  let completado = req.body.completado;
+
+  pool.query('UPDATE informe SET fecha = $1, completado = $2 WHERE id = $3', [fecha, completado, id_informe], (err) => {
+    if(err){return res.sendStatus(404)}
+    return res.sendStatus(200);
+  })
+}
+
+informeController.getEditarMetodologia = (req, res) => {
+  let id_informe = req.params.id_informe;
+  let descripcion = req.body.descripcion;
+
+  pool.query('UPDATE metodologia SET descripcion = $1 WHERE id_informe = $2', [descripcion, id_informe], (err) => {
+    if(err){return res.sendStatus(200)}
+    return res.sendStatus(200);
+  })
+}
+
+informeController.getEditarSesion = (req, res) => {
   let id_informe = 1;
 
-  pool.query('SELECT descripcion FROM metodologia WHERE id_informe = $1', [id_informe], (err, result) => {
+  pool.query('UPDATE sesion SET nombre = $1, descripcion = $2 WHERE sesion.id_metodolsesion.id_metodologia = metodologia.id AND metodologia.id_informe = $1', [id_informe], (err, result) => {
     if(err){return res.sendStatus(200)}
-    let metodologia = result.rows[0];
-    return res.json(metodologia)
+    let sesion = result.rows;
+    return res.json(sesion)
+  })
+}
+
+informeController.getEvaluacion = (req, res) => {
+  let id_informe = 1;
+
+  pool.query('SELECT nombre FROM evaluacion WHERE id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(200)}
+    let evaluacion = result.rows;
+    return res.json(evaluacion)
+  })
+}
+
+informeController.getCriterio = (req, res) => {
+  let id_informe = 1;
+
+  pool.query('SELECT criterio.nombre, criterio.descripcion, criterio.puntaje FROM criterio, evaluacion WHERE criterio.id_evaluacion = evaluacion.id AND evaluacion.id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(200)}
+    let evaluacion = result.rows;
+    return res.json(criterio)
+  })
+}
+
+informeController.getObjetivo = (req, res) => {
+  let id_informe = 1;
+
+  pool.query('SELECT descripcion FROM objetivo WHERE id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(200)}
+    let objetivo = result.rows;
+    return res.json(objetivo)
+  })
+}
+
+informeController.getActividad = (req, res) => {
+  let id_informe = 1;
+
+  pool.query('SELECT actividad.descripcion FROM actividad, objtetivo WHERE actividad.id_objetivo = objetivo.id AND objetivo.id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(200)}
+    let actividad = result.rows;
+    return res.json(actividad);
+  })
+}
+
+informeController.getAnalisis = (req, res) => {
+  let id_informe = 1;
+
+  pool.query('SELECT conclusion, recomendacion FROM analisis WHERE id_informe = $1', [id_informe], (err, result) => {
+    if(err){return res.sendStatus(200)}
+    let analisis = result.rows;
+    return res.json(analisis);
   })
 }
 
