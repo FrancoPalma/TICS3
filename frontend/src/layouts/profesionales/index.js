@@ -44,8 +44,6 @@ function a11yProps(index) {
   };
 }
 
-
-
 function Check({boleano}){
   const { size } = typography;
   if(boleano){
@@ -68,7 +66,6 @@ function Check({boleano}){
 
   }
 }
-
 
 export default function Profesionales() {
   const hist = useHistory();
@@ -139,67 +136,98 @@ function Texto({rut}){
   )
 }
 
-function Boton({rut,p1,p2,p3,p4,p5}){
-  return(
-    <>
-    <button buttonColor="primary" iconOnly
-        onClick={async () => {
-          const result = await Confirm(<Checks rut={rut} p1={p1} p2={p2} p3={p3} p4={p4} p5={p5}/>, 
-            'Edición usuario '+rut.toString());
-          
-          if (result) {
-            EditarEmpleado(rut={rut})
-          } else {
-            // Сonfirmation not confirmed
-          }
-        }}
+  function Boton({rut,p1,p2,p3,p4,p5}){
+    return(
+      <>
+      <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Checks rut={rut} p1={p1} p2={p2} p3={p3} p4={p4} p5={p5}/>, 
+              'Edición usuario '+rut.toString());
+            
+            if (result) {
+              EditarEmpleado(rut={rut})
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">edit</Icon>
+        </SuiButton>
+        <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Texto rut={rut}/>, 
+              'Confirmación de eliminación'+rut.toString());
+            
+            if (result) {
+              EliminarEmpleado()
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">delete</Icon>
+        </SuiButton>
+      </>
+    )
+  }
+
+  function BotonAgregar(){
+    return(
+      <SuiButton buttonColor="info" iconOnly
+            onClick={async () => {
+              const result = await Confirm('<p>hola<p/>', 
+                'Edición usuario ');
+              if (result) {
+                //nopaisnd
+              } else {
+                // Сonfirmation not confirmed
+              }
+            }}
       >
-          <Icon classsName="material-icons-round">edit</Icon>
-      </button>
-      <button buttonColor="primary" iconOnly
-        onClick={async () => {
-          const result = await Confirm(<Texto rut={rut}/>, 
-            'Confirmación de eliminación'+rut.toString());
-          
-          if (result) {
-            EliminarEmpleado()
-          } else {
-            // Сonfirmation not confirmed
-          }
-        }}
-      >
-          <Icon classsName="material-icons-round">delete</Icon>
-      </button>
-    </>
-  )
-}
+        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
+          add
+        </Icon>
+      </SuiButton>
+    )
+  }
 
   function ActualizarEmpleados(){
-    console.log("Corre")
-    while(rows.length > 0) {
+    if (Listo == 0){
+      console.log("Corre")
+      while(rows.length > 0) {
       rows.pop();
+      }
+      fetch('/usuario/ver_privilegios')
+        .then(res => {
+            return res.json()
+        })
+        .then(users => {
+          
+
+          for(let i=0; i < users.length;i++){
+            let aux = true;
+            for(let e=0;e < rows.length;e++){
+              if(users[i].rut == rows[e].rut){
+                aux=false;
+              }
+            }
+            if(aux == true){
+              rows.push({nombre:users[i].nombre,
+                rut: users[i].rut,
+                evaluación: <Check boleano={ users[i].gestion_evaluacion}/>,
+                ficha: <Check boleano={users[i].gestion_ficha}/>,
+                infante: <Check boleano={users[i].gestion_infante}/>,
+                privilegios: <Check boleano={users[i].gestion_priv}/>,
+                usuario: <Check boleano={users[i].gestion_usuario}/>,
+                acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario}/>
+              })
+            }
+          }
+          setListo(1);
+        });
+
     }
-    fetch('/usuario/ver_privilegios')
-      .then(res => {
-          return res.json()
-      })
-      .then(users => {
-        let aux;
-        for(let i=0; i < users.length;i++){
-          aux = [];
-          rows.push({nombre:users[i].nombre,
-            rut: users[i].rut,
-            evaluación: <Check boleano={ users[i].gestion_evaluacion}/>,
-            ficha: <Check boleano={users[i].gestion_ficha}/>,
-            infante: <Check boleano={users[i].gestion_infante}/>,
-            privilegios: <Check boleano={users[i].gestion_priv}/>,
-            usuario: <Check boleano={users[i].gestion_usuario}/>,
-            acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario}/>
-          })
-        }
-        setListo(1);
-      });
-    }
+  }
   
   function EditarEmpleado() {
     let regex = new RegExp("^[a-z A-Z]+$");
@@ -227,6 +255,7 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .then( (response) => {
         if(response.status === 201) {
             console.log("Editado correctamente")
+            window.location.href = window.location.href;
         } else {
             console.log('Hubo un error')
             console.log(response.status)
@@ -235,7 +264,6 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .catch((error) => {
         console.log(error)
     });
-    window.location.href = window.location.href;
   }
 
   function EliminarEmpleado() {
@@ -252,6 +280,7 @@ function Boton({rut,p1,p2,p3,p4,p5}){
     .then( (response) => {
         if(response.status === 201) {
             console.log("Eliminado correctamente")
+            window.location.href = window.location.href;
         } else {
             console.log('Hubo un error')
         }
@@ -260,8 +289,6 @@ function Boton({rut,p1,p2,p3,p4,p5}){
         console.log(error)
     });
   }
-
-
   if(Listo === 1){
   return (
     <DashboardLayout>
@@ -274,21 +301,9 @@ function Boton({rut,p1,p2,p3,p4,p5}){
           </Tabs>
           <Card>
           <TabPanel value={tabValue} index={0}>
+            <BotonAgregar/>
             <SuiBox customClass={classes.tables_table}>
             <Table columns={columns} rows={rows} />
-            <button buttonColor="primary" iconOnly
-            onClick={async () => {
-          const result = await Confirm(<Texto rut={1}/>, 
-            'Confirmación de eliminación');
-          
-          if (result) {
-            EliminarEmpleado()
-          } else {
-            // Сonfirmation not confirmed
-          }
-        }}
-      >
-      </button>
             </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
