@@ -69,6 +69,11 @@ function a11yProps(index) {
     const [tabValue, setTabValue] = useState(0);
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
     const [Listo, setListo] = useState(0);
+    setListo(1);
+    console.log(Listo);
+    console.log(Listo);
+ 
+
 
     //METODOLOGÍA
     const [descripcion, setdescripcion] = useState('');
@@ -113,7 +118,10 @@ function a11yProps(index) {
     ]);
 
     const [inputEvaluacion, setinputEvaluacion] = useState([
-      {Nombre: ''}
+      {Nombre: ''},
+      {Nombre_Criterio: ''},
+      {Descripcion: ''},
+      {Puntaje: ''}
     ]);
 
 
@@ -182,7 +190,8 @@ function EnviarDescripcion(){
   }
 //=========================================EVALUACION====================================================
   const AddFieldsEvaluacion = () =>{
-    setinputEvaluacion([...inputEvaluacion,{Nombre: ''}])
+    setinputEvaluacion([...inputEvaluacion,      
+    {Nombre: ''},])
   }
   const RemoveFieldsEvaluacion = (index) =>{
       const values = [...inputEvaluacion];
@@ -359,6 +368,8 @@ function EnviarDescripcion(){
   }
 
 //===================================================================================================================
+
+      if(Listo === 1){
       return(
         <DashboardLayout>
         <DashboardNavbar />
@@ -554,6 +565,10 @@ function EnviarDescripcion(){
 
             </div>
             ) )}        
+
+              <SuiButton buttonColor="info" onClick={(event) => setListo(Listo+1)}>
+                Boton
+              </SuiButton>
            
             </SuiBox>
             </TabPanel>
@@ -646,6 +661,297 @@ function EnviarDescripcion(){
       <Footer />
     </DashboardLayout>
   );}
+
+
+  if (Listo === 2){
+    return(
+      <DashboardLayout>
+      <DashboardNavbar />
+      <SuiBox py={3}>
+        <SuiBox mb={3}>
+        <h1>Informe de evaluación de infante</h1>
+        <Tabs value={tabValue} onChange={handleSetTabValue}>
+          <Tab label="Metodología" {...a11yProps(0)}/>
+          <Tab label="Evaluación" {...a11yProps(1)}/>
+          <Tab label="Objetivos" {...a11yProps(2)}/>
+          <Tab label="Analisis" {...a11yProps(3)}/>
+        </Tabs>
+
+        <SuiTypography variant="h6"></SuiTypography>
+          <Card>
+
+
+
+           
+          <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={3}>
+
+          <TabPanel value={tabValue} index={0}>
+          <Grid container direction={"column"} spacing={5}>
+            <Grid item>
+          <h2>Descripción de la Metodología</h2>
+          <TextField
+            label="Metodología"
+            variant = "outlined"
+            fullWidth
+            multiline
+            rows={10}
+            required
+            onChange = {event => setdescripcion(event.target.value)}         
+          />
+
+      <SuiBox display="flex" mt={4} mb={1}>
+        <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarDescripcion}>
+          Guardar
+        </SuiButton>
+     
+      </SuiBox>
+      </Grid>
+      <Grid item>
+      <h2>Sesión</h2>
+        {inputFields.map((inputField,index)=>(
+          <div key= {index}>
+            <SuiBox>
+
+            <Grid container direction={"column"} spacing={5}>
+            <Grid item>
+            <TextField 
+                name= "Nombre"
+                placeholder = "Nombre"
+                label="Nombre"
+                variant = "outlined"
+                fullWidth
+                multiline
+                required   
+                value={inputField.second}
+                onChange = {event => setNombreSesion(event.target.value)}   
+              />
+              </Grid>
+              <Grid item>
+              <TextField 
+                name= "Descripción"
+                placeholder = "Descripción"
+                label="Descripción"
+                variant = "outlined"
+                fullWidth
+                multiline
+                rows={5}
+                required   
+                value={inputField.first}
+                onChange = {event => setDescripcionSesion(event.target.value)}   
+              />
+              </Grid>
+              </Grid>
+
+              <IconButton onClick={() => handleRemoveFields(index)}>
+                <RemoveIcon color="secondary"/>
+              </IconButton>
+          
+              <IconButton onClick={() => handleAddFields()}>
+                <AddIcon color="primary"/>
+              </IconButton>            
+            </SuiBox>
+          
+            <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarSesion}>
+              Guardar
+            </SuiButton>
+
+          </div>
+          ) )}         
+          </Grid>     
+          </Grid>
+          </TabPanel>
+          </SuiBox>
+          
+          
+
+
+
+
+
+
+          <TabPanel value={tabValue} index={1}>
+
+          <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
+
+            <h2>Nombre de la Evaluación</h2>
+            {inputEvaluacion.map((inputEvaluacion,index)=>(
+              <div key= {index}>
+            <SuiTypography variant="h6"></SuiTypography>
+              <TextField
+                label="Nombre Evaluación"
+                variant = "outlined"
+                fullWidth
+                multiline
+                rows={5}
+                required            
+                onChange = {event => setnombreEvaluacion(event.target.value)}         
+              />
+              <IconButton onClick={() => RemoveFieldsEvaluacion(index)}>
+                <RemoveIcon color="secondary"/>
+              </IconButton>
+          
+              <IconButton onClick={() => AddFieldsEvaluacion()}>
+                <AddIcon color="primary"/>
+              </IconButton>  
+              </div>
+          ) )}  
+            <SuiBox display="flex" mt={4} mb={1}>
+              <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarEvaluacion}>
+              Guardar
+              </SuiButton>
+
+        </SuiBox>
+          <h2> Criterios </h2>
+          {inputCriterios.map((inputCriterios,index)=>(
+              <div key= {index}>
+                <SuiBox>
+                <Grid container direction={"column"} spacing={5}>
+                <Grid item>
+                  <TextField 
+                    name= "nombre"
+                    placeholder = "nombre"
+                    label="Nombre"
+                    variant = "outlined"
+                    fullWidth
+                    multiline
+                    rows={1}
+                    required   
+                    value={inputCriterios.Nombre}
+                    onChange = {event => setnombreCriterios(event.target.value)}   
+                  /></Grid>
+                <Grid item>
+                  <TextField 
+                    name= "descripcion"
+                    placeholder = "descripcion"
+                    label="Descripción"
+                    variant = "outlined"
+                    fullWidth
+                    multiline
+                    rows={10}
+                    required   
+                    value={inputCriterios.Descripcion}
+                    onChange = {event => setDescripcionCriterios(event.target.value)}   
+                  /></Grid>
+                <Grid item>
+                  <TextField 
+                    name= "Puntaje"
+                    placeholder = "puntaje"
+                    label="Puntaje"
+                    variant = "outlined"
+                    rows={1}
+                    required   
+                    value={inputCriterios.Puntaje}
+                    onChange = {event => setPuntajeCriterio(event.target.value)}   
+                  /></Grid></Grid>
+
+              <IconButton onClick={() => RemoveFieldsCriterios(index)}>
+                <RemoveIcon color="secondary"/>
+              </IconButton>
+          
+              <IconButton onClick={() => AddFieldsCriterios()}>
+                <AddIcon color="primary"/>
+              </IconButton>            
+            </SuiBox>
+          
+            <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarSesion}>
+              Guardar
+            </SuiButton>
+
+          </div>
+          ) )}        
+         
+          </SuiBox>
+          </TabPanel>
+          
+          <TabPanel value={tabValue} index={2}>
+
+          <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
+            <SuiTypography variant="h6"></SuiTypography>
+            <SuiTypography variant="h6"></SuiTypography>
+            <Grid container direction={"column"} spacing={5}>
+                <Grid item>
+            <h2>Descripción de Objetivos</h2>
+            <TextField
+                label="Objetivo"
+                placeholder = "Descripción Objetivo"
+                variant = "outlined"
+                fullWidth
+                multiline
+                rows={5}
+                required
+                value = {event => setDescripcionObjetivo(event.target.value)}            
+            />
+            <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarObjetivo}>
+              Guardar
+            </SuiButton>
+            </Grid>
+            <Grid item>
+            <h2>Descripción de Actividades</h2>
+            <TextField
+                label="Actividad"
+                placeholder = "Descripción Actividad"
+                variant = "outlined"
+                fullWidth
+                multiline
+                rows={5}
+                required
+                value = {event => setDescripcionActividad(event.target.value)}            
+            />
+
+            <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarActividades}>
+              Guardar
+            </SuiButton>
+          </Grid>
+          </Grid>
+          </SuiBox>
+          
+          </TabPanel>
+          <TabPanel value={tabValue} index={3}>
+          <SuiBox display="inrows" justifyContent="space-between" alignItems="center" p={3}>
+          <SuiTypography variant="h6"></SuiTypography>
+          <h2>Conclusión</h2>
+          <Grid container direction={"column"} spacing={5}>
+            <Grid item>
+            <TextField
+              label="Conclusión"
+              placeholder = "Conclusión"
+              variant = "outlined"
+              fullWidth
+              multiline
+              rows={5}
+              required
+              value = {event => setConclusion(event.target.value)}            
+            /></Grid>
+            <Grid item>
+            <h2>Recomendaciones</h2>
+            <TextField
+              label="Recomendación"
+              placeholder = "Recomendación"
+              variant = "outlined"
+              fullWidth
+              multiline
+              rows={5}
+              required
+              value = {event => setRecomendacion(event.target.value)} 
+            /></Grid></Grid>
+
+            <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarAnalisis}>
+              Guardar
+            </SuiButton>
+
+
+            <SuiTypography variant="h6"></SuiTypography>
+          </SuiBox>
+</TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+);
+  }}
                     
 
   export default Formulario;
