@@ -9,6 +9,15 @@ usuarioController.getVerPrivilegios = (req, res) => {
 	});
 };
 
+usuarioController.getVerDatos = (req, res) => {
+	let id_jardin = req.user.id_jardin;
+
+	pool.query('SELECT usuario.rut, usuario.nombre, usuario.telefono, usuario.email, usuario.especialidad FROM usuario, jardin WHERE usuario.rut = privilegios.rut_usuario AND usuario.id_jardin = $1', [id_jardin], (err, result) => {
+		if(err){ return res.sendStatus(404)}
+		return res.json(result.rows)
+	})
+};
+
 usuarioController.postEditarPrivilegios = (req, res) => {
 
 	let rut_usuario = req.params.rut_usuario;
