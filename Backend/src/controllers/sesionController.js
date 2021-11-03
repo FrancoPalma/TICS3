@@ -44,6 +44,41 @@ sesionController.isLoggedIn = (req, res, next) => {
 	res.sendStatus(404);
 }
 
+sesionController.gestionUsuario = (req, res) => {
+	if(req.user.gestion_usuario){
+		next()
+	}
+	return res.sendStatus(404);
+};
+
+sesionController.gestionPriv = (req, res) => {
+	if(req.user.gestion_priv){
+		next()
+	}
+	return res.sendStatus(404);
+};
+
+sesionController.gestionInfante = (req, res) => {
+	if(req.user.gestion_infante){
+		next()
+	}
+	return res.sendStatus(404);
+};
+
+sesionController.gestionFicha = (req, res) => {
+	if(req.user.gestion_ficha){
+		next()
+	}
+	return res.sendStatus(404);
+};
+
+sesionController.gestionEvaluacion = (req, res) => {
+	if(req.user.gestion_evaluacion){
+		next()
+	}
+	return res.sendStatus(404);
+};
+
 module.exports = sesionController;
 
 

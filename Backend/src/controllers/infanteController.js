@@ -108,8 +108,16 @@ infanteController.getDescargarFicha = (req, res) => {
 }
 
 infanteController.postImportarFicha = async (req, res) => {
-  console.log(req.file)
   return res.sendStatus(200);
 };
+
+infanteController.getInformes = (req, res) => {
+  let rut_infante = req.params.rut_infante;
+  
+  pool.query('SELECT informe.id, informe.fecha, informe.completado FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
+    if(err){return res.sendStatus(404)}
+    return res.json(result.rows)
+  })
+}
 
 module.exports = infanteController;

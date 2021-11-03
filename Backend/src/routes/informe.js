@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const informeController = require('../controllers/informeController.js')
 
-router.get('/descargar_informe', informeController.getDescargarInforme);
+router.get('/visualizar_informe', informeController.getVisualizarInforme);
 
 router.get('/crear_informe', informeController.postInforme);
 

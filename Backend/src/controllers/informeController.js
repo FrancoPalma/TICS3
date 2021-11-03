@@ -1,6 +1,8 @@
 const pool = require('../config/database.js');
 const PDF = require('pdfkit');
-const { options } = require('pdfkit');
+const fs = require('fs')
+const path = require('path')
+const { options, list } = require('pdfkit');
 
 
 informeController = {}
@@ -105,7 +107,7 @@ informeController.postCriterio = async (req, res) => {
   console.log(nombre)
   console.log(descripcion)
   console.log(puntaje)
-  await pool.query('SELECT evaluacion.id FROM informe, evaluacion WHERE informe.id = rvaluacion.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
+  await pool.query('SELECT evaluacion.id FROM informe, evaluacion WHERE informe.id = evaluacion.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
     if(err){return res.sendStatus(400)}
     id_evaluacion = result.rows[0];
     await pool.query('INSERT INTO criterio (id_evaluacion, nombre, descripcion, puntaje) VALUES ($1, $2, $3, $4)', [id_evaluacion, nombre, descripcion, puntaje], (err, result) => {
@@ -133,21 +135,33 @@ informeController.postActividad = async (req, res) => {
 };
 
 informeController.prueba = async (req, res) => {
-  let evaluacion = await pool.query('SELECT evaluacion.nombre, ARRAY_AGG(criterio.nombre) as criterio, ARRAY_AGG(criterio.descripcion), ARRAY_AGG(criterio.puntaje) FROM evaluacion, criterio WHERE evaluacion.id = criterio.id_evaluacion AND evaluacion.id_informe = $1 GROUP BY evaluacion.nombre', [2])
-  return res.json(evaluacion.rows)
+  pool.query('BEGIN', async (err) => {
+    if(err){return res.sendStatus(404)}
+    lista = []
+    for(let i = 0; i < 3; i++){
+      evaluacion = await pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4) RETURNING rut', [1, i.toString(), 'Juan', '2021-10-11']);
+      console.log(evaluacion.rows)
+      lista.push(evaluacion.rows)
+    }
+    pool.query('COMMIT', (err) => {
+      if(err){return res.sendStatus(404)}
+      return res.json(lista)
+    }) 
+  })
 }
 
-informeController.getDescargarInforme = async (req, res) => {
+informeController.getVisualizarInforme = async (req, res) => {
 
   let id_informe = 14;
 
   let infante = await pool.query('SELECT informe.rut_infante, infante.nombre FROM informe, infante WHERE informe.id = $1', [id_informe])
   infante = infante.rows[0]
-  console.log(infante)
+  
+  let archivo = path.join(__dirname, '../public/informes/informe'+infante.rut_infante+'.pdf')
 
   const doc = new PDF({bufferPages: true});
 
-  const stream = res.writeHead(200, {
+  /*const stream = res.writeHead(200, {
       'Content-Type': 'application/pdf',
       'Content-disposition': 'attachment;filename=informe.pdf'
   });
@@ -155,7 +169,11 @@ informeController.getDescargarInforme = async (req, res) => {
   doc.on('data', (chunk) => stream.write(chunk),);
   doc.on('end', () => stream.end(), (err) => {
     if(err){return res.sendStatus(400)}
-  });
+  });*/
+
+  writeStream = fs.createWriteStream(archivo) 
+
+  doc.pipe(writeStream);
 
   doc.fontSize(20).text('Evaluación de Terapia Ocupacional\n', {align: 'center'});
   doc.fontSize(12).text('\n', {align: 'right'})
@@ -207,7 +225,7 @@ informeController.getDescargarInforme = async (req, res) => {
 
   let objetivo = await pool.query('SELECT objetivo.id, objetivo.descripcion, ARRAY_AGG(actividad.descripcion) as actividad FROM objetivo, actividad WHERE objetivo.id = actividad.id_objetivo AND objetivo.id_informe = $1 GROUP BY objetivo.id', [id_informe])
   objetivo = objetivo.rows 
-  console.log(objetivo)
+ 
   doc.addPage()
   doc.fontSize(18).font('Helvetica-Bold').text('Plan de intervención', {align:'center'})
   for(let i=0; i<objetivo.length; i++){
@@ -227,6 +245,15 @@ informeController.getDescargarInforme = async (req, res) => {
   doc.text('\n');
 
   doc.end()
+
+  writeStream.on('finish', function () {
+    fs.readFile(archivo , function (err,data){
+      if(err){return res.sendStatus(404);}
+      res.contentType("application/pdf");
+      res.send(data);
+    });
+  })
+
 };
 
 informeController.postEliminarInforme = (req,res) => {
@@ -373,76 +400,77 @@ informeController.postEditarInforme = (req, res) => {
   })
 }
 
-informeController.getEditarMetodologia = (req, res) => {
+informeController.postEditarMetodologia = (req, res) => {
   let id_metodologia = req.body.id_metodologia;
   let descripcion = req.body.descripcion;
 
   pool.query('UPDATE metodologia SET descripcion = $1 WHERE id = $2', [descripcion, id_metodologia], (err) => {
-    if(err){return res.sendStatus(200)}
+    if(err){return res.sendStatus(404)}
     return res.sendStatus(200);
   })
 }
 
-informeController.getEditarSesion = (req, res) => {
+informeController.postEditarSesion = (req, res) => {
   let id_sesion = req.body.id_sesion;
   let nombre = req.body.nombre;
   let descripcion = req.body.descripcion;
 
-  pool.query('UPDATE sesion SET nombre = $1, descripcion = $2 WHERE id = $3', [nombre, descripcion, id_sesion], (err, result) => {
-    if(err){return res.sendStatus(200)}
-    let sesion = result.rows;
-    return res.json(sesion)
+  pool.query('UPDATE sesion SET nombre = $1, descripcion = $2 WHERE id = $3', [nombre, descripcion, id_sesion], (err) => {
+    if(err){return res.sendStatus(404)}
+    return res.sendStatus(200);
   })
 }
 
-informeController.getEditarEvaluacion = (req, res) => {
+informeController.postEditarEvaluacion = (req, res) => {
   let id_evaluacion = req.body.id_evaluacion;
   let nombre = req.body.nombre;
 
-  pool.query('SELECT nombre FROM evaluacion WHERE id_informe = $1', [nombre, id_evaluacion], (err, result) => {
-    if(err){return res.sendStatus(200)}
-    let evaluacion = result.rows;
-    return res.json(evaluacion)
+  pool.query('UPDATE evaluacion SET nombre = $1 WHERE id_informe = $2', [nombre, id_evaluacion], (err) => {
+    if(err){return res.sendStatus(404)}
+    return res.sendStatus(200);
   })
 }
 
-informeController.getCriterio = (req, res) => {
-  let id_informe = 1;
+informeController.postEditarCriterio = (req, res) => {
+  let id_criterio = req.body.id_criterio;
+  let nombre = req.body.nombre;
+  let descripcion = req.body.descripcion;
+  let puntaje = req.body.puntaje;
 
-  pool.query('SELECT criterio.nombre, criterio.descripcion, criterio.puntaje FROM criterio, evaluacion WHERE criterio.id_evaluacion = evaluacion.id AND evaluacion.id_informe = $1', [id_informe], (err, result) => {
-    if(err){return res.sendStatus(200)}
-    let evaluacion = result.rows;
-    return res.json(criterio)
+  pool.query('UPDATE criterio SET criterio.nombre = $1, criterio.descripcion = $2, criterio.puntaje = $3 WHERE criterio.id = $4', [nombre, descripcion, puntaje, id_criterio], (err) => {
+    if(err){return res.sendStatus(404)}
+    return res.sendStatus(200)
   })
 }
 
-informeController.getObjetivo = (req, res) => {
-  let id_informe = 1;
+informeController.postEditarObjetivo = (req, res) => {
+  let id_objetivo = req.body.objetivo;
+  let descripcion = req.body.descripcion;
 
-  pool.query('SELECT descripcion FROM objetivo WHERE id_informe = $1', [id_informe], (err, result) => {
-    if(err){return res.sendStatus(200)}
-    let objetivo = result.rows;
-    return res.json(objetivo)
+  pool.query('UPDATE objetivo SET descripcion = $1 WHERE id_informe = $2', [descripcion, id_objetivo], (err) => {
+    if(err){return res.sendStatus(404)}
+    return res.sendStatus(200)
   })
 }
 
-informeController.getActividad = (req, res) => {
-  let id_informe = 1;
+informeController.postEditarActividad = (req, res) => {
+  let id_actividad = req.body.id_actividad;
+  let descripcion = req.body.descripcion;
 
-  pool.query('SELECT actividad.descripcion FROM actividad, objtetivo WHERE actividad.id_objetivo = objetivo.id AND objetivo.id_informe = $1', [id_informe], (err, result) => {
-    if(err){return res.sendStatus(200)}
-    let actividad = result.rows;
-    return res.json(actividad);
+  pool.query('UPDATE actividad SET descripcion = $1 WHERE id = $2', [descripcion, id_actividad], (err) => {
+    if(err){return res.sendStatus(404)}
+    return res.sendStatus(200);
   })
 }
 
-informeController.getAnalisis = (req, res) => {
-  let id_informe = 1;
+informeController.postEditarAnalisis = (req, res) => {
+  let id_analisis = req.body.id_analisis;
+  let conclusion = req.body.conclusion;
+  let recomendacion = req.body.recomendacion;
 
-  pool.query('SELECT conclusion, recomendacion FROM analisis WHERE id_informe = $1', [id_informe], (err, result) => {
-    if(err){return res.sendStatus(200)}
-    let analisis = result.rows;
-    return res.json(analisis);
+  pool.query('UPDATE analisis SET conclusion = $1, recomendacion = $2 WHERE id = $3', [conclusion, recomendacion, id_analisis], (err) => {
+    if(err){return res.sendStatus(404)}
+    return res.sendStatus(404);
   })
 }
 

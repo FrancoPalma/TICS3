@@ -36,10 +36,12 @@ router.post('/agregar_infante', infanteController.postAgregarInfante);
 
 router.post('/eliminar_infante/:rut_infante', infanteController.postEliminarInfante);
 
-router.get('/ver_ficha', infanteController.getVerFicha);
+//router.get('/ver_ficha', infanteController.getVerFicha);
 
 router.post('/importar_ficha/:rut_infante', upload.single('ficha'), infanteController.postImportarFicha);
 
-router.get('/descargar_ficha', infanteController.getDescargarFicha);
+router.get('/ver_ficha', infanteController.getDescargarFicha);
+
+router.get('ver_informes/:rut_infante', infanteController.getInformes);
 
 module.exports = router;
