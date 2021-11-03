@@ -18,6 +18,8 @@ import Icon from "@material-ui/core/Icon";
 import typography from "assets/theme/base/typography";
 import { Confirm,} from 'react-st-modal';
 import { useHistory } from "react-router-dom";
+import SuiInput from "components/SuiInput";
+import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -101,6 +103,13 @@ export default function Profesionales() {
     aux[4]=event.target.checked;
   };
 
+  const [rut, setRut] = useState();
+  const [nombre, setNombre] = useState();
+  const [email, setEmail] = useState();
+  const [telefono, setTelefono] = useState();
+  const [especialidad, setEspecialidad] = useState();
+  
+
   function Checks({rut, p1,p2,p3,p4,p5}){
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   while(aux.length > 0) {
@@ -171,11 +180,93 @@ function Texto({rut}){
     )
   }
 
+  function Formulario(){
+    return(
+      <>
+      <Grid container spacing={3}display="row">
+        <Grid item xs={6}>
+        <label>Rut: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+          type="text"
+          name="rut"
+          display="flex"
+          onChange={(e) => {
+            setRut(e.target.value);
+          }}/>
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Nombre: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="nombre"
+            display="flex"
+            onChange={(e) => {
+              setNombre(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+        <label>Teléfono: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="telefono"
+            display="flex"
+            onChange={(e) => {
+              setTelefono(e.target.value);
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Email: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="email"
+            display="flex"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Especialidad: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="especialidad"
+            display="flex"
+            onChange={(e) => {
+              setEspecialidad(e.target.value);
+            }}
+          />
+        </Grid>
+      </Grid>
+      </>
+    )
+  }
+
+
   function BotonAgregar(){
     return(
-      <SuiButton buttonColor="info" iconOnly
+      <SuiButton buttonColor="info" 
             onClick={async () => {
-              const result = await Confirm('<p>hola<p/>', 
+              const result = await Confirm(<Formulario/>, 
                 'Edición usuario ');
               if (result) {
                 //nopaisnd
@@ -184,12 +275,15 @@ function Texto({rut}){
               }
             }}
       >
+        Agregar Profesional
         <Icon className="material-icons-round" color="inherit" fontSize="inherit">
           add
         </Icon>
       </SuiButton>
     )
   }
+
+
 
   function ActualizarEmpleados(){
     if (Listo == 0){
@@ -296,17 +390,17 @@ function Texto({rut}){
       <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Privilegios" {...a11yProps(0)}/>
-            <Tab label="Datos" {...a11yProps(1)}/>
+            <Tab label="Datos" {...a11yProps(0)}/>
+            <Tab label="Privilegios" {...a11yProps(1)}/>
           </Tabs>
           <Card>
           <TabPanel value={tabValue} index={0}>
             <BotonAgregar/>
-            <SuiBox customClass={classes.tables_table}>
-            <Table columns={columns} rows={rows} />
-            </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
+            <SuiBox customClass={classes.tables_table}>
+              <Table columns={columns} rows={rows} />
+            </SuiBox>
           </TabPanel>
           </Card>
         </SuiBox>
