@@ -137,9 +137,8 @@ informeController.postActividad = async (req, res) => {
 informeController.prueba = async (req, res) => {
   pool.query('BEGIN', async (err) => {
     if(err){return res.sendStatus(404)}
-    lista = []
     for(let i = 0; i < 3; i++){
-      evaluacion = await pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4) RETURNING rut', [1, i.toString(), 'Juan', '2021-10-11']);
+      evaluacion = await pool.query('SELECT * FROM infante');
       console.log(evaluacion.rows)
       lista.push(evaluacion.rows)
     }
