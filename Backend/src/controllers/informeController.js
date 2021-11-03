@@ -137,9 +137,11 @@ informeController.postActividad = async (req, res) => {
 informeController.prueba = async (req, res) => {
   pool.query('BEGIN', async (err) => {
     if(err){return res.sendStatus(404)}
+    lista = []
     for(let i = 0; i < 3; i++){
       evaluacion = await pool.query('SELECT * FROM infante');
       console.log(evaluacion.rows)
+      lista.push(evaluacion.rows)
     }
     pool.query('COMMIT', (err) => {
       if(err){return res.sendStatus(404)}
