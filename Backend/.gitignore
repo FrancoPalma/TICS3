@@ -13,7 +13,8 @@
 /dist
 
 #public
-/src/public
+/src/public/fichas/
+/src/public/informes/
 
 # misc
 .DS_Store
