@@ -157,7 +157,7 @@ informeController.getVisualizarInforme = async (req, res) => {
   let infante = await pool.query('SELECT informe.rut_infante, infante.nombre FROM informe, infante WHERE informe.id = $1', [id_informe])
   infante = infante.rows[0]
   
-  let archivo = path.join(__dirname, '../public/informes/informe'+infante.rut_infante+'.pdf')
+  //let archivo = path.join(__dirname, '../public/informes/informe'+infante.rut_infante+'.pdf')
 
   const doc = new PDF({bufferPages: true});
 
@@ -171,7 +171,7 @@ informeController.getVisualizarInforme = async (req, res) => {
     if(err){return res.sendStatus(400)}
   });*/
 
-  writeStream = fs.createWriteStream(archivo) 
+  writeStream = fs.createWriteStream(path.join(__dirname, '../public/informes/informe'+infante.rut_infante+'.pdf')) 
 
   doc.pipe(writeStream);
 
@@ -247,7 +247,7 @@ informeController.getVisualizarInforme = async (req, res) => {
   doc.end()
 
   writeStream.on('finish', function () {
-    fs.readFile(archivo , function (err,data){
+    fs.readFile(path.join(__dirname, '../public/informes/informe'+infante.rut_infante+'.pdf') , function (err,data){
       if(err){return res.sendStatus(404);}
       res.contentType("application/pdf");
       res.send(data);
