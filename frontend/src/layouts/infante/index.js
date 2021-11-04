@@ -83,12 +83,9 @@ export default function Profesionales() {
   const columns = [
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
-    { name: "evaluación", align: "center" },
-    { name: "ficha", align: "center" },
-    { name: "infante", align: "center" },
-    { name: "privilegios", align: "right" },
-    { name: "usuario", align: "right" },
-    { name: "acciones", align: "right" }
+    { name: "fecha nacimiento", align: "center" },
+    { name: "ficha clinica", align: "center" },
+    { name: "telefono apoderado", align: "center" }
   ];
   const [rows] = useState([]);
   const [aux] = useState([]);
@@ -149,7 +146,7 @@ function Texto({rut}){
       <p>¿Esta seguro que desea eliminar este usuario?</p>
   )
 }
-
+/*
   function Boton({rut,p1,p2,p3,p4,p5}){
     return(
       <>
@@ -266,7 +263,6 @@ function Texto({rut}){
     )
   }
 
-
   function BotonAgregar(){
     return(
       <SuiButton buttonColor="info" 
@@ -287,7 +283,6 @@ function Texto({rut}){
       </SuiButton>
     )
   }
-
 
 
   function ActualizarEmpleados(){
@@ -388,25 +383,25 @@ function Texto({rut}){
         console.log(error)
     });
   }
-  if(Listo === 1){
+*/
+
+
+
+
+ // if(Listo === 1){
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <SuiBox py={6}>
         <SuiBox mb={6}>
-        <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Datos" {...a11yProps(0)}/>
-            <Tab label="Privilegios" {...a11yProps(1)}/>
-          </Tabs>
+
           <Card>
-          <TabPanel value={tabValue} index={0}>
-            <BotonAgregar/>
-          </TabPanel>
-          <TabPanel value={tabValue} index={1}>
+
+
             <SuiBox customClass={classes.tables_table}>
               <Table columns={columns} rows={rows} />
             </SuiBox>
-          </TabPanel>
+
           </Card>
         </SuiBox>
         <Card>
@@ -414,7 +409,7 @@ function Texto({rut}){
       </SuiBox>
       <Footer />
     </DashboardLayout>
-  );
+  );/*
   }else{
     ActualizarEmpleados();
     return(
@@ -440,6 +435,6 @@ function Texto({rut}){
         </SuiBox>
         <Footer />
       </DashboardLayout>
-    );
-  }
+    );*/
+  //}
 }

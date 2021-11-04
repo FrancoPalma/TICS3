@@ -49,6 +49,7 @@ import SignUp from "layouts/authentication/sign-up";
 import Test from "layouts/test";
 import Formulario from "layouts/formulario";
 import Ficha from "layouts/ficha";
+import Infante from "layouts/infante";
 // Soft UI Dashboard Material-UI icons
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
@@ -165,11 +166,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    route: "/authentication/sign-up",
+    name: "Infante",
+    key: "infante",
+    route: "/infante",
     icon: <SpaceShip size="12px" />,
-    component: SignUp,
+    component: Infante,
     noCollapse: true,
   }
 ];
