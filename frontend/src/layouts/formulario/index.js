@@ -68,11 +68,7 @@ function a11yProps(index) {
     const classes = styles();
     const [tabValue, setTabValue] = useState(0);
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
-    const [Listo, setListo] = useState(0);
-    setListo(1);
-    console.log(Listo);
-    console.log(Listo);
- 
+
 
 
     //METODOLOGÍA
@@ -162,6 +158,8 @@ function EnviarDescripcion(){
 
   function EnviarSesion(){
     if (1 == 1){
+      console.log(NombreSesion[0])
+      console.log(DescripcionSesion)
       let id = 2;
 
       fetch('/informe/crear_sesion/'+id.toString(),{
@@ -456,13 +454,14 @@ function EnviarDescripcion(){
                   <AddIcon color="primary"/>
                 </IconButton>            
               </SuiBox>
-            
+              
               <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={EnviarSesion}>
                 Guardar
               </SuiButton>
 
             </div>
             ) )}         
+
             </Grid>     
             </Grid>
             </TabPanel>
@@ -566,9 +565,7 @@ function EnviarDescripcion(){
             </div>
             ) )}        
 
-              <SuiButton buttonColor="info" onClick={(event) => setListo(Listo+1)}>
-                Boton
-              </SuiButton>
+
            
             </SuiBox>
             </TabPanel>
