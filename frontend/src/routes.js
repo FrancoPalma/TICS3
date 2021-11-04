@@ -95,7 +95,7 @@ const routes = [
     icon: <Office size="12px" />,
     component: Ficha,
     noCollapse: true,
-  },
+  },/*
   {
     type: "collapse",
     name: "Tables",
@@ -104,8 +104,10 @@ const routes = [
     icon: <Office size="12px" />,
     component: Tables,
     noCollapse: true,
-  },
-  /*
+  },{
+
+  }
+
   {
     type: "collapse",
     name: "Billing",
@@ -150,6 +152,15 @@ const routes = [
     route: "/authentication/sign-in",
     icon: <Document size="12px" />,
     component: SignIn,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Sign Up",
+    key: "sign-up",
+    route: "/authentication/sign-up",
+    icon: <SpaceShip size="12px" />,
+    component: SignUp,
     noCollapse: true,
   },
   {
