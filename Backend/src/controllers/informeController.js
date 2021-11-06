@@ -29,7 +29,7 @@ informeController.postGuardarInforme = async (req, res) => {
             await pool.query('COMMIT', (err) => {
               if(err){return res.sendStatus(404)}
               return res.json({
-                  id: id_informe
+                  id_informe: id_informe
                 }
                 );
             })
@@ -44,7 +44,7 @@ informeController.postGuardarInforme = async (req, res) => {
       htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../../../frontend/public/informe' + id_informe+ '.pdf'), async (err) => {
         if (err) {return res.sendStatus(404)}
         return res.json({
-            id: id_informe
+            id_informe: id_informe
           }
         );
       })
