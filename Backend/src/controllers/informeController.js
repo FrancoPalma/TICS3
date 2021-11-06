@@ -20,7 +20,7 @@ informeController.postGuardarInforme = async (req, res) => {
 
 informeController.getVerInforme = async (req, res) => {
   let rut_infante = req.body.rut_infante;
-  fs.readFile(path.join(__dirname, '../public/informes/informe'+infante.rut_infante+'.pdf') , function (err,data){
+  fs.readFile(path.join(__dirname, '../public/informes/informe'+rut_infante+'.pdf') , function (err,data){
     if(err){return res.sendStatus(404);}
     res.contentType("application/pdf");
     res.send(data);
