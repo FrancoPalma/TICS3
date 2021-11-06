@@ -4,6 +4,6 @@ const informeController = require('../controllers/informeController.js')
 
 router.post('/guardar_informe', informeController.postGuardarInforme);
 
-router.get('/ver_informe', informeController.getVerInforme);
+router.post('/ver_informe', informeController.postVerInforme);
 
 module.exports = router;
