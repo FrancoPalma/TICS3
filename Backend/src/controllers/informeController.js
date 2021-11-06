@@ -11,7 +11,6 @@ informeController = {}
 informeController.postGuardarInforme = async (req, res) => {
   let rut_infante = req.body.rut_infante;
   let contenido = req.body.contenido;
-  contenido = '<h2>Hola</h2>  <p>Hola</p>  <p><em>Esto es una prueba</em></p>  <p><strong>Prueba</strong></p>'
   htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + rut_infante + '.pdf'), (err) => {
       if (err) {return res.sendStatus(404);} 
       return res.sendStatus(200);
