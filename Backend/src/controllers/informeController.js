@@ -21,7 +21,7 @@ informeController.postGuardarInforme = async (req, res) => {
             pool.query('ROLLBACK')
             return res.sendStatus(404)
           }
-          htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
+          htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../../../frontend/public/informe' + id_informe+ '.pdf'), async (err) => {
             if (err) {
               pool.query('ROLLBACK')
               return res.sendStatus(404)
@@ -41,7 +41,7 @@ informeController.postGuardarInforme = async (req, res) => {
   }else{
     fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.pdf'), contenido, (err) => {
       if (err) {return res.sendStatus(404)}
-      htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
+      htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../../../frontend/public/informe' + id_informe+ '.pdf'), async (err) => {
         if (err) {return res.sendStatus(404)}
         return res.json({
             id: id_informe
