@@ -57,8 +57,9 @@ usuarioController.postEditarUsuario = (req, res) => {
 	let nombre = req.body.nombre;
 	let telefono = req.body.telefono;
 	let email = req.body.email;
+	let especialidad = req.body.especialidad;
 
-	pool.query('UPDATE usuario SET nombre = $1, telefono = $2, email = $3 WHERE usuario.rut = $4', [nombre, telefono, email, rut_usuario], (err) => {
+	pool.query('UPDATE usuario SET nombre = $1, telefono = $2, email = $3, especialidad = $4 WHERE usuario.rut = $5', [nombre, telefono, email, especialidad, rut_usuario], (err) => {
 		if(err){res.sendStatus(404)}
 		return res.sendStatus(200);
 	});

@@ -9,15 +9,15 @@ informeController = {}
 
 informeController.postInforme = async (req, res) => {
 
-  /*let rut_infante = req.body.rut_infante;
+  let rut_infante = req.body.rut_infante;
   let rut_usuario = req.body.rut_usuario;
   let fecha = Date.now();
-  let completado = req.body.completado;*/
+  let completado = req.body.completado;
 
-  let rut_infante = '12345678-9';
+  /*let rut_infante = '12345678-9';
   let rut_usuario = 1;
   let fecha = new Date().toISOString().slice(0, 10);
-  let completado = false;
+  let completado = false;*/
 
   await pool.query('INSERT INTO informe (rut_infante, rut_usuario, fecha, completado)  VALUES ($1, $2, $3, $4) RETURNING id', [rut_infante, rut_usuario, fecha, completado], (err, result) => {
     if(err){return res.sendStatus(404)}
@@ -28,12 +28,28 @@ informeController.postInforme = async (req, res) => {
 informeController.postMetodologia = async (req, res) => {
 
   let id_informe = req.params.id_informe;
-  let descripcion = req.body.descripcion;
-
-  await pool.query('INSERT INTO metodologia (id_informe, descripcion)  VALUES ($1, $2)', [id_informe, descripcion], (err, result) => {
-    if(err){return res.sendStatus(404)}
-    return res.sendStatus(200);
-  })  
+  let descripcion_metodologia = req.body.descripcion_metodologia;
+  let nombre = req.body.nombre;
+  let descripcion_sesion = req.body.descripcion_sesion;
+  console.log(id_informe)
+  console.log(nombre)
+  console.log(descripcion_sesion)
+  console.log(descripcion_metodologia)
+  await pool.query('BEGIN', async (err) => {
+    if(err){return res.sendStatus(404);}
+    await pool.query('INSERT INTO metodologia (id_informe, descripcion)  VALUES ($1, $2) RETURNING id', [id_informe, descripcion_metodologia], async (err, result) => {
+      if(err){return res.sendStatus(404)}
+      id_metodologia = result.rows[0]
+      console.log(id_metodologia)
+      for(let i = 0; i < 3; i++){
+        evaluacion = await pool.query('INSERT INTO sesion (id_metodologia, nombre, descripcion) VALUES ($1, $2, $3)', [id_metodologia.id, nombre[i].nombre, descripcion_sesion[i].descripcion],);
+      }
+      pool.query('COMMIT', (err) => {
+        if(err){return res.sendStatus(404)}
+        return res.sendStatus(200)
+      }) 
+    })  
+  })
 };
 
 informeController.postEvaluacion = async (req, res) => {
@@ -80,10 +96,6 @@ informeController.postSesion = async (req, res) => {
   let id_informe = req.params.id_informe;
   let nombre = req.body.nombre;
   let descripcion = req.body.descripcion;
-
-  console.log("Sesión")
-  console.log(nombre)
-  console.log(descripcion)
 
   await pool.query('SELECT metodologia.id FROM informe, metodologia WHERE informe.id = metodologia.id_informe AND informe.id= $1', [id_informe], async (err, result) => {
     if(err){return res.sendStatus(400)}
@@ -393,6 +405,11 @@ informeController.postEditarInforme = (req, res) => {
   let id_informe = req.params.id_informe;
   let fecha = new Date().toISOString().slice(0, 10);
   let completado = req.body.completado;
+
+  pool.query('SELECT ', [fecha, completado, id_informe], (err) => {
+    if(err){return res.sendStatus(404)}
+    return res.sendStatus(200);
+  })
 
   pool.query('UPDATE informe SET fecha = $1, completado = $2 WHERE id = $3', [fecha, completado, id_informe], (err) => {
     if(err){return res.sendStatus(404)}

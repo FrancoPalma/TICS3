@@ -30,7 +30,7 @@ passport.deserializeUser(function(user, done) {
       } else {
         let passHash = await bcrypt.hash(password, 8);
         pool.query('BEGIN', (err) => {
-          pool.query('INSERT INTO usuario (id_jardin, rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.body.id_jardin, rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err) => {
+          pool.query('INSERT INTO usuario (id_jardin, rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.user.id_jardin, rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err) => {
             if(err){return done(null,false)}
             pool.query('INSERT INTO privilegios (rut_usuario, gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante, administrador) VALUES ($1, $2, $3, $4, $5, $6, $7)', [rut, true, true, true, true, true,true], (err) => {
               if(err){return done(null,false)}
