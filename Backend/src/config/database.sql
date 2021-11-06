@@ -33,8 +33,6 @@ create table informe (
     id SERIAL PRIMARY KEY,
     rut_usuario numeric(8,0),
     rut_infante VARCHAR(10),
-    fecha DATE,
-    completado BOOLEAN,
     CONSTRAINT fk_rut FOREIGN KEY(rut_usuario) REFERENCES usuario(rut),
     CONSTRAINT fk_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
 );
