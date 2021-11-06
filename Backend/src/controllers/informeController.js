@@ -8,45 +8,38 @@ var htmlToPdf = require('html-to-pdf');
 
 informeController = {}
 
-informeController.getHtml = async (req, res) => {
-  console.log(path.join(__dirname, '../public/informes/prueba.html'))
-  htmlToPdf.convertHTMLFile(path.join(__dirname, '../public/informes/prueba.html'), path.join(__dirname, '../public/informes/destination.pdf'),
-    function (error, success) {
-       if (error) {
-            console.log('Oh noes! Errorz!');
-            console.log(error);
-            console.log()
-        } else {
-            console.log('Woot! Success!');
-            console.log(success);
-
-            fs.readFile(path.join(__dirname, '../public/informes/destination.pdf') , function (err,data){
-              if(err){return res.sendStatus(404);}
-              res.contentType("application/pdf");
-              return res.send(data);
-            });
-        }
+informeController.postGuardarInforme = async (req, res) => {
+  let rut_infante = req.body.rut_infante;
+  let contenido = req.body.contenido;
+  htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + rut_infante + '.pdf'), (err) => {
+      if (err) {return res.sendStatus(404);} 
+      return res.sendStatus(200);
   }
 );
 }
 
-informeController.postInforme = async (req, res) => {
+informeController.getVerInforme = async (req, res) => {
+  let rut_infante = req.body.rut_infante;
+  fs.readFile(path.join(__dirname, '../public/informes/informe'+rut_infante+'.pdf') , function (err,data){
+    if(err){return res.sendStatus(404);}
+    res.contentType("application/pdf");
+    res.send(data);
+  });
+}
+
+/*informeController.postInforme = async (req, res) => {
 
   let rut_infante = req.body.rut_infante;
   let rut_usuario = req.body.rut_usuario;
   let fecha = Date.now();
   let completado = req.body.completado;
 
-  /*let rut_infante = '12345678-9';
-  let rut_usuario = 1;
-  let fecha = new Date().toISOString().slice(0, 10);
-  let completado = false;*/
 
   await pool.query('INSERT INTO informe (rut_infante, rut_usuario, fecha, completado)  VALUES ($1, $2, $3, $4) RETURNING id', [rut_infante, rut_usuario, fecha, completado], (err, result) => {
     if(err){return res.sendStatus(404)}
     return res.json(result.rows[0]);
   })  
-};
+};*/
 
 informeController.postMetodologia = async (req, res) => {
 
@@ -342,7 +335,7 @@ informeController.getEliminarInforme = (req, res) => {
 
 //-----------------VER----------------------
 
-informeController.getVerInforme = (req, res) => {
+informeController.getVerInformeAux = (req, res) => {
   let id_informe = req.params.id_informe;
 
   pool.query('SELECT id, fecha, completado FROM informe WHERE id = $1', [id_informe], (err, result) => {
