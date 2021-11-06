@@ -4,9 +4,11 @@ const informeController = require('../controllers/informeController.js')
 
 router.get('/visualizar_informe', informeController.getVisualizarInforme);
 
-router.get('/crear_informe', informeController.postInforme);
+//router.get('/crear_informes_aux', informeController.postInformeAux);
 
-router.get('/HTML', informeController.getHtml);
+router.post('/guardar_informe', informeController.postGuardarInforme);
+
+router.get('/ver_informe', informeController.getVerInforme);
 
 router.post('/crear_metodologia/:id_informe', informeController.postMetodologia);
 
@@ -28,7 +30,7 @@ router.post('/eliminar_informe', informeController.postEliminarInforme);
 
 router.get('/eliminar_informe', informeController.getEliminarInforme);
 
-router.get('/ver_informe/:id_informe', informeController.getVerInforme);
+router.get('/ver_informe/:id_informe', informeController.getVerInformeAux);
 
 router.get('/ver_metodologia/:id_informe', informeController.getVerMetodologia);
 
