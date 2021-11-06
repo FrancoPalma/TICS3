@@ -39,7 +39,7 @@ informeController.postGuardarInforme = async (req, res) => {
       })
     })
   }else{
-    fs.writeFile(__dirname, '../public/informes/informe' + id_informe + '.pdf', contenido, (err) => {
+    fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.pdf'), contenido, (err) => {
       if (err) {return res.sendStatus(404)}
       htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
         if (err) {return res.sendStatus(404)}
