@@ -6,7 +6,7 @@ router.get('/visualizar_informe', informeController.getVisualizarInforme);
 
 router.get('/crear_informe', informeController.postInforme);
 
-router.get('/prueba', informeController.prueba);
+router.get('/HTML', informeController.getHtml);
 
 router.post('/crear_metodologia/:id_informe', informeController.postMetodologia);
 

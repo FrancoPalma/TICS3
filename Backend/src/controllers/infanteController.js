@@ -63,8 +63,9 @@ infanteController.postEditarInfante = (req, res) => {
 };
 
 infanteController.getVerInfantes = (req, res) => {
-  pool.query('SELECT infante.rut, infante.nombre FROM infante', (err, result)=> {
+  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut', (err, result)=> {
     if(err){ return res.sendStatus(404)}
+    console.log(result.rows)
     return res.json(result.rows)
   })
 }
@@ -74,6 +75,7 @@ infanteController.getVerInfante = (req, res) => {
 
   pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result)=> {
     if(err){ return res.sendStatus(404)}
+    console.log(result.rows[0])
     return res.json(result.rows[0]);
   })
 }

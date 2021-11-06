@@ -3,9 +3,32 @@ const PDF = require('pdfkit');
 const fs = require('fs')
 const path = require('path')
 const { options, list } = require('pdfkit');
+var htmlToPdf = require('html-to-pdf');
 
 
 informeController = {}
+
+informeController.getHtml = async (req, res) => {
+  console.log(path.join(__dirname, '../public/informes/prueba.html'))
+  htmlToPdf.convertHTMLFile(path.join(__dirname, '../public/informes/prueba.html'), path.join(__dirname, '../public/informes/destination.pdf'),
+    function (error, success) {
+       if (error) {
+            console.log('Oh noes! Errorz!');
+            console.log(error);
+            console.log()
+        } else {
+            console.log('Woot! Success!');
+            console.log(success);
+
+            fs.readFile(path.join(__dirname, '../public/informes/destination.pdf') , function (err,data){
+              if(err){return res.sendStatus(404);}
+              res.contentType("application/pdf");
+              return res.send(data);
+            });
+        }
+  }
+);
+}
 
 informeController.postInforme = async (req, res) => {
 
