@@ -79,7 +79,8 @@ export default function Profesionales() {
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
     { name: "fecha_nacimiento", align: "center" },
-    { name: "telefono_apoderado", align: "center" }
+    { name: "telefono_apoderado", align: "center" },
+    { name: "acciones", align: "center" }
   ];
 
   const [rows] = useState([]);
@@ -112,9 +113,14 @@ export default function Profesionales() {
     setEspecialidad(event.target.value);
   };*/
 
-  const [rut, setRut] = useState();
-  const [nombre, setNombre] = useState();
+  const [rut_infante, setRutinfante] = useState();
+  const [nombre_infante, setNombreinfante] = useState();
   const [fecha_nacimiento, setfecha_nacimiento] = useState();
+
+
+  const [rut_apoderado, setRutapoderado] = useState();
+  const [nombre_apoderado, setNombreapoderado] = useState();
+  const [email, setEmail] = useState();
   const [telefonoApoderado, settelefonoApoderado] = useState();
 
   
@@ -131,42 +137,9 @@ export default function Profesionales() {
     )
   }
 
-  function Boton({rut,p1,p2,p3,p4,p5}){
-    return(
-      <>
-      <SuiButton buttonColor="info" iconOnly
-          onClick={async () => {
-            const result = await Confirm(<Checks rut={rut} p1={p1} p2={p2} p3={p3} p4={p4} p5={p5}/>, 
-              'Edición usuario '+rut.toString());
-            
-            if (result) {
-              EditarEmpleado(rut={rut})
-            } else {
-              // Сonfirmation not confirmed
-            }
-          }}
-        >
-            <Icon classsName="material-icons-round">edit</Icon>
-        </SuiButton>
-        <SuiButton buttonColor="info" iconOnly
-          onClick={async () => {
-            const result = await Confirm(<Texto rut={rut}/>, 
-              'Confirmación de eliminación'+rut.toString());
-            
-            if (result) {
-              EliminarEmpleado()
-            } else {
-              // Сonfirmation not confirmed
-            }
-          }}
-        >
-            <Icon classsName="material-icons-round">delete</Icon>
-        </SuiButton>
-      </>
-    )
-  }
+  */
 
-  function Boton2({rut,nombre, telefono, email,especialidad}){
+  function Boton({rut,nombre,fecha_nacimiento, rut_apoderado, nombre_apoderado, telefono, email}){
     setNombre(nombre)
     setRut(rut)
     return(
@@ -200,87 +173,6 @@ export default function Profesionales() {
         >
             <Icon classsName="material-icons-round">delete</Icon>
         </SuiButton>
-      </>
-    )
-  }
-
-  function Formulario(){
-    return(
-      <>
-      <Grid container spacing={3}display="row">
-        <Grid item xs={6}>
-        <label>RUT: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-          type="text"
-          name="rut"
-          display="flex"
-          onChange={(e) => {
-            setRut(e.target.value);
-          }}/>
-        </Grid>
-        
-        <Grid item xs={6}>
-        <label>Nombre: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="nombre"
-            display="flex"
-            onChange={(e) => {
-              setNombre(e.target.value);
-            }}
-          />
-        </Grid>
-        <Grid item xs={6}>
-        <label>Teléfono: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="telefono"
-            display="flex"
-            onChange={(e) => {
-              setTelefono(e.target.value);
-            }}nombre
-          />
-        </Grid>
-        
-        <Grid item xs={6}>
-        <label>Email: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="email"
-            display="flex"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-        </Grid>
-        
-        <Grid item xs={6}>
-        <label>Especialidad: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="especialidad"
-            display="flex"
-            onChange={(e) => {
-              setEspecialidad(e.target.value);
-            }}
-          />
-        </Grid>
-      </Grid>
       </>
     )
   }
@@ -375,7 +267,7 @@ export default function Profesionales() {
     .catch((error) => {
         console.log(error)
     });
-  }
+  }/*
   function BotonAgregar(){
     return(
       <SuiButton buttonColor="info" 
@@ -424,10 +316,11 @@ export default function Profesionales() {
               rows.push({nombre:users[i].nombre,
                 rut: users[i].rut,
                 fecha_nacimiento: test,
-                telefono_apoderado: users[i].telefono
+                telefono_apoderado: users[i].telefono,
+                acciones: <Boton />
               })
               
-              console.log(rows[0].telefono);
+
             }
           }
           setListo(1);
