@@ -185,7 +185,7 @@ export default function Profesionales() {
         <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
             const result = await Confirm(<Texto rut={rut}/>, 
-              'Confirmación de eliminación'+rut.toString());
+              'Confirmación de eliminación '+rut.toString());
             
             if (result) {
               EliminarEmpleado()
@@ -201,8 +201,8 @@ export default function Profesionales() {
   }
 
   function Boton2({rut,nombre, telefono, email,especialidad}){
-    setNombre(nombre)
-    setRut(rut)
+    setNombre(nombre);
+    setRut(rut);
     return(
       <>
       <SuiButton buttonColor="info" iconOnly
@@ -222,7 +222,7 @@ export default function Profesionales() {
         <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
             const result = await Confirm(<Texto rut={rut}/>, 
-              'Confirmación de eliminación'+rut.toString());
+              'Confirmación de eliminación '+rut.toString());
             
             if (result) {
               EliminarEmpleado()
@@ -336,9 +336,7 @@ export default function Profesionales() {
             type="tel"
             name="telefono"
             display="flex"
-            onChange={(e) => {
-              setTelefono(e.target.value);
-            }}
+            onChange={(event) => setTelefono(event.target.value)}
           />
         </Grid>
         
@@ -482,7 +480,7 @@ export default function Profesionales() {
                 telefono: users[i].telefono,
                 email: users[i].email,
                 especialidad: users[i].especialidad,
-                acciones: <Boton2 rut={users[i].rut} telefono={users[i].telefono} email={users[i].email} especialidad={users[i].especialidad}/>
+                acciones: <Boton2 rut={users[i].rut} nombre={users[i].nombre} telefono={users[i].telefono} email={users[i].email} especialidad={users[i].especialidad}/>
               })
             }
           }
@@ -554,8 +552,6 @@ export default function Profesionales() {
         console.log(error)
     });
   }
-
-
 
   if(Listo === 1){
   return (
