@@ -76,10 +76,10 @@ export default function Profesionales() {
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
   const columns = [
-    { name: "Nombre", align: "left" },
-    { name: "Rut", align: "left" },
-    { name: "Fecha nacimiento", align: "center" },
-    { name: "Telefono apoderado", align: "center" }
+    { name: "nombre", align: "left" },
+    { name: "rut", align: "left" },
+    { name: "fecha_nacimiento", align: "center" },
+    { name: "telefono_apoderado", align: "center" }
   ];
 
   const [rows] = useState([]);
@@ -403,7 +403,7 @@ export default function Profesionales() {
       rows.pop();
       }
 
-      fetch('/infante/ver_infante')
+      fetch('/infante/ver_infantes')
         .then(res => {
             return res.json()
         })
@@ -419,8 +419,8 @@ export default function Profesionales() {
               rows.push({nombre:users[i].nombre,
                 rut: users[i].rut,
                 fecha_nacimiento: users[i].fecha_nacimiento,
-                telefono_apoderado: users[i].apoderado
               })
+              console.log(rows)
             }
           }
           setListo(1);
