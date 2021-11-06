@@ -52,8 +52,10 @@ function a11yProps(index) {
 }
 
 function Formulario(){
+  const [Listo,setListo] = useState(0);
   const editor = useRef(null);
-  const [contenido, setContent] = useState("Start writing");
+  const [contenido, setContent] = useState("");
+  const [id, setID] = useState(null);
   const config = {
     readonly: false,
     height: 400,
@@ -68,6 +70,49 @@ function Formulario(){
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
+  const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+  /*function ActualizarInfantes(){
+      fetch('/infante/ver_infantes')
+        .then(res => {
+            return res.json()
+        })
+        .then(users => {
+          for(let i=0; i < users.length;i++){
+            let aux = true;
+            for(let e=0;e < rows.length;e++){
+              if(users[i].rut == rows[e].rut){
+                aux=false;
+              }
+            }
+            let test = users[i].fecha_nacimiento;
+
+            test = test.toString();
+            test = test.slice(0,9);
+            console.log(test)
+            if(aux == true){
+              rows.push({nombre:users[i].nombre,
+                rut: users[i].rut,
+                fecha_nacimiento: test,
+                telefono_apoderado: users[i].telefono
+              })
+              
+              console.log(rows[0].telefono);
+            }
+          }
+          setListo(1);
+        });
+  }*/
+
   function EnviarInforme(){
     fetch('/informe/guardar_informe',{
       method: 'POST',
@@ -76,21 +121,28 @@ function Formulario(){
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        rut: "0",
-        contenido: contenido
+        rut_infante: "0",
+        contenido: contenido,
+        id: id
       })
-
     })
     .then((response) => {
       if(response.status !== 404){
-        console.log("chupame el pico")
+        console.log("ok")
         return response.json()
       }else{
-        console.log("holi")
+        console.log("error")
       }
     })
+    .then(users => {
+      setID(users.id);
+    })
+    .catch((error) => {
+      console.log(error)
+    });
   }
 
+  if (Listo == 1){
     return(
       <DashboardLayout>
       <DashboardNavbar/>
@@ -107,8 +159,8 @@ function Formulario(){
               />
               <p></p>
               <SuiBox>
-                <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarInforme}>
-                Enviar
+                <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarInforme} py={2}>
+                Guardar
                 </SuiButton>
               </SuiBox>
           </Card>
@@ -116,7 +168,9 @@ function Formulario(){
       </SuiBox>
       <Footer/>
       </DashboardLayout>
-);}
+    );
+    }
+}
 
 
   
