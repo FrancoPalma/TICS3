@@ -556,13 +556,13 @@ export default function Profesionales() {
   if(Listo === 1){
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+    <DashboardNavbar/>
       <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
             <Tab label="Datos" {...a11yProps(0)}/>
             <Tab label="Privilegios" {...a11yProps(1)}/>
-          </Tabs>
+        </Tabs>
           <Card>
           <TabPanel value={tabValue} index={0}>
             <BotonAgregar/>
