@@ -21,13 +21,14 @@ informeController.postGuardarInforme = async (req, res) => {
             pool.query('ROLLBACK')
             return res.sendStatus(404)
           }
-          htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../../../frontend/public/informe' + id_informe+ '.pdf'), async (err) => {
+          htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
             if (err) {
               pool.query('ROLLBACK')
               return res.sendStatus(404)
             }
             await pool.query('COMMIT', (err) => {
               if(err){return res.sendStatus(404)}
+              console.log("llego")
               return res.json({
                   id_informe: id_informe
                 }
