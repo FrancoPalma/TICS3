@@ -54,11 +54,16 @@ informeController.postGuardarInforme = async (req, res) => {
 
 informeController.getVerInforme = async (req, res) => {
   let id_informe = req.body.id_informe;
+  let url = path.join(__dirname, '../public/informes/informe'+ id_informe +'.pdf')
+  return res.json({
+      url: url
+    })
+  /*
   fs.readFile(path.join(__dirname, '../public/informes/informe'+ id_informe +'.pdf') , function (err,data){
     if(err){return res.sendStatus(404);}
     res.contentType("application/pdf");
     res.send(data);
-  });
+  });*/
 }
 
 module.exports = informeController;
