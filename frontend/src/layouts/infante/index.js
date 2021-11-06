@@ -394,14 +394,10 @@ function Texto({rut}){
       <DashboardNavbar />
       <SuiBox py={6}>
         <SuiBox mb={6}>
-
           <Card>
-
-
             <SuiBox customClass={classes.tables_table}>
               <Table columns={columns} rows={rows} />
             </SuiBox>
-
           </Card>
         </SuiBox>
         <Card>
