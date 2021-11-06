@@ -415,12 +415,19 @@ export default function Profesionales() {
                 aux=false;
               }
             }
+            let test = users[i].fecha_nacimiento;
+
+            test = test.toString();
+            test = test.slice(0,9);
+            console.log(test)
             if(aux == true){
               rows.push({nombre:users[i].nombre,
                 rut: users[i].rut,
-                fecha_nacimiento: users[i].fecha_nacimiento,
+                fecha_nacimiento: test,
+                telefono_apoderado: users[i].telefono
               })
-              console.log(rows)
+              
+              console.log(rows[0].telefono);
             }
           }
           setListo(1);
