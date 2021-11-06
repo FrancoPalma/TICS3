@@ -69,11 +69,6 @@ function Check({boleano}){
   }
 }
 
-
-
-
-
-
 export default function Profesionales() {
   const hist = useHistory();
   const classes = styles();
@@ -83,10 +78,10 @@ export default function Profesionales() {
   const columns = [
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
-    { name: "fecha nacimiento", align: "center" },
-    { name: "ficha clinica", align: "center" },
-    { name: "telefono apoderado", align: "center" }
+    { name: "fecha_nacimiento", align: "center" },
+    { name: "telefono_apoderado", align: "center" }
   ];
+
   const [rows] = useState([]);
   const [aux] = useState([]);
   const handleChange0 = (event) => {
@@ -104,49 +99,38 @@ export default function Profesionales() {
   const handleChange4 = (event) => {
     aux[4]=event.target.checked;
   };
+  /*
+  const handleChange5 = (event) => {
+    console.log(event.target.value)
+    setTelefono(event.target.value);
+    alert("el numero nuevo es:"+telefono)
+  };
+  const handleChange6 = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleChange7 = (event) => {
+    setEspecialidad(event.target.value);
+  };*/
 
   const [rut, setRut] = useState();
   const [nombre, setNombre] = useState();
-  const [email, setEmail] = useState();
-  const [telefono, setTelefono] = useState();
-  const [especialidad, setEspecialidad] = useState();
+  const [fecha_nacimiento, setfecha_nacimiento] = useState();
+  const [telefonoApoderado, settelefonoApoderado] = useState();
+
   
 
-  function Checks({rut, p1,p2,p3,p4,p5}){
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-  while(aux.length > 0) {
-    aux.pop();
-  }
-  aux.push(p1)
-  aux.push(p2)
-  aux.push(p3)
-  aux.push(p4)
-  aux.push(p5)
-  aux.push(rut)
-  return(
-    <div>
-      <FormGroup>
-        <FormControlLabel control={<Checkbox onChange={handleChange0} defaultChecked={aux[0]} />} label="Gestión Evaluación" />
-        <FormControlLabel control={<Checkbox onChange={handleChange1} defaultChecked={aux[1]}/>} label="Gestión Ficha" />
-        <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Infante" />
-        <FormControlLabel control={<Checkbox onChange={handleChange3} defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
-        <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
-
-      </FormGroup>
-    </div>
-  )
-}
-
-function Texto({rut}){
-  while(aux.length > 0) {
-    aux.pop();
-  }
-  aux.push(rut)
-  return(
-      <p>¿Esta seguro que desea eliminar este usuario?</p>
-  )
-}
+   
 /*
+  function Texto({rut}){
+    while(aux.length > 0) {
+      aux.pop();
+    }
+    aux.push(rut)
+    return(
+        <p>¿Esta seguro que desea eliminar este usuario?</p>
+    )
+  }
+
   function Boton({rut,p1,p2,p3,p4,p5}){
     return(
       <>
@@ -182,12 +166,50 @@ function Texto({rut}){
     )
   }
 
+  function Boton2({rut,nombre, telefono, email,especialidad}){
+    setNombre(nombre)
+    setRut(rut)
+    return(
+      <>
+      <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Formulario2 rut={rut} nombre={nombre} telefono={telefono} email={email}  especialidad={especialidad} />, 
+              'Edición usuario '+rut.toString());
+            
+            if (result) {
+              EditarEmpleado2(rut, nombre);
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">edit</Icon>
+        </SuiButton>
+        <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Texto rut={rut}/>, 
+              'Confirmación de eliminación'+rut.toString());
+            
+            if (result) {
+              EliminarEmpleado()
+            } else {
+              // Сonfirmation not confirmed
+
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">delete</Icon>
+        </SuiButton>
+      </>
+    )
+  }
+
   function Formulario(){
     return(
       <>
       <Grid container spacing={3}display="row">
         <Grid item xs={6}>
-        <label>Rut: </label>
+        <label>RUT: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -221,6 +243,64 @@ function Texto({rut}){
         <Grid item xs={6}>
           <input
             type="text"
+            name="telefono"
+            display="flex"
+            onChange={(e) => {
+              setTelefono(e.target.value);
+            }}nombre
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Email: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="email"
+            display="flex"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Especialidad: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="especialidad"
+            display="flex"
+            onChange={(e) => {
+              setEspecialidad(e.target.value);
+            }}
+          />
+        </Grid>
+      </Grid>
+      </>
+    )
+  }
+
+  function Formulario2(rut, nombre, telefono, email, especialidad){
+    setNombre(nombre);
+    setRut(rut);
+    setTelefono(telefono);
+    setEmail(email);
+    setEspecialidad(especialidad);
+    return(
+      <>
+      <Grid container spacing={3}display="row">
+        <Grid item xs={6}>
+        <label>Teléfono: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="tel"
             name="telefono"
             display="flex"
             onChange={(e) => {
@@ -262,15 +342,48 @@ function Texto({rut}){
       </>
     )
   }
-
+  function EditarEmpleado2(rut, nombre) {
+    let regex = new RegExp("^[a-z A-Z]+$");
+    let regex3 = new RegExp("^[0-9]+$");
+    console.log(rut)
+    console.log(nombre)
+    console.log(telefono)
+    alert(telefono)
+    console.log(email)
+    fetch('/usuario/editar_usuario/'+rut.toString(), {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      rut_usuario: rut,
+      nombre: "Diego",
+      telefono: "123",
+      email: "hola@gmail.com"
+    })
+    })
+    .then( (response) => {
+        if(response.status === 200) {
+            console.log("Editado correctamente")
+            window.location.href = window.location.href;
+        } else {
+            console.log('Hubo un error')
+            console.log(response.status)
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
   function BotonAgregar(){
     return(
       <SuiButton buttonColor="info" 
             onClick={async () => {
               const result = await Confirm(<Formulario/>, 
-                'Edición usuario ');
+                'Agregar ');
               if (result) {
-                //nopaisnd
+                AgregarProfesional();
               } else {
                 // Сonfirmation not confirmed
               }
@@ -282,22 +395,19 @@ function Texto({rut}){
         </Icon>
       </SuiButton>
     )
-  }
+  }*/
 
-
-  function ActualizarEmpleados(){
+  function ActualizarInfantes(){
     if (Listo == 0){
-      console.log("Corre")
       while(rows.length > 0) {
       rows.pop();
       }
-      fetch('/usuario/ver_privilegios')
+
+      fetch('/infante/ver_infantes')
         .then(res => {
             return res.json()
         })
         .then(users => {
-          
-
           for(let i=0; i < users.length;i++){
             let aux = true;
             for(let e=0;e < rows.length;e++){
@@ -308,21 +418,16 @@ function Texto({rut}){
             if(aux == true){
               rows.push({nombre:users[i].nombre,
                 rut: users[i].rut,
-                evaluación: <Check boleano={ users[i].gestion_evaluacion}/>,
-                ficha: <Check boleano={users[i].gestion_ficha}/>,
-                infante: <Check boleano={users[i].gestion_infante}/>,
-                privilegios: <Check boleano={users[i].gestion_priv}/>,
-                usuario: <Check boleano={users[i].gestion_usuario}/>,
-                acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario}/>
+                fecha_nacimiento: users[i].fecha_nacimiento,
               })
+              console.log(rows)
             }
           }
           setListo(1);
         });
-
     }
   }
-  
+  /*
   function EditarEmpleado() {
     let regex = new RegExp("^[a-z A-Z]+$");
     let regex3 = new RegExp("^[0-9]+$");
@@ -347,7 +452,7 @@ function Texto({rut}){
     })
     })
     .then( (response) => {
-        if(response.status === 201) {
+        if(response.status === 200) {
             console.log("Editado correctamente")
             window.location.href = window.location.href;
         } else {
@@ -359,7 +464,8 @@ function Texto({rut}){
         console.log(error)
     });
   }
-
+  function AgregarProfesional(){
+  }
   function EliminarEmpleado() {
     fetch('/usuario/eliminar_usuario/' + aux[0].toString(), {
     method: 'POST',
@@ -382,22 +488,23 @@ function Texto({rut}){
     .catch((error) => {
         console.log(error)
     });
-  }
-*/
+  }*/
 
 
 
-
- // if(Listo === 1){
+  if(Listo === 1){
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <SuiBox py={6}>
         <SuiBox mb={6}>
+
           <Card>
+
             <SuiBox customClass={classes.tables_table}>
               <Table columns={columns} rows={rows} />
             </SuiBox>
+     
           </Card>
         </SuiBox>
         <Card>
@@ -405,25 +512,18 @@ function Texto({rut}){
       </SuiBox>
       <Footer />
     </DashboardLayout>
-  );/*
+  );
   }else{
-    ActualizarEmpleados();
+    ActualizarInfantes();
     return(
       <DashboardLayout>
         <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
-          <Tabs value={tabValue} onChange={handleSetTabValue}>
-              <Tab label="Datos" {...a11yProps(0)}/>
-              <Tab label="Privilegios" {...a11yProps(1)}/>
-            </Tabs>
+
             <Card>
-            <TabPanel value={tabValue} index={0}>
               Cargando...
-            </TabPanel>
-            <TabPanel value={tabValue} index={1}>
-              Cargando...
-            </TabPanel>
+
             </Card>
           </SuiBox>
           <Card>
@@ -431,6 +531,7 @@ function Texto({rut}){
         </SuiBox>
         <Footer />
       </DashboardLayout>
-    );*/
-  //}
+    );
+  }
 }
+
