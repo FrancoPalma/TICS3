@@ -81,11 +81,20 @@ export default function Profesionales() {
     { name: "evaluación", align: "center" },
     { name: "ficha", align: "center" },
     { name: "infante", align: "center" },
-    { name: "privilegios", align: "right" },
-    { name: "usuario", align: "right" },
+    { name: "privilegios", align: "center" },
+    { name: "usuario", align: "center" },
+    { name: "acciones", align: "right" }
+  ];
+  const columns2 = [
+    { name: "nombre", align: "left" },
+    { name: "rut", align: "left" },
+    { name: "telefono", align: "center" },
+    { name: "email", align: "center" },
+    { name: "especialidad", align: "center" },
     { name: "acciones", align: "right" }
   ];
   const [rows] = useState([]);
+  const [rows2] = useState([]);
   const [aux] = useState([]);
   const handleChange0 = (event) => {
     aux[0]=event.target.checked;
@@ -102,6 +111,17 @@ export default function Profesionales() {
   const handleChange4 = (event) => {
     aux[4]=event.target.checked;
   };
+  const handleChange5 = (event) => {
+    console.log(event.target.value)
+    setTelefono(event.target.value);
+    alert("el numero nuevo es:"+telefono)
+  };
+  const handleChange6 = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleChange7 = (event) => {
+    setEspecialidad(event.target.value);
+  };
 
   const [rut, setRut] = useState();
   const [nombre, setNombre] = useState();
@@ -110,40 +130,40 @@ export default function Profesionales() {
   const [especialidad, setEspecialidad] = useState();
   
 
-  function Checks({rut, p1,p2,p3,p4,p5}){
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-  while(aux.length > 0) {
-    aux.pop();
-  }
-  aux.push(p1)
-  aux.push(p2)
-  aux.push(p3)
-  aux.push(p4)
-  aux.push(p5)
-  aux.push(rut)
-  return(
-    <div>
-      <FormGroup>
-        <FormControlLabel control={<Checkbox onChange={handleChange0} defaultChecked={aux[0]} />} label="Gestión Evaluación" />
-        <FormControlLabel control={<Checkbox onChange={handleChange1} defaultChecked={aux[1]}/>} label="Gestión Ficha" />
-        <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Infante" />
-        <FormControlLabel control={<Checkbox onChange={handleChange3} defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
-        <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
+    function Checks({rut, p1,p2,p3,p4,p5}){
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+    while(aux.length > 0) {
+      aux.pop();
+    }
+    aux.push(p1)
+    aux.push(p2)
+    aux.push(p3)
+    aux.push(p4)
+    aux.push(p5)
+    aux.push(rut)
+    return(
+      <div>
+        <FormGroup>
+          <FormControlLabel control={<Checkbox onChange={handleChange0} defaultChecked={aux[0]} />} label="Gestión Evaluación" />
+          <FormControlLabel control={<Checkbox onChange={handleChange1} defaultChecked={aux[1]}/>} label="Gestión Ficha" />
+          <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Infante" />
+          <FormControlLabel control={<Checkbox onChange={handleChange3} defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
+          <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
 
-      </FormGroup>
-    </div>
-  )
-}
-
-function Texto({rut}){
-  while(aux.length > 0) {
-    aux.pop();
+        </FormGroup>
+      </div>
+    )
   }
-  aux.push(rut)
-  return(
-      <p>¿Esta seguro que desea eliminar este usuario?</p>
-  )
-}
+
+  function Texto({rut}){
+    while(aux.length > 0) {
+      aux.pop();
+    }
+    aux.push(rut)
+    return(
+        <p>¿Esta seguro que desea eliminar este usuario?</p>
+    )
+  }
 
   function Boton({rut,p1,p2,p3,p4,p5}){
     return(
@@ -180,12 +200,49 @@ function Texto({rut}){
     )
   }
 
+  function Boton2({rut,nombre, telefono, email,especialidad}){
+    setNombre(nombre)
+    setRut(rut)
+    return(
+      <>
+      <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Formulario2 rut={rut} nombre={nombre} telefono={telefono} email={email}  especialidad={especialidad} />, 
+              'Edición usuario '+rut.toString());
+            
+            if (result) {
+              EditarEmpleado2(rut, nombre);
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">edit</Icon>
+        </SuiButton>
+        <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Texto rut={rut}/>, 
+              'Confirmación de eliminación'+rut.toString());
+            
+            if (result) {
+              EliminarEmpleado()
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">delete</Icon>
+        </SuiButton>
+      </>
+    )
+  }
+
   function Formulario(){
     return(
       <>
       <Grid container spacing={3}display="row">
         <Grid item xs={6}>
-        <label>Rut: </label>
+        <label>RUT: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -219,6 +276,64 @@ function Texto({rut}){
         <Grid item xs={6}>
           <input
             type="text"
+            name="telefono"
+            display="flex"
+            onChange={(e) => {
+              setTelefono(e.target.value);
+            }}nombre
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Email: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="email"
+            display="flex"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Especialidad: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="especialidad"
+            display="flex"
+            onChange={(e) => {
+              setEspecialidad(e.target.value);
+            }}
+          />
+        </Grid>
+      </Grid>
+      </>
+    )
+  }
+
+  function Formulario2(rut, nombre, telefono, email, especialidad){
+    setNombre(nombre);
+    setRut(rut);
+    setTelefono(telefono);
+    setEmail(email);
+    setEspecialidad(especialidad);
+    return(
+      <>
+      <Grid container spacing={3}display="row">
+        <Grid item xs={6}>
+        <label>Teléfono: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="tel"
             name="telefono"
             display="flex"
             onChange={(e) => {
@@ -260,16 +375,48 @@ function Texto({rut}){
       </>
     )
   }
-
-
+  function EditarEmpleado2(rut, nombre) {
+    let regex = new RegExp("^[a-z A-Z]+$");
+    let regex3 = new RegExp("^[0-9]+$");
+    console.log(rut)
+    console.log(nombre)
+    console.log(telefono)
+    alert(telefono)
+    console.log(email)
+    fetch('/usuario/editar_usuario/'+rut.toString(), {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      rut_usuario: rut,
+      nombre: "Diego",
+      telefono: "123",
+      email: "hola@gmail.com"
+    })
+    })
+    .then( (response) => {
+        if(response.status === 200) {
+            console.log("Editado correctamente")
+            window.location.href = window.location.href;
+        } else {
+            console.log('Hubo un error')
+            console.log(response.status)
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
   function BotonAgregar(){
     return(
       <SuiButton buttonColor="info" 
             onClick={async () => {
               const result = await Confirm(<Formulario/>, 
-                'Edición usuario ');
+                'Agregar ');
               if (result) {
-                //nopaisnd
+                AgregarProfesional();
               } else {
                 // Сonfirmation not confirmed
               }
@@ -283,21 +430,19 @@ function Texto({rut}){
     )
   }
 
-
-
   function ActualizarEmpleados(){
     if (Listo == 0){
-      console.log("Corre")
       while(rows.length > 0) {
       rows.pop();
       }
+      while(rows2.length > 0) {
+        rows2.pop();
+        }
       fetch('/usuario/ver_privilegios')
         .then(res => {
             return res.json()
         })
         .then(users => {
-          
-
           for(let i=0; i < users.length;i++){
             let aux = true;
             for(let e=0;e < rows.length;e++){
@@ -317,8 +462,33 @@ function Texto({rut}){
               })
             }
           }
+        });
+
+        fetch('/usuario/ver_datos')
+        .then(res => {
+            return res.json()
+        })
+        .then(users => {
+          for(let i=0; i < users.length;i++){
+            let aux = true;
+            for(let e=0;e < rows2.length;e++){
+              if(users[i].rut == rows2[e].rut){
+                aux=false;
+              }
+            }
+            if(aux == true){
+              rows2.push({nombre:users[i].nombre,
+                rut: users[i].rut,
+                telefono: users[i].telefono,
+                email: users[i].email,
+                especialidad: users[i].especialidad,
+                acciones: <Boton2 rut={users[i].rut} telefono={users[i].telefono} email={users[i].email} especialidad={users[i].especialidad}/>
+              })
+            }
+          }
           setListo(1);
         });
+
 
     }
   }
@@ -347,7 +517,7 @@ function Texto({rut}){
     })
     })
     .then( (response) => {
-        if(response.status === 201) {
+        if(response.status === 200) {
             console.log("Editado correctamente")
             window.location.href = window.location.href;
         } else {
@@ -359,7 +529,8 @@ function Texto({rut}){
         console.log(error)
     });
   }
-
+  function AgregarProfesional(){
+  }
   function EliminarEmpleado() {
     fetch('/usuario/eliminar_usuario/' + aux[0].toString(), {
     method: 'POST',
@@ -383,6 +554,9 @@ function Texto({rut}){
         console.log(error)
     });
   }
+
+
+
   if(Listo === 1){
   return (
     <DashboardLayout>
@@ -396,6 +570,9 @@ function Texto({rut}){
           <Card>
           <TabPanel value={tabValue} index={0}>
             <BotonAgregar/>
+            <SuiBox customClass={classes.tables_table}>
+              <Table columns={columns2} rows={rows2} />
+            </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
             <SuiBox customClass={classes.tables_table}>
