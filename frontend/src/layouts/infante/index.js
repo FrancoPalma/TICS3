@@ -4,6 +4,11 @@ import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -137,7 +142,7 @@ export default function Profesionales() {
     )
   }
 
-  */
+  
 
   function Boton({rut,nombre,fecha_nacimiento, rut_apoderado, nombre_apoderado, telefono, email}){
     setNombre(nombre)
@@ -176,7 +181,7 @@ export default function Profesionales() {
       </>
     )
   }
-
+*//*
   function Formulario2(rut, nombre, telefono, email, especialidad){
     setNombre(nombre);
     setRut(rut);
@@ -317,9 +322,10 @@ export default function Profesionales() {
                 rut: users[i].rut,
                 fecha_nacimiento: test,
                 telefono_apoderado: users[i].telefono,
-                acciones: <Boton />
+          
               })
               
+
 
             }
           }
