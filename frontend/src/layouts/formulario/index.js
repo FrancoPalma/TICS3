@@ -25,7 +25,16 @@ import Tab from '@material-ui/core/Tab';
 import TextField from "@material-ui/core/TextField";
 import SuiInput from "components/SuiInput";
 import { OutlinedInput } from "@material-ui/core";
+// Core viewer
+import { Viewer } from '@react-pdf-viewer/core';
+
+
+// Import styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+
 //npm install react-draft-wysiwyg draft-js react react-dom
+//npm install pdfjs-dist@2.6.347
+//npm install @react-pdf-viewer/core@2.10.1
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -52,10 +61,13 @@ function a11yProps(index) {
 }
 
 function Formulario(){
+  
   const [Listo,setListo] = useState(0);
+  const [url,setUrl] = useState(null);
   const editor = useRef(null);
   const [contenido, setContent] = useState("");
-  const [id, setID] = useState(null);
+  const [id, setID] = useState(0);
+  const [rows] = useState([]);
   const config = {
     readonly: false,
     height: 400,
@@ -81,7 +93,7 @@ const MenuProps = {
   },
 };
 
-  /*function ActualizarInfantes(){
+  function ActualizarInfantes(){
       fetch('/infante/ver_infantes')
         .then(res => {
             return res.json()
@@ -111,7 +123,7 @@ const MenuProps = {
           }
           setListo(1);
         });
-  }*/
+  }
 
   function EnviarInforme(){
     fetch('/informe/guardar_informe',{
@@ -123,7 +135,7 @@ const MenuProps = {
       body: JSON.stringify({
         rut_infante: "0",
         contenido: contenido,
-        id: id
+        id_informe: id
       })
     })
     .then((response) => {
@@ -142,12 +154,41 @@ const MenuProps = {
     });
   }
 
+  function RecibirInforme(){
+    fetch('/informe/ver_informe',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id_informe: id
+      })
+    })
+    .then((response) => {
+      if(response.status !== 404){
+        console.log("ok")
+        return response.json()
+      }else{
+        console.log("error")
+      }
+    })
+    .then(users => {
+      setUrl(users.url);
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
   if (Listo == 1){
     return(
       <DashboardLayout>
       <DashboardNavbar/>
-      <SuiBox py={6}>
-        <SuiBox mb={6}>
+      <SuiBox py={1}>
+      </SuiBox>
+      <SuiBox py={1}>
+        <SuiBox mb={1}>
           <Card>
               <JoditEditor
                 ref={editor}
@@ -158,17 +199,85 @@ const MenuProps = {
                 onChange={newContent => {}}
               />
               <p></p>
-              <SuiBox>
-                <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarInforme} py={2}>
-                Guardar
-                </SuiButton>
-              </SuiBox>
           </Card>
+      </SuiBox>
+        </SuiBox>
+      <SuiBox mb={2}>
+        <SuiBox mb={1} ml={0.5}>  
+          
+            <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarInforme} mb={2}>
+            Guardar
+            </SuiButton>
         </SuiBox>
       </SuiBox>
+       <SuiBox mb={2}>
+        <SuiBox mb={1} ml={0.5}>
+            <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirInforme} mb={2}>
+            Visualizar
+            </SuiButton>
+        </SuiBox>
+      </SuiBox>
+          
+      
       <Footer/>
       </DashboardLayout>
     );
+    }else if(Listo == 2){
+      ActualizarInfantes();
+      return(
+        <DashboardLayout>
+        <DashboardNavbar/>
+        <SuiBox py={1}>
+        </SuiBox>
+        <SuiBox py={1}>
+          <SuiBox mb={1}>
+            <Card>
+                <JoditEditor
+                  ref={editor}
+                  value={contenido}
+                  config={config}
+                  tabIndex={1} // tabIndex of textarea
+                  onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                  onChange={newContent => {}}
+                />
+                <p></p>
+            </Card>
+        </SuiBox>
+          </SuiBox>
+        <SuiBox mb={2}>
+          <SuiBox mb={1} ml={0.5}>  
+            
+              <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarInforme} mb={2}>
+              Guardar
+              </SuiButton>
+          </SuiBox>
+        </SuiBox>
+         <SuiBox mb={2}>
+          <SuiBox mb={1} ml={0.5}>
+              <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirInforme} mb={2}>
+              Visualizar
+              </SuiButton>
+          </SuiBox>
+        </SuiBox>
+        <Viewer fileUrl={url}/>
+        <Footer/>
+        </DashboardLayout>
+      );
+    }else{
+      ActualizarInfantes();
+      return(
+        <DashboardLayout>
+        <DashboardNavbar/>
+        <SuiBox py={6}>
+          <SuiBox mb={6}>
+            <Card>
+              <h1>Cargando</h1>
+            </Card>
+          </SuiBox>
+        </SuiBox>
+        <Footer/>
+        </DashboardLayout>
+      );
     }
 }
 
