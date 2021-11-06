@@ -27,6 +27,7 @@ import SuiInput from "components/SuiInput";
 import { OutlinedInput } from "@material-ui/core";
 // Core viewer
 import { Viewer } from '@react-pdf-viewer/core';
+import { useHistory } from "react-router-dom";
 
 
 // Import styles
@@ -61,7 +62,7 @@ function a11yProps(index) {
 }
 
 function Formulario(){
-  
+  const hist = useHistory();
   const [Listo,setListo] = useState(0);
   const [url,setUrl] = useState(null);
   const editor = useRef(null);
@@ -175,6 +176,8 @@ const MenuProps = {
     })
     .then(users => {
       setUrl(users.url);
+      window.location.replace(users.url, '_blank');
+      console.log(users.url);
     })
     .catch((error) => {
       console.log(error)
@@ -223,7 +226,7 @@ const MenuProps = {
       </DashboardLayout>
     );
     }else if(Listo == 2){
-      ActualizarInfantes();
+      console.log(url);
       return(
         <DashboardLayout>
         <DashboardNavbar/>
@@ -259,7 +262,6 @@ const MenuProps = {
               </SuiButton>
           </SuiBox>
         </SuiBox>
-        <Viewer fileUrl={url}/>
         <Footer/>
         </DashboardLayout>
       );
