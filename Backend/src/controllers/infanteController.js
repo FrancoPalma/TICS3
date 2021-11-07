@@ -106,7 +106,7 @@ infanteController.getDescargarFicha = (req, res) => {
     if(err){return res.sendStatus(404);}
     res.contentType("application/pdf");
     res.send(data);
-});
+  });
 }
 
 infanteController.postImportarFicha = async (req, res) => {
