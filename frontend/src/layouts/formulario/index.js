@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect} from "react";
 import JoditEditor from "jodit-react";
 import Card from "@material-ui/core/Card";
 import SuiButton from "components/SuiButton";
@@ -155,6 +155,13 @@ const MenuProps = {
     });
   }
 
+  function Direccion(url){
+    useEffect(() => {
+      window.location.href = url;
+    }, []);
+    setListo(2);
+  }
+
   function RecibirInforme(){
     fetch('/informe/ver_informe',{
       method: 'POST',
@@ -166,22 +173,13 @@ const MenuProps = {
         id_informe: id
       })
     })
-    .then((response) => {
-      if(response.status !== 404){
-        console.log("ok")
-        return response.json()
-      }else{
-        console.log("error")
-      }
+    .then(response => {
+      const file = new Blob([response.data], {
+        type: "application/pdf"
+      });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
     })
-    .then(users => {
-      setUrl(users.url);
-      window.location.replace(users.url, '_blank');
-      console.log(users.url);
-    })
-    .catch((error) => {
-      console.log(error)
-    });
   }
 
   if (Listo == 1){
@@ -228,42 +226,9 @@ const MenuProps = {
     }else if(Listo == 2){
       console.log(url);
       return(
-        <DashboardLayout>
-        <DashboardNavbar/>
-        <SuiBox py={1}>
-        </SuiBox>
-        <SuiBox py={1}>
-          <SuiBox mb={1}>
-            <Card>
-                <JoditEditor
-                  ref={editor}
-                  value={contenido}
-                  config={config}
-                  tabIndex={1} // tabIndex of textarea
-                  onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                  onChange={newContent => {}}
-                />
-                <p></p>
-            </Card>
-        </SuiBox>
-          </SuiBox>
-        <SuiBox mb={2}>
-          <SuiBox mb={1} ml={0.5}>  
-            
-              <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarInforme} mb={2}>
-              Guardar
-              </SuiButton>
-          </SuiBox>
-        </SuiBox>
-         <SuiBox mb={2}>
-          <SuiBox mb={1} ml={0.5}>
-              <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirInforme} mb={2}>
-              Visualizar
-              </SuiButton>
-          </SuiBox>
-        </SuiBox>
-        <Footer/>
-        </DashboardLayout>
+          <div>
+            <h2>Direccion</h2>
+          </div>
       );
     }else{
       ActualizarInfantes();
