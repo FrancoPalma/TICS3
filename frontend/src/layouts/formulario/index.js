@@ -188,32 +188,6 @@ const MenuProps = {
   .catch(error => {
     console.log(error);
   });
-
-
-
-
-
-/*
-    console.log(id)
-    fetch('/informe/ver_informe',{
-      method: 'POST',
-      responseType: 'arraybuffer',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id_informe: id
-      })
-    })
-    .then(response => {
-      console.log(response)
-      const file = new Blob([response.data], {
-        type: "application/pdf"
-      });
-      const fileURL = URL.createObjectURL(file);
-      window.open(fileURL);
-    })*/
   }
 
   
