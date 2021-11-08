@@ -160,16 +160,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon className="material-icons-round">settings</Icon>
               </IconButton>
-              <IconButton
-                color="inherit"
-                className={classes.navbar_icon_button}
-                aria-controls="notification-menu"
-                aria-haspopup="true"
-                variant="contained"
-                onClick={handleOpenMenu}
-              >
-                <Icon className="material-icons-round">notifications</Icon>
-              </IconButton>
               {renderMenu()}
             </SuiBox>
           </SuiBox>
