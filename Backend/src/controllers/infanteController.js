@@ -71,7 +71,7 @@ infanteController.getVerInfantes = (req, res) => {
 }
 
 infanteController.getVerInfante = (req, res) => {
-  let rut_infante = req.params.rut_infante;
+  let rut_infante = req.body.rut_infante;
 
   pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result)=> {
     if(err){ return res.sendStatus(404)}
