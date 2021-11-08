@@ -87,6 +87,9 @@ export default function Profesionales() {
     { name: "telefono_apoderado", align: "center" },
     { name: "acciones", align: "center" }
   ];
+  const [open, setOpen] = useState(false);
+  const [scroll, setScroll] = useState('paper');
+
 
   const [rows] = useState([]);
   const [aux] = useState([]);
@@ -144,7 +147,7 @@ export default function Profesionales() {
 
   
 
-  function Boton({rut,nombre,fecha_nacimiento, rut_apoderado, nombre_apoderado, telefono, email}){
+  function Boton({rut}){
     setNombre(nombre)
     setRut(rut)
     return(
@@ -294,6 +297,30 @@ export default function Profesionales() {
     )
   }*/
 
+
+  function Boton2({rut}){
+    setRutinfante(rut);
+/*
+    fetch('/infante/ver_infante/'+rut_infante.toString(),{
+      method:'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rut_infante: rut_infante
+      })
+
+          })*/
+    return(
+      <>
+      <SuiButton buttonColor="info" iconOnly>
+            <Icon classsName="material-icons-round">ver_datos</Icon>
+        </SuiButton>
+      </>
+    )
+  }
+
   function ActualizarInfantes(){
     if (Listo == 0){
       while(rows.length > 0) {
@@ -322,7 +349,7 @@ export default function Profesionales() {
                 rut: users[i].rut,
                 fecha_nacimiento: test,
                 telefono_apoderado: users[i].telefono,
-          
+                acciones: <Boton2 rut={users[i].rut}/>
               })
               
 
@@ -333,6 +360,11 @@ export default function Profesionales() {
         });
     }
   }
+  function VerInfante(rut){
+    setRutinfante(rut);
+
+  }
+
   /*
   function EditarEmpleado() {
     let regex = new RegExp("^[a-z A-Z]+$");
