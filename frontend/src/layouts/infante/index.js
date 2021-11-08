@@ -80,6 +80,8 @@ export default function Profesionales() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
+  console.log("El valor de Listo es: ");
+  console.log(Listo);
   const columns = [
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
@@ -108,18 +110,6 @@ export default function Profesionales() {
   const handleChange4 = (event) => {
     aux[4]=event.target.checked;
   };
-  /*
-  const handleChange5 = (event) => {
-    console.log(event.target.value)
-    setTelefono(event.target.value);
-    alert("el numero nuevo es:"+telefono)
-  };
-  const handleChange6 = (event) => {
-    setEmail(event.target.value);
-  };
-  const handleChange7 = (event) => {
-    setEspecialidad(event.target.value);
-  };*/
 
   const [rut_infante, setRutinfante] = useState();
   const [nombre_infante, setNombreinfante] = useState();
@@ -134,190 +124,24 @@ export default function Profesionales() {
   
 
    
-/*
-  function Texto({rut}){
-    while(aux.length > 0) {
-      aux.pop();
-    }
-    aux.push(rut)
-    return(
-        <p>¿Esta seguro que desea eliminar este usuario?</p>
-    )
+
+  function Colocao (){
+    console.log("El valor de LISTO es:");
+    setListo(3);
+    console.log(Listo);
+ 
   }
 
+  function Boton2(){
+
+
+    return(
+      <>
+      <SuiButton buttonColor="info" iconOnly onClick = {Colocao}>
+            <Icon classsName="material-icons-round">visibility</Icon>
+        </SuiButton>
+      </>
   
-
-  function Boton({rut}){
-    setNombre(nombre)
-    setRut(rut)
-    return(
-      <>
-      <SuiButton buttonColor="info" iconOnly
-          onClick={async () => {
-            const result = await Confirm(<Formulario2 rut={rut} nombre={nombre} telefono={telefono} email={email}  especialidad={especialidad} />, 
-              'Edición usuario '+rut.toString());
-            
-            if (result) {
-              EditarEmpleado2(rut, nombre);
-            } else {
-              // Сonfirmation not confirmed
-            }
-          }}
-        >
-            <Icon classsName="material-icons-round">edit</Icon>
-        </SuiButton>
-        <SuiButton buttonColor="info" iconOnly
-          onClick={async () => {
-            const result = await Confirm(<Texto rut={rut}/>, 
-              'Confirmación de eliminación'+rut.toString());
-            
-            if (result) {
-              EliminarEmpleado()
-            } else {
-              // Сonfirmation not confirmed
-
-            }
-          }}
-        >
-            <Icon classsName="material-icons-round">delete</Icon>
-        </SuiButton>
-      </>
-    )
-  }
-*//*
-  function Formulario2(rut, nombre, telefono, email, especialidad){
-    setNombre(nombre);
-    setRut(rut);
-    setTelefono(telefono);
-    setEmail(email);
-    setEspecialidad(especialidad);
-    return(
-      <>
-      <Grid container spacing={3}display="row">
-        <Grid item xs={6}>
-        <label>Teléfono: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="tel"
-            name="telefono"
-            display="flex"
-            onChange={(e) => {
-              setTelefono(e.target.value);
-            }}
-          />
-        </Grid>
-        
-        <Grid item xs={6}>
-        <label>Email: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="email"
-            display="flex"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-        </Grid>
-        
-        <Grid item xs={6}>
-        <label>Especialidad: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="especialidad"
-            display="flex"
-            onChange={(e) => {
-              setEspecialidad(e.target.value);
-            }}
-          />
-        </Grid>
-      </Grid>
-      </>
-    )
-  }
-  function EditarEmpleado2(rut, nombre) {
-    let regex = new RegExp("^[a-z A-Z]+$");
-    let regex3 = new RegExp("^[0-9]+$");
-    console.log(rut)
-    console.log(nombre)
-    console.log(telefono)
-    alert(telefono)
-    console.log(email)
-    fetch('/usuario/editar_usuario/'+rut.toString(), {
-    method: 'POST',
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      rut_usuario: rut,
-      nombre: "Diego",
-      telefono: "123",
-      email: "hola@gmail.com"
-    })
-    })
-    .then( (response) => {
-        if(response.status === 200) {
-            console.log("Editado correctamente")
-            window.location.href = window.location.href;
-        } else {
-            console.log('Hubo un error')
-            console.log(response.status)
-        }
-    })
-    .catch((error) => {
-        console.log(error)
-    });
-  }/*
-  function BotonAgregar(){
-    return(
-      <SuiButton buttonColor="info" 
-            onClick={async () => {
-              const result = await Confirm(<Formulario/>, 
-                'Agregar ');
-              if (result) {
-                AgregarProfesional();
-              } else {
-                // Сonfirmation not confirmed
-              }
-            }}
-      >
-        Agregar Profesional
-        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
-          add
-        </Icon>
-      </SuiButton>
-    )
-  }*/
-
-
-  function Boton2({rut}){
-    setRutinfante(rut);
-/*
-    fetch('/infante/ver_infante/'+rut_infante.toString(),{
-      method:'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        rut_infante: rut_infante
-      })
-
-          })*/
-    return(
-      <>
-      <SuiButton buttonColor="info" iconOnly>
-            <Icon classsName="material-icons-round">ver_datos</Icon>
-        </SuiButton>
-      </>
     )
   }
 
@@ -343,7 +167,7 @@ export default function Profesionales() {
 
             test = test.toString();
             test = test.slice(0,9);
-            console.log(test)
+
             if(aux == true){
               rows.push({nombre:users[i].nombre,
                 rut: users[i].rut,
@@ -356,7 +180,9 @@ export default function Profesionales() {
 
             }
           }
+          console.log("El valor de LISTO es:");
           setListo(1);
+          console.log(Listo);
         });
     }
   }
@@ -365,72 +191,31 @@ export default function Profesionales() {
 
   }
 
-  /*
-  function EditarEmpleado() {
-    let regex = new RegExp("^[a-z A-Z]+$");
-    let regex3 = new RegExp("^[0-9]+$");
-    console.log(aux[0])
-    console.log(aux[1])
-    console.log(aux[2])
-    console.log(aux[3])
-    console.log(aux[4])
-    fetch('/usuario/editar_privilegios/'+aux[5].toString(), {
-    method: 'POST',
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      rut_usuario: aux[5],
-      gestion_evaluacion: aux[0],
-      gestion_ficha: aux[1],
-      gestion_infante: aux[2],
-      gestion_priv: aux[3],
-      gestion_usuario: aux[4],
-    })
-    })
-    .then( (response) => {
-        if(response.status === 200) {
-            console.log("Editado correctamente")
-            window.location.href = window.location.href;
-        } else {
-            console.log('Hubo un error')
-            console.log(response.status)
-        }
-    })
-    .catch((error) => {
-        console.log(error)
-    });
+  if (Listo === 0){
+
+    ActualizarInfantes();
+    return(
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+
+            <Card>
+              Cargando...
+
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+    
   }
-  function AgregarProfesional(){
-  }
-  function EliminarEmpleado() {
-    fetch('/usuario/eliminar_usuario/' + aux[0].toString(), {
-    method: 'POST',
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      rut_usuario: aux[0],
-    })
-    })
-    .then( (response) => {
-        if(response.status === 201) {
-            console.log("Eliminado correctamente")
-            window.location.href = window.location.href;
-        } else {
-            console.log('Hubo un error')
-        }
-    })
-    .catch((error) => {
-        console.log(error)
-    });
-  }*/
 
-
-
-  if(Listo === 1){
+  else if(Listo === 1){
+    
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -451,8 +236,7 @@ export default function Profesionales() {
       <Footer />
     </DashboardLayout>
   );
-  }else{
-    ActualizarInfantes();
+  }else if(Listo === 3){
     return(
       <DashboardLayout>
         <DashboardNavbar />
@@ -471,5 +255,7 @@ export default function Profesionales() {
       </DashboardLayout>
     );
   }
+
+  
 }
 
