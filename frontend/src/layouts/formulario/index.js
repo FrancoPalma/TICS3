@@ -225,7 +225,6 @@ const MenuProps = {
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
               }}
             />
-            <pre>{value}</pre>
           </Card>
       </SuiBox>
         </SuiBox>
