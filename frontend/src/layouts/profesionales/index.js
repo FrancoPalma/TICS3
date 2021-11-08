@@ -12,15 +12,14 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import styles from "layouts/tables/styles";
 import Table from "examples/Table";
-import { func } from "prop-types";
 import SuiButton from "components/SuiButton";
 import Icon from "@material-ui/core/Icon";
 import typography from "assets/theme/base/typography";
 import { Confirm,} from 'react-st-modal';
 import { useHistory } from "react-router-dom";
-import SuiInput from "components/SuiInput";
 import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -45,7 +44,6 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
 function Check({boleano}){
   const { size } = typography;
   if(boleano){
@@ -68,7 +66,6 @@ function Check({boleano}){
 
   }
 }
-
 export default function Profesionales() {
   const hist = useHistory();
   const classes = styles();
@@ -111,24 +108,12 @@ export default function Profesionales() {
   const handleChange4 = (event) => {
     aux[4]=event.target.checked;
   };
-  const handleChange5 = (event) => {
-    console.log(event.target.value)
-    setTelefono(event.target.value);
-    alert("el numero nuevo es:"+telefono)
-  };
-  const handleChange6 = (event) => {
-    setEmail(event.target.value);
-  };
-  const handleChange7 = (event) => {
-    setEspecialidad(event.target.value);
-  };
 
   const [rut, setRut] = useState();
   const [nombre, setNombre] = useState();
   const [email, setEmail] = useState();
   const [telefono, setTelefono] = useState();
   const [especialidad, setEspecialidad] = useState();
-  
 
     function Checks({rut, p1,p2,p3,p4,p5}){
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -154,7 +139,6 @@ export default function Profesionales() {
       </div>
     )
   }
-
   function Texto({rut}){
     while(aux.length > 0) {
       aux.pop();
@@ -164,7 +148,6 @@ export default function Profesionales() {
         <p>¿Esta seguro que desea eliminar este usuario?</p>
     )
   }
-
   function Boton({rut,p1,p2,p3,p4,p5}){
     return(
       <>
@@ -199,7 +182,6 @@ export default function Profesionales() {
       </>
     )
   }
-
   function Boton2({rut,nombre, telefono, email,especialidad}){
     setNombre(nombre);
     setRut(rut);
@@ -236,7 +218,6 @@ export default function Profesionales() {
       </>
     )
   }
-
   function Formulario(){
     return(
       <>
@@ -317,7 +298,6 @@ export default function Profesionales() {
       </>
     )
   }
-
   function Formulario2(rut, nombre, telefono, email, especialidad){
     setNombre(nombre);
     setRut(rut);
@@ -427,7 +407,6 @@ export default function Profesionales() {
       </SuiButton>
     )
   }
-
   function ActualizarEmpleados(){
     if (Listo == 0){
       while(rows.length > 0) {
@@ -490,7 +469,6 @@ export default function Profesionales() {
 
     }
   }
-  
   function EditarEmpleado() {
     let regex = new RegExp("^[a-z A-Z]+$");
     let regex3 = new RegExp("^[0-9]+$");
@@ -528,6 +506,35 @@ export default function Profesionales() {
     });
   }
   function AgregarProfesional(){
+    console.log(rut)
+    console.log(nombre)
+    console.log(telefono)
+    console.log(email)
+    fetch('/agregar_usuario'+rut.toString(), {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      rut_usuario: rut,
+      nombre: "Diego",
+      telefono: "123",
+      email: "hola@gmail.com"
+    })
+    })
+    .then( (response) => {
+        if(response.status === 200) {
+            console.log("Agregado correctamente")
+            window.location.href = window.location.href;
+        } else {
+            console.log('Hubo un error')
+            console.log(response.status)
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
   }
   function EliminarEmpleado() {
     fetch('/usuario/eliminar_usuario/' + aux[0].toString(), {
@@ -571,6 +578,7 @@ export default function Profesionales() {
             </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
+            <BotonAgregar/>
             <SuiBox customClass={classes.tables_table}>
               <Table columns={columns} rows={rows} />
             </SuiBox>

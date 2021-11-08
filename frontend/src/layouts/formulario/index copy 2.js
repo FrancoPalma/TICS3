@@ -1,8 +1,4 @@
 import React, { useState, useRef, useEffect} from "react";
-import { Editor } from '@tinymce/tinymce-react';
-
-
-
 import JoditEditor from "jodit-react";
 import Card from "@material-ui/core/Card";
 import SuiButton from "components/SuiButton";
@@ -68,9 +64,7 @@ function a11yProps(index) {
 function Formulario(){
   const hist = useHistory();
   const [Listo,setListo] = useState(0);
-  const [value, setValue] = useState('');
-  const [text, setText] = useState('');
-
+  const [url,setUrl] = useState(null);
   const editor = useRef(null);
   const [contenido, setContent] = useState("");
   const [id, setID] = useState(0);
@@ -141,7 +135,7 @@ const MenuProps = {
       },
       body: JSON.stringify({
         rut_infante: "12345678-9",
-        contenido: value,
+        contenido: contenido,
         id_informe: id
       })
     })
@@ -159,6 +153,13 @@ const MenuProps = {
     .catch((error) => {
       console.log(error)
     });
+  }
+
+  function Direccion(url){
+    useEffect(() => {
+      window.location.href = url;
+    }, []);
+    setListo(2);
   }
 
   function RecibirInforme(){
@@ -200,31 +201,15 @@ const MenuProps = {
       <SuiBox py={1}>
         <SuiBox mb={1}>
           <Card>
-          <Editor
-              value={value}
-              onInit={(evt, editor) => {
-                setText(editor.getContent({format: 'text'}));
-              }}
-              onEditorChange={(newValue, editor) => {
-                setValue(newValue);
-                setText(editor.getContent({format: 'text'}));
-              }}
-              init={{
-                height: 500,
-                menubar: true,
-                selector: 'textarea#default',
-                plugins: [
-                  'advlist autolink lists link image charmap print preview anchor',
-                  'searchreplace visualblocks code fullscreen',
-                  'insertdatetime media table paste code help wordcount'
-                ],
-                toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
-                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-              }}
-            />
+              <JoditEditor
+                ref={editor}
+                value={contenido}
+                config={config}
+                tabIndex={1} // tabIndex of textarea
+                onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                onChange={newContent => {}}
+              />
+              <p></p>
           </Card>
       </SuiBox>
         </SuiBox>
@@ -242,11 +227,18 @@ const MenuProps = {
             </SuiButton>
         </SuiBox>
       </SuiBox>
-          
+      {contenido}
       
       <Footer/>
       </DashboardLayout>
     );
+    }else if(Listo == 2){
+      console.log(url);
+      return(
+          <div>
+            <h2>Direccion</h2>
+          </div>
+      );
     }else{
       ActualizarInfantes();
       return(
