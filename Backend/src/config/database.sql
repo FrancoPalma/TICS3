@@ -1,12 +1,12 @@
 create table usuario (
-id_jardin INTEGER,
-rut numeric(8,0) primary key,
-nombre varchar(80),
-telefono numeric(11,0),
-email varchar(50),
-especialidad varchar(50),
-password text,
-CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
+    id_jardin INTEGER,
+    rut numeric(8,0) primary key,
+    nombre varchar(80),
+    telefono numeric(11,0),
+    email varchar(50),
+    especialidad varchar(50),
+    password text,
+    CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
 );
 
 create table privilegios (
@@ -16,17 +16,22 @@ create table privilegios (
     gestion_priv BOOLEAN,
     gestion_evaluacion BOOLEAN,
     gestion_infante BOOLEAN,
+    gestion_horario BOOLEAN,
     administrador BOOLEAN,
     CONSTRAINT fk_rut FOREIGN KEY(rut_usuario) REFERENCES usuario(rut)
 );
 
 create table horario (
-    rut_usuario numeric(8,0),
+    id SERIAL PRIMARY KEY,
+    id_jardin INTEGER,
+    responsable VARCHAR(80),
     descripcion DATE,
     fecha DATE,
-    hora TIME,
+    semana DATE,
+    inicio TIME,
+    fin TIME,
     sala VARCHAR(30),
-    CONSTRAINT fk_rut FOREIGN KEY(rut_usuario) REFERENCES usuario(rut)
+    CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
 );
 
 create table informe (
@@ -92,7 +97,10 @@ nombre varchar(80),
 telefono numeric(11,0),
 direccion varchar(50),
 email varchar(50),
-rut_admin NUMERIC(8,0)
+rut_admin NUMERIC(8,0),
+duracion_modulo NUMERIC(8,0),
+apertura TIME,
+cierre TIME
 );
 
 create table infante(
@@ -198,3 +206,12 @@ DROP TABLE metodologia;
 DROP TABLE evaluacion; 
 DROP TABLE objetivo;
 DROP TABLE analisis;
+
+DROP TABLE modulo;
+DROP TABLE privilegios;
+DROP TABLE horario;
+DROP TABLE informe;
+DROP TABLE apoderado;
+DROP TABLE infante; 
+DROP TABLE usuario;
+DROP TABLE jardin;

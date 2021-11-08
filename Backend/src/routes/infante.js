@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const infanteController = require('../controllers/infanteController.js')
+const infanteController = require('../controllers/infanteController.js');
+const sesionController = require('../controllers/sesionController.js');
 const multer = require('multer');
 const path = require('path');
 
@@ -30,15 +31,15 @@ router.get('/ver_infantes', infanteController.getVerInfantes)
 
 router.get('/ver_infante/:rut_infante', infanteController.getVerInfante)
 
-router.post('/editar_infante/:infante', infanteController.postEditarInfante);
+router.post('/editar_infante/:infante', sesionController.isLoggedIn, sesionController.gestionInfante, infanteController.postEditarInfante);
 
-router.post('/agregar_infante', infanteController.postAgregarInfante);
+router.post('/agregar_infante', sesionController.isLoggedIn, sesionController.gestionInfante, infanteController.postAgregarInfante);
 
-router.post('/eliminar_infante/:rut_infante', infanteController.postEliminarInfante);
+router.post('/eliminar_infante/:rut_infante', sesionController.isLoggedIn, sesionController.gestionInfante, infanteController.postEliminarInfante);
 
 //router.get('/ver_ficha', infanteController.getVerFicha);
 
-router.post('/importar_ficha/:rut_infante', upload.single('ficha'), infanteController.postImportarFicha);
+router.post('/importar_ficha/:rut_infante', sesionController.isLoggedIn, sesionController.gestionFicha, upload.single('ficha'), infanteController.postImportarFicha);
 
 router.get('/ver_ficha', infanteController.getDescargarFicha);
 

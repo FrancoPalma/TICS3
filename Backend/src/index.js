@@ -34,11 +34,13 @@ sesion = require('./routes/sesion');
 usuario = require('./routes/usuario');
 informe = require('./routes/informe')
 infante = require('./routes/infante');
+horario = require('./routes/horario');
 
 app.use('/sesion', sesion);
 app.use('/usuario', usuario);
 app.use('/informe', informe);
 app.use('/infante', infante);
+app.use('/horario', horario);
 
 //Starting the server
 

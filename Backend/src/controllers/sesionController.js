@@ -18,9 +18,16 @@ sesionController.postLogin = (req,res) => {
 	}) (req, res);
 };
 
-sesionController.getSignup = (req, res) => {
-	res.render('signup')
-}
+sesionController.postSignupAdmin = async (req,res) => {
+	console.log("hola")
+	await passport.authenticate('local-signup-admin', function(err, user) {
+		if (err) {return res.sendStatus(404); }
+		if (user == false) { 
+			console.log("hola")
+			return res.sendStatus(404); }
+		return res.sendStatus(200);
+	}) (req, res);
+};
 
 sesionController.postSignup = async (req,res) => {
 	await passport.authenticate('local-signup', function(err, user) {
@@ -44,37 +51,44 @@ sesionController.isLoggedIn = (req, res, next) => {
 	res.sendStatus(404);
 }
 
-sesionController.gestionUsuario = (req, res) => {
+sesionController.gestionUsuario = (req, res, next) => {
 	if(req.user.gestion_usuario){
-		next()
+		return next();
 	}
 	return res.sendStatus(404);
 };
 
-sesionController.gestionPriv = (req, res) => {
+sesionController.gestionPriv = (req, res, next) => {
 	if(req.user.gestion_priv){
-		next()
+		return next();
 	}
 	return res.sendStatus(404);
 };
 
-sesionController.gestionInfante = (req, res) => {
+sesionController.gestionInfante = (req, res, next) => {
 	if(req.user.gestion_infante){
-		next()
+		return next();
 	}
 	return res.sendStatus(404);
 };
 
-sesionController.gestionFicha = (req, res) => {
+sesionController.gestionFicha = (req, res, next) => {
 	if(req.user.gestion_ficha){
-		next()
+		return next();
 	}
 	return res.sendStatus(404);
 };
 
-sesionController.gestionEvaluacion = (req, res) => {
+sesionController.gestionEvaluacion = (req, res, next) => {
 	if(req.user.gestion_evaluacion){
-		next()
+		return next();
+	}
+	return res.sendStatus(404);
+};
+
+sesionController.gestionHorario = (req, res, next) => {
+	if(req.user.gestion_horario){
+		return next();
 	}
 	return res.sendStatus(404);
 };

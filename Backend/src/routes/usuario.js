@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const usuarioController = require('../controllers/usuarioController')
-const sesionController = require('../controllers/sesionController.js')
+const usuarioController = require('../controllers/usuarioController');
+const sesionController = require('../controllers/sesionController.js');
 
-router.get('/ver_privilegios', usuarioController.getVerPrivilegios);
+router.get('/ver_privilegios', sesionController.isLoggedIn, sesionController.gestionPriv, usuarioController.getVerPrivilegios);
 
-router.get('/ver_datos', usuarioController.getVerDatos);
+router.get('/ver_datos', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.getVerDatos);
 
-router.post('/editar_privilegios/:rut_usuario', usuarioController.postEditarPrivilegios);
+router.post('/editar_privilegios/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionPriv, usuarioController.postEditarPrivilegios);
 
-router.post('/eliminar_usuario/:rut_usuario', usuarioController.postEliminarUsuario)
+router.post('/eliminar_usuario/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.postEliminarUsuario)
 
-router.post('/editar_usuario/:rut_usuario', usuarioController.postEditarUsuario);
+router.post('/editar_usuario/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.postEditarUsuario);
 
 router.post('/editar_password/:rut_usuario', usuarioController.postEditarPassword);
 

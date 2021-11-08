@@ -11,9 +11,9 @@ router.get('/login', sesionController.getLogin);
 
 router.post('/login', sesionController.postLogin);
 
-router.get('/signup', sesionController.getSignup);
-
 router.post('/agregar_usuario', sesionController.postSignup)
+
+router.post('/agregar_usuario_admin', sesionController.postSignupAdmin)
 
 router.get('/logout', sesionController.getLogout);
 
