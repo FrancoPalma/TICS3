@@ -116,6 +116,15 @@ export default function Profesionales() {
   const handleChange6 = (event) => {
     datos[1]=event.target.value;
   };
+  const handleChange7 = (event) => {
+    datos[2]=event.target.value;
+  };
+  const handleChange8 = (event) => {
+    datos[3]=event.target.value;
+  };
+  const handleChange9 = (event) => {
+    datos[4]=event.target.value;
+  };
 
   const [rut, setRut] = useState();
   const [nombre, setNombre] = useState();
@@ -308,7 +317,7 @@ export default function Profesionales() {
       </>
     )
   }
-  function Formulario2(rut, nombre, telefono, email, especialidad){
+  function Formulario2({rut, nombre, telefono, email, especialidad}){
     while(datos.length > 0) {
       datos.pop();
     }
@@ -317,7 +326,7 @@ export default function Profesionales() {
     datos.push(telefono)
     datos.push(email)
     datos.push(especialidad)
-    console.log(nombre)
+    console.log(nombre);
     return(
       <>
       <Grid container spacing={3}display="row">
@@ -331,7 +340,9 @@ export default function Profesionales() {
             name="nombre"
             display="flex"
             value={nombre}
-            onChange={handleChange6}
+            onChange={(e) => {
+              datos[1] = e.target.value;
+            }}
           />
         </Grid>
 
@@ -344,7 +355,8 @@ export default function Profesionales() {
             type="tel"
             name="telefono"
             display="flex"
-            onChange={(event) => setTelefono(event.target.value)}
+            value={datos[2]}
+            onChange={handleChange7}
           />
         </Grid>
         
@@ -356,10 +368,9 @@ export default function Profesionales() {
           <input
             type="text"
             name="email"
+            value={datos[3]}
             display="flex"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={handleChange8}
           />
         </Grid>
         
@@ -371,10 +382,9 @@ export default function Profesionales() {
           <input
             type="text"
             name="especialidad"
+            value={datos[4]}
             display="flex"
-            onChange={(e) => {
-              setEspecialidad(e.target.value);
-            }}
+            onChange={handleChange9}
           />
         </Grid>
       </Grid>
@@ -382,13 +392,6 @@ export default function Profesionales() {
     )
   }
   function EditarEmpleado2(rut, nombre) {
-    let regex = new RegExp("^[a-z A-Z]+$");
-    let regex3 = new RegExp("^[0-9]+$");
-    console.log(rut)
-    console.log(nombre)
-    console.log(telefono)
-    alert(telefono)
-    console.log(email)
     fetch('/usuario/editar_usuario/'+rut.toString(), {
     method: 'POST',
     headers: {
@@ -396,10 +399,11 @@ export default function Profesionales() {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: rut,
-      nombre: "Diego",
-      telefono: "123",
-      email: "hola@gmail.com"
+      rut_usuario: datos[0],
+      nombre: datos[1],
+      telefono: datos[2],
+      email: datos[3],
+      especialidad: datos[4]
     })
     })
     .then( (response) => {
