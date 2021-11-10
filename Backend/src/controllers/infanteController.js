@@ -56,15 +56,16 @@ infanteController.postEditarInfante = (req, res) => {
 infanteController.getVerInfantes = (req, res) => {
   pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut', (err, result)=> {
     if(err){ return res.sendStatus(404)}
-    console.log(result.rows)
+
     return res.json(result.rows)
   })
 }
 
 infanteController.postVerInfante = (req, res) => {
   let rut_infante = req.params.rut_infante;
+  console.log(rut_infante)
 
-  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.rut, apoderado.nombre, apoderado.mail, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result)=> {
+  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.rut as rut_apoderado, apoderado.nombre as nombre_apoderado, apoderado.email, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result)=> {
     if(err){ return res.sendStatus(404)}
     console.log(result.rows[0])
     return res.json(result.rows[0]);
