@@ -122,12 +122,12 @@ export default function Infantes() {
 
   
 
-  function DatosPersonales(rut){
+  function DatosPersonales(rut_infante){
     while(rows2.length > 0) {
       rows2.pop();
       }
 
-    fetch('/infante/ver_infante/'+rut.toString(),{
+    fetch('/infante/ver_infante/'+rut_infante.toString(),{
       method:'POST',
       headers: {
         Accept: 'application/json',

@@ -80,6 +80,7 @@ export default function Profesionales() {
     { name: "infante", align: "center" },
     { name: "privilegios", align: "center" },
     { name: "usuario", align: "center" },
+    { name: "horario", align: "center" },
     { name: "acciones", align: "right" }
   ];
   const columns2 = [
@@ -108,6 +109,9 @@ export default function Profesionales() {
   const handleChange4 = (event) => {
     aux[4]=event.target.checked;
   };
+  const handleChange5 = (event) => {
+    aux[5]=event.target.checked;
+  };
 
   const [rut, setRut] = useState();
   const [nombre, setNombre] = useState();
@@ -115,7 +119,7 @@ export default function Profesionales() {
   const [telefono, setTelefono] = useState();
   const [especialidad, setEspecialidad] = useState();
 
-    function Checks({rut, p1,p2,p3,p4,p5}){
+  function Checks({rut, p1,p2,p3,p4,p5,p6}){
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     while(aux.length > 0) {
       aux.pop();
@@ -125,6 +129,7 @@ export default function Profesionales() {
     aux.push(p3)
     aux.push(p4)
     aux.push(p5)
+    aux.push(p6)
     aux.push(rut)
     return(
       <div>
@@ -134,6 +139,8 @@ export default function Profesionales() {
           <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Infante" />
           <FormControlLabel control={<Checkbox onChange={handleChange3} defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
           <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
+          <FormControlLabel control={<Checkbox onChange={handleChange5} defaultChecked={aux[5]}/>} label="Gestión Horarios" />
+
 
         </FormGroup>
       </div>
@@ -148,12 +155,12 @@ export default function Profesionales() {
         <p>¿Esta seguro que desea eliminar este usuario?</p>
     )
   }
-  function Boton({rut,p1,p2,p3,p4,p5}){
+  function Boton({rut,p1,p2,p3,p4,p5,p6}){
     return(
       <>
       <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
-            const result = await Confirm(<Checks rut={rut} p1={p1} p2={p2} p3={p3} p4={p4} p5={p5}/>, 
+            const result = await Confirm(<Checks rut={rut} p1={p1} p2={p2} p3={p3} p4={p4} p5={p5} p6={p6}/>, 
               'Edición usuario '+rut.toString());
             
             if (result) {
@@ -435,13 +442,14 @@ export default function Profesionales() {
                 infante: <Check boleano={users[i].gestion_infante}/>,
                 privilegios: <Check boleano={users[i].gestion_priv}/>,
                 usuario: <Check boleano={users[i].gestion_usuario}/>,
-                acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario}/>
+                horario: <Check boleano={users[i].gestion_horario}/> ,
+                acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario} p6={users[i].gestion_horario}/>
               })
             }
           }
         });
 
-        fetch('/usuario/ver_datos')
+        fetch('/usuario/ver_usuarios')
         .then(res => {
             return res.json()
         })
@@ -472,24 +480,20 @@ export default function Profesionales() {
   function EditarEmpleado() {
     let regex = new RegExp("^[a-z A-Z]+$");
     let regex3 = new RegExp("^[0-9]+$");
-    console.log(aux[0])
-    console.log(aux[1])
-    console.log(aux[2])
-    console.log(aux[3])
-    console.log(aux[4])
-    fetch('/usuario/editar_privilegios/'+aux[5].toString(), {
+    fetch('/usuario/editar_privilegios/'+aux[6].toString(), {
     method: 'POST',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: aux[5],
+      rut_usuario: aux[6],
       gestion_evaluacion: aux[0],
       gestion_ficha: aux[1],
       gestion_infante: aux[2],
       gestion_priv: aux[3],
       gestion_usuario: aux[4],
+      gestion_horario: aux[5],
     })
     })
     .then( (response) => {
