@@ -92,6 +92,7 @@ export default function Infantes() {
 
 
   const [rows] = useState([]);
+  const [rows2] = useState([]);
   const [aux] = useState([]);
   const handleChange0 = (event) => {
     aux[0]=event.target.checked;
@@ -122,9 +123,11 @@ export default function Infantes() {
   
 
   function DatosPersonales(rut){
-    const [rows2] = useState([]);
+    while(rows2.length > 0) {
+      rows2.pop();
+      }
 
-    fetch('/infante/ver_infantes'+rut.toString(),{
+    fetch('/infante/ver_infante/'+rut.toString(),{
       method:'POST',
       headers: {
         Accept: 'application/json',
@@ -133,7 +136,34 @@ export default function Infantes() {
     })
     .then(res => {
         return res.json()
-    })
+    })      
+    .then(users => {
+      for(let i=0; i < users.length;i++){
+        let aux = true;
+        for(let e=0;e < rows.length;e++){
+          if(users[i].rut == rows[e].rut){
+            aux=false;
+          }
+        }
+
+      console.log(users[i].rut)
+      console.log(users[i].nombre)
+
+        if(aux == true){
+          rows2.push({nombre:users[i].nombre,
+            rut: users[i].rut,
+            fecha_nacimiento: test,
+            telefono_apoderado: users[i].telefono,
+          })
+          
+
+
+        }
+      }
+
+
+
+    });
 
   }
 
