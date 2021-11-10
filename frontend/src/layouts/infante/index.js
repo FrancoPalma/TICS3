@@ -129,7 +129,7 @@ export default function Infantes() {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-      },
+      }
     })
     .then(res => {
         return res.json()
@@ -138,8 +138,6 @@ export default function Infantes() {
   }
 
   function Colocao (rut){
-    console.log("Entre a la función");
-    console.log(rut);
     setListo(3);
     DatosPersonales(rut);
     return(      
