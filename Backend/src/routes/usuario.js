@@ -7,6 +7,8 @@ router.get('/ver_privilegios', sesionController.isLoggedIn, sesionController.ges
 
 router.get('/ver_usuarios', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.getVerUsuarios);
 
+router.get('/ver_perfil', sesionController.isLoggedIn, usuarioController.getVerPerfil);
+
 router.post('/editar_privilegios/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionPriv, usuarioController.postEditarPrivilegios);
 
 router.post('/eliminar_usuario/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.postEliminarUsuario)
