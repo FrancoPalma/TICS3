@@ -390,13 +390,6 @@ export default function Profesionales() {
     )
   }
   function EditarEmpleado2(rut, nombre) {
-    let regex = new RegExp("^[a-z A-Z]+$");
-    let regex3 = new RegExp("^[0-9]+$");
-    console.log(rut)
-    console.log(nombre)
-    console.log(telefono)
-    alert(telefono)
-    console.log(email)
     fetch('/usuario/editar_usuario/'+rut.toString(), {
     method: 'POST',
     headers: {
@@ -404,10 +397,11 @@ export default function Profesionales() {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: rut,
-      nombre: "Diego",
-      telefono: "123",
-      email: "hola@gmail.com"
+      rut_usuario: datos[0],
+      nombre: datos[1],
+      telefono: datos[2],
+      email: datos[3],
+      especialidad: datos[4]
     })
     })
     .then( (response) => {
