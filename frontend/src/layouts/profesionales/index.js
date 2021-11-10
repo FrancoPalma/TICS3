@@ -340,7 +340,9 @@ export default function Profesionales() {
             name="nombre"
             display="flex"
             value={nombre}
-            onChange={handleChange6}
+            onChange={(e) => {
+              datos[1] = e.target.value;
+            }}
           />
         </Grid>
 
@@ -353,7 +355,7 @@ export default function Profesionales() {
             type="tel"
             name="telefono"
             display="flex"
-            value={telefono}
+            value={datos[2]}
             onChange={handleChange7}
           />
         </Grid>
@@ -366,7 +368,7 @@ export default function Profesionales() {
           <input
             type="text"
             name="email"
-            value={email}
+            value={datos[3]}
             display="flex"
             onChange={handleChange8}
           />
@@ -380,7 +382,7 @@ export default function Profesionales() {
           <input
             type="text"
             name="especialidad"
-            value={especialidad}
+            value={datos[4]}
             display="flex"
             onChange={handleChange9}
           />
