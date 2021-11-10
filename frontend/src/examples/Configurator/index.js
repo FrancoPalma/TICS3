@@ -1,26 +1,8 @@
-/**
-=========================================================
-* Soft UI Dashboard Material-UI - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-material-ui
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect } from "react";
-
 // react-github-btn
 import GitHubButton from "react-github-btn";
-
 // clsx is a utility for constructing className strings conditionally
 import clsx from "clsx";
-
 // @material-ui core components
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -28,23 +10,21 @@ import Switch from "@material-ui/core/Switch";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import Icon from "@material-ui/core/Icon";
-
 // @material-ui icons
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
-
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import SuiButton from "components/SuiButton";
-
 // Custom styles for the Configurator
 import styles from "examples/Configurator/styles";
-
 // Soft UI Dashboard Material-UI context
 import { useSoftUIController } from "context";
+import { useHistory } from "react-router-dom";
 
 function Configurator() {
+  const hist = useHistory();
   const [controller, dispatch] = useSoftUIController();
   const { openConfigurator, transparentSidenav, fixedNavbar, sidenavColor } = controller;
   const [disabled, setDisabled] = useState(false);
@@ -83,6 +63,35 @@ function Configurator() {
   const handleFixedNavbar = () => {
     dispatch({ type: "FIXED_NAVBAR", value: !fixedNavbar });
   };
+
+  function CerrarSesion(){
+    /*fetch('/usuario/editar_privilegios/'+aux[5].toString(), {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rut_usuario: aux[5],
+        gestion_evaluacion: aux[0],
+        gestion_ficha: aux[1],
+        gestion_infante: aux[2],
+        gestion_priv: aux[3],
+        gestion_usuario: aux[4],
+      })
+      })
+      .then( (response) => {
+          if(response.status === 200) {
+              window.location.href = window.location.href;
+          } else {
+              console.log(response.status)
+          }
+      })
+      .catch((error) => {
+          console.log(error)
+      });*/
+      hist.push('/authentication/sign-in');
+  }
 
   return (
     <Drawer
@@ -163,10 +172,18 @@ function Configurator() {
             </SuiButton>
           </SuiBox>
         </SuiBox>
-        <SuiBox mt={3} mb={2}>
-          <SuiTypography variant="h6">Navbar Fixed</SuiTypography>
-
-          <Switch checked={fixedNavbar} onChange={handleFixedNavbar} />
+        <SuiBox mt={3}>
+          <SuiTypography variant="h6">Cerrar Sesión</SuiTypography>
+          <SuiBox customClass={classes.configurator_sidenav_types}>
+            <SuiButton
+              buttonColor="info"
+              onClick={CerrarSesion}
+              disabled={disabled}
+              fullWidth
+            >
+              Cerrar Sesión
+            </SuiButton>
+          </SuiBox>
         </SuiBox>
       </SuiBox>
     </Drawer>
