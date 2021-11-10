@@ -116,6 +116,15 @@ export default function Profesionales() {
   const handleChange6 = (event) => {
     datos[1]=event.target.value;
   };
+  const handleChange7 = (event) => {
+    datos[2]=event.target.value;
+  };
+  const handleChange8 = (event) => {
+    datos[3]=event.target.value;
+  };
+  const handleChange9 = (event) => {
+    datos[4]=event.target.value;
+  };
 
   const [rut, setRut] = useState();
   const [nombre, setNombre] = useState();
@@ -308,7 +317,7 @@ export default function Profesionales() {
       </>
     )
   }
-  function Formulario2(rut, nombre, telefono, email, especialidad){
+  function Formulario2({rut, nombre, telefono, email, especialidad}){
     while(datos.length > 0) {
       datos.pop();
     }
@@ -317,7 +326,7 @@ export default function Profesionales() {
     datos.push(telefono)
     datos.push(email)
     datos.push(especialidad)
-    console.log(nombre)
+    console.log(nombre);
     return(
       <>
       <Grid container spacing={3}display="row">
@@ -344,7 +353,8 @@ export default function Profesionales() {
             type="tel"
             name="telefono"
             display="flex"
-            onChange={(event) => setTelefono(event.target.value)}
+            value={telefono}
+            onChange={handleChange7}
           />
         </Grid>
         
@@ -356,10 +366,9 @@ export default function Profesionales() {
           <input
             type="text"
             name="email"
+            value={email}
             display="flex"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={handleChange8}
           />
         </Grid>
         
@@ -371,10 +380,9 @@ export default function Profesionales() {
           <input
             type="text"
             name="especialidad"
+            value={especialidad}
             display="flex"
-            onChange={(e) => {
-              setEspecialidad(e.target.value);
-            }}
+            onChange={handleChange9}
           />
         </Grid>
       </Grid>
