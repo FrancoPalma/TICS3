@@ -14,23 +14,19 @@ infanteController.postAgregarInfante = (req, res) => {
   let email = req.body.email;
   let telefono = req.body.telefono;
 
-  if(req.user.gestion_infante){
-    pool.query('BEGIN', (err) => {
-      if(err){ return res.sendStatus(200)}
-      pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
+  pool.query('BEGIN', (err) => {
+    if(err){ return res.sendStatus(200)}
+    pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
+      if(err){res.sendStatus(404)}
+      pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
         if(err){res.sendStatus(404)}
-        pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
+        pool.query('COMMIT', (err) => {
           if(err){res.sendStatus(404)}
-          pool.query('COMMIT', (err) => {
-            if(err){res.sendStatus(404)}
-            return res.sendStatus(200);
-          });
+          return res.sendStatus(200);
         });
       });
-    })
-  }else{
-    return res.sendStatus(404)
-  }
+    });
+  })
 };
 
 infanteController.postEditarInfante = (req, res) => {
@@ -42,24 +38,19 @@ infanteController.postEditarInfante = (req, res) => {
   let email = req.body.email;
   let telefono = req.body.telefono;
 
-
-  if(req.user.gestion_infate){
-    pool.query('BEGIN', (err) => {
-      if(err){ return res.sendStatus(200)}
-      pool.query('UPDATE infante SET nombre = $1 WHERE rut = $2', [nombre, rut_apoderado], (err) => {
-        if(err){res.sendStatus(404)}
-          pool.query('UPDATE apoderado SET rut = $1, nombre = $2, email = $3, telefono = $4 WHERE rut_infante = $5', [rut_apoderado, nombre_apoderado, email, telefono, rut_infante], (err) => {
+  pool.query('BEGIN', (err) => {
+    if(err){ return res.sendStatus(200)}
+    pool.query('UPDATE infante SET nombre = $1 WHERE rut = $2', [nombre, rut_apoderado], (err) => {
+      if(err){res.sendStatus(404)}
+        pool.query('UPDATE apoderado SET rut = $1, nombre = $2, email = $3, telefono = $4 WHERE rut_infante = $5', [rut_apoderado, nombre_apoderado, email, telefono, rut_infante], (err) => {
+          if(err){res.sendStatus(404)}
+          pool.query('COMMIT', (err) => {
             if(err){res.sendStatus(404)}
-            pool.query('COMMIT', (err) => {
-              if(err){res.sendStatus(404)}
-              return res.sendStatus(200);
-            });
+            return res.sendStatus(200);
           });
         });
-    });
-  }else{
-    return res.sendStatus(404);
-  }
+      });
+  });  
 };
 
 infanteController.getVerInfantes = (req, res) => {
@@ -73,7 +64,7 @@ infanteController.getVerInfantes = (req, res) => {
 infanteController.getVerInfante = (req, res) => {
   let rut_infante = req.body.rut_infante;
 
-  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result)=> {
+  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.rut, apoderado.nombre, apoderado.mail, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result)=> {
     if(err){ return res.sendStatus(404)}
     console.log(result.rows[0])
     return res.json(result.rows[0]);
@@ -83,22 +74,17 @@ infanteController.getVerInfante = (req, res) => {
 infanteController.postEliminarInfante = (req, res) => {
 	let rut_infante = req.params.rut_infante;
 
-  if(req.user.gestion_infante){
-	pool.query('DELETE FROM infante WHERE infante.rut = $1', [rut_infante], (err) => {
-		if(err){return res.sendStatus(404)}
-		return res.sendStatus(200);
-	});
-  }else{
-    return res.sendStatus(404)
-  }
+  pool.query('DELETE FROM apoderado WHERE rut_infante = $1', [rut_infante], (err) => {
+    if(err){return res.sendStatus(404)}
+  	pool.query('DELETE FROM infante WHERE infante.rut = $1', [rut_infante], (err) => {
+      if(err){return res.sendStatus(404)}
+      return res.sendStatus(200);
+    });
+  })
 };
 
 infanteController.getVerFicha = (req, res) => {
-  return res.render('fichas')
-};
-
-infanteController.getDescargarFicha = (req, res) => {
-  let rut_infante = '12345678-9';
+  let rut_infante = req.body.rut_infante;
 
   archivo = path.join(__dirname, '../public/fichas','ficha'+rut_infante+'.pdf');
   
@@ -113,10 +99,10 @@ infanteController.postImportarFicha = async (req, res) => {
   return res.sendStatus(200);
 };
 
-infanteController.getInformes = (req, res) => {
+infanteController.postVerInformes = (req, res) => {
   let rut_infante = req.params.rut_infante;
   
-  pool.query('SELECT informe.id, informe.fecha, informe.completado FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
+  pool.query('SELECT informe.id FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
     if(err){return res.sendStatus(404)}
     return res.json(result.rows)
   })

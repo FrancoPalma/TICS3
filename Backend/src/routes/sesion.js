@@ -7,8 +7,6 @@ const sesionController = require('../controllers/sesionController')
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.get('/login', sesionController.getLogin);
-
 router.post('/login', sesionController.postLogin);
 
 router.post('/agregar_usuario', sesionController.postSignup)
