@@ -94,6 +94,7 @@ export default function Profesionales() {
   const [rows] = useState([]);
   const [rows2] = useState([]);
   const [aux] = useState([]);
+  const [datos] = useState([]);
   const handleChange0 = (event) => {
     aux[0]=event.target.checked;
   };
@@ -111,6 +112,18 @@ export default function Profesionales() {
   };
   const handleChange5 = (event) => {
     aux[5]=event.target.checked;
+  };
+  const handleChange6 = (event) => {
+    datos[1]=event.target.value;
+  };
+  const handleChange7 = (event) => {
+    datos[2]=event.target.value;
+  };
+  const handleChange8 = (event) => {
+    datos[3]=event.target.value;
+  };
+  const handleChange9 = (event) => {
+    datos[4]=event.target.value;
   };
 
   const [rut, setRut] = useState();
@@ -190,13 +203,12 @@ export default function Profesionales() {
     )
   }
   function Boton2({rut,nombre, telefono, email,especialidad}){
-    setNombre(nombre);
-    setRut(rut);
+    let nom = nombre;
     return(
       <>
       <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
-            const result = await Confirm(<Formulario2 rut={rut} nombre={nombre} telefono={telefono} email={email}  especialidad={especialidad} />, 
+            const result = await Confirm(<Formulario2 rut={rut} nombre={nom} telefono={telefono} email={email}  especialidad={especialidad} />, 
               'Edición usuario '+rut.toString());
             
             if (result) {
@@ -305,15 +317,35 @@ export default function Profesionales() {
       </>
     )
   }
-  function Formulario2(rut, nombre, telefono, email, especialidad){
-    setNombre(nombre);
-    setRut(rut);
-    setTelefono(telefono);
-    setEmail(email);
-    setEspecialidad(especialidad);
+  function Formulario2({rut, nombre, telefono, email, especialidad}){
+    while(datos.length > 0) {
+      datos.pop();
+    }
+    datos.push(rut)
+    datos.push(nombre)
+    datos.push(telefono)
+    datos.push(email)
+    datos.push(especialidad)
+    console.log(nombre);
     return(
       <>
       <Grid container spacing={3}display="row">
+      <Grid item xs={6}>
+        <label>Nombre: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="nombre"
+            display="flex"
+            value={nombre}
+            onChange={(e) => {
+              datos[1] = e.target.value;
+            }}
+          />
+        </Grid>
+
         <Grid item xs={6}>
         <label>Teléfono: </label>
         </Grid>
@@ -323,7 +355,8 @@ export default function Profesionales() {
             type="tel"
             name="telefono"
             display="flex"
-            onChange={(event) => setTelefono(event.target.value)}
+            value={datos[2]}
+            onChange={handleChange7}
           />
         </Grid>
         
@@ -335,10 +368,9 @@ export default function Profesionales() {
           <input
             type="text"
             name="email"
+            value={datos[3]}
             display="flex"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={handleChange8}
           />
         </Grid>
         
@@ -350,10 +382,9 @@ export default function Profesionales() {
           <input
             type="text"
             name="especialidad"
+            value={datos[4]}
             display="flex"
-            onChange={(e) => {
-              setEspecialidad(e.target.value);
-            }}
+            onChange={handleChange9}
           />
         </Grid>
       </Grid>
@@ -361,13 +392,6 @@ export default function Profesionales() {
     )
   }
   function EditarEmpleado2(rut, nombre) {
-    let regex = new RegExp("^[a-z A-Z]+$");
-    let regex3 = new RegExp("^[0-9]+$");
-    console.log(rut)
-    console.log(nombre)
-    console.log(telefono)
-    alert(telefono)
-    console.log(email)
     fetch('/usuario/editar_usuario/'+rut.toString(), {
     method: 'POST',
     headers: {
@@ -375,10 +399,11 @@ export default function Profesionales() {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: rut,
-      nombre: "Diego",
-      telefono: "123",
-      email: "hola@gmail.com"
+      rut_usuario: datos[0],
+      nombre: datos[1],
+      telefono: datos[2],
+      email: datos[3],
+      especialidad: datos[4]
     })
     })
     .then( (response) => {
