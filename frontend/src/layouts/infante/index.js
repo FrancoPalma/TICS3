@@ -123,6 +123,8 @@ export default function Infantes() {
   
 
   function DatosPersonales(rut_infante){
+    console.log(rut_infante);
+    console.log("Entre aquí")
     while(rows2.length > 0) {
       rows2.pop();
       }
@@ -135,57 +137,37 @@ export default function Infantes() {
       }
     })
     .then(res => {
-        return res.json()
-    })      
+      return res.json()
+    })
     .then(users => {
-      for(let i=0; i < users.length;i++){
-        let aux = true;
-        for(let e=0;e < rows.length;e++){
-          if(users[i].rut == rows[e].rut){
-            aux=false;
-          }
-        }
 
-      console.log(users[i].rut)
-      console.log(users[i].nombre)
 
-        if(aux == true){
-          rows2.push({nombre:users[i].nombre,
-            rut: users[i].rut,
-            fecha_nacimiento: test,
-            telefono_apoderado: users[i].telefono,
-          })
+      console.log(users.rut)
+      console.log(users.nombre)
+
+      rows2.push({nombre:users.nombre,
+          rut: users.rut,
+          fecha_nacimiento: users.fecha_nacimiento,
+          telefono_apoderado: users.telefono,
+          });
           
 
 
-        }
-      }
+        
+      
 
 
 
-    });
+        });
 
   }
 
   function Colocao (rut){
-    setListo(3);
+
+    setListo(4);
     DatosPersonales(rut);
-    return(      
-      <DashboardLayout>
-        <DashboardNavbar />
-        <SuiBox py={3}>
-          <SuiBox mb={3}>
-            <Card>
-              Cargando...
-            </Card>
-          </SuiBox>
-          <Card>
-          </Card>
-        </SuiBox>
-        <Footer />
-      </DashboardLayout>
-    );
-    
+
+ 
   }
 
   function Boton2({rut}){
@@ -265,8 +247,10 @@ export default function Infantes() {
   );
   }
   else{
+    console.log("Primer cargando");
+    if(Listo === 0){
+    ActualizarInfantes();}
 
-    ActualizarInfantes();
     return(
       <DashboardLayout>
         <DashboardNavbar />
