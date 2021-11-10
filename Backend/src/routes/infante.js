@@ -43,6 +43,6 @@ router.post('/importar_ficha/:rut_infante', sesionController.isLoggedIn, sesionC
 
 router.get('/ver_ficha', infanteController.getVerFicha);
 
-router.post('ver_informes/:rut_infante', infanteController.postInformes);
+router.post('ver_informes/:rut_infante', infanteController.postVerInformes);
 
 module.exports = router;

@@ -17,9 +17,9 @@ horarioController.postAnadirHorario = async (req, res) => {
         if(err){return res.sendStatus(404)}
         duracion = result.rows[0].duracion * 60;
         let fin = new Date((hora + duracion) * 1000).toISOString().substr(11, 8);
-        pool.query('INSERT INTO horario(id_jardin, responsable, descripcion, fecha, semana, inicio, sala) VALUES ($1, $2, $3, $4, $5, $6)', [req.user.id_jardin, responsable, descripcion, fecha, semana, inicio, sala], (err) => {
+        pool.query('INSERT INTO horario(id_jardin, responsable, descripcion, fecha, semana, inicio, fin, sala) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.user.id_jardin, responsable, descripcion, fecha, semana, inicio, fin, sala], (err) => {
             if(err){return res.sendStatus(404);}
-            pool.query('SELECT * FROM horario, jardin WHERE horario.semana = $1 AND horario.id_jardin = jardin.id AND jardin.id = $2', [semana, req.user.id_jardin], (err, result) => {
+            pool.query('SELECT horario.id, horario.responsable, horario.descripcion, horario.fecha, horario.semana, horario.inicio, horario.fin, horario.sala FROM horario, jardin WHERE horario.semana = $1 AND horario.id_jardin = jardin.id AND jardin.id = $2', [semana, req.user.id_jardin], (err, result) => {
                 if(err){return res.sendStatus(404)}
                 return res.json(result.rows)
             })
@@ -31,7 +31,7 @@ horarioController.postAnadirHorario = async (req, res) => {
 horarioController.postVerHorario = async (req, res) => {
     let semana = req.body.semana;
 
-    pool.query('SELECT * FROM horario, jardin WHERE horario.semana = $1 AND horario.id_jardin = jardin.id AND jardin.id = $2', [semana, req.user.id_jardin], (err, result) => {
+    pool.query('SELECT horario.id, horario.responsable, horario.descripcion, horario.fecha, horario.semana, horario.inicio, horario.fin, horario.sala FROM horario, jardin WHERE horario.semana = $1 AND horario.id_jardin = jardin.id AND jardin.id = $2', [semana, req.user.id_jardin], (err, result) => {
         if(err){return res.sendStatus(404)}
         return res.json(result.rows)
     })

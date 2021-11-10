@@ -5,7 +5,7 @@ const sesionController = require('../controllers/sesionController.js');
 
 router.get('/ver_privilegios', sesionController.isLoggedIn, sesionController.gestionPriv, usuarioController.getVerPrivilegios);
 
-router.get('/ver_usuarios', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.getVerDatos);
+router.get('/ver_usuarios', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.getVerUsuarios);
 
 router.post('/editar_privilegios/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionPriv, usuarioController.postEditarPrivilegios);
 
