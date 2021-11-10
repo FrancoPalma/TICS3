@@ -74,14 +74,12 @@ function Check({boleano}){
   }
 }
 
-export default function Profesionales() {
+export default function Infantes() {
   const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
-  console.log("El valor de Listo es: ");
-  console.log(Listo);
   const columns = [
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
@@ -123,25 +121,52 @@ export default function Profesionales() {
 
   
 
-   
+  function DatosPersonales(rut){
+    const [rows2] = useState([]);
 
-  function Colocao (){
-    console.log("El valor de LISTO es:");
-    setListo(3);
-    console.log(Listo);
- 
+    fetch('/infante/ver_infantes'+rut.toString(),{
+      method:'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(res => {
+        return res.json()
+    })
+
   }
 
-  function Boton2(){
+  function Colocao (rut){
+    console.log("Entre a la función");
+    console.log(rut);
+    setListo(3);
+    DatosPersonales(rut);
+    return(      
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+            <Card>
+              Cargando...
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+    
+  }
 
-
+  function Boton2({rut}){
     return(
       <>
-      <SuiButton buttonColor="info" iconOnly onClick = {Colocao}>
+      <SuiButton buttonColor="info" iconOnly onClick = { async() => Colocao(rut)}>
             <Icon classsName="material-icons-round">visibility</Icon>
         </SuiButton>
-      </>
-  
+      </>  
     )
   }
 
@@ -176,45 +201,19 @@ export default function Profesionales() {
                 acciones: <Boton2 rut={users[i].rut}/>
               })
               
-
+              console.log(rows[i].nombre)
 
             }
           }
-          console.log("El valor de LISTO es:");
+
           setListo(1);
-          console.log(Listo);
+
         });
     }
   }
-  function VerInfante(rut){
-    setRutinfante(rut);
 
-  }
 
-  if (Listo === 0){
-
-    ActualizarInfantes();
-    return(
-      <DashboardLayout>
-        <DashboardNavbar />
-        <SuiBox py={3}>
-          <SuiBox mb={3}>
-
-            <Card>
-              Cargando...
-
-            </Card>
-          </SuiBox>
-          <Card>
-          </Card>
-        </SuiBox>
-        <Footer />
-      </DashboardLayout>
-    );
-    
-  }
-
-  else if(Listo === 1){
+  if(Listo === 1){
     
   return (
     <DashboardLayout>
@@ -236,7 +235,10 @@ export default function Profesionales() {
       <Footer />
     </DashboardLayout>
   );
-  }else if(Listo === 3){
+  }
+  else{
+
+    ActualizarInfantes();
     return(
       <DashboardLayout>
         <DashboardNavbar />
@@ -254,8 +256,8 @@ export default function Profesionales() {
         <Footer />
       </DashboardLayout>
     );
+    
   }
-
   
 }
 
