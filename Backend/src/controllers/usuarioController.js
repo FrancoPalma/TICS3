@@ -77,4 +77,12 @@ usuarioController.postEditarPassword = async (req, res) => {
 	});
 }
 
+usuarioController.getVerPerfil= (req, res) => {
+	pool.query('SELECT usuario.rut, usuario.nombre, usuario.telefono, usuario.email, usuario.especialidad FROM usuario WHERE usuario.rut = $1', [req.user.rut], (err, result) => {
+		if(err){ return res.sendStatus(404)}
+		return res.json(result.rows[0])
+	})
+};
+
+
 module.exports = usuarioController;
