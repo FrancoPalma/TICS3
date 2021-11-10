@@ -41,8 +41,8 @@ router.post('/eliminar_infante/:rut_infante', sesionController.isLoggedIn, sesio
 
 router.post('/importar_ficha/:rut_infante', sesionController.isLoggedIn, sesionController.gestionFicha, upload.single('ficha'), infanteController.postImportarFicha);
 
-router.get('/ver_ficha', infanteController.getDescargarFicha);
+router.get('/ver_ficha', infanteController.getVerFicha);
 
-router.get('ver_informes/:rut_infante', infanteController.getInformes);
+router.post('ver_informes/:rut_infante', infanteController.postInformes);
 
 module.exports = router;

@@ -2,10 +2,6 @@ const passport = require('../config/passport');
 
 const sesionController = {}
 
-sesionController.getLogin = (req, res) => {
-	res.render('login')
-}
-
 sesionController.postLogin = (req,res) => {
 	passport.authenticate('local-login', function(err, user) {
 		if (err) { return res.sendStatus(404); }
@@ -38,7 +34,6 @@ sesionController.postSignup = async (req,res) => {
 	}) (req, res);
 };
 
-// logout
 sesionController.getLogout = (req, res) => {
 	req.logout();
 	res.sendStatus(200);

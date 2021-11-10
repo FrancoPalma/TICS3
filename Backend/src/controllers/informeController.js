@@ -28,7 +28,6 @@ informeController.postGuardarInforme = async (req, res) => {
             }
             await pool.query('COMMIT', (err) => {
               if(err){return res.sendStatus(404)}
-              console.log("llego")
               return res.json({
                   id_informe: id_informe
                 }
@@ -61,27 +60,21 @@ informeController.postVerInforme = async (req, res) => {
     res.contentType("application/pdf");
     res.send(data);
   });
-  /*let url = 'localhost:8000/public/informes/informe'+ id_informe +'.pdf'
-  return res.json({
-      url: url
-    })
-
-  fs.readFile(path.join(__dirname, '../public/informes/informe'+ id_informe +'.pdf') , function (err,data){
-    if(err){return res.sendStatus(404);}
-    res.contentType("application/pdf");
-    res.send(data);
-  });*/
 }
 
 informeController.postEliminarInforme = async (req, res) => {
   let id_informe = req.body.id_informe;
-  let archivo_pdf = path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf');
-  let archivo_html = path.join(__dirname, '../public/informes/informe' + id_informe+ '.html');
-  fs.unlink(archivo_html, (err) => {
+
+  pool.query('DELETE FROM informe WHERE id = $1', [id_informe], (err) => {
     if(err){return res.sendStatus(404)}
-    fs.unlink(archivo_pdf, (err) => {
+    let archivo_pdf = path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf');
+    let archivo_html = path.join(__dirname, '../public/informes/informe' + id_informe+ '.html');
+    fs.unlink(archivo_html, (err) => {
       if(err){return res.sendStatus(404)}
-      return res.sendStatus(200);
+      fs.unlink(archivo_pdf, (err) => {
+        if(err){return res.sendStatus(404)}
+        return res.sendStatus(200);
+      })
     })
   })
 }
