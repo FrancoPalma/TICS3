@@ -94,6 +94,7 @@ export default function Profesionales() {
   const [rows] = useState([]);
   const [rows2] = useState([]);
   const [aux] = useState([]);
+  const [datos] = useState([]);
   const handleChange0 = (event) => {
     aux[0]=event.target.checked;
   };
@@ -111,6 +112,9 @@ export default function Profesionales() {
   };
   const handleChange5 = (event) => {
     aux[5]=event.target.checked;
+  };
+  const handleChange6 = (event) => {
+    datos[1]=event.target.value;
   };
 
   const [rut, setRut] = useState();
@@ -190,13 +194,12 @@ export default function Profesionales() {
     )
   }
   function Boton2({rut,nombre, telefono, email,especialidad}){
-    setNombre(nombre);
-    setRut(rut);
+    let nom = nombre;
     return(
       <>
       <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
-            const result = await Confirm(<Formulario2 rut={rut} nombre={nombre} telefono={telefono} email={email}  especialidad={especialidad} />, 
+            const result = await Confirm(<Formulario2 rut={rut} nombre={nom} telefono={telefono} email={email}  especialidad={especialidad} />, 
               'Edición usuario '+rut.toString());
             
             if (result) {
@@ -306,14 +309,32 @@ export default function Profesionales() {
     )
   }
   function Formulario2(rut, nombre, telefono, email, especialidad){
-    setNombre(nombre);
-    setRut(rut);
-    setTelefono(telefono);
-    setEmail(email);
-    setEspecialidad(especialidad);
+    while(datos.length > 0) {
+      datos.pop();
+    }
+    datos.push(rut)
+    datos.push(nombre)
+    datos.push(telefono)
+    datos.push(email)
+    datos.push(especialidad)
+    console.log(nombre)
     return(
       <>
       <Grid container spacing={3}display="row">
+      <Grid item xs={6}>
+        <label>Nombre: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="nombre"
+            display="flex"
+            value={nombre}
+            onChange={handleChange6}
+          />
+        </Grid>
+
         <Grid item xs={6}>
         <label>Teléfono: </label>
         </Grid>
