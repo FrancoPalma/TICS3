@@ -4,6 +4,11 @@ import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -75,61 +80,99 @@ export default function Infantes() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
-  const [RutInfante, setRutInfante] = useState('');
   const columns = [
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
     { name: "fecha_nacimiento", align: "center" },
     { name: "telefono_apoderado", align: "center" },
-    {name: "acciones", align:"center" }
+    { name: "acciones", align: "center" }
   ];
+  const [open, setOpen] = useState(false);
+  const [scroll, setScroll] = useState('paper');
+
 
   const [rows] = useState([]);
-  function Colocao(rut){
-      setRutInfante(rut)
-      setListo(2)
+  const [rows2] = useState([]);
+
+  const [aux] = useState([]);
+  const handleChange0 = (event) => {
+    aux[0]=event.target.checked;
+  };
+  const handleChange1 = (event) => {
+    aux[1]=event.target.checked;
+  };
+  const handleChange2 = (event) => {
+    aux[2]=event.target.checked;
+  };
+  const handleChange3 = (event) => {
+    aux[3]=event.target.checked;
+  };
+  const handleChange4 = (event) => {
+    aux[4]=event.target.checked;
+  };
+
+
+  const [Rut_infante,setRutinfante] = useState('');
+  const [Nombre_infante,setNombreinfante] = useState('');
+  const [Fecha_nacimiento, setFechanacimiento] = useState('');
+  
+  const [Nombre_apoderado,setNombreapoderado] = useState('');
+  const [Rut_apoderado,setRutapoderado] = useState('');
+  const [email,setEmail] = useState('');
+  const [telefono,setTelefono] = useState('');
+/*  
+  let rut_infante;
+  let nombre_infante;
+  let fecha_nacimiento;
+  let rut_apoderado;
+  let nombre_apoderado; 
+  let email;
+  let telefono;*/
+
+  let fecha_nacimiento;
+  
+
+  function DatosPersonales(rut_infante){
+    while(rows2.length > 0) {
+      rows2.pop();
+      }
+      //console.log(rows2)
+
+    fetch('/infante/ver_infante/'+rut_infante.toString(),{
+      method:'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(res => {
+      return res.json()
+    })
+    .then(users => {rows2.push({nombre:users.nombre,
+          rut: users.rut,
+          fecha_nacimiento: users.fecha_nacimiento,
+          telefono_apoderado: users.telefono,
+          });
+        setListo(3)
+    });
   }
-  function Boton({rut}){
+
+  function Colocao (rut){
+    setRutinfante(rut);
+    setListo(2);   
+
+  }
+
+  function Boton2({rut}){
     return(
       <>
       <SuiButton buttonColor="info" iconOnly onClick = { async() => Colocao(rut)}>
             <Icon classsName="material-icons-round">visibility</Icon>
         </SuiButton>
       </>  
-    );
+    )
   }
-  function VisualizarDatos(rut_infante){
-      if(Listo === 2){
-        while(rows.length > 0) {
-            rows.pop();
-            }
-        fetch('/infante/ver_infante/'+rut_infante.toString(),{
-            method:'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              }
-        })
 
-        .then(res => {
-            return res.json()
-        })
-        .then(users => {
-            for(let i=0; i < 2;i++){
-                let aux = true;
-                for(let e=0;e < rows.length;e++){
-                  if(users[i].rut == rows[e].rut){
-                    aux=false;
-                  }
-                }
-
-            if (aux == true){        
-            rows.push({nombre: users.nombre});
-            }
-            setListo(3);
-        }});
-
-  }}
   function ActualizarInfantes(){
     if (Listo == 0){
       while(rows.length > 0) {
@@ -158,7 +201,7 @@ export default function Infantes() {
                 rut: users[i].rut,
                 fecha_nacimiento: fecha_nacimiento,
                 telefono_apoderado: users[i].telefono,
-                acciones: <Boton rut={users[i].rut}/>
+                acciones: <Boton2 rut={users[i].rut}/>
               })
               
 
@@ -173,12 +216,8 @@ export default function Infantes() {
   }
 
 
-
-
-
-
   if(Listo === 1){
-
+    
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -199,8 +238,12 @@ export default function Infantes() {
       <Footer />
     </DashboardLayout>
   );
-  }else if (Listo === 0){
-    ActualizarInfantes();
+  }
+  else if (Listo === 0){
+
+    if(Listo === 0){
+    ActualizarInfantes();}
+
     return(
       <DashboardLayout>
         <DashboardNavbar />
@@ -218,38 +261,38 @@ export default function Infantes() {
         <Footer />
       </DashboardLayout>
     );
+    
   }
   else if (Listo === 2){
-      if(Listo === 2){
-    VisualizarDatos(RutInfante)}
+    DatosPersonales(Rut_infante);
     return(
-        <DashboardLayout>
-          <DashboardNavbar />
-          <SuiBox py={3}>
-            <SuiBox mb={3}>
-  
-              <Card>
-                Cargando...
-  
-              </Card>
-            </SuiBox>
+
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+
             <Card>
+              Cargando...
+
             </Card>
           </SuiBox>
-          <Footer />
-        </DashboardLayout>
-      );
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+
   }
   else if (Listo === 3){
-    return(
-        
     <DashboardLayout>
     <DashboardNavbar />
     <SuiBox py={3}>
       <SuiBox mb={3}>
 
         <Card>
-          {rows[0]}
+          {rows2[0].nombre}
 
         </Card>
       </SuiBox>
@@ -258,6 +301,6 @@ export default function Infantes() {
     </SuiBox>
     <Footer />
   </DashboardLayout>
-);
   }
+  
 }
