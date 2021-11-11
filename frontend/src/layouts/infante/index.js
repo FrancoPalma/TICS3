@@ -93,6 +93,7 @@ export default function Infantes() {
 
   const [rows] = useState([]);
   const [rows2] = useState([]);
+
   const [aux] = useState([]);
   const handleChange0 = (event) => {
     aux[0]=event.target.checked;
@@ -110,23 +111,24 @@ export default function Infantes() {
     aux[4]=event.target.checked;
   };
 
-  const [rut_infante, setRutinfante] = useState();
-  const [nombre_infante, setNombreinfante] = useState();
-  const [fecha_nacimiento, setfecha_nacimiento] = useState();
 
-
-  const [rut_apoderado, setRutapoderado] = useState();
-  const [nombre_apoderado, setNombreapoderado] = useState();
-  const [email, setEmail] = useState();
-  const [telefonoApoderado, settelefonoApoderado] = useState();
-
+  let rut_infante;
+  let nombre_infante;
+  let fecha_nacimiento;
+  let rut_apoderado;
+  let nombre_apoderado; 
+  let email;
+  let telefono;
   
 
   function DatosPersonales(rut_infante){
+
+    console.log("RUT del infante");
     console.log(rut_infante);
-    console.log("Entre aquí")
+
     while(rows2.length > 0) {
       rows2.pop();
+
       }
 
     fetch('/infante/ver_infante/'+rut_infante.toString(),{
@@ -141,19 +143,34 @@ export default function Infantes() {
     })
     .then(users => {
 
+      nombre_infante = users.nombre;
+      rut_infante = users.rut;
+      fecha_nacimiento = users.fecha_nacimiento;
+      
+      fecha_nacimiento = fecha_nacimiento.toString();
+      fecha_nacimiento = fecha_nacimiento.slice(0,9);
 
-      console.log(users.rut)
-      console.log(users.nombre)
+      nombre_apoderado = users.nombre_apoderado;
+      rut_apoderado = users.rut_apoderado;
+      email = users.email;
+      telefono =  users.telefono;
 
-      rows2.push({nombre_infante:users.nombre,
-          rut_infante: users.rut,
-          fecha_nacimiento: users.fecha_nacimiento,
-          nombre_apoderado: users.nombre_apoderado,
-          rut_apoderado: users.rut_apoderado,
-          email: users.email,
-          telefono: users.telefono,
-          });
-        });
+      console.log(nombre_infante)
+      console.log(rut_infante)
+      console.log(fecha_nacimiento)
+      console.log(nombre_apoderado)
+      console.log(rut_apoderado)
+      console.log(email)
+      console.log(telefono)
+
+      
+
+
+      });
+
+
+        
+        
 
     setListo(5);
   }
@@ -161,6 +178,7 @@ export default function Infantes() {
   function Colocao (rut){
 
     setListo(4);
+    
     DatosPersonales(rut);
 
  
@@ -194,15 +212,15 @@ export default function Infantes() {
                 aux=false;
               }
             }
-            let test = users[i].fecha_nacimiento;
+            let fecha_nacimiento = users[i].fecha_nacimiento;
 
-            test = test.toString();
-            test = test.slice(0,9);
+            fecha_nacimiento = fecha_nacimiento.toString();
+            fecha_nacimiento = fecha_nacimiento.slice(0,9);
 
             if(aux == true){
               rows.push({nombre:users[i].nombre,
                 rut: users[i].rut,
-                fecha_nacimiento: test,
+                fecha_nacimiento: fecha_nacimiento,
                 telefono_apoderado: users[i].telefono,
                 acciones: <Boton2 rut={users[i].rut}/>
               })
@@ -295,40 +313,12 @@ export default function Infantes() {
 
             <Card>
             
-            <Grid container spacing={2} >
-            <h1>Datos Personales del Infante</h1>
-            <Grid item>
-            <h2>Nombre</h2>
-            {rows2[0].nombre_infante}
-            </Grid> 
-            <Grid item>
-              <h2>RUT</h2>
-              {rows2[0].rut_infante}
-            </Grid>
-            <Grid item>
-              <h2>Fecha de nacimiento</h2>
-              {rows2[0].fecha_nacimiento}
-            </Grid>
-            <Grid item>
-            <h1>Datos Personales del Apoderado</h1>
-            </Grid>
-            <Grid item>
-              <h2>Nombre</h2>
-              {rows2[0].nombre_apoderado}
-            </Grid>
-            <Grid item>
-              <h2>RUT</h2>
-              {rows2[0].rut_apoderado}
-            </Grid>
-            <Grid item>
-              <h2>Email</h2>
-              {rows2[0].email}
-            </Grid>
-            <Grid item>
-              <h2>Telefono</h2>
-              {rows2[0].telefono}
-            </Grid>
-            </Grid>
+            {nombre_infante}
+            {rut_infante}
+            {fecha_nacimiento}
+
+            {nombre_apoderado}
+            
 
             </Card>
           </SuiBox>
