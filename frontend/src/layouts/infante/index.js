@@ -150,24 +150,35 @@ export default function Infantes() {
     .then(res => {
       return res.json()
     })
-
     .then(users => {
-      rows2.push({nombre_infante: users.nombre})
-      console.log(rows2[0].nombre_infante);
-    })
-  
-  
-  
-    setListo(5);
+
+
+      console.log(users.rut)
+      console.log(users.nombre)
+
+      rows2.push({nombre:users.nombre,
+          rut: users.rut,
+          fecha_nacimiento: users.fecha_nacimiento,
+          telefono_apoderado: users.telefono,
+          });
+          
+        console.log(rows2[0])
+
+        
+      
+
+
+
+        });
+        console.log(rows2)
+
   }
 
   function Colocao (rut){
-    setListo(4);
+    setListo(2);
     DatosPersonales(rut);
-  
-    console.log(rows2.length)
-    if(rows2.length > 0){console.log(rows2[0])}    
-    console.log(rows2)
+
+
     
 
   }
@@ -249,6 +260,7 @@ export default function Infantes() {
   );
   }
   else if (Listo === 0){
+
     if(Listo === 0){
     ActualizarInfantes();}
 
@@ -271,7 +283,7 @@ export default function Infantes() {
     );
     
   }
-  else if (Listo === 4){
+  else if (Listo === 2){
     return(
       <DashboardLayout>
         <DashboardNavbar />
@@ -289,30 +301,7 @@ export default function Infantes() {
         <Footer />
       </DashboardLayout>
     );
-  }
-  else if (Listo === 5){
 
-
-    return(
-      <DashboardLayout>
-        <DashboardNavbar />
-        <SuiBox py={3}>
-          <SuiBox mb={3}>
-
-
-            <Card/>        
-
-            
-
-      
-          </SuiBox>
-
-
-        </SuiBox>
-        <Footer />
-      </DashboardLayout>
-    );
   }
   
 }
-
