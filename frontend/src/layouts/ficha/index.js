@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
+import SuiInput from "components/SuiInput";
 import SuiTypography from "components/SuiTypography";
 import SuiButton from "components/SuiButton";
 import styles from "layouts/tables/styles";
@@ -14,7 +15,8 @@ import MaterialTable from 'material-table';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextField from "@material-ui/core/TextField";
-
+import axios from 'axios';
+//npm install axios --save
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -48,9 +50,41 @@ function TabPanel(props) {
     const [tabValue, setTabValue] = useState(0);
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
     const [Listo, setListo] = useState(0);
-
     let info = JSON.parse(localStorage.getItem('usuario'));
     let Lista;
+
+    const [selectedFile, setSelectedFile] = useState();
+	  const [isFilePicked, setIsFilePicked] = useState(false);
+    const [isSelected,setIsSelected] = useState(false);
+
+	  const changeHandler = (event) => {
+      setSelectedFile(event.target.files[0]);
+      setIsSelected(true);
+    };
+
+    const handleSubmission = () => {
+      const formData = new FormData();
+  
+      formData.append('File', selectedFile);
+  
+      fetch(
+        'https://freeimage.host/api/1/upload?key=<YOUR_API_KEY>',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          console.log('Success:', result);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    };
+
+
+
 /*
     function CrearInforme(){
       fetch('informe/crear_informe')
@@ -78,10 +112,11 @@ function TabPanel(props) {
             <Card>
             <TabPanel value={tabValue} index={0}>       
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiButton variant="gradient" buttonColor="info" fullWidth>
-              Ingresar
-              </SuiButton>
+
+            <SuiInput type="file" name="file" onChange={changeHandler} />
+              <SuiButton onClick={handleSubmission}>Subir</SuiButton>
             </SuiBox>
+            
             </TabPanel>
 
             <TabPanel value={tabValue} index={1}>
@@ -97,7 +132,7 @@ function TabPanel(props) {
       <Footer />
     </DashboardLayout>
   );
-                    }
+}
 
   
  // }

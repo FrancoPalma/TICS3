@@ -155,13 +155,7 @@ export default function Infantes() {
       email = users.email;
       telefono =  users.telefono;
 
-      console.log(nombre_infante)
-      console.log(rut_infante)
-      console.log(fecha_nacimiento)
-      console.log(nombre_apoderado)
-      console.log(rut_apoderado)
-      console.log(email)
-      console.log(telefono)
+    
 
       
 
@@ -180,6 +174,13 @@ export default function Infantes() {
     setListo(4);
     
     DatosPersonales(rut);
+    console.log(nombre_infante)
+      console.log(rut_infante)
+      console.log(fecha_nacimiento)
+      console.log(nombre_apoderado)
+      console.log(rut_apoderado)
+      console.log(email)
+      console.log(telefono)
 
  
   }
@@ -312,12 +313,17 @@ export default function Infantes() {
 
 
             <Card>
-            
-            {nombre_infante}
-            {rut_infante}
-            {fecha_nacimiento}
+            <SuiBox customClass={classes.tables_table}>
+              <Table columns={columns} rows={rows} />
+            </SuiBox>
+            <SuiBox>
+              {nombre_infante}
+              {rut_infante}
+              {fecha_nacimiento}
 
-            {nombre_apoderado}
+              {nombre_apoderado}
+            </SuiBox>
+            
             
 
             </Card>
