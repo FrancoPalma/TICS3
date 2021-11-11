@@ -3585,11 +3585,6 @@
   "resolved" "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz"
   "version" "1.0.0"
 
-"bootstrap@^3.3.6":
-  "integrity" "sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA=="
-  "resolved" "https://registry.npmjs.org/bootstrap/-/bootstrap-3.4.1.tgz"
-  "version" "3.4.1"
-
 "bowser@^1.7.3":
   "integrity" "sha512-9IdMmj2KjigRq6oWhmwv1W36pDuA4STQZ8q6YO9um+x07xgYNCD3Oou+WP/3L1HNz7iqythGet3/p4wvc8AAwQ=="
   "resolved" "https://registry.npmjs.org/bowser/-/bowser-1.9.4.tgz"
