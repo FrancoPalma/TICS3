@@ -21,7 +21,8 @@ informeController.postGuardarInforme = async (req, res) => {
             pool.query('ROLLBACK')
             return res.sendStatus(404)
           }
-          fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.html'), contenido, async (err) => {            if (err) {
+          fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.html'), contenido, async (err) => { 
+            if (err) {
               pool.query('ROLLBACK')
               return res.sendStatus(404)
             }
