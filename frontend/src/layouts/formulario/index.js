@@ -70,7 +70,6 @@ function Formulario(){
   const [Listo,setListo] = useState(0);
   const [value, setValue] = useState('');
   const [text, setText] = useState('');
-
   const editor = useRef(null);
   const [contenido, setContent] = useState("");
   const [id, setID] = useState(0);
