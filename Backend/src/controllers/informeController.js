@@ -16,12 +16,12 @@ informeController.postGuardarInforme = async (req, res) => {
       await pool.query('INSERT INTO informe(rut_infante, rut_usuario) VALUES ($1, $2) RETURNING id',[rut_infante, req.user.rut], (err, result) => {
         if(err){return res.sendStatus(404)}
         id_informe = result.rows[0].id
-        fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.html'), contenido, (err) => {
+        htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
           if (err) {
             pool.query('ROLLBACK')
             return res.sendStatus(404)
           }
-          htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
+          fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.html'), contenido, async (err) => { 
             if (err) {
               pool.query('ROLLBACK')
               return res.sendStatus(404)

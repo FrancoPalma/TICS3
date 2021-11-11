@@ -145,21 +145,17 @@ export default function Infantes() {
       console.log(users.rut)
       console.log(users.nombre)
 
-      rows2.push({nombre:users.nombre,
-          rut: users.rut,
+      rows2.push({nombre_infante:users.nombre,
+          rut_infante: users.rut,
           fecha_nacimiento: users.fecha_nacimiento,
-          telefono_apoderado: users.telefono,
+          nombre_apoderado: users.nombre_apoderado,
+          rut_apoderado: users.rut_apoderado,
+          email: users.email,
+          telefono: users.telefono,
           });
-          
-
-
-        
-      
-
-
-
         });
 
+    setListo(5);
   }
 
   function Colocao (rut){
@@ -246,7 +242,7 @@ export default function Infantes() {
     </DashboardLayout>
   );
   }
-  else{
+  else if (Listo === 0){
     console.log("Primer cargando");
     if(Listo === 0){
     ActualizarInfantes();}
@@ -269,6 +265,80 @@ export default function Infantes() {
       </DashboardLayout>
     );
     
+  }
+  else if (Listo === 4){
+    return(
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+
+            <Card>
+              Cargando...
+
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+  }
+  else if (Listo === 5){
+    return(
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+
+
+            <Card>
+            
+            <Grid container spacing={2} >
+            <h1>Datos Personales del Infante</h1>
+            <Grid item>
+            <h2>Nombre</h2>
+            {rows2[0].nombre_infante}
+            </Grid> 
+            <Grid item>
+              <h2>RUT</h2>
+              {rows2[0].rut_infante}
+            </Grid>
+            <Grid item>
+              <h2>Fecha de nacimiento</h2>
+              {rows2[0].fecha_nacimiento}
+            </Grid>
+            <Grid item>
+            <h1>Datos Personales del Apoderado</h1>
+            </Grid>
+            <Grid item>
+              <h2>Nombre</h2>
+              {rows2[0].nombre_apoderado}
+            </Grid>
+            <Grid item>
+              <h2>RUT</h2>
+              {rows2[0].rut_apoderado}
+            </Grid>
+            <Grid item>
+              <h2>Email</h2>
+              {rows2[0].email}
+            </Grid>
+            <Grid item>
+              <h2>Telefono</h2>
+              {rows2[0].telefono}
+            </Grid>
+            </Grid>
+
+            </Card>
+          </SuiBox>
+
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
   }
   
 }

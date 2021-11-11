@@ -60,7 +60,7 @@ infanteController.getVerInfantes = (req, res) => {
     return res.json(result.rows)
   })
 }
-
+  
 infanteController.postVerInfante = (req, res) => {
   let rut_infante = req.params.rut_infante;
   console.log(rut_infante)
