@@ -310,6 +310,7 @@ export default function Profesionales() {
             display="flex"
             onChange={(e) => {
               setEspecialidad(e.target.value);
+              console.log(especialidad);
             }}
           />
         </Grid>
@@ -535,10 +536,6 @@ export default function Profesionales() {
     });
   }
   function AgregarProfesional(){
-    console.log(rut)
-    console.log(nombre)
-    console.log(telefono)
-    console.log(email)
     fetch('/agregar_usuario'+rut.toString(), {
     method: 'POST',
     headers: {
@@ -547,9 +544,10 @@ export default function Profesionales() {
     },
     body: JSON.stringify({
       rut_usuario: rut,
-      nombre: "Diego",
-      telefono: "123",
-      email: "hola@gmail.com"
+      nombre: nombre,
+      telefono: telefono,
+      email: email,
+      especialidad: especialidad
     })
     })
     .then( (response) => {
