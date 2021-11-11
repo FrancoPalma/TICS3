@@ -126,11 +126,11 @@ export default function Profesionales() {
     datos[4]=event.target.value;
   };
 
-  const [rut, setRut] = useState();
-  const [nombre, setNombre] = useState();
-  const [email, setEmail] = useState();
-  const [telefono, setTelefono] = useState();
-  const [especialidad, setEspecialidad] = useState();
+  let rut;
+  let nombre;
+  let email;
+  let telefono;
+  let especialidad;
 
   function Checks({rut, p1,p2,p3,p4,p5,p6}){
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -208,7 +208,7 @@ export default function Profesionales() {
       <>
       <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
-            const result = await Confirm(<Formulario2 rut={rut} nombre={nom} telefono={telefono} email={email}  especialidad={especialidad} />, 
+            const result = await Confirm(<Formulario2 r={rut} n={nom} t={telefono} e={email}  es={especialidad} />, 
               'Edición usuario '+rut.toString());
             
             if (result) {
@@ -251,7 +251,7 @@ export default function Profesionales() {
           name="rut"
           display="flex"
           onChange={(e) => {
-            setRut(e.target.value);
+            rut = e.target.value;
           }}/>
         </Grid>
         
@@ -265,7 +265,7 @@ export default function Profesionales() {
             name="nombre"
             display="flex"
             onChange={(e) => {
-              setNombre(e.target.value);
+              nombre = e.target.value;
             }}
           />
         </Grid>
@@ -279,8 +279,8 @@ export default function Profesionales() {
             name="telefono"
             display="flex"
             onChange={(e) => {
-              setTelefono(e.target.value);
-            }}nombre
+              telefono = e.target.value;
+            }}
           />
         </Grid>
         
@@ -294,7 +294,7 @@ export default function Profesionales() {
             name="email"
             display="flex"
             onChange={(e) => {
-              setEmail(e.target.value);
+              email = e.target.value;
             }}
           />
         </Grid>
@@ -309,7 +309,7 @@ export default function Profesionales() {
             name="especialidad"
             display="flex"
             onChange={(e) => {
-              setEspecialidad(e.target.value);
+              especialidad = e.target.value;
               console.log(especialidad);
             }}
           />
@@ -318,16 +318,12 @@ export default function Profesionales() {
       </>
     )
   }
-  function Formulario2({rut, nombre, telefono, email, especialidad}){
-    while(datos.length > 0) {
-      datos.pop();
-    }
-    datos.push(rut)
-    datos.push(nombre)
-    datos.push(telefono)
-    datos.push(email)
-    datos.push(especialidad)
-    console.log(nombre);
+  function Formulario2({r, n, t, e, es}){
+    rut = r;
+    nombre= n;
+    telefono = t;
+    email = e;
+    especialidad = es;
     return(
       <>
       <Grid container spacing={3}display="row">
@@ -339,10 +335,10 @@ export default function Profesionales() {
           <input
             type="text"
             name="nombre"
+            defaultValue={nombre}
             display="flex"
-            value={nombre}
             onChange={(e) => {
-              datos[1] = e.target.value;
+              nombre = e.target.value;
             }}
           />
         </Grid>
@@ -355,9 +351,11 @@ export default function Profesionales() {
           <input
             type="tel"
             name="telefono"
+            defaultValue={telefono}
             display="flex"
-            value={datos[2]}
-            onChange={handleChange7}
+            onChange={(e) => {
+              telefono = e.target.value;
+            }}
           />
         </Grid>
         
@@ -369,9 +367,11 @@ export default function Profesionales() {
           <input
             type="text"
             name="email"
-            value={datos[3]}
+            defaultValue={email}
             display="flex"
-            onChange={handleChange8}
+            onChange={(e) => {
+              email = e.target.value;
+            }}
           />
         </Grid>
         
@@ -383,16 +383,18 @@ export default function Profesionales() {
           <input
             type="text"
             name="especialidad"
-            value={datos[4]}
+            defaultValue={especialidad}
             display="flex"
-            onChange={handleChange9}
+            onChange={(e) => {
+              especialidad = e.target.value;
+            }}
           />
         </Grid>
       </Grid>
       </>
     )
   }
-  function EditarEmpleado2(rut, nombre) {
+  function EditarEmpleado2() {
     fetch('/usuario/editar_usuario/'+rut.toString(), {
     method: 'POST',
     headers: {
@@ -400,11 +402,11 @@ export default function Profesionales() {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: datos[0],
-      nombre: datos[1],
-      telefono: datos[2],
-      email: datos[3],
-      especialidad: datos[4]
+      rut_usuario: rut,
+      nombre: nombre,
+      telefono: telefono,
+      email: email,
+      especialidad: especialidad
     })
     })
     .then( (response) => {
@@ -536,18 +538,24 @@ export default function Profesionales() {
     });
   }
   function AgregarProfesional(){
-    fetch('/agregar_usuario'+rut.toString(), {
+    console.log(rut);
+    console.log(nombre);
+    console.log(telefono);
+    console.log(email);
+    console.log(especialidad);
+    fetch('sesion/agregar_usuario/'+rut.toString(), {
     method: 'POST',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: rut,
+      rut: rut,
       nombre: nombre,
       telefono: telefono,
       email: email,
-      especialidad: especialidad
+      especialidad: especialidad,
+      password: "defecto"
     })
     })
     .then( (response) => {
