@@ -112,19 +112,28 @@ export default function Infantes() {
   };
 
 
+  const [Rut_infante,setRutinfante] = useState('');
+  const [Nombre_infante,setNombreinfante] = useState('');
+  const [Fecha_nacimiento, setFechanacimiento] = useState('');
+  
+  const [Nombre_apoderado,setNombreapoderado] = useState('');
+  const [Rut_apoderado,setRutapoderado] = useState('');
+  const [email,setEmail] = useState('');
+  const [telefono,setTelefono] = useState('');
+/*  
   let rut_infante;
   let nombre_infante;
   let fecha_nacimiento;
   let rut_apoderado;
   let nombre_apoderado; 
   let email;
-  let telefono;
+  let telefono;*/
+
+  let fecha_nacimiento;
   
 
   function DatosPersonales(rut_infante){
 
-    console.log("RUT del infante");
-    console.log(rut_infante);
 
     while(rows2.length > 0) {
       rows2.pop();
@@ -141,47 +150,26 @@ export default function Infantes() {
     .then(res => {
       return res.json()
     })
+
     .then(users => {
-
-      nombre_infante = users.nombre;
-      rut_infante = users.rut;
-      fecha_nacimiento = users.fecha_nacimiento;
-      
-      fecha_nacimiento = fecha_nacimiento.toString();
-      fecha_nacimiento = fecha_nacimiento.slice(0,9);
-
-      nombre_apoderado = users.nombre_apoderado;
-      rut_apoderado = users.rut_apoderado;
-      email = users.email;
-      telefono =  users.telefono;
-
-      console.log(nombre_infante)
-      console.log(rut_infante)
-      console.log(fecha_nacimiento)
-      console.log(nombre_apoderado)
-      console.log(rut_apoderado)
-      console.log(email)
-      console.log(telefono)
-
-      
-
-
-      });
-
-
-        
-        
-
+      rows2.push({nombre_infante: users.nombre})
+      console.log(rows2[0].nombre_infante);
+    })
+  
+  
+  
     setListo(5);
   }
 
   function Colocao (rut){
-
     setListo(4);
-    
     DatosPersonales(rut);
+  
+    console.log(rows2.length)
+    if(rows2.length > 0){console.log(rows2[0])}    
+    console.log(rows2)
+    
 
- 
   }
 
   function Boton2({rut}){
@@ -225,7 +213,7 @@ export default function Infantes() {
                 acciones: <Boton2 rut={users[i].rut}/>
               })
               
-              console.log(rows[i].nombre)
+
 
             }
           }
@@ -261,7 +249,6 @@ export default function Infantes() {
   );
   }
   else if (Listo === 0){
-    console.log("Primer cargando");
     if(Listo === 0){
     ActualizarInfantes();}
 
@@ -304,6 +291,8 @@ export default function Infantes() {
     );
   }
   else if (Listo === 5){
+
+
     return(
       <DashboardLayout>
         <DashboardNavbar />
@@ -311,20 +300,14 @@ export default function Infantes() {
           <SuiBox mb={3}>
 
 
-            <Card>
-            
-            {nombre_infante}
-            {rut_infante}
-            {fecha_nacimiento}
+            <Card/>        
 
-            {nombre_apoderado}
             
 
-            </Card>
+      
           </SuiBox>
 
-          <Card>
-          </Card>
+
         </SuiBox>
         <Footer />
       </DashboardLayout>
