@@ -543,7 +543,7 @@ export default function Profesionales() {
     console.log(telefono);
     console.log(email);
     console.log(especialidad);
-    fetch('sesion/agregar_usuario/'+rut.toString(), {
+    fetch('sesion/agregar_usuario/', {
     method: 'POST',
     headers: {
         Accept: 'application/json',
@@ -583,8 +583,9 @@ export default function Profesionales() {
     })
     })
     .then( (response) => {
-        if(response.status === 201) {
+        if(response.status == 200) {
             console.log("Eliminado correctamente")
+            alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
             console.log('Hubo un error')
