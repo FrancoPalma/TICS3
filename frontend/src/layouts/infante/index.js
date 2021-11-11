@@ -304,11 +304,7 @@ export default function Infantes() {
               <Table columns={columns} rows={rows} />
             </SuiBox>
             <SuiBox>
-              {nombre_infante}
-              {rut_infante}
-              {fecha_nacimiento}
 
-              {nombre_apoderado}
             </SuiBox>
             
             </Card>
