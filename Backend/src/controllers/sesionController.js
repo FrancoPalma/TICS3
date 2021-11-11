@@ -15,7 +15,6 @@ sesionController.postLogin = (req,res) => {
 };
 
 sesionController.postSignupAdmin = async (req,res) => {
-	console.log("hola")
 	await passport.authenticate('local-signup-admin', function(err, user) {
 		if (err) {return res.sendStatus(404); }
 		if (user == false) { 
@@ -27,6 +26,7 @@ sesionController.postSignupAdmin = async (req,res) => {
 
 sesionController.postSignup = async (req,res) => {
 	await passport.authenticate('local-signup', function(err, user) {
+		console.log(user)
 		if (err) { return res.sendStatus(404); }
 		if (user == false) { 
 			return res.sendStatus(404); }
