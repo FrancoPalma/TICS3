@@ -7,7 +7,6 @@ const path = require('path');
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log(__dirname)
         cb(null, path.join(__dirname, '../public/fichas'));
     },
     filename: (req, file, cb) => {
@@ -39,7 +38,7 @@ router.post('/eliminar_infante/:rut_infante', sesionController.isLoggedIn, sesio
 
 //router.get('/ver_ficha', infanteController.getVerFicha);
 
-router.post('/importar_ficha/:rut_infante', sesionController.isLoggedIn, sesionController.gestionFicha, upload.single('ficha'), infanteController.postImportarFicha);
+router.post('/importar_ficha/:rut_infante', sesionController.isLoggedIn, infanteController.postImportarFicha);
 
 router.get('/ver_ficha', infanteController.getVerFicha);
 
