@@ -11,4 +11,6 @@ router.post('/eliminar_informe', informeController.postEliminarInforme);
 
 router.post('/editar_informe', informeController.postEditarInforme);
 
+//router.post('/prueba', informeController.postPrueba);
+
 module.exports = router;

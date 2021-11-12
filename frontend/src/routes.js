@@ -39,6 +39,7 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Privilegios from "layouts/privilegios";
 import Profesionales from "layouts/profesionales";
+import Ficha from "layouts/ficha";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
@@ -48,7 +49,6 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Test from "layouts/test";
 import Formulario from "layouts/formulario";
-import Ficha from "layouts/ficha";
 import Infante from "layouts/infante";
 // Soft UI Dashboard Material-UI icons
 import Shop from "examples/Icons/Shop";

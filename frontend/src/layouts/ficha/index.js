@@ -54,52 +54,27 @@ function TabPanel(props) {
     let Lista;
 
     const [selectedFile, setSelectedFile] = useState();
-	  const [isFilePicked, setIsFilePicked] = useState(false);
+      const [isFilePicked, setIsFilePicked] = useState(false);
     const [isSelected,setIsSelected] = useState(false);
+    const [loaded, setLoaded] = useState();
 
-	  const changeHandler = (event) => {
+      const changeHandler = (event) => {
       setSelectedFile(event.target.files[0]);
       setIsSelected(true);
+      setLoaded(0);
     };
 
     const handleSubmission = () => {
       const formData = new FormData();
-  
-      formData.append('File', selectedFile);
-  
-      fetch(
-        'https://freeimage.host/api/1/upload?key=<YOUR_API_KEY>',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          console.log('Success:', result);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    };
+      formData.append('file', selectedFile);
 
-
-
-/*
-    function CrearInforme(){
-      fetch('informe/crear_informe')
-      .then(res => {
-            return res.json()
+      axios.post("http://localhost:8000/infante/importar_ficha/12345", formData, { // receive two parameter endpoint url ,form data 
       })
-      .then(users => {
-        Lista = users;
-        console.log(users)
-        setListo(1);
-      });
-    }
-    CrearInforme();
-
-    if(Listo ===1){*/
+      .then(res => { // then print response status
+        console.log(res.statusText)
+      })
+      
+    };
       return(
         <DashboardLayout>
         <DashboardNavbar />
@@ -113,7 +88,7 @@ function TabPanel(props) {
             <TabPanel value={tabValue} index={0}>       
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
 
-            <SuiInput type="file" name="file" onChange={changeHandler} />
+            <SuiInput type="file" name="ficha" id ="ficha" onChange={changeHandler} />
               <SuiButton onClick={handleSubmission}>Subir</SuiButton>
             </SuiBox>
             
@@ -136,4 +111,4 @@ function TabPanel(props) {
 
   
  // }
-  export default Ficha;
+export default Ficha;

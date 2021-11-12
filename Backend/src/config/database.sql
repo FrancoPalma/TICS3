@@ -38,57 +38,9 @@ create table informe (
     id SERIAL PRIMARY KEY,
     rut_usuario numeric(8,0),
     rut_infante VARCHAR(10),
+    fecha DATE,
     CONSTRAINT fk_rut FOREIGN KEY(rut_usuario) REFERENCES usuario(rut),
     CONSTRAINT fk_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
-);
-
-create table metodologia (
-    id SERIAL PRIMARY KEY,
-    id_informe INTEGER,
-    descripcion TEXT,
-    CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
-);
-
-create table evaluacion (
-    id SERIAL PRIMARY KEY,
-    id_informe INTEGER,
-    nombre TEXT,
-    CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
-);
-
-create table objetivo (
-    id SERIAL PRIMARY KEY,
-    id_informe INTEGER,
-    descripcion TEXT,
-    CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
-);
-
-create table sesion (
-    id_metodologia INTEGER,
-    nombre VARCHAR(50),
-    descripcion TEXT,
-    CONSTRAINT fk_evaluacion FOREIGN KEY(id_metodologia) REFERENCES metodologia(id)
-);
-
-create table analisis (
-    id_informe INTEGER,
-    conclusion TEXT,
-    recomendacion TEXT,
-    CONSTRAINT fk_informe FOREIGN KEY(id_informe) REFERENCES informe(id)
-);
-
-create table criterio (
-    id_evaluacion INTEGER,
-    nombre VARCHAR(50),
-    descripcion TEXT,
-    puntaje INTEGER,
-    CONSTRAINT fk_evaluacion FOREIGN KEY(id_evaluacion) REFERENCES evaluacion(id)
-);
-
-create table actividad (
-    id_objetivo INTEGER,
-    descripcion TEXT,
-    CONSTRAINT fk_objetivo FOREIGN KEY(id_objetivo) REFERENCES objetivo(id)
 );
 
 create table jardin(

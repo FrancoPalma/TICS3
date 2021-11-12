@@ -8,6 +8,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const Pool = require('./config/database.js')
+var cors = require('cors');
 
 
 //Setting
@@ -16,6 +17,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'));
 
 //Middlewares
+app.use(cors())
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));

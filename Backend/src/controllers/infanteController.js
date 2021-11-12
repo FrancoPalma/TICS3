@@ -1,6 +1,9 @@
 const pool = require('../config/database.js');
 const path = require('path')
 const fs = require('fs');
+const multer = require('multer')
+
+
 infanteController = {}
 
 infanteController.postAgregarInfante = (req, res) => {
@@ -54,7 +57,7 @@ infanteController.postEditarInfante = (req, res) => {
 };
 
 infanteController.getVerInfantes = (req, res) => {
-  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut', (err, result)=> {
+  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.nombre, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut', (err, result)=> {
     if(err){ return res.sendStatus(404)}
 
     return res.json(result.rows)
@@ -96,14 +99,34 @@ infanteController.getVerFicha = (req, res) => {
   });
 }
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+  cb(null, path.join(__dirname, '../public/fichas'))
+},
+filename: (req, file, cb) => {
+  let rut_infante = req.params.rut_infante
+  cb(null, 'ficha'+rut_infante+'.pdf')
+}
+})
+
+
 infanteController.postImportarFicha = async (req, res) => {
+  var upload = multer({ storage: storage }).single('file')
+  console.log("fossd")
+  upload(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+        return res.sendStatus(200)
+    } else if (err) {
+        return res.sendStatus(200)
+    }
   return res.sendStatus(200);
-};
+  })
+}
 
 infanteController.postVerInformes = (req, res) => {
   let rut_infante = req.params.rut_infante;
   
-  pool.query('SELECT informe.id FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
+  pool.query('SELECT informe.id, informe.fecha FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
     if(err){return res.sendStatus(404)}
     return res.json(result.rows)
   })
