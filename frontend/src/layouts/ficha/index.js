@@ -64,14 +64,11 @@ function TabPanel(props) {
 
     const handleSubmission = () => {
       const formData = new FormData();
-  
       formData.append('File', selectedFile);
-  
-      fetch(
-        'https://freeimage.host/api/1/upload?key=<YOUR_API_KEY>',
-        {
+      fetch('/importar_ficha/12345',{
           method: 'POST',
-          body: formData,
+          body: JSON.stringify({
+            nombre: formData})
         }
       )
         .then((response) => response.json())
