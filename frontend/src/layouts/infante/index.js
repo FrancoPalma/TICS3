@@ -541,7 +541,7 @@ export default function Infantes() {
 
   function EditarInfante(rut_infante) {
     let rut = rut_infante
-    fetch('/usuario/editar_infante/'+rut.toString(), {
+    fetch('/infante/editar_infante/'+rut.toString(), {
     method: 'POST',
     headers: {
         Accept: 'application/json',
