@@ -132,7 +132,7 @@ export default function Infantes() {
               'Confirmación de eliminación '+rut.toString());
             
             if (result) {
-              EliminarInfante()
+              EliminarInfante(rut)
             } else {
               // Сonfirmation not confirmed
             }
@@ -144,8 +144,8 @@ export default function Infantes() {
     );
   }
 
-  function EliminarInfante(){
-    rut_infante = RutInfante;
+  function EliminarInfante(rut){
+    rut_infante = rut;
     fetch('/infante/eliminar_infante/'+rut_infante.toString(),{
       method:'POST',
       headers: {
@@ -424,9 +424,155 @@ export default function Infantes() {
     }
   }
 
+  function Formulario2({r_i, n_i, f_n, r_a, n_a, t, e}){
+    rut_infante = r_i;
+    nombre_infante= n_i;
+    fecha_nacimiento =  f_n;
+
+    rut_apoderado = r_a;
+    nombre_a = n_a;
+    telefono = t;
+    email = e;
+  
+    return(
+      <>
+      <h1>Datos del infante</h1>
+      <Grid container spacing={3}display="row">
+
+      <Grid item xs={6}>
+        <label>RUT:</label>
+      </Grid>
+      <Grid item xs={6}>
+          {rut_infante}
+      </Grid>
+
+
+      <Grid item xs={6}>
+        <label>Nombre del infante: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="nombre_infante"
+            defaultValue={nombre_infante}
+            display="flex"
+            onChange={(e) => {
+              nombre_infante = e.target.value;
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+        <label>Fecha de nacimiento: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+            {fecha_nacimiento}
+        </Grid>
+        </Grid>
+        <h1>Datos del apoderado</h1>
+        <Grid container spacing={3}display="row">
+
+
+        <Grid item xs={6}>
+        <label>RUT del apoderado: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+            {rut_apoderado}
+        </Grid>
+
+        <Grid item xs={6}>
+        <label>Nombre del apoderado: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="tel"
+            name="nombre_a"
+            defaultValue={nombre_a}
+            display="flex"
+            onChange={(e) => {
+              nombre_a = e.target.value;
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Teléfono: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="tel"
+            name="telefono"
+            defaultValue={telefono}
+            display="flex"
+            onChange={(e) => {
+              telefono = e.target.value;
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Email: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="email"
+            defaultValue={email}
+            display="flex"
+            onChange={(e) => {
+              email = e.target.value;
+            }}
+          />
+        </Grid>
+        
+
+      </Grid>
+      </>
+    )
+  }
 
 
 
+  function EditarInfante(rut_infante) {
+    let rut = rut_infante
+    fetch('/usuario/editar_infante/'+rut.toString(), {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+
+      nombre: nombre_infante,
+
+      rut_apoderado: rut_apoderado,
+      nombre_apoderado: nombre_a,
+      telefono: telefono,
+      email: email,
+
+    })
+    })
+    .then( (response) => {
+        if(response.status === 200) {
+
+            console.log("Editado correctamente")
+            setListo(2)
+
+        } else {
+            console.log('Hubo un error')
+            console.log(response.status)
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
 
 
   if(Listo === 1){
@@ -503,20 +649,26 @@ export default function Infantes() {
       <SuiTypography variant="h6"></SuiTypography>
         <Card>
 
-        <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} spacing = {3} backgroundColor = "primary" backgroundGradient = {true}>
+        <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} backgroundGradient = {true}>
+
+          <SuiBox item xs={6}>
+          <label>Rut: </label> {RutInfante}
+            </SuiBox>
+
+
           <SuiBox item>
-            <label>Rut: </label>
-          {RutInfante}
+
+          <label>Nombre del infante</label> {NameChild}
           </SuiBox>
-          <SuiBox item>
-          {NameChild}
-          </SuiBox>
+          <SuiBox item xs={6}>
+            <label>Fecha de nacimiento</label>
+            </SuiBox>
           <SuiBox item>
           {Date}
           </SuiBox>
           </SuiBox>
 
-          <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} backgroundColor = "secondary" backgroundGradient = {true}>
+          <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} backgroundGradient = {true}>
           <SuiBox item>
           {RutApoderado}
           </SuiBox>
@@ -533,8 +685,24 @@ export default function Infantes() {
           </SuiBox>
         </SuiBox>
         </Card>
+
+
       </SuiBox>
 
+      <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
+              'Edición usuario '+RutInfante.toString());
+            
+            if (result) {
+              EditarInfante(RutInfante, NameChild);
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">edit</Icon>
+        </SuiButton>
 
       <Card>
       </Card>
