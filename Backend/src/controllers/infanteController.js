@@ -7,9 +7,10 @@ const multer = require('multer')
 infanteController = {}
 
 infanteController.postAgregarInfante = (req, res) => {
-  let id_jardin = req.user.id_jardin;
-  let rut_infante = req.body.rut;
-  let nombre = req.body.nombre;
+
+  let id_jardin = req.body.id_jardin;
+  let rut_infante = req.body.rut_infante;
+  let nombre = req.body.nombre_infante;
   let fecha_nacimiento = req.body.fecha_nacimiento;
 
   let rut_apoderado = req.body.rut_apoderado;
@@ -17,11 +18,16 @@ infanteController.postAgregarInfante = (req, res) => {
   let email = req.body.email;
   let telefono = req.body.telefono;
 
+  console.log(rut_infante);
+
   pool.query('BEGIN', (err) => {
-    if(err){ return res.sendStatus(200)}
+    if(err){ return res.sendStatus(404)}
+  
     pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
+      console.log("Se logro el pool")
       if(err){res.sendStatus(404)}
       pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
+        console.log("Se logro el pool")
         if(err){res.sendStatus(404)}
         pool.query('COMMIT', (err) => {
           if(err){res.sendStatus(404)}
@@ -57,7 +63,7 @@ infanteController.postEditarInfante = (req, res) => {
 };
 
 infanteController.getVerInfantes = (req, res) => {
-  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.nombre, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut', (err, result)=> {
+  pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.nombre as nombre_apoderado, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut', (err, result)=> {
     if(err){ return res.sendStatus(404)}
 
     return res.json(result.rows)
@@ -70,13 +76,15 @@ infanteController.postVerInfante = (req, res) => {
 
   pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.rut as rut_apoderado, apoderado.nombre as nombre_apoderado, apoderado.email, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result)=> {
     if(err){ return res.sendStatus(404)}
-    console.log(result.rows[0])
+
     return res.json(result.rows[0]);
   })
 }
 
 infanteController.postEliminarInfante = (req, res) => {
+  console.log("Logre entrar");
 	let rut_infante = req.params.rut_infante;
+  console.log(rut_infante);
 
   pool.query('DELETE FROM apoderado WHERE rut_infante = $1', [rut_infante], (err) => {
     if(err){return res.sendStatus(404)}
