@@ -18,16 +18,12 @@ infanteController.postAgregarInfante = (req, res) => {
   let email = req.body.email;
   let telefono = req.body.telefono;
 
-  console.log(rut_infante);
-
   pool.query('BEGIN', (err) => {
     if(err){ return res.sendStatus(404)}
   
     pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
-      console.log("Se logro el pool")
       if(err){res.sendStatus(404)}
       pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
-        console.log("Se logro el pool")
         if(err){res.sendStatus(404)}
         pool.query('COMMIT', (err) => {
           if(err){res.sendStatus(404)}
@@ -72,7 +68,6 @@ infanteController.getVerInfantes = (req, res) => {
   
 infanteController.postVerInfante = (req, res) => {
   let rut_infante = req.params.rut_infante;
-  console.log(rut_infante)
 
   pool.query('SELECT infante.rut, infante.nombre, infante.fecha_nacimiento, apoderado.rut as rut_apoderado, apoderado.nombre as nombre_apoderado, apoderado.email, apoderado.telefono FROM infante, apoderado WHERE apoderado.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result)=> {
     if(err){ return res.sendStatus(404)}
@@ -83,7 +78,6 @@ infanteController.postVerInfante = (req, res) => {
 
 infanteController.postEliminarInfante = (req, res) => {
 	let rut_infante = req.params.rut_infante;
-  console.log(rut_infante);
 
   pool.query('DELETE FROM apoderado WHERE rut_infante = $1', [rut_infante], (err) => {
     if(err){return res.sendStatus(404)}
