@@ -82,7 +82,6 @@ infanteController.postVerInfante = (req, res) => {
 }
 
 infanteController.postEliminarInfante = (req, res) => {
-  console.log("Logre entrar");
 	let rut_infante = req.params.rut_infante;
   console.log(rut_infante);
 
@@ -95,7 +94,7 @@ infanteController.postEliminarInfante = (req, res) => {
   })
 };
 
-infanteController.getVerFicha = (req, res) => {
+infanteController.postVerFicha = (req, res) => {
   let rut_infante = req.body.rut_infante;
 
   archivo = path.join(__dirname, '../public/fichas','ficha'+rut_infante+'.pdf');
