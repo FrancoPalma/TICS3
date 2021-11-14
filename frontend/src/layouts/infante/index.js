@@ -1,5 +1,9 @@
 import { useState } from "react";
 import Card from "@material-ui/core/Card";
+import { styled } from '@mui/material/styles';
+
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -20,6 +24,7 @@ import { Confirm,} from 'react-st-modal';
 import { useHistory } from "react-router-dom";
 import SuiInput from "components/SuiInput";
 import Grid from "@material-ui/core/Grid";
+import axios from 'axios';
 /*npm install @mui/material @emotion/react @emotion/styled*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,6 +75,14 @@ function Check({boleano}){
 }
 
 export default function Infantes() {
+
+  const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
+
   const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
@@ -108,7 +121,34 @@ export default function Infantes() {
   let email;
 
 
+  const [selectedFile, setSelectedFile] = useState();
+  const [isFilePicked, setIsFilePicked] = useState(false);
+  const [isSelected,setIsSelected] = useState(false);
+  const [loaded, setLoaded] = useState();
+
+  const changeHandler = (event) => {
+  setSelectedFile(event.target.files[0]);
+  setIsSelected(true);
+  setLoaded(0);
+};
+
+const handleSubmission = () => {
+
+  const formData = new FormData();
+  formData.append('file', selectedFile);
+
+  axios.post("http://localhost:8000/infante/importar_ficha/"+RutInfante, formData, { // receive two parameter endpoint url ,form data 
+  })
+  .then(res => { // then print response status
+    console.log(res.statusText)
+  })
+  
+};
+
+
   const [rows] = useState([]);
+
+
   function Colocao(rut){
       setRutInfante(rut)
       setListo(2)
@@ -647,52 +687,86 @@ export default function Infantes() {
     <SuiBox py={3}>
       <SuiBox mb={3}>
       <SuiTypography variant="h6"></SuiTypography>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
         <Card>
 
-        <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} backgroundGradient = {true}>
+        <Box sx={{ width: '100%' }}>
+          <h1>Datos personales del infante</h1>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={6}>
+                <Item>RUT del infante: </Item>
+              </Grid>
 
-          <SuiBox item xs={6}>
-          <label>Rut: </label> {RutInfante}
-            </SuiBox>
+              <Grid item xs={6}>
+                <Item>{RutInfante}</Item>
+              </Grid>
+              
+              <Grid item xs={6}>
+                <Item>Nombre del infante: </Item>
+              </Grid>
+        
+              <Grid item xs={6}>
+                <Item>{NameChild}</Item>
+              </Grid>
 
+              <Grid item xs={6}>
+                <Item>Fecha de nacimiento: </Item>
+              </Grid>
+        
+              <Grid item xs={6}>
+                <Item>{Date}</Item>
+              </Grid>
+            </Grid>
+            <h1>Datos personales del apoderado</h1>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={6}>
+                <Item>RUT del apoderado: </Item>
+              </Grid>
+        
+              <Grid item xs={6}>
+                <Item>{RutApoderado}</Item>
+              </Grid>
 
-          <SuiBox item>
+              <Grid item xs={6}>
+                <Item>Nombre del apoderado: </Item>
+              </Grid>
+        
+              <Grid item xs={6}>
+                <Item>{NameFather}</Item>
+              </Grid>
 
-          <label>Nombre del infante</label> {NameChild}
-          </SuiBox>
-          <SuiBox item xs={6}>
-            <label>Fecha de nacimiento</label>
-            </SuiBox>
-          <SuiBox item>
-          {Date}
-          </SuiBox>
-          </SuiBox>
+              <Grid item xs={6}>
+                <Item>Email: </Item>
+              </Grid>
+        
+              <Grid item xs={6}>
+                <Item>{Email}</Item>
+              </Grid>
 
-          <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} backgroundGradient = {true}>
-          <SuiBox item>
-          {RutApoderado}
-          </SuiBox>
-          <SuiBox item>
-          
-          {NameFather}
-          </SuiBox>
-          <SuiBox item>
-          {Email}
-          </SuiBox>
-          <SuiBox item>
+              <Grid item xs={6}>
+                <Item>Telefóno: </Item>
+              </Grid>
+        
+              <Grid item xs={6}>
+                <Item>{Phone}</Item>
+              </Grid>
 
-          {Phone}
-          </SuiBox>
-        </SuiBox>
+          </Grid>
+        </Box>
+
+        
+
         </Card>
 
 
       </SuiBox>
 
-      <SuiButton buttonColor="info" iconOnly
+      <SuiButton buttonColor="info" 
           onClick={async () => {
             const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
-              'Edición usuario '+RutInfante.toString());
+              'Edición infante '+RutInfante.toString());
             
             if (result) {
               EditarInfante(RutInfante);
@@ -701,8 +775,14 @@ export default function Infantes() {
             }
           }}
         >
+          Editar Infante
             <Icon classsName="material-icons-round">edit</Icon>
         </SuiButton>
+
+        <SuiInput type="file" name="ficha" id ="ficha" onChange={changeHandler} />
+        <SuiButton onClick={handleSubmission}>Subir</SuiButton>
+
+
 
       <Card>
       </Card>

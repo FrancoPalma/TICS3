@@ -90,15 +90,6 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Ficha",
-    key: "ficha",
-    route: "/ficha",
-    icon: <Office size="12px" />,
-    component: Ficha,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
     name: "Infante",
     key: "infante",
     route: "/infante",
