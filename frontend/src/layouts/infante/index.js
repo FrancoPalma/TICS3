@@ -503,7 +503,7 @@ export default function Infantes() {
       <SuiTypography variant="h6"></SuiTypography>
         <Card>
 
-        <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} spacing = {3}>
+        <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} spacing = {3} color={theme.palette.primary.main}>
           <SuiBox item>
             <label>Rut: </label>
           {RutInfante}
