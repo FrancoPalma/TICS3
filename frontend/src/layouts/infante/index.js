@@ -695,7 +695,7 @@ export default function Infantes() {
               'Edición usuario '+RutInfante.toString());
             
             if (result) {
-              EditarInfante(RutInfante, NameChild);
+              EditarInfante(RutInfante);
             } else {
               // Сonfirmation not confirmed
             }
