@@ -120,12 +120,11 @@ filename: (req, file, cb) => {
 
 infanteController.postImportarFicha = async (req, res) => {
   var upload = multer({ storage: storage }).single('file')
-  console.log("fossd")
   upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {
-        return res.sendStatus(200)
+        return res.sendStatus(400)
     } else if (err) {
-        return res.sendStatus(200)
+        return res.sendStatus(400)
     }
   return res.sendStatus(200);
   })
