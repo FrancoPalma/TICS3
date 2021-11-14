@@ -43,9 +43,16 @@ infanteController.postEditarInfante = (req, res) => {
   let email = req.body.email;
   let telefono = req.body.telefono;
 
+  console.log(nombre)
+  console.log(nombre_apoderado)
+  console.log(rut_apoderado)
+  console.log(email)
+  console.log(telefono)
+
+
   pool.query('BEGIN', (err) => {
     if(err){ return res.sendStatus(200)}
-    pool.query('UPDATE infante SET nombre = $1 WHERE rut = $2', [nombre, rut_apoderado], (err) => {
+    pool.query('UPDATE infante SET nombre = $1 WHERE rut = $2', [nombre, rut_infante], (err) => {
       if(err){res.sendStatus(404)}
         pool.query('UPDATE apoderado SET rut = $1, nombre = $2, email = $3, telefono = $4 WHERE rut_infante = $5', [rut_apoderado, nombre_apoderado, email, telefono, rut_infante], (err) => {
           if(err){res.sendStatus(404)}
