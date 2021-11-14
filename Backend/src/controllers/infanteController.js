@@ -39,7 +39,7 @@ infanteController.postAgregarInfante = (req, res) => {
 };
 
 infanteController.postEditarInfante = (req, res) => {
-  let rut_infante = req.params.rut;
+  let rut_infante = req.params.rut_infante;
   let nombre = req.body.nombre;
 
   let rut_apoderado = req.body.rut_apoderado;

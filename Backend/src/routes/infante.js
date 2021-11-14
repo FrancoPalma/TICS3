@@ -30,7 +30,7 @@ router.get('/ver_infantes', infanteController.getVerInfantes)
 
 router.post('/ver_infante/:rut_infante', infanteController.postVerInfante)
 
-router.post('/editar_infante/:infante', sesionController.isLoggedIn, sesionController.gestionInfante, infanteController.postEditarInfante);
+router.post('/editar_infante/:rut_infante', sesionController.isLoggedIn, sesionController.gestionInfante, infanteController.postEditarInfante);
 
 router.post('/agregar_infante', sesionController.isLoggedIn, sesionController.gestionInfante, infanteController.postAgregarInfante);
 
