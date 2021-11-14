@@ -7,7 +7,7 @@ const multer = require('multer')
 infanteController = {}
 
 infanteController.postAgregarInfante = (req, res) => {
-  console.log("HOLA MUNDO");
+
   let id_jardin = req.body.id_jardin;
   let rut_infante = req.body.rut_infante;
   let nombre = req.body.nombre_infante;
@@ -82,7 +82,8 @@ infanteController.postVerInfante = (req, res) => {
 }
 
 infanteController.postEliminarInfante = (req, res) => {
-	let rut_infante = req.body.rut_infante;
+  console.log("Logre entrar");
+	let rut_infante = req.params.rut_infante;
   console.log(rut_infante);
 
   pool.query('DELETE FROM apoderado WHERE rut_infante = $1', [rut_infante], (err) => {

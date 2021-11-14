@@ -500,17 +500,38 @@ export default function Infantes() {
     <DashboardNavbar />
     <SuiBox py={3}>
       <SuiBox mb={3}>
-
+      <SuiTypography variant="h6"></SuiTypography>
         <Card>
+
+        <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} spacing = {3}>
+          <SuiBox item>
+            <label>Rut: </label>
           {RutInfante}
+          </SuiBox>
+          <SuiBox item>
           {NameChild}
+          </SuiBox>
+          <SuiBox item>
           {Date}
+          </SuiBox>
+          </SuiBox>
 
+          <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={5} spacing = {3}>
+          <SuiBox item>
           {RutApoderado}
+          </SuiBox>
+          <SuiBox item>
+          
           {NameFather}
+          </SuiBox>
+          <SuiBox item>
           {Email}
-          {Phone}
+          </SuiBox>
+          <SuiBox item>
 
+          {Phone}
+          </SuiBox>
+        </SuiBox>
         </Card>
       </SuiBox>
 
