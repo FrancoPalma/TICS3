@@ -75,7 +75,19 @@ export default function Infantes() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
+
+
   const [RutInfante, setRutInfante] = useState('');
+  const [NameChild, setNameChild] = useState('');
+  const [Date, setDate] = useState('');
+
+  const [RutApoderado, setRutApoderado] = useState('');
+  const [NameFather,setNameFather] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Phone, setPhone] = useState('');
+
+
+  const [Test, setTest] = useState('');
 
   const columns = [
     { name: "nombre", align: "left" },
@@ -101,14 +113,60 @@ export default function Infantes() {
       setRutInfante(rut)
       setListo(2)
   }
+
+  function Texto({rut}){
+    setRutInfante(rut)
+    return(
+        <p>¿Esta seguro que desea eliminar este usuario?</p>
+    )}
   function Boton({rut}){
     return(
       <>
       <SuiButton buttonColor="info" iconOnly onClick = { async() => Colocao(rut)}>
             <Icon classsName="material-icons-round">visibility</Icon>
         </SuiButton>
+
+        <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm(<Texto rut={rut}/>, 
+              'Confirmación de eliminación '+rut.toString());
+            
+            if (result) {
+              EliminarInfante()
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">delete</Icon>
+        </SuiButton>
       </>  
     );
+  }
+
+  function EliminarInfante(){
+    rut_infante = RutInfante;
+    fetch('/infante/eliminar_infante/'+rut_infante.toString(),{
+      method:'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      rut_infante: rut_infante,
+    })
+    })
+    .then((response) => {
+      if (response.status == 200){
+        console.log("Eliminado correctamente")
+        alert("Eliminado correctamente");
+        setListo(0);
+      }
+      else{
+        console.log("Hubo un error")
+        console.log(response.status)
+      }
+    })
   }
 
   function VisualizarDatos(rut_infante){
@@ -128,19 +186,24 @@ export default function Infantes() {
             return res.json()
         })
         .then(users => {
-            for(let i=0; i < 2;i++){
-                let aux = true;
-                for(let e=0;e < rows.length;e++){
-                  if(users[i].rut == rows[e].rut){
-                    aux=false;
-                  }
-                }
 
-            if (aux == true){        
-            rows.push({nombre: users.nombre});
-            }
+            let date = users.fecha_nacimiento;
+            date = date.toString();
+            date = date.slice(0,9);
+
+
+            setNameChild(users.nombre)
+            setDate(date)
+            
+            setRutApoderado(users.rut_apoderado)
+            setNameFather(users.nombre_apoderado)
+            setEmail(users.email)
+            setPhone(users.telefono)
+
+            //rows.push({rut: users.rut, nombre: users.nombre});
+            
             setListo(3);
-        }});
+        });
 
   }}
 
@@ -286,14 +349,7 @@ export default function Infantes() {
 
   function AgregarInfante(){
     let id_jardin = 1;
-    console.log(id_jardin)
-    console.log(rut_infante);
-    console.log(nombre_infante);
-    console.log(fecha_nacimiento);
-    console.log(rut_apoderado);
-    console.log(nombre_a);
-    console.log(email);
-    console.log(telefono);
+
 
       fetch('/infante/agregar_infante/',{
         method: 'POST',
@@ -437,6 +493,7 @@ export default function Infantes() {
       );
   }
   else if (Listo === 3){
+
     return(
         
     <DashboardLayout>
@@ -445,10 +502,19 @@ export default function Infantes() {
       <SuiBox mb={3}>
 
         <Card>
-          {rows[0]}
+          {RutInfante}
+          {NameChild}
+          {Date}
+
+          {RutApoderado}
+          {NameFather}
+          {Email}
+          {Phone}
 
         </Card>
       </SuiBox>
+
+
       <Card>
       </Card>
     </SuiBox>
