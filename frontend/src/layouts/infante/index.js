@@ -250,7 +250,7 @@ const handleSubmission = () => {
   function Formulario(){
     return(
       <>
-      <h1>Datos del Infante</h1>
+      <h3>Datos del Infante</h3>
       <Grid container spacing={3}display="row">
 
         <Grid item xs={6}>
@@ -298,7 +298,7 @@ const handleSubmission = () => {
         </Grid>
 </Grid>
 
-<h1>Datos del Apoderado</h1>
+<h3>Datos del Apoderado</h3>
         <Grid container spacing={3}display="row">
 
         <Grid item xs={6}>
@@ -476,7 +476,7 @@ const handleSubmission = () => {
   
     return(
       <>
-      <h1>Datos del infante</h1>
+      <h3>Datos del infante</h3>
       <Grid container spacing={3}display="row">
 
       <Grid item xs={6}>
@@ -511,7 +511,7 @@ const handleSubmission = () => {
             {fecha_nacimiento}
         </Grid>
         </Grid>
-        <h1>Datos del apoderado</h1>
+        <h3>Datos del apoderado</h3>
         <Grid container spacing={3}display="row">
 
 
@@ -693,7 +693,7 @@ const handleSubmission = () => {
         <Card>
 
         <Box sx={{ width: '100%' }}>
-          <h1>Datos personales del infante</h1>
+          <h3>Datos personales del infante</h3>
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={6}>
                 <Item>RUT del infante: </Item>
@@ -719,7 +719,7 @@ const handleSubmission = () => {
                 <Item>{Date}</Item>
               </Grid>
             </Grid>
-            <h1>Datos personales del apoderado</h1>
+            <h3>Datos personales del apoderado</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={6}>
                 <Item>RUT del apoderado: </Item>
