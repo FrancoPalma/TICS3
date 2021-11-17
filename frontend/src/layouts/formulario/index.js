@@ -132,7 +132,7 @@ function Formulario(){
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        rut_infante: "12345678-9",
+        rut_infante: "67891",
         contenido: value,
         id_informe: id
       })
