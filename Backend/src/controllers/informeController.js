@@ -100,7 +100,7 @@ informeController.postEditarInforme = async (req, res) => {
   let contenido = req.body.contenido;
   let id_informe = req.body.id_informe;
   let fecha = new Date().toISOString().slice(0, 10);
-  pool.query('UPDATE informe SET fecha = $1 WHERE id = $2', [fecha, id_informe], async (err) => {
+  pool.query('UPDATE informe SET fecha = $1, rut_usuario = $2 WHERE id = $3', [fecha, req.user.rut, id_informe], async (err) => {
     if(err){return res.sendStatus(404)}
     fs.writeFile(path.join(__dirname, '../public/informes/informe'+id_informe+'.html'), contenido, async (err) => { 
       let html = fs.readFileSync(path.join(__dirname, '../public/informes/informe'+id_informe+'.html'), 'utf8');
