@@ -119,7 +119,6 @@ filename: (req, file, cb) => {
 
 
 infanteController.postImportarFicha = async (req, res) => {
-  console.log("hola")
   var upload = multer({ storage: storage }).single('file')
   upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {

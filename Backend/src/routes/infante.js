@@ -13,9 +13,9 @@ router.post('/agregar_infante', sesionController.isLoggedIn, sesionController.ge
 
 router.post('/eliminar_infante/:rut_infante', sesionController.isLoggedIn, sesionController.gestionInfante, infanteController.postEliminarInfante);
 
-router.post('/importar_ficha/:rut_infante', infanteController.postImportarFicha);
+router.post('/importar_ficha/:rut_infante', sesionController.isLoggedIn, sesionController.gestionFicha, infanteController.postImportarFicha);
 
-router.post('/ver_ficha/:rut_infante', infanteController.postVerFicha);
+router.post('/ver_ficha/:rut_infante', sesionController.isLoggedIn, sesionController.gestionFicha, infanteController.postVerFicha);
 
 router.post('/ver_informes/:rut_infante', sesionController.isLoggedIn,  infanteController.postVerInformes);
 

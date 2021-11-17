@@ -39,11 +39,9 @@ sesionController.getLogout = (req, res) => {
 };
 
 sesionController.isLoggedIn = (req, res, next) => {
-	console.log(req.user)
 	if (req.isAuthenticated()) {
 		return next();
 	}
-	console.log("estoy hcato")
 	res.sendStatus(404);
 }
 
