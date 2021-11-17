@@ -42,6 +42,10 @@ import {
     EditRecurrenceMenu,
     Resources,
     DragDropProvider,
+    ViewSwitcher,
+    DayView,
+    WeekView,
+    TodayButton,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 
@@ -51,31 +55,32 @@ const schedulerData = [
 ];
 
 export default function Horario () {
+  const [State,setState] = useState('');
+  
+  
 return(
 <DashboardLayout>
 <DashboardNavbar />
   <Paper>
     <Scheduler
+    height={660}
     data={schedulerData}
     >
       <ViewState
         currentDate="2021-11-01"
+        defaultCurrentViewName="Month"
       />
-          <EditingState
-            
-          />
+      <DayView/>
+      <WeekView/>
+      <EditingState/>
       <MonthView/>
-      <Appointments
-          />
-          <Resources
-
-          />
-
-          <Toolbar
-
-          />
-          <DateNavigator />
-
+      
+      <Toolbar/>
+      <ViewSwitcher/>
+      <Appointments/>
+      <Resources/>
+      <DateNavigator />
+      <TodayButton />
           <EditRecurrenceMenu />
           <AppointmentTooltip
 
