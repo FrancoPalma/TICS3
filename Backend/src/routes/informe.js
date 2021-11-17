@@ -9,6 +9,6 @@ router.post('/ver_informe', sesionController.isLoggedIn, informeController.postV
 
 router.post('/eliminar_informe', sesionController.isLoggedIn, sesionController.gestionEvaluacion, informeController.postEliminarInforme);
 
-router.post('/editar_informe', informeController.postEditarInforme);
+router.post('/editar_informe', sesionController.isLoggedIn, sesionController.gestionEvaluacion, informeController.postEditarInforme);
 
 module.exports = router;
