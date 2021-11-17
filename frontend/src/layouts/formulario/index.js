@@ -155,30 +155,30 @@ function Formulario(){
 
   function RecibirInforme(){
     fetch('/informe/ver_informe', {
-  method: "POST",
-  headers: {
-    Accept: 'application/pdf',
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    id_informe: id
-  })
-})
-  .then(res => res.blob())
-  .then(response => {
-    //Create a Blob from the PDF Stream
-    console.log(response);
-    const file = new Blob([response], {
-      type: "application/pdf"
+      method: "POST",
+      headers: {
+      Accept: 'application/pdf',
+      "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id_informe: id
+      })
+    })
+    .then(res => res.blob())
+    .then(response => {
+      //Create a Blob from the PDF Stream
+      console.log(response);
+      const file = new Blob([response], {
+        type: "application/pdf"
+      });
+      //Build a URL from the file
+      const fileURL = URL.createObjectURL(file);
+      //Open the URL on new Window
+      window.open(fileURL);
+    })
+    .catch(error => {
+      console.log(error);
     });
-    //Build a URL from the file
-    const fileURL = URL.createObjectURL(file);
-    //Open the URL on new Window
-    window.open(fileURL);
-  })
-  .catch(error => {
-    console.log(error);
-  });
   }
 
   if (Listo == 1){

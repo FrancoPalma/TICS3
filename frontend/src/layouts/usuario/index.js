@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Editor } from '@tinymce/tinymce-react';
 import Card from "@material-ui/core/Card";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -51,29 +52,6 @@ function a11yProps(index) {
   };
 }
 
-function Check({boleano}){
-  const { size } = typography;
-  if(boleano){
-    return(
-      <SuiBox fontSize={size.regular} color="text" mb={-0.5} mx={0.25}>
-        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
-          done
-        </Icon>
-      </SuiBox>
-    )
-  }else{
-    return(
-      <SuiBox fontSize={size.regular} color="text" mb={-0.5} mx={0.25}>
-        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
-          clear
-        </Icon>
-      </SuiBox>
-
-    )
-
-  }
-}
-
 export default function Usuarios() {
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -81,7 +59,6 @@ export default function Usuarios() {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
-
   const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
@@ -94,7 +71,10 @@ export default function Usuarios() {
   const [NameFather,setNameFather] = useState('');
   const [Email, setEmail] = useState('');
   const [Phone, setPhone] = useState('');
+  const [value, setValue] = useState('');
+  const [text, setText] = useState('');
   const [Test, setTest] = useState('');
+  const [id, setID] = useState(0);
   const columns = [
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
@@ -138,13 +118,13 @@ export default function Usuarios() {
   
   };
   const [rows] = useState([]);
-
+  const [rows2] = useState([]);
 
   function Colocao(rut){
       setRutInfante(rut)
       setListo(2)
   }
-  function RecibirInforme(){
+  function RecibirFicha(){
     fetch('/infante/ver_ficha/'+RutInfante.toString(), {
   method: "POST",
   headers: {
@@ -168,6 +148,33 @@ export default function Usuarios() {
     alert("Este infante no tiene ficha.");
     console.log(error);
   });
+  }
+  function RecibirInforme(){
+    fetch('/informe/ver_informe', {
+      method: "POST",
+      headers: {
+      Accept: 'application/pdf',
+      "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id_informe: id
+      })
+    })
+    .then(res => res.blob())
+    .then(response => {
+      //Create a Blob from the PDF Stream
+      console.log(response);
+      const file = new Blob([response], {
+        type: "application/pdf"
+      });
+      //Build a URL from the file
+      const fileURL = URL.createObjectURL(file);
+      //Open the URL on new Window
+      window.open(fileURL);
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
   function Texto({rut}){
     setRutInfante(rut)
@@ -222,8 +229,8 @@ export default function Usuarios() {
       }
     })
   }
-
   function VisualizarDatos(rut_infante){
+    let bolean = true;
     if(Listo === 2){
       while(rows.length > 0) {
           rows.pop();
@@ -235,8 +242,10 @@ export default function Usuarios() {
             'Content-Type': 'application/json',
           }
       })
-
       .then(res => {
+        if(res.status === 404) {
+          bolean = false;
+      }
           return res.json()
       })
       .then(users => {
@@ -252,23 +261,47 @@ export default function Usuarios() {
           setPhone(users.telefono)
 
       });
-
-      fetch('/infante/ver_informes/'+rut_infante.toString(),{
-        method:'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+      if (bolean == true){
+        fetch('/infante/ver_informes/'+rut_infante.toString(),{
+          method:'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          if(res.status === 404) {
+            bolean = false;
         }
-      })
-      .then(res => {
-        return res.json()
-      })
-      .then(users => {
-        console.log(users);
-      });
+            return res.json()
+        })
+        .then(users => {
+          for(let i=0; i < users.length;i++){
+            let aux = true;
+            for(let e=0;e < rows2.length;e++){
+              if(users[i].id == rows2[e].id){
+                aux=false;
+              }
+            }
+            if(aux == true){
+              console.log(users[i])
+              let date = users[i].fecha;
+              date = date.toString();
+              date = date.slice(0,9);
+              rows2.push({id: users[i].id,
+                fecha: date,
+                acciones: "hola"
+              })
+            }
+          }
+          
+        });
+      }
+    }
+    if(bolean == true){
+      setListo(3);
     }
   }
-
   function Formulario(){
     return(
       <>
@@ -387,7 +420,6 @@ export default function Usuarios() {
       </>
     )
   }
-
   function BotonAgregar(){
     return(
       <SuiButton buttonColor="info" 
@@ -408,11 +440,8 @@ export default function Usuarios() {
       </SuiButton>
     )
   }
-
   function AgregarInfante(){
     let id_jardin = 1;
-
-
       fetch('/infante/agregar_infante/',{
         method: 'POST',
         headers: {
@@ -440,9 +469,7 @@ export default function Usuarios() {
         }
         setListo(0);
     })
-
   }
-
   function ActualizarInfantes(){
     if (Listo == 0){
       while(rows.length > 0) {
@@ -477,7 +504,6 @@ export default function Usuarios() {
         });
     }
   }
-
   function Formulario2({r_i, n_i, f_n, r_a, n_a, t, e}){
     rut_infante = r_i;
     nombre_infante= n_i;
@@ -590,7 +616,34 @@ export default function Usuarios() {
       </>
     )
   }
-
+  function EnviarInforme(){
+    fetch('/informe/guardar_informe',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rut_infante: "67891",
+        contenido: value,
+        id_informe: id
+      })
+    })
+    .then((response) => {
+      if(response.status !== 404){
+        console.log("ok")
+        return response.json()
+      }else{
+        console.log("error")
+      }
+    })
+    .then(users => {
+      setID(users.id_informe);
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
   function EditarInfante(rut_infante) {
     let rut = rut_infante
     fetch('/infante/editar_infante/'+rut.toString(), {
@@ -625,6 +678,7 @@ export default function Usuarios() {
         console.log(error)
     });
   }
+
   if(Listo === 1){
   return (
     <DashboardLayout>
@@ -663,8 +717,9 @@ export default function Usuarios() {
     );
   }
   else if (Listo === 2){
-      if(Listo === 2){
-    VisualizarDatos(RutInfante)}
+    if(Listo === 2){
+      VisualizarDatos(RutInfante)
+    }
     return(
         <DashboardLayout>
           <DashboardNavbar />
@@ -767,12 +822,22 @@ export default function Usuarios() {
           <SuiButton onClick={handleSubmission}>
             Subir
           </SuiButton>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirInforme} mb={2}>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
             Visualizar
           </SuiButton>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
-
+          <SuiBox>
+            <SuiButton onClick={async() => {setListo(5)}}>
+              <Icon classsName="material-icons-round">
+                add
+              </Icon>
+              Agregar Evaluación
+            </SuiButton>
+          </SuiBox>
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2} rows={rows2} />
+          </SuiBox>
         </TabPanel>
         </Card>
       </SuiBox>
@@ -781,6 +846,145 @@ export default function Usuarios() {
     </SuiBox>
     <Footer />
   </DashboardLayout>
-);
+  );
+  }else if(Listo === 5){
+    return(
+      <DashboardLayout>
+      <DashboardNavbar />
+      <SuiBox py={6}>
+        <SuiBox mb={6}>
+        <Tabs value={tabValue} onChange={handleSetTabValue}>
+          <Tab label="Datos" {...a11yProps(0)}/>
+          <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+          <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+        </Tabs>
+        <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+          <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+          </SuiButton>
+          <Card>
+          <TabPanel value={tabValue} index={0}>
+            <Box sx={{ width: '100%' }}>
+              <h3>Datos personales del infante</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                  <Grid item xs={6}>
+                    <Item>RUT del infante: </Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>{RutInfante}</Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>Nombre del infante: </Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>{NameChild}</Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>Fecha de nacimiento: </Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>{Date}</Item>
+                  </Grid>
+                </Grid>
+                <h3>Datos personales del apoderado</h3>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                  <Grid item xs={6}>
+                    <Item>RUT del apoderado: </Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>{RutApoderado}</Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>Nombre del apoderado: </Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>{NameFather}</Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>Email: </Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>{Email}</Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>Telefóno: </Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>{Phone}</Item>
+                  </Grid>
+              </Grid>
+            </Box>
+            <SuiButton buttonColor="info" 
+            onClick={async () => {
+              const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
+                'Edición infante '+RutInfante.toString());
+              if (result) {
+                EditarInfante(RutInfante);
+              } else {
+                // Сonfirmation not confirmed
+              }
+            }}
+            >
+              Editar Infante
+              <Icon classsName="material-icons-round">edit</Icon>
+            </SuiButton>
+          </TabPanel>
+          <TabPanel value={tabValue} index={1}>
+            <SuiInput type="file" name="ficha" id ="ficha" onChange={changeHandler} />
+            <SuiButton onClick={handleSubmission}>
+              Subir
+            </SuiButton>
+            <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+              Visualizar
+            </SuiButton>
+          </TabPanel>
+          <TabPanel value={tabValue} index={2}>
+            <Editor
+              value={value}
+              onInit={(evt, editor) => {
+                setText(editor.getContent({format: 'text'}));
+              }}
+              onEditorChange={(newValue, editor) => {
+                setValue(newValue);
+                setText(editor.getContent({format: 'text'}));
+              }}
+              init={{
+                height: 500,
+                menubar: true,
+                selector: 'textarea#default',
+                plugins: [
+                  'advlist autolink lists link image charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+              }}
+            />
+            <SuiBox mb={2}>
+            <SuiBox mb={1} ml={0.5}>  
+                <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarInforme} mb={2}>
+                Guardar
+                </SuiButton>
+            </SuiBox>
+            </SuiBox>
+            <SuiBox mb={2}>
+              <SuiBox mb={1} ml={0.5}>
+                <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirInforme} mb={2}>
+                Visualizar
+              </SuiButton>
+            </SuiBox>
+          </SuiBox>
+          </TabPanel>
+          </Card>
+        </SuiBox>
+        <Card>
+        </Card>
+      </SuiBox>
+      <Footer />
+    </DashboardLayout>
+    );
   }
 }
