@@ -117,6 +117,8 @@ export default function Usuarios() {
   })
   
   };
+
+  
   const [rows] = useState([]);
   const [rows2] = useState([]);
 
@@ -623,6 +625,7 @@ export default function Usuarios() {
     )
   }
   function EnviarInforme(){
+    console.log(id)
     fetch('/informe/guardar_informe',{
       method: 'POST',
       headers: {
@@ -709,7 +712,8 @@ export default function Usuarios() {
     });
   }
   function EditarEvaluacion(id){
-    fetch('/informe/guardar_informe',{
+    setID(id);
+    fetch('/informe/editar_informe',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -899,7 +903,7 @@ export default function Usuarios() {
           </SuiButton>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <SuiInput type="file" name="ficha" id ="ficha" onChange={changeHandler} />
+          <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
           <SuiButton onClick={handleSubmission}>
             Subir
           </SuiButton>
@@ -910,7 +914,8 @@ export default function Usuarios() {
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
             <SuiButton onClick={async() => {setListo(5)
-            setValue('')}}>
+            setValue('')
+            setID(0)}}>
               <Icon classsName="material-icons-round">
                 add
               </Icon>
