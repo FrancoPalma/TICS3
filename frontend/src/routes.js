@@ -121,19 +121,11 @@ const routes = [
   },
   {
     type: "collapse",
-<<<<<<< HEAD
     name: "Perfil",
     key: "perfil",
     route: "/perfil",
     icon: <Shop size="12px" />,
     component: Perfil,
-=======
-    name: "Horario",
-    key: "horario",
-    route: "/horario",
-    icon: <Shop size="12px" />,
-    component: Horario,
->>>>>>> 569aad1f1bb9b6796c0ef9b1eefd5ab6486b2ca3
     noCollapse: true,
   }
 ];
