@@ -75,7 +75,6 @@ function Check({boleano}){
 }
 
 export default function Usuarios() {
-
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -88,20 +87,14 @@ export default function Usuarios() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
-
-
   const [RutInfante, setRutInfante] = useState('');
   const [NameChild, setNameChild] = useState('');
   const [Date, setDate] = useState('');
-
   const [RutApoderado, setRutApoderado] = useState('');
   const [NameFather,setNameFather] = useState('');
   const [Email, setEmail] = useState('');
   const [Phone, setPhone] = useState('');
-
-
   const [Test, setTest] = useState('');
-
   const columns = [
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
@@ -110,22 +103,22 @@ export default function Usuarios() {
     { name: "telefono_apoderado", align: "center" },
     {name: "acciones", align:"center" }
   ];
-
+  const columns2 = [
+    { name: "id", align: "left" },
+    { name: "fecha", align: "center" },
+    {name: "acciones", align:"right" }
+  ];
   let rut_infante;
   let nombre_infante;
   let fecha_nacimiento;
-
   let rut_apoderado;
   let nombre_a;
   let telefono;
   let email;
-
-
   const [selectedFile, setSelectedFile] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [isSelected,setIsSelected] = useState(false);
   const [loaded, setLoaded] = useState();
-
   const changeHandler = (event) => {
   setSelectedFile(event.target.files[0]);
   setIsSelected(true);
@@ -205,7 +198,6 @@ export default function Usuarios() {
       </>  
     );
   }
-
   function EliminarInfante(rut){
     rut_infante = rut;
     fetch('/infante/eliminar_infante/'+rut_infante.toString(),{
@@ -232,42 +224,50 @@ export default function Usuarios() {
   }
 
   function VisualizarDatos(rut_infante){
-      if(Listo === 2){
-        while(rows.length > 0) {
-            rows.pop();
-            }
-        fetch('/infante/ver_infante/'+rut_infante.toString(),{
-            method:'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              }
-        })
+    if(Listo === 2){
+      while(rows.length > 0) {
+          rows.pop();
+          }
+      fetch('/infante/ver_infante/'+rut_infante.toString(),{
+          method:'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          }
+      })
 
-        .then(res => {
-            return res.json()
-        })
-        .then(users => {
+      .then(res => {
+          return res.json()
+      })
+      .then(users => {
 
-            let date = users.fecha_nacimiento;
-            date = date.toString();
-            date = date.slice(0,9);
+          let date = users.fecha_nacimiento;
+          date = date.toString();
+          date = date.slice(0,9);
+          setNameChild(users.nombre)
+          setDate(date)
+          setRutApoderado(users.rut_apoderado)
+          setNameFather(users.nombre_apoderado)
+          setEmail(users.email)
+          setPhone(users.telefono)
 
+      });
 
-            setNameChild(users.nombre)
-            setDate(date)
-            
-            setRutApoderado(users.rut_apoderado)
-            setNameFather(users.nombre_apoderado)
-            setEmail(users.email)
-            setPhone(users.telefono)
-
-            //rows.push({rut: users.rut, nombre: users.nombre});
-            
-            setListo(3);
-        });
-
-  }}
+      fetch('/infante/ver_informes/'+rut_infante.toString(),{
+        method:'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(users => {
+        console.log(users);
+      });
+    }
+  }
 
   function Formulario(){
     return(
@@ -772,6 +772,7 @@ export default function Usuarios() {
           </SuiButton>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
+
         </TabPanel>
         </Card>
       </SuiBox>
