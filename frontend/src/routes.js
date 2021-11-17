@@ -76,11 +76,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Formulario",
-    key: "formulario",
-    route: "/formulario",
+    name: "Ficha",
+    key: "ficha",
+    route: "/ficha",
     icon: <Shop size="12px" />,
-    component: Formulario,
+    component: Ficha,
     noCollapse: true,
   },
   {
