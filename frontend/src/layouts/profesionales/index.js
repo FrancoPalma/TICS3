@@ -445,11 +445,11 @@ export default function Profesionales() {
   function ActualizarEmpleados(){
     if (Listo == 0){
       while(rows.length > 0) {
-      rows.pop();
+        rows.pop();
       }
       while(rows2.length > 0) {
         rows2.pop();
-        }
+      }
       fetch('/usuario/ver_privilegios')
         .then(res => {
             return res.json()
