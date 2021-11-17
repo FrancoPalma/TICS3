@@ -44,6 +44,7 @@ import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
 import RTL from "layouts/rtl";
+import Perfil from "layouts/perfil";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
@@ -59,6 +60,7 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+
 
 const routes = [
   {
@@ -113,6 +115,15 @@ const routes = [
     route: "/authentication/sign-up",
     icon: <SpaceShip size="12px" />,
     component: SignUp,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Perfil",
+    key: "perfil",
+    route: "/perfil",
+    icon: <Shop size="12px" />,
+    component: Perfil,
     noCollapse: true,
   }
 ];

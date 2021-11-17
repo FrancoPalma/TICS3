@@ -9,10 +9,10 @@ router.use(passport.session());
 
 router.post('/login', sesionController.postLogin);
 
-router.post('/agregar_usuario', sesionController.postSignup)
+router.post('/agregar_usuario', sesionController.isLoggedIn, sesionController.gestionUsuario, sesionController.postSignup)
 
-router.post('/agregar_usuario_admin', sesionController.postSignupAdmin)
+router.post('/agregar_usuario_admin', sesionController.isLoggedIn, sesionController.gestionUsuario, sesionController.postSignupAdmin)
 
-router.get('/logout', sesionController.getLogout);
+router.get('/logout', sesionController.isLoggedIn, sesionController.getLogout);
 
 module.exports = router;

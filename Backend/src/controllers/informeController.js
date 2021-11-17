@@ -68,54 +68,6 @@ informeController.postGuardarInforme = async (req, res) => {
   }
 }
 
-/*informeController.postGuardarInforme = async (req, res) => {
-  let rut_infante = req.body.rut_infante;
-  let contenido = req.body.contenido;
-  let id_informe = req.body.id_informe;
-  let fecha = new Date().toISOString().slice(0, 10);
-
-  if(id_informe == 0){
-    await pool.query('BEGIN', async (err) => {
-      if(err){return res.sendStatus(404)}
-      await pool.query('INSERT INTO informe(rut_infante, rut_usuario) VALUES ($1, $2) RETURNING id',[rut_infante, req.user.rut], (err, result) => {
-        if(err){return res.sendStatus(404)}
-        id_informe = result.rows[0].id
-        htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
-          if (err) {
-            pool.query('ROLLBACK')
-            return res.sendStatus(404)
-          }
-          fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.html'), contenido, async (err) => { 
-            if (err) {
-              pool.query('ROLLBACK')
-              return res.sendStatus(404)
-            }
-            await pool.query('COMMIT', (err) => {
-              if(err){return res.sendStatus(404)}
-              return res.json({
-                  id_informe: id_informe
-                }
-                );
-            })
-
-          });
-        })
-      })
-    })
-  }else{
-    fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.html'), contenido, (err) => {
-      if (err) {return res.sendStatus(404)}
-      htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
-        if (err) {return res.sendStatus(404)}
-        return res.json({
-            id_informe: id_informe
-          }
-        );
-      })
-    });
-  }
-};*/
-
 informeController.postVerInforme = async (req, res) => {
   let id_informe = req.body.id_informe;
   let archivo = path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf');
@@ -142,21 +94,6 @@ informeController.postEliminarInforme = async (req, res) => {
     })
   })
 }
-
-/*informeController.postEditarInforme = async (req, res) => {
-  let id_informe = req.body.id_informe;
-  let contenido = req.body.contenido;
-  fs.writeFile(path.join(__dirname, '../public/informes/informe' + id_informe + '.pdf'), contenido, (err) => {
-    if (err) {return res.sendStatus(404)}
-    htmlToPdf.convertHTMLString(contenido, path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf'), async (err) => {
-      if (err) {return res.sendStatus(404)}
-      return res.json({
-          id_informe: id_informe
-        }
-      );
-    })
-  });
-}*/
 
 informeController.postEditarInforme = async (req, res) => {
   let options = { format: 'Letter' };

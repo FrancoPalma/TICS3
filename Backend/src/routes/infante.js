@@ -38,10 +38,10 @@ router.post('/eliminar_infante/:rut_infante', sesionController.isLoggedIn, sesio
 
 //router.get('/ver_ficha', infanteController.getVerFicha);
 
-router.post('/importar_ficha/:rut_infante', infanteController.postImportarFicha);
+router.post('/importar_ficha/:rut_infante', sesionController.isLoggedIn, sesionController.gestionFicha, infanteController.postImportarFicha);
 
 router.post('/ver_ficha', infanteController.postVerFicha);
 
-router.post('ver_informes/:rut_infante', infanteController.postVerInformes);
+router.post('ver_informes/:rut_infante', sesionController.isLoggedIn,  infanteController.postVerInformes);
 
 module.exports = router;
