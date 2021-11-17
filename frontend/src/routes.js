@@ -42,11 +42,13 @@ import Profesionales from "layouts/profesionales";
 import Ficha from "layouts/ficha";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
+
 import VirtualReality from "layouts/virtual-reality";
 import RTL from "layouts/rtl";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import Horario from "layouts/horario";
 import Test from "layouts/test";
 import Formulario from "layouts/formulario";
 import Infante from "layouts/infante";
@@ -113,6 +115,15 @@ const routes = [
     route: "/authentication/sign-up",
     icon: <SpaceShip size="12px" />,
     component: SignUp,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Horario",
+    key: "horario",
+    route: "/horario",
+    icon: <Shop size="12px" />,
+    component: Horario,
     noCollapse: true,
   }
 ];

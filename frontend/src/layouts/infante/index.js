@@ -694,7 +694,7 @@ const handleSubmission = () => {
 
         <Box sx={{ width: '100%' }}>
           <h3>Datos personales del infante</h3>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={6}>
                 <Item>RUT del infante: </Item>
               </Grid>
@@ -719,6 +719,7 @@ const handleSubmission = () => {
                 <Item>{Date}</Item>
               </Grid>
             </Grid>
+
             <h3>Datos personales del apoderado</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={6}>
