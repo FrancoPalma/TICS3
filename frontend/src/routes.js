@@ -94,6 +94,15 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Horario",
+    key: "horario",
+    route: "/horario",
+    icon: <Shop size="12px" />,
+    component: Horario,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
     name: "Usuarios",
     key: "usuarios",
     route: "/usuarios",
