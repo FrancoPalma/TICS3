@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect} from "react";
 import { Editor } from '@tinymce/tinymce-react';
-
-
-
 import JoditEditor from "jodit-react";
 import Card from "@material-ui/core/Card";
 import SuiButton from "components/SuiButton";
@@ -32,11 +29,8 @@ import { OutlinedInput } from "@material-ui/core";
 // Core viewer
 import { Viewer } from '@react-pdf-viewer/core';
 import { useHistory } from "react-router-dom";
-
-
 // Import styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
-
 //npm install react-draft-wysiwyg draft-js react react-dom
 //npm install pdfjs-dist@2.6.347
 //npm install @react-pdf-viewer/core@2.10.1
@@ -64,7 +58,6 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
 function Formulario(){
   const hist = useHistory();
   const [Listo,setListo] = useState(0);
@@ -89,15 +82,15 @@ function Formulario(){
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
   const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250,
     },
-  },
-};
+  },  
+  };
 
   function ActualizarInfantes(){
       fetch('/infante/ver_infantes')
@@ -187,8 +180,6 @@ const MenuProps = {
     console.log(error);
   });
   }
-
-  
 
   if (Listo == 1){
     return(

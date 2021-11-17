@@ -65,32 +65,18 @@ function Configurator() {
   };
 
   function CerrarSesion(){
-    /*fetch('/usuario/editar_privilegios/'+aux[5].toString(), {
-      method: 'POST',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        rut_usuario: aux[5],
-        gestion_evaluacion: aux[0],
-        gestion_ficha: aux[1],
-        gestion_infante: aux[2],
-        gestion_priv: aux[3],
-        gestion_usuario: aux[4],
-      })
-      })
+    fetch('/sesion/logout')
       .then( (response) => {
           if(response.status === 200) {
-              window.location.href = window.location.href;
+            hist.push('/authentication/sign-in');
           } else {
-              console.log(response.status)
+              alert("Algo no salio bien, intentalo de nuevo.")
           }
       })
       .catch((error) => {
           console.log(error)
-      });*/
-      hist.push('/authentication/sign-in');
+      });
+      
   }
 
   return (
