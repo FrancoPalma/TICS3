@@ -15,6 +15,6 @@ router.post('/eliminar_usuario/:rut_usuario', sesionController.isLoggedIn, sesio
 
 router.post('/editar_usuario/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.postEditarUsuario);
 
-router.post('/editar_password/:rut_usuario', usuarioController.postEditarPassword);
+router.post('/editar_password/:rut_usuario', sesionController.isLoggedIn, usuarioController.postEditarPassword);
 
 module.exports = router;

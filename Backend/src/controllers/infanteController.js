@@ -96,7 +96,7 @@ infanteController.postEliminarInfante = (req, res) => {
 };
 
 infanteController.postVerFicha = (req, res) => {
-  let rut_infante = req.body.rut_infante;
+  let rut_infante = req.params.rut_infante;
 
   archivo = path.join(__dirname, '../public/fichas','ficha'+rut_infante+'.pdf');
   

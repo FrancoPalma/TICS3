@@ -74,7 +74,7 @@ function Check({boleano}){
   }
 }
 
-export default function Infantes() {
+export default function Usuarios() {
   const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);

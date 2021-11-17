@@ -45,6 +45,7 @@ import Billing from "layouts/billing";
 
 import VirtualReality from "layouts/virtual-reality";
 import RTL from "layouts/rtl";
+import Perfil from "layouts/perfil";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
@@ -61,6 +62,7 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+
 
 const routes = [
   {
@@ -92,6 +94,15 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Horario",
+    key: "horario",
+    route: "/horario",
+    icon: <Shop size="12px" />,
+    component: Horario,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
     name: "Usuarios",
     key: "usuarios",
     route: "/usuarios",
@@ -119,11 +130,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Horario",
-    key: "horario",
-    route: "/horario",
+    name: "Perfil",
+    key: "perfil",
+    route: "/perfil",
     icon: <Shop size="12px" />,
-    component: Horario,
+    component: Perfil,
     noCollapse: true,
   }
 ];
