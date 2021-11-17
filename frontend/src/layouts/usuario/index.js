@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Card from "@material-ui/core/Card";
 import { styled } from '@mui/material/styles';
-
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import SuiBox from "components/SuiBox";
@@ -25,6 +24,7 @@ import { useHistory } from "react-router-dom";
 import SuiInput from "components/SuiInput";
 import Grid from "@material-ui/core/Grid";
 import axios from 'axios';
+
 /*npm install @mui/material @emotion/react @emotion/styled*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -74,7 +74,7 @@ function Check({boleano}){
   }
 }
 
-export default function Infantes() {
+export default function Usuarios() {
 
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -132,7 +132,7 @@ export default function Infantes() {
   setLoaded(0);
 };
 
-const handleSubmission = () => {
+  const handleSubmission = () => {
 
   const formData = new FormData();
   formData.append('file', selectedFile);
@@ -143,9 +143,7 @@ const handleSubmission = () => {
     console.log(res.statusText)
   })
   
-};
-
-
+  };
   const [rows] = useState([]);
 
 
@@ -153,7 +151,31 @@ const handleSubmission = () => {
       setRutInfante(rut)
       setListo(2)
   }
-
+  function RecibirInforme(){
+    fetch('/infante/ver_ficha/'+RutInfante.toString(), {
+  method: "POST",
+  headers: {
+    Accept: 'application/pdf',
+    "Content-Type": "application/json"
+  },
+})
+  .then(res => res.blob())
+  .then(response => {
+    //Create a Blob from the PDF Stream
+    console.log(response);
+    const file = new Blob([response], {
+      type: "application/pdf"
+    });
+    //Build a URL from the file
+    const fileURL = URL.createObjectURL(file);
+    //Open the URL on new Window
+    window.open(fileURL);
+  })
+  .catch(error => {
+    alert("Este infante no tiene ficha.");
+    console.log(error);
+  });
+  }
   function Texto({rut}){
     setRutInfante(rut)
     return(
@@ -163,23 +185,23 @@ const handleSubmission = () => {
     return(
       <>
       <SuiButton buttonColor="info" iconOnly onClick = { async() => Colocao(rut)}>
-            <Icon classsName="material-icons-round">visibility</Icon>
-        </SuiButton>
+        <Icon classsName="material-icons-round">visibility</Icon>
+      </SuiButton>
 
-        <SuiButton buttonColor="info" iconOnly
-          onClick={async () => {
-            const result = await Confirm(<Texto rut={rut}/>, 
-              'Confirmación de eliminación '+rut.toString());
-            
-            if (result) {
-              EliminarInfante(rut)
-            } else {
-              // Сonfirmation not confirmed
-            }
-          }}
-        >
-            <Icon classsName="material-icons-round">delete</Icon>
-        </SuiButton>
+      <SuiButton buttonColor="info" iconOnly
+        onClick={async () => {
+          const result = await Confirm(<Texto rut={rut}/>, 
+            'Confirmación de eliminación '+rut.toString());
+          
+          if (result) {
+            EliminarInfante(rut)
+          } else {
+            // Сonfirmation not confirmed
+          }
+        }}
+      >
+        <Icon classsName="material-icons-round">delete</Icon>
+      </SuiButton>
       </>  
     );
   }
@@ -297,7 +319,7 @@ const handleSubmission = () => {
           />
         </Grid>
 </Grid>
-
+<br />
 <h3>Datos del Apoderado</h3>
         <Grid container spacing={3}display="row">
 
@@ -379,7 +401,7 @@ const handleSubmission = () => {
               }
             }}
       >
-        Agregar Infante
+        Agregar Usuario
         <Icon className="material-icons-round" color="inherit" fontSize="inherit">
           add
         </Icon>
@@ -426,7 +448,6 @@ const handleSubmission = () => {
       while(rows.length > 0) {
       rows.pop();
       }
-
       fetch('/infante/ver_infantes')
         .then(res => {
             return res.json()
@@ -440,10 +461,8 @@ const handleSubmission = () => {
               }
             }
             let fecha_nacimiento = users[i].fecha_nacimiento;
-
             fecha_nacimiento = fecha_nacimiento.toString();
             fecha_nacimiento = fecha_nacimiento.slice(0,9);
-
             if(aux == true){
               rows.push({nombre:users[i].nombre,
                 rut: users[i].rut,
@@ -452,14 +471,9 @@ const handleSubmission = () => {
                 telefono_apoderado: users[i].telefono,
                 acciones: <Boton rut={users[i].rut}/>
               })
-              
-
-
             }
           }
-
           setListo(1);
-
         });
     }
   }
@@ -577,8 +591,6 @@ const handleSubmission = () => {
     )
   }
 
-
-
   function EditarInfante(rut_infante) {
     let rut = rut_infante
     fetch('/infante/editar_infante/'+rut.toString(), {
@@ -613,22 +625,17 @@ const handleSubmission = () => {
         console.log(error)
     });
   }
-
-
   if(Listo === 1){
-
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <SuiBox py={6}>
         <SuiBox mb={6}>
-
           <Card>
           <BotonAgregar/>
             <SuiBox customClass={classes.tables_table}>
               <Table columns={columns} rows={rows} />
             </SuiBox>
-     
           </Card>
         </SuiBox>
         <Card>
@@ -644,10 +651,8 @@ const handleSubmission = () => {
         <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
-
             <Card>
               Cargando...
-
             </Card>
           </SuiBox>
           <Card>
@@ -665,10 +670,8 @@ const handleSubmission = () => {
           <DashboardNavbar />
           <SuiBox py={3}>
             <SuiBox mb={3}>
-  
               <Card>
                 Cargando...
-  
               </Card>
             </SuiBox>
             <Card>
@@ -679,111 +682,99 @@ const handleSubmission = () => {
       );
   }
   else if (Listo === 3){
-
     return(
-        
     <DashboardLayout>
     <DashboardNavbar />
-    <SuiBox py={3}>
-      <SuiBox mb={3}>
-      <SuiTypography variant="h6"></SuiTypography>
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
       <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
-
-        <Box sx={{ width: '100%' }}>
-          <h3>Datos personales del infante</h3>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={6}>
-                <Item>RUT del infante: </Item>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Item>{RutInfante}</Item>
-              </Grid>
-              
-              <Grid item xs={6}>
-                <Item>Nombre del infante: </Item>
-              </Grid>
-        
-              <Grid item xs={6}>
-                <Item>{NameChild}</Item>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Item>Fecha de nacimiento: </Item>
-              </Grid>
-        
-              <Grid item xs={6}>
-                <Item>{Date}</Item>
-              </Grid>
-            </Grid>
-            <h3>Datos personales del apoderado</h3>
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del infante</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={6}>
-                <Item>RUT del apoderado: </Item>
+                <Grid item xs={6}>
+                  <Item>RUT del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
               </Grid>
-        
-              <Grid item xs={6}>
-                <Item>{RutApoderado}</Item>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Item>Nombre del apoderado: </Item>
-              </Grid>
-        
-              <Grid item xs={6}>
-                <Item>{NameFather}</Item>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Item>Email: </Item>
-              </Grid>
-        
-              <Grid item xs={6}>
-                <Item>{Email}</Item>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Item>Telefóno: </Item>
-              </Grid>
-        
-              <Grid item xs={6}>
-                <Item>{Phone}</Item>
-              </Grid>
-
-          </Grid>
-        </Box>
-
-        
-
-        </Card>
-
-
-      </SuiBox>
-
-      <SuiButton buttonColor="info" 
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+          <SuiButton buttonColor="info" 
           onClick={async () => {
             const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
               'Edición infante '+RutInfante.toString());
-            
             if (result) {
               EditarInfante(RutInfante);
             } else {
               // Сonfirmation not confirmed
             }
           }}
-        >
-          Editar Infante
+          >
+            Editar Infante
             <Icon classsName="material-icons-round">edit</Icon>
-        </SuiButton>
-
-        <SuiInput type="file" name="ficha" id ="ficha" onChange={changeHandler} />
-        <SuiButton onClick={handleSubmission}>Subir</SuiButton>
-
-
-
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <SuiInput type="file" name="ficha" id ="ficha" onChange={changeHandler} />
+          <SuiButton onClick={handleSubmission}>
+            Subir
+          </SuiButton>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirInforme} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+        </TabPanel>
+        </Card>
+      </SuiBox>
       <Card>
       </Card>
     </SuiBox>

@@ -49,7 +49,7 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Test from "layouts/test";
 import Formulario from "layouts/formulario";
-import Infante from "layouts/infante";
+import Usuarios from "layouts/usuario";
 // Soft UI Dashboard Material-UI icons
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
@@ -90,11 +90,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Infante",
-    key: "infante",
-    route: "/infante",
+    name: "Usuarios",
+    key: "usuarios",
+    route: "/usuarios",
     icon: <SpaceShip size="12px" />,
-    component: Infante,
+    component: Usuarios,
     noCollapse: true,
   },
   {
