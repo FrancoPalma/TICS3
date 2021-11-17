@@ -181,6 +181,12 @@ export default function Usuarios() {
     return(
         <p>¿Esta seguro que desea eliminar este usuario?</p>
     )}
+  function Texto2({id}){
+    setID(id)
+    return(
+        <p>¿Esta seguro que desea eliminar esta evaluación?</p>
+    )
+  }
   function Boton({rut}){
     return(
       <>
@@ -290,7 +296,7 @@ export default function Usuarios() {
               date = date.slice(0,9);
               rows2.push({id: users[i].id,
                 fecha: date,
-                acciones: "hola"
+                acciones: <AccionesInforme id={users[i].id}/>
               })
             }
           }
@@ -678,6 +684,81 @@ export default function Usuarios() {
         console.log(error)
     });
   }
+  function EliminarEvaluacion(id) {
+    fetch('/informe/eliminar_informe/', {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id_informe: id,
+    })
+    })
+    .then( (response) => {
+        if(response.status == 200) {
+            console.log("Eliminado correctamente")
+            alert("Eliminado correctamente");
+            window.location.href = window.location.href;
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+  function EditarEvaluacion(id){
+    fetch('/informe/guardar_informe',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id_informe: id
+      })
+    })
+    .then((response) => {
+      if(response.status !== 404){
+        console.log("ok")
+        return response.json()
+      }else{
+        console.log("error")
+      }
+    })
+    .then(users => {
+      setValue(users.contenido);
+      setListo(5);
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+  function AccionesInforme({id}){
+    return(
+      <>
+      <SuiButton buttonColor="info" iconOnly onClick = { async() => EditarEvaluacion(id)}>
+        <Icon classsName="material-icons-round">edit</Icon>
+      </SuiButton>
+
+      <SuiButton buttonColor="info" iconOnly
+        onClick={async () => {
+          const result = await Confirm(<Texto2 id={id}/>, 
+            'Confirmación de eliminación '+id.toString());
+          
+          if (result) {
+            EliminarEvaluacion(id)
+          } else {
+            // Сonfirmation not confirmed
+          }
+        }}
+      >
+        <Icon classsName="material-icons-round">delete</Icon>
+      </SuiButton>
+      </>  
+    );
+  }
 
   if(Listo === 1){
   return (
@@ -828,7 +909,8 @@ export default function Usuarios() {
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
-            <SuiButton onClick={async() => {setListo(5)}}>
+            <SuiButton onClick={async() => {setListo(5)
+            setValue('')}}>
               <Icon classsName="material-icons-round">
                 add
               </Icon>
