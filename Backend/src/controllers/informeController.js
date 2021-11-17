@@ -116,7 +116,7 @@ informeController.postEditarInforme = async (req, res) => {
         pool.query('COMMIT', (err) => {
           if(err){return res.sendStatus(404)}
           return res.json({
-              id_informe: id_informe
+              contenido: html
             }
             );
         })
