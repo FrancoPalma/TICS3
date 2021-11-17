@@ -111,6 +111,15 @@ const routes = [
     noCollapse: true,
   },
   {
+    type: "collapse",
+    name: "Perfil",
+    key: "perfil",
+    route: "/perfil",
+    icon: <Shop size="12px" />,
+    component: Perfil,
+    noCollapse: true,
+  },
+  {
     type: "title",
     name: "Sign In",
     key: "sign-in",
@@ -126,15 +135,6 @@ const routes = [
     route: "/authentication/sign-up",
     icon: <SpaceShip size="12px" />,
     component: SignUp,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Perfil",
-    key: "perfil",
-    route: "/perfil",
-    icon: <Shop size="12px" />,
-    component: Perfil,
     noCollapse: true,
   }
 ];
