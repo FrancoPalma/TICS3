@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import Table from "examples/Table";
 import SaveIcon from "@material-ui/icons/Save";
+import TextField from "@material-ui/core/TextField";
 // Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
@@ -77,7 +78,9 @@ export default function Perfil(){
     const [Email, setEmail] = useState('');
     const [Especialidad,setEspecialidad] = useState('');
     const [Listo, setListo] = useState(0);
-    const [Password, setPassword] = useState('');
+    const [NewPassword, setNewPassword] = useState('');
+    const [CopyPassword, setCopyPassword] = useState('');
+    const [OldPassword, setOldPassword] = useState ('');
 
     function VisualizarDatos(){
             fetch('/usuario/ver_perfil/',{
@@ -102,6 +105,7 @@ export default function Perfil(){
     };
 
     function CambiarPassword(){
+      if (NewPassword == CopyPassword){
       fetch('/usuario/editar_password/'+Rut,{
         method: 'POST',
         headers: {
@@ -109,7 +113,8 @@ export default function Perfil(){
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            password: Password
+            password_nueva: NewPassword,
+            password_antigua: OldPassword
         })
       })
       .then( (response) => {
@@ -121,7 +126,10 @@ export default function Perfil(){
             console.log(response.status)
         }
         setListo(0);
-    })
+    })}
+    else{
+      alert("Contraseña nueva ingresada no coincide")
+    }
   }
 
     
@@ -152,7 +160,7 @@ export default function Perfil(){
         <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Datos del usuario" {...a11yProps(0)}/>
+            <Tab label="Datos" {...a11yProps(0)}/>
             <Tab label="Cambio de contraseña" {...a11yProps(1)}/>
         </Tabs>
       <SuiTypography variant="h6"></SuiTypography>
@@ -161,7 +169,7 @@ export default function Perfil(){
         <TabPanel value={tabValue} index={0}>
         <Box sx={{ width: '50%' }}>
           <h3>Datos personales</h3>
-          <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center" justify="center" justifyContent="center">
               <Grid item xs={6}>
                 <Item><h5>Nombre: </h5></Item>
               </Grid>
@@ -189,16 +197,51 @@ export default function Perfil(){
         </Box>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <input
-            type="text"
-            name="rut_infante"
-            display="flex"
-            onChange={(e) => 
-             setPassword(e.target.value)}/>
+        <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={3}>
+        <Box
+            sx={{
+            width: 500,
+            maxWidth: '100%',
+        }}>
+        
+        <TextField
+              label="Contraseña antigua"
+              placeholder = "Contraseña antigua"
+              variant = "outlined"
+              multiline
+              fullWidth 
+              rows={1}
+              required
+              onChange = {event => setOldPassword(event.target.value)}         
+            />
+
+        <TextField
+              label="Contraseña nueva"
+              placeholder = "Contraseña nueva"
+              variant = "outlined"
+              multiline
+              fullWidth 
+              rows={1}
+              required
+              onChange = {event => setNewPassword(event.target.value)}         
+            />
+
+        <TextField
+              label="Repita contraseña"
+              placeholder = "Repita contraseña"
+              variant = "outlined"
+              multiline
+              fullWidth 
+              rows={1}
+              required
+              onChange = {event => setCopyPassword(event.target.value)}         
+            />
 
         <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={CambiarPassword}>
                 Guardar
               </SuiButton>
+              </Box>
+        </SuiBox>
         </TabPanel>
         
 

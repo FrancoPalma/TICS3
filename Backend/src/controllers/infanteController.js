@@ -133,7 +133,7 @@ infanteController.postImportarFicha = async (req, res) => {
 infanteController.postVerInformes = (req, res) => {
   let rut_infante = req.params.rut_infante;
   
-  pool.query('SELECT informe.id, informe.fecha FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
+  pool.query('SELECT informe.id, informe.rut_usuario, informe.fecha FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
     if(err){return res.sendStatus(404)}
     return res.json(result.rows)
   })
