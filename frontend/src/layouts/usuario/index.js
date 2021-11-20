@@ -192,6 +192,33 @@ export default function Usuarios() {
       console.log(error);
     });
   }
+  function RecibirInformeid(id){
+    fetch('/informe/ver_informe', {
+      method: "POST",
+      headers: {
+      Accept: 'application/pdf',
+      "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id_informe: id
+      })
+    })
+    .then(res => res.blob())
+    .then(response => {
+      //Create a Blob from the PDF Stream
+      console.log(response);
+      const file = new Blob([response], {
+        type: "application/pdf"
+      });
+      //Build a URL from the file
+      const fileURL = URL.createObjectURL(file);
+      //Open the URL on new Window
+      window.open(fileURL);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
   function Texto({rut}){
     setRutInfante(rut)
     return(
@@ -798,6 +825,9 @@ export default function Usuarios() {
   function AccionesInforme({id}){
     return(
       <>
+      <SuiButton buttonColor="info" iconOnly onClick = { async() => RecibirInformeid(id)}>
+        <Icon classsName="material-icons-round">visibility</Icon>
+      </SuiButton>
       <SuiButton buttonColor="info" iconOnly onClick = { async() => EditarEvaluacion(id)}>
         <Icon classsName="material-icons-round">edit</Icon>
       </SuiButton>
