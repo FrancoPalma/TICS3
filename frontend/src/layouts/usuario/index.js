@@ -110,7 +110,7 @@ export default function Usuarios() {
   const formData = new FormData();
   formData.append('file', selectedFile);
 
-  axios.post("http://localhost:8000/infante/importar_ficha/"+RutInfante, formData, { // receive two parameter endpoint url ,form data 
+  axios.post("/infante/importar_ficha/"+RutInfante, formData, { // receive two parameter endpoint url ,form data 
   })
   .then(res => { // then print response status
     console.log(res.statusText)
