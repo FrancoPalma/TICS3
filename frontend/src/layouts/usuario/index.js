@@ -27,7 +27,7 @@ import Grid from "@material-ui/core/Grid";
 import axios from 'axios';
 
 /*npm install @mui/material @emotion/react @emotion/styled*/
-let info = JSON.parse(localStorage.getItem('usuario'));
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -54,6 +54,8 @@ function a11yProps(index) {
 }
 
 export default function Usuarios() {
+  let info = JSON.parse(localStorage.getItem('usuario'));
+console.log(info.gestion_infante)
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -100,7 +102,14 @@ export default function Usuarios() {
   const columns2 = [
     { name: "id", align: "left" },
     { name: "fecha", align: "center" },
+    {name: "visualizar", align:"right" },
     {name: "acciones", align:"right" }
+  ];
+
+  const columns2_aux = [
+    { name: "id", align: "left" },
+    { name: "fecha", align: "center" },
+    {name: "visualizar", align:"right" }
   ];
   let rut_infante;
   let nombre_infante;
@@ -286,6 +295,81 @@ export default function Usuarios() {
       }
     })
   }
+
+  function VisualizarDatos_Aux(rut_infante){
+    let bolean = true;
+    if(Listo === 2){
+      while(rows.length > 0) {
+          rows.pop();
+          }
+      fetch('/infante/ver_infante/'+rut_infante.toString(),{
+          method:'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          }
+      })
+      .then(res => {
+        if(res.status === 404) {
+          bolean = false;
+      }
+          return res.json()
+      })
+      .then(users => {
+
+          let date = users.fecha_nacimiento;
+          date = date.toString();
+          date = date.slice(0,9);
+          setNameChild(users.nombre)
+          setDate(date)
+          setRutApoderado(users.rut_apoderado)
+          setNameFather(users.nombre_apoderado)
+          setEmail(users.email)
+          setPhone(users.telefono)
+
+      });
+      if (bolean == true){
+        fetch('/infante/ver_informes/'+rut_infante.toString(),{
+          method:'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          if(res.status === 404) {
+            bolean = false;
+        }
+            return res.json()
+        })
+        .then(users => {
+          for(let i=0; i < users.length;i++){
+            let aux = true;
+            for(let e=0;e < rows2.length;e++){
+              if(users[i].id == rows2[e].id){
+                aux=false;
+              }
+            }
+            if(aux == true){
+              console.log(users[i])
+              let date = users[i].fecha;
+              date = date.toString();
+              date = date.slice(0,9);
+              rows2.push({id: users[i].id,
+                fecha: date,
+                visualizar: <Boton3 id = {users[i].id}/>,
+              })
+            }
+          }
+          
+        });
+      }
+    }
+    if(bolean == true){
+      setListo(3);
+    }
+  }
+
   function VisualizarDatos(rut_infante){
     let bolean = true;
     if(Listo === 2){
@@ -347,6 +431,7 @@ export default function Usuarios() {
               date = date.slice(0,9);
               rows2.push({id: users[i].id,
                 fecha: date,
+                visualizar: <Boton3 id = {users[i].id}/>,
                 acciones: <AccionesInforme id={users[i].id}/>
               })
             }
@@ -822,12 +907,20 @@ export default function Usuarios() {
       console.log(error)
     });
   }
-  function AccionesInforme({id}){
+
+  function Boton3({id}){
     return(
       <>
       <SuiButton buttonColor="info" iconOnly onClick = { async() => RecibirInformeid(id)}>
         <Icon classsName="material-icons-round">visibility</Icon>
       </SuiButton>
+      </>
+    );
+  }
+
+  function AccionesInforme({id}){
+    return(
+      <>
       <SuiButton buttonColor="info" iconOnly onClick = { async() => EditarEvaluacion(id)}>
         <Icon classsName="material-icons-round">edit</Icon>
       </SuiButton>
@@ -933,7 +1026,7 @@ export default function Usuarios() {
         </DashboardLayout>
       );
   }
-  else if (Listo === 3){
+  if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === true){
     return(
     <DashboardLayout>
     <DashboardNavbar />
@@ -948,6 +1041,7 @@ export default function Usuarios() {
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
+
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
             <h3>Datos personales del infante</h3>
@@ -1046,7 +1140,649 @@ export default function Usuarios() {
     <Footer />
   </DashboardLayout>
   );
-  }else if(Listo === 5){
+  }
+
+    else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === true && info.gestion_ficha === true){
+    return(
+    <DashboardLayout>
+    <DashboardNavbar />
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
+        <Card>
+
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del infante</h3>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
+              </Grid>
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+          <SuiButton onClick={handleSubmission}>
+            Subir
+          </SuiButton>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          <SuiBox>
+            <SuiButton onClick={async() => {setListo(5)
+            setValue('')
+            setID(0)}}>
+              <Icon classsName="material-icons-round">
+                add
+              </Icon>
+              Agregar Evaluación
+            </SuiButton>
+          </SuiBox>
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2} rows={rows2} />
+          </SuiBox>
+        </TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+  );}
+
+  else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === true && info.gestion_ficha === false){
+    return(
+    <DashboardLayout>
+    <DashboardNavbar />
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
+        <Card>
+
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del infante</h3>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
+              </Grid>
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          <SuiBox>
+            <SuiButton onClick={async() => {setListo(5)
+            setValue('')
+            setID(0)}}>
+              <Icon classsName="material-icons-round">
+                add
+              </Icon>
+              Agregar Evaluación
+            </SuiButton>
+          </SuiBox>
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2} rows={rows2} />
+          </SuiBox>
+        </TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+  );}
+
+  else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === false && info.gestion_ficha === false){
+    return(
+    <DashboardLayout>
+    <DashboardNavbar />
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
+        <Card>
+
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del infante</h3>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
+              </Grid>
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          <SuiBox>
+            <SuiButton onClick={async() => {setListo(5)
+            setValue('')
+            setID(0)}}>
+              <Icon classsName="material-icons-round">
+                add
+              </Icon>
+              Agregar Evaluación
+            </SuiButton>
+          </SuiBox>
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2_aux} rows={rows2} />
+          </SuiBox>
+        </TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+  );}
+
+  else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === false){
+    return(
+    <DashboardLayout>
+    <DashboardNavbar />
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
+        <Card>
+
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del infante</h3>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
+              </Grid>
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+
+          <SuiButton buttonColor="info" 
+          onClick={async () => {
+            const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
+              'Edición infante '+RutInfante.toString());
+            if (result) {
+              EditarInfante(RutInfante);
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+          >
+            Editar Infante
+            <Icon classsName="material-icons-round">edit</Icon>
+          </SuiButton>
+
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          <SuiBox>
+            <SuiButton onClick={async() => {setListo(5)
+            setValue('')
+            setID(0)}}>
+              <Icon classsName="material-icons-round">
+                add
+              </Icon>
+              Agregar Evaluación
+            </SuiButton>
+          </SuiBox>
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2_aux} rows={rows2} />
+          </SuiBox>
+        </TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+  );}
+
+
+  else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === false){
+    return(
+    <DashboardLayout>
+    <DashboardNavbar />
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
+        <Card>
+
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del infante</h3>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
+              </Grid>
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+
+          <SuiButton buttonColor="info" 
+          onClick={async () => {
+            const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
+              'Edición infante '+RutInfante.toString());
+            if (result) {
+              EditarInfante(RutInfante);
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+          >
+            Editar Infante
+            <Icon classsName="material-icons-round">edit</Icon>
+          </SuiButton>
+
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          <SuiBox>
+            <SuiButton onClick={async() => {setListo(5)
+            setValue('')
+            setID(0)}}>
+              <Icon classsName="material-icons-round">
+                add
+              </Icon>
+              Agregar Evaluación
+            </SuiButton>
+          </SuiBox>
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2} rows={rows2} />
+          </SuiBox>
+        </TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+  );}  
+
+  
+  else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === true){
+    return(
+    <DashboardLayout>
+    <DashboardNavbar />
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
+        <Card>
+
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del infante</h3>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del infante: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
+              </Grid>
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+
+          <SuiButton buttonColor="info" 
+          onClick={async () => {
+            const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
+              'Edición infante '+RutInfante.toString());
+            if (result) {
+              EditarInfante(RutInfante);
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+          >
+            Editar Infante
+            <Icon classsName="material-icons-round">edit</Icon>
+          </SuiButton>
+
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+        <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+          <SuiButton onClick={handleSubmission}>
+            Subir
+          </SuiButton>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          <SuiBox>
+            <SuiButton onClick={async() => {setListo(5)
+            setValue('')
+            setID(0)}}>
+              <Icon classsName="material-icons-round">
+                add
+              </Icon>
+              Agregar Evaluación
+            </SuiButton>
+          </SuiBox>
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2_aux} rows={rows2} />
+          </SuiBox>
+        </TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+  );}
+
+  if(Listo === 5){
     return(
       <DashboardLayout>
       <DashboardNavbar />
