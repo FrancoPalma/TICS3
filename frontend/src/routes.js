@@ -64,6 +64,9 @@ import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 
 
+const info = JSON.parse(localStorage.getItem('usuario'));
+
+
 const routes = [
   {
     type: "collapse",
@@ -138,5 +141,6 @@ const routes = [
     noCollapse: true,
   }
 ];
+
 
 export default routes;

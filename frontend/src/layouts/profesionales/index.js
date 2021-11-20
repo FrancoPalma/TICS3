@@ -20,6 +20,7 @@ import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 
+let info = JSON.parse(localStorage.getItem('usuario'));
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -627,7 +628,7 @@ export default function Profesionales() {
       <Footer />
     </DashboardLayout>
   );
-  }else{
+  }if (Listo === 0 && info.gestion_usuario === true){
     ActualizarEmpleados();
     return(
       <DashboardLayout>
@@ -645,6 +646,26 @@ export default function Profesionales() {
             <TabPanel value={tabValue} index={1}>
               Cargando...
             </TabPanel>
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+  }else if(Listo === 0 && info.gestion_usuario === false){
+    alert("Usted no tiene acceso a este modulo");
+    return(
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+
+            <Card>
+            <center>
+              <h1>Usted no tiene acceso a este modulo</h1>
+            </center>
             </Card>
           </SuiBox>
           <Card>

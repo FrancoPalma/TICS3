@@ -13,6 +13,7 @@ usuarioController.getVerUsuarios = (req, res) => {
 	let id_jardin = req.user.id_jardin;
 	pool.query('SELECT usuario.rut, usuario.nombre, usuario.telefono, usuario.email, usuario.especialidad FROM usuario WHERE usuario.id_jardin = $1', [id_jardin], (err, result) => {
 		if(err){ return res.sendStatus(404)}
+		console.log(result.rows)
 		return res.json(result.rows)
 	})
 };

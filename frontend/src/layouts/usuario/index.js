@@ -27,6 +27,7 @@ import Grid from "@material-ui/core/Grid";
 import axios from 'axios';
 
 /*npm install @mui/material @emotion/react @emotion/styled*/
+let info = JSON.parse(localStorage.getItem('usuario'));
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -81,8 +82,21 @@ export default function Usuarios() {
     { name: "fecha_nacimiento", align: "center" },
     { name: "nombre_apoderado", align: "center" },
     { name: "telefono_apoderado", align: "center" },
-    {name: "acciones", align:"center" }
+    {name: "visualizar", align:"center" },
+    {name: "eliminar", align:"center" },
   ];
+
+
+  const columns_aux    = [
+    { name: "nombre", align: "left" },
+    { name: "rut", align: "left" },
+    { name: "fecha_nacimiento", align: "center" },
+    { name: "nombre_apoderado", align: "center" },
+    { name: "telefono_apoderado", align: "center" },
+    {name: "visualizar", align:"center" },
+  ];
+
+
   const columns2 = [
     { name: "id", align: "left" },
     { name: "fecha", align: "center" },
@@ -189,13 +203,21 @@ export default function Usuarios() {
         <p>¿Esta seguro que desea eliminar esta evaluación?</p>
     )
   }
-  function Boton({rut}){
+  function Boton1({rut}){
     return(
       <>
       <SuiButton buttonColor="info" iconOnly onClick = { async() => Colocao(rut)}>
         <Icon classsName="material-icons-round">visibility</Icon>
       </SuiButton>
-
+      </> 
+    );
+  }
+  
+  
+  
+  function Boton2({rut}){
+    return(
+      <>
       <SuiButton buttonColor="info" iconOnly
         onClick={async () => {
           const result = await Confirm(<Texto rut={rut}/>, 
@@ -478,6 +500,39 @@ export default function Usuarios() {
         setListo(0);
     })
   }
+  function ActualizarInfantes_Aux(){
+  if (Listo == 0){
+    while(rows.length > 0) {
+    rows.pop();
+    }
+    fetch('/infante/ver_infantes')
+      .then(res => {
+          return res.json()
+      })
+      .then(users => {
+        for(let i=0; i < users.length;i++){
+          let aux = true;
+          for(let e=0;e < rows.length;e++){
+            if(users[i].rut == rows[e].rut){
+              aux=false;
+            }
+          }
+          let fecha_nacimiento = users[i].fecha_nacimiento;
+          fecha_nacimiento = fecha_nacimiento.toString();
+          fecha_nacimiento = fecha_nacimiento.slice(0,9);
+          if(aux == true){
+            rows.push({nombre:users[i].nombre,
+              rut: users[i].rut,
+              fecha_nacimiento: fecha_nacimiento,
+              nombre_apoderado: users[i].nombre_apoderado,
+              telefono_apoderado: users[i].telefono,
+              visualizar: <Boton1 rut={users[i].rut}/>
+            })
+          }
+        }
+        setListo(1);
+      });
+  }}
   function ActualizarInfantes(){
     if (Listo == 0){
       while(rows.length > 0) {
@@ -504,7 +559,8 @@ export default function Usuarios() {
                 fecha_nacimiento: fecha_nacimiento,
                 nombre_apoderado: users[i].nombre_apoderado,
                 telefono_apoderado: users[i].telefono,
-                acciones: <Boton rut={users[i].rut}/>
+                visualizar: <Boton1 rut={users[i].rut}/>,
+                eliminar: <Boton2 rut={users[i].rut}/>
               })
             }
           }
@@ -764,10 +820,10 @@ export default function Usuarios() {
     );
   }
 
-  if(Listo === 1){
+  if(Listo === 1 && info.gestion_infante === true){
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+
       <SuiBox py={6}>
         <SuiBox mb={6}>
           <Card>
@@ -783,8 +839,34 @@ export default function Usuarios() {
       <Footer />
     </DashboardLayout>
   );
-  }else if (Listo === 0){
+  }else if(Listo === 1 && info.gestion_infante === false){
+    return (
+      <DashboardLayout>
+  
+        <SuiBox py={6}>
+          <SuiBox mb={6}>
+            <Card>
+            <BotonAgregar/>
+              <SuiBox customClass={classes.tables_table}>
+                <Table columns={columns_aux} rows={rows} />
+              </SuiBox>
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+  }
+  
+  
+  if (Listo === 0){
+    if (info.gestion_infante === true ){
     ActualizarInfantes();
+    }else{
+      ActualizarInfantes_Aux();
+    }
     return(
       <DashboardLayout>
         <DashboardNavbar />
