@@ -46,17 +46,22 @@ import {
     DayView,
     WeekView,
     TodayButton,
+    AllDayPanel,
+  ConfirmationDialog
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-
+let info = JSON.parse(localStorage.getItem('usuario'));
+console.log(info)
 const schedulerData = [
   { startDate: '2021-11-01T09:45', endDate: '2021-11-01T11:00', title: 'Meeting' },
   { startDate: '2021-11-01T12:00', endDate: '2021-11-01T13:30', title: 'Go to a gym' },
 ];
 
+
+
 export default function Horario () {
-  const [State,setState] = useState('');
-  
+
+
   
 return(
 <DashboardLayout>
@@ -90,4 +95,5 @@ return(
     </Scheduler>
   </Paper>
 </DashboardLayout>
-);}
+);
+}

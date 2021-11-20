@@ -52,6 +52,7 @@ function TabPanel(props) {
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
     const [Listo, setListo] = useState(0);
     let info = JSON.parse(localStorage.getItem('usuario'));
+    console.log(info)
     let Lista;
 
     const [selectedFile, setSelectedFile] = useState();
