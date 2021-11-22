@@ -64,6 +64,9 @@ import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 
 
+const info = JSON.parse(localStorage.getItem('usuario'));
+
+
 const routes = [
   {
     type: "collapse",
@@ -76,11 +79,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Formulario",
-    key: "formulario",
-    route: "/formulario",
+    name: "Ficha",
+    key: "ficha",
+    route: "/ficha",
     icon: <Shop size="12px" />,
-    component: Formulario,
+    component: Ficha,
     noCollapse: true,
   },
   {
@@ -94,11 +97,29 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Horario",
+    key: "horario",
+    route: "/horario",
+    icon: <Shop size="12px" />,
+    component: Horario,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
     name: "Usuarios",
     key: "usuarios",
     route: "/usuarios",
     icon: <SpaceShip size="12px" />,
     component: Usuarios,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Perfil",
+    key: "perfil",
+    route: "/perfil",
+    icon: <Shop size="12px" />,
+    component: Perfil,
     noCollapse: true,
   },
   {
@@ -118,6 +139,7 @@ const routes = [
     icon: <SpaceShip size="12px" />,
     component: SignUp,
     noCollapse: true,
+<<<<<<< HEAD
   },
   {
     type: "collapse",
@@ -127,7 +149,10 @@ const routes = [
     icon: <Shop size="12px" />,
     component: Perfil,
     noCollapse: true,
+=======
+>>>>>>> d5da1a313f4bbefc299c8746f38151b3635e9465
   }
 ];
+
 
 export default routes;

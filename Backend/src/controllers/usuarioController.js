@@ -13,6 +13,7 @@ usuarioController.getVerUsuarios = (req, res) => {
 	let id_jardin = req.user.id_jardin;
 	pool.query('SELECT usuario.rut, usuario.nombre, usuario.telefono, usuario.email, usuario.especialidad FROM usuario WHERE usuario.id_jardin = $1', [id_jardin], (err, result) => {
 		if(err){ return res.sendStatus(404)}
+		console.log(result.rows)
 		return res.json(result.rows)
 	})
 };
@@ -67,14 +68,20 @@ usuarioController.postEditarUsuario = (req, res) => {
 
 usuarioController.postEditarPassword = async (req, res) => {
 	let rut_usuario = req.params.rut_usuario;
-	let password = req.body.password;
+	let password_anterior = req.body.password_anterior;
+	let password_nueva = req.body.password_nueva;
 	
-	let passHash = await bcrypt.hash(password, 8);
-
-	pool.query('UPDATE usuario SET password = $1 WHERE usuario.rut = $2', [passHash, rut_usuario], (err) => {
-		if(err){res.sendStatus(404)}
-		return res.sendStatus(200);
-	});
+	pool.query('SELECT password FROM usuario WHERE rut = $1', [rut_usuario], (err, result) => {
+		if(err){return res.sendStatus(404)}
+		let passHash_anterior = result.rows[0].password
+		bcrypt.compare(password_anterior, passHash_anterior, async (err, isValid) => {
+			let passHash_nueva = await bcrypt.hash(password_nueva, 8);
+			pool.query('UPDATE usuario SET password = $1 WHERE usuario.rut = $2', [passHash_nueva, rut_usuario], (err) => {
+				if(err){res.sendStatus(404)}
+				return res.sendStatus(200);
+			});
+		})
+	})
 }
 
 usuarioController.getVerPerfil= (req, res) => {

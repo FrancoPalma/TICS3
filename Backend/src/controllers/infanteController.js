@@ -96,7 +96,7 @@ infanteController.postEliminarInfante = (req, res) => {
 };
 
 infanteController.postVerFicha = (req, res) => {
-  let rut_infante = req.params.rut_infante;
+  let rut_infante = req.body.rut_infante;
 
   archivo = path.join(__dirname, '../public/fichas','ficha'+rut_infante+'.pdf');
   
@@ -122,8 +122,10 @@ infanteController.postImportarFicha = async (req, res) => {
   var upload = multer({ storage: storage }).single('file')
   upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {
+      console.log(err)
         return res.sendStatus(404)
     } else if (err) {
+      console.log(err)
         return res.sendStatus(404)
     }
   return res.sendStatus(200);
@@ -133,7 +135,7 @@ infanteController.postImportarFicha = async (req, res) => {
 infanteController.postVerInformes = (req, res) => {
   let rut_infante = req.params.rut_infante;
   
-  pool.query('SELECT informe.id, informe.fecha FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
+  pool.query('SELECT informe.id, informe.rut_usuario, informe.fecha FROM informe, infante WHERE informe.rut_infante = $1', [rut_infante], (err, result) => {
     if(err){return res.sendStatus(404)}
     return res.json(result.rows)
   })

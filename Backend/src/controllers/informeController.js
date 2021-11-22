@@ -41,7 +41,7 @@ informeController.postGuardarInforme = async (req, res) => {
       })
     })
   }else{
-    pool.query('UPDATE informe SET fecha = $1 WHERE id = $2', [fecha, id_informe], async (err) => {
+    pool.query('UPDATE informe SET fecha = $1, rut_usuario = $2 WHERE id = $3', [fecha, req.user.rut, id_informe], async (err) => {
       if(err){return res.sendStatus(404)}
       fs.writeFile(path.join(__dirname, '../public/informes/informe'+id_informe+'.html'), contenido, async (err) => { 
         let html = fs.readFileSync(path.join(__dirname, '../public/informes/informe'+id_informe+'.html'), 'utf8');
@@ -95,33 +95,14 @@ informeController.postEliminarInforme = async (req, res) => {
 }
 
 informeController.postEditarInforme = async (req, res) => {
-  let options = { format: 'Letter' };
-  let contenido = req.body.contenido;
   let id_informe = req.body.id_informe;
-  let fecha = new Date().toISOString().slice(0, 10);
-  pool.query('UPDATE informe SET fecha = $1 WHERE id = $2', [fecha, id_informe], async (err) => {
-    if(err){return res.sendStatus(404)}
-    fs.writeFile(path.join(__dirname, '../public/informes/informe'+id_informe+'.html'), contenido, async (err) => { 
-      let html = fs.readFileSync(path.join(__dirname, '../public/informes/informe'+id_informe+'.html'), 'utf8');
-      if (err) {
-        pool.query('ROLLBACK');
-        return res.sendStatus(404);
-      }
-      pdf.create(html, options).toFile(path.join(__dirname, '../public/informes/informe'+id_informe+'.pdf'), function(err) {
-        if (err) {
-          pool.query('ROLLBACK')
-          return res.sendStatus(404)
-        }
-        pool.query('COMMIT', (err) => {
-          if(err){return res.sendStatus(404)}
-          return res.json({
-              id_informe: id_informe
-            }
-            );
-        })
-      });
+    fs.readFile(path.join(__dirname, '../public/informes/informe'+id_informe+'.html'), 'utf8', (err, data) => {
+      if (err) {return res.sendStatus(404);}
+      return res.json({
+        contenido: data
+      })
     });
-  })
+
 }
 
 module.exports = informeController;

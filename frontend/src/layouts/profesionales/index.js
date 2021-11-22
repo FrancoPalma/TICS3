@@ -20,6 +20,8 @@ import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 
+let info = JSON.parse(localStorage.getItem('usuario'));
+console.log(info)
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -445,11 +447,11 @@ export default function Profesionales() {
   function ActualizarEmpleados(){
     if (Listo == 0){
       while(rows.length > 0) {
-      rows.pop();
+        rows.pop();
       }
       while(rows2.length > 0) {
         rows2.pop();
-        }
+      }
       fetch('/usuario/ver_privilegios')
         .then(res => {
             return res.json()
@@ -596,7 +598,7 @@ export default function Profesionales() {
     });
   }
 
-  if(Listo === 1){
+  if(Listo === 1 && info.gestion_priv === true){
   return (
     <DashboardLayout>
     <DashboardNavbar/>
@@ -627,7 +629,34 @@ export default function Profesionales() {
       <Footer />
     </DashboardLayout>
   );
-  }else{
+  }
+  if(Listo === 1 && info.gestion_priv === false){
+    return (
+      <DashboardLayout>
+      <DashboardNavbar/>
+        <SuiBox py={6}>
+          <SuiBox mb={6}>
+
+            <Card>
+              <h3>Datos</h3>
+              <BotonAgregar/>
+              <SuiBox customClass={classes.tables_table}>
+                <Table columns={columns2} rows={rows2} />
+              </SuiBox>
+
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+    }
+  
+  
+  
+  if (Listo === 0 && info.gestion_usuario === true){
     ActualizarEmpleados();
     return(
       <DashboardLayout>
@@ -645,6 +674,26 @@ export default function Profesionales() {
             <TabPanel value={tabValue} index={1}>
               Cargando...
             </TabPanel>
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+  }else if(Listo === 0 && info.gestion_usuario === false){
+    alert("Usted no tiene acceso a este modulo");
+    return(
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+
+            <Card>
+            <center>
+              <h1>Usted no tiene acceso a este modulo</h1>
+            </center>
             </Card>
           </SuiBox>
           <Card>

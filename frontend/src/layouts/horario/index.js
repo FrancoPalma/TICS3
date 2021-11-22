@@ -1,88 +1,115 @@
-import * as React from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 import Card from "@material-ui/core/Card";
-import { styled } from '@mui/material/styles';
-import Grid from "@material-ui/core/Grid";
-import Icon from "@material-ui/core/Icon";
-
-// Soft UI Dashboard Material-UI components
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
-
-// Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
+import styles from "layouts/tables/styles";
+import Table from "examples/Table";
+import { useHistory } from "react-router-dom";
+import SuiButton from "components/SuiButton";
 
-// Soft UI Dashboard Material-UI base styles
-import typography from "assets/theme/base/typography";
+/*npm install @mui/material @emotion/react @emotion/styled*/
 
-// Dashboard layout components
-import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
-import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
-import Projects from "layouts/dashboard/components/Projects";
-import OrderOverview from "layouts/dashboard/components/OrderOverview";
-
-// Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
-import Paper from '@material-ui/core/Paper';
-import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
-import {
-    Scheduler,
-    MonthView,
-    Appointments,
-    Toolbar,
-    DateNavigator,
-    AppointmentTooltip,
-    AppointmentForm,
-    EditRecurrenceMenu,
-    Resources,
-    DragDropProvider,
-} from '@devexpress/dx-react-scheduler-material-ui';
-
-
-const schedulerData = [
-  { startDate: '2021-11-01T09:45', endDate: '2021-11-01T11:00', title: 'Meeting' },
-  { startDate: '2021-11-01T12:00', endDate: '2021-11-01T13:30', title: 'Go to a gym' },
-];
-
-export default function Horario () {
-return(
-<DashboardLayout>
-<DashboardNavbar />
-  <Paper>
-    <Scheduler
-    data={schedulerData}
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
     >
-      <ViewState
-        currentDate="2021-11-01"
-      />
-          <EditingState
-            
-          />
-      <MonthView/>
-      <Appointments
-          />
-          <Resources
+      {value === index && (
+        <SuiBox p={3}>
+          <SuiTypography>{children}</SuiTypography>
+        </SuiBox>
+      )}
+    </div>
+  );
+}
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+export default function Horario() {
+  const MONTHS = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
+  ];
+  const WEEKDAYS_SHORT = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
 
-          />
+  const hist = useHistory();
+  const classes = styles();
+  const [tabValue, setTabValue] = useState(0);
+  const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+  const [Listo, setListo] = useState(0);
+  const [selectedDay, setSelectedDay] = useState(undefined);
+  function handleDayClick(day) {
+    setSelectedDay(day);
+  }
+  function EnviarFecha(){
+    setListo(1);
+  }
 
-          <Toolbar
+  if(Listo === 0){
+  return (
+    <DashboardLayout> 
+    <DashboardNavbar/>
+    <SuiBox py={6}>
+          <SuiBox mb={6}>
+            <Card>
+            <DayPicker onDayClick={handleDayClick}
+            months={MONTHS}
+            selectedDays={selectedDay}
+            weekdaysShort={WEEKDAYS_SHORT}
+            disabledDays={{ daysOfWeek: [0,6] }}
+            firstDayOfWeek={1}/>
+             {selectedDay ? (
+          <p>You clicked {selectedDay.toLocaleDateString()}</p>
+        ) : (
+          <p>Please select a day.</p>
+        )}
+            </Card>
+            <Card>
+              <SuiButton buttonColor="info" onClick={console.log("hola")}>
+                Subir
+              </SuiButton>
+            </Card>
+          </SuiBox>
+        </SuiBox>
+      <Footer />
+    </DashboardLayout>
+  );
+  }else if(Listo === 1){
+    return (
+      <DashboardLayout>
+      <DashboardNavbar/>
+        <SuiBox py={6}>
+          <SuiBox mb={6}>
+            <Card>
+            </Card>
+          </SuiBox>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+  }
+}
 
-          />
-          <DateNavigator />
-
-          <EditRecurrenceMenu />
-          <AppointmentTooltip
-
-          />
-          <AppointmentForm />
-          <DragDropProvider />
-    </Scheduler>
-  </Paper>
-</DashboardLayout>
-);}
