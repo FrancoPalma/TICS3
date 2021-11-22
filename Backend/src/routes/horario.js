@@ -7,6 +7,8 @@ router.post('/anadir_horario', horarioController.postAnadirHorario);
 
 router.post('/ver_horario', horarioController.postVerHorario);
 
+router.post('/ver_horario_admin', horarioController.postVerHorarioAdmin);
+
 router.post('/eliminar_horario', horarioController.postEliminarHorario);
 
 module.exports = router;
