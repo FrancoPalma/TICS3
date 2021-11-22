@@ -139,6 +139,18 @@ const routes = [
     icon: <SpaceShip size="12px" />,
     component: SignUp,
     noCollapse: true,
+<<<<<<< HEAD
+  },
+  {
+    type: "collapse",
+    name: "Perfil",
+    key: "perfil",
+    route: "/perfil",
+    icon: <Shop size="12px" />,
+    component: Perfil,
+    noCollapse: true,
+=======
+>>>>>>> d5da1a313f4bbefc299c8746f38151b3635e9465
   }
 ];
 
