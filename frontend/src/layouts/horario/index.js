@@ -60,12 +60,46 @@ export default function Horario() {
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [Listo, setListo] = useState(0);
+  const [row, setRow] = useState([]);
   const [selectedDay, setSelectedDay] = useState(undefined);
-  function handleDayClick(day) {
+  function handleDayClick(day, { selected }) {
+    if (selected) {
+      setSelectedDay(undefined);
+      return;
+    }
     setSelectedDay(day);
   }
   function EnviarFecha(){
-    setListo(1);
+    if(selectedDay != undefined){
+      let aux = selectedDay.toLocaleDateString()
+      fetch('/horario/ver_horario',{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fecha: aux[6]+aux[7]+aux[8]+aux[8]+aux[5]+aux[3]+aux[4]+aux[2]+aux[0]+aux[1]
+        })
+      })
+      .then((response) => {
+        if(response.status !== 404){
+          console.log("ok")
+          /*setListo(1)*/
+          return response.json()
+        }else{
+          console.log("error")
+        }
+      })
+      .then(users => {
+        console.log(users);
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    }else{
+      alert("Seleccione una fecha")
+    }
   }
 
   if(Listo === 0){
@@ -88,7 +122,7 @@ export default function Horario() {
         )}
             </Card>
             <Card>
-              <SuiButton buttonColor="info" onClick={console.log("hola")}>
+              <SuiButton buttonColor="info" onClick={EnviarFecha}>
                 Subir
               </SuiButton>
             </Card>
