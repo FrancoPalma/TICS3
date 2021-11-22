@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 // react-router-dom components
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
-
 // @material-ui core components
 
 
@@ -17,27 +15,14 @@ import SuiButton from "components/SuiButton";
 import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
 import curved9 from "assets/images/curved-images/curved-6.jpg";
-import { ErrorMessage } from "@hookform/error-message";
-
 
 export default function SignIn() {
-  const {
-    register,
-    formState: { errors },
-    handleSubmit
-  } = useForm({
-    criteriaMode: "all"
-  });
-  const onSubmit = (data) => console.log(data);
   const hist = useHistory();
   const [rut, setRut] = useState('');
   const [password, setPassword] = useState('');
   const [isAutentificado, setsetisAutentificado] = useState(false);
-
-
   
   function EnviarDatos() {
-
     if(1 == 1){
       fetch('/sesion/login', {
       method: 'POST',
@@ -86,13 +71,11 @@ export default function SignIn() {
       <SuiBox component="form" role="form">
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
-          
             <SuiTypography component="label" variant="caption" fontWeight="bold">
               Rut
             </SuiTypography>
           </SuiBox>
           <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)}/>
-         
         </SuiBox>
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
@@ -106,9 +89,7 @@ export default function SignIn() {
           <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarDatos}>
             Ingresar
           </SuiButton>
-
         </SuiBox>
-        
         <SuiBox mt={3} textAlign="center">
           <SuiTypography variant="button" textColor="text" fontWeight="regular">
             ¿No estas registrado?{" "}
@@ -123,11 +104,8 @@ export default function SignIn() {
               Registrate 
             </SuiTypography>
           </SuiTypography>
-      
         </SuiBox>
       </SuiBox>
-    
-        </CoverLayout>
-        
+    </CoverLayout>
   );
 }

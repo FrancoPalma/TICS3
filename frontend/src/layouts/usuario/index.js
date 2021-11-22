@@ -12,6 +12,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Footer from "examples/Footer";
+import TextField from "@material-ui/core/TextField";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import styles from "layouts/tables/styles";
@@ -455,7 +456,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          container
           type="text"
           name="rut_infante"
           display="flex"
