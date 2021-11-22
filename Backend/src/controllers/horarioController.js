@@ -2,32 +2,33 @@ const pool = require('../config/database.js');
 horarioController = {}
 
 horarioController.postAnadirHorario = async (req, res) => {
-    let responsable = req.body.responsable;
+    let rut_usuario = req.body.rut_usuario;
     let descripcion = req.body.descripcion;
     let fecha = req.body.fecha;
-    let semana = req.body.semana;
     let inicio = req.body.inicio;
+    let fin = req.bodu.fin;
     let sala = req.body.sala;
 
-    hora = inicio.split(":");
-    hora = parseInt(hora[0]) * 3600 + parseInt(hora[1] * 60) + parseInt(hora[2]);
-    duracion_modulo = duracion * 60;
-
-    pool.query('SELECT duracion_modulo FROM jardin WHERE jardin.id = $1', [1], (err, result) => {
-        if(err){return res.sendStatus(404)}
-        duracion = result.rows[0].duracion * 60;
-        let fin = new Date((hora + duracion) * 1000).toISOString().substr(11, 8);
-        pool.query('INSERT INTO horario(id_jardin, responsable, descripcion, fecha, semana, inicio, fin, sala) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.user.id_jardin, responsable, descripcion, fecha, semana, inicio, fin, sala], (err) => {
-            if(err){return res.sendStatus(404);}
-            return res.sendStatus(200)
-        })
-    });
+    //let fin = new Date((hora + duracion) * 1000).toISOString().substr(11, 8);
+    pool.query('INSERT INTO horario(id_jardin, rut_usuario, descripcion, fecha, inicio, fin, sala) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.user.id_jardin, rut_usuario, descripcion, fecha, inicio, fin, sala], (err) => {
+        if(err){return res.sendStatus(404);}
+        return res.sendStatus(200)
+    })
 };
 
 horarioController.postVerHorario = async (req, res) => {
-    let semana = req.body.semana;
+    let fecha = req.body.fecha;
 
-    pool.query('SELECT horario.id, horario.responsable, horario.descripcion, horario.fecha, horario.semana, horario.inicio, horario.fin, horario.sala FROM horario, jardin WHERE horario.semana = $1 AND horario.id_jardin = jardin.id AND jardin.id = $2', [semana, req.user.id_jardin], (err, result) => {
+    pool.query('SELECT horario.id, horario.rut_usuario, horario.descripcion, horario.inicio, horario.fin, horario.sala FROM horario, jardin WHERE horario.fecha = $1 AND horario.rut_usuario = $2', [fecha, req.user.rut], (err, result) => {
+        if(err){return res.sendStatus(404)}
+        return res.json(result.rows)
+    })
+}
+
+horarioController.postVerHorarioAdmin = async (req, res) => {
+    let fecha= req.body.fecha;
+
+    pool.query('SELECT horario.id, horario.rut_usuario, horario.descripcion, horario.inicio, horario.fin, horario.sala FROM horario, jardin WHERE horario.fecha = $1 AND horario.id_jardin = $2', [fecha, req.user.id_jardin], (err, result) => {
         if(err){return res.sendStatus(404)}
         return res.json(result.rows)
     })
