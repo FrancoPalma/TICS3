@@ -24,14 +24,14 @@ create table privilegios (
 create table horario (
     id SERIAL PRIMARY KEY,
     id_jardin INTEGER,
-    responsable VARCHAR(80),
-    descripcion DATE,
+    rut_usuario numeric(8,0),
+    descripcion text,
     fecha DATE,
-    semana DATE,
     inicio TIME,
     fin TIME,
     sala VARCHAR(30),
-    CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
+    CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id),
+    CONSTRAINT fk_usuario FOREIGN KEY(rut_usuario) REFERENCES usuario(rut)
 );
 
 create table informe (
@@ -49,10 +49,7 @@ nombre varchar(80),
 telefono numeric(11,0),
 direccion varchar(50),
 email varchar(50),
-rut_admin NUMERIC(8,0),
-duracion_modulo NUMERIC(8,0),
-apertura TIME,
-cierre TIME
+rut_admin NUMERIC(8,0)
 );
 
 create table infante(
@@ -96,60 +93,8 @@ values (1,'12345678-9', 'Juanito Perez', '1999-01-12');
 insert into informe(rut_usuario, rut_infante, fecha, completado)
 values (1, '12345678-9', '2021-12-27', false);
 
-insert into metodologia(id_informe, descripcion)
-values (14, 'orem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis, arcu id accumsan maximus, ante nulla luctus nunc, at accumsan tellus nisl ac lacus. Proin ut consequat nulla. Ut eu est sed ligula consequat hendrerit. Ut quis ullamcorper ipsum, et tincidunt ligula. Suspendisse nec nunc in nunc viverra blandit. Nam turpis ipsum, auctor vel consequat ');
-
-insert into evaluacion(id_informe, nombre)
-values (14, 'Evaluación auditiva');
-
-insert into evaluacion(id_informe, nombre)
-values (14, 'Evaluación motora');
-
-insert into objetivo(id_informe, descripcion)
-values (14, 'Mover el bote en todas las discos prrraaa');
-
-insert into objetivo(id_informe, descripcion)
-values (14, 'Mover el bote en todas las discos prrraaa');
-
-insert into analisis(id_informe, conclusion, recomendacion)
-values (14, 'n elementum neque nec laoreet varius. Curabitur semper mattis nisi, in posuere leo tempus id. Cras vulputate, neque ut ornare facilisis, leo nunc accumsan diam, ac lacinia libero odio at diam. Ut elementum varius velit, et tempor felis vestibulum ut. Mauris ut nisl eu velit consectetur iaculis vel at m', 'n elementum neque nec laoreet varius. Curabitur semper mattis nisi, in posuere leo tempus id. Cras vulputate, neque ut ornare facilisis, leo nunc accumsan diam, ac lacinia libero odio at diam. Ut elementum varius velit, et tempor felis vestibulum ut. Mauris ut nisl eu velit consectetur iaculis vel at m');
-
-insert into sesion(id_metodologia, nombre, descripcion)
-values (1, 'Primera sesion', 'Aenean vitae tortor erat. Fusce ut elementum nulla, sit amet tempor nisi. Vivamus sit amet ullamcorper tortor. Duis bibendum facilisis blandit. Sed finibus facilisis malesuada. ');
-
-insert into sesion(id_metodologia, nombre, descripcion)
-values (1, 'Segunda sesion', 'Aenean vitae tortor erat. Fusce ut elementum nulla, sit amet tempor nisi. Vivamus sit amet ullamcorper tortor. Duis bibendum facilisis blandit. Sed finibus facilisis malesuada. ');
-
-insert into criterio(id_evaluacion, nombre, descripcion, puntaje)
-values (1, 'Lejos', 'Aenean vitae tortor erat. Fu', 10);
-
-insert into criterio(id_evaluacion, nombre, descripcion, puntaje)
-values (1, 'Cerca', 'Aenean vitae tortor erat. Fu', 5);
-
-insert into criterio(id_evaluacion, nombre, descripcion, puntaje)
-values (2, 'Caminar', 'Aenean vitae tortor erat. Fu', 5);
-
-insert into criterio(id_evaluacion, nombre, descripcion, puntaje)
-values (2, 'Correr', 'dgdfgawrgsrtjyuk7rtritae tortor erat. Fu', 8);
-
-insert into actividad(id_objetivo, descripcion)
-values (1, 'Twerk every day');
-
-insert into actividad(id_objetivo, descripcion)
-values (1, 'Twerk every day');
-
-insert into actividad(id_objetivo, descripcion)
-values (1, 'm quis diam finibus, vel semper urna dapibus. Praesent sodales at diam id efficitur. Proin consequat dignissim tortor, et tincidunt ligula ultrices eu. Sed sit amet dapibus te');
-
-insert into actividad(id_objetivo, descripcion)
-values (1, 'm quis diam finibus, vel semper urna dapibus. Praesent sodales at diam id efficitur. Proin consequat dignissim tortor, et tincidunt ligula ultrices eu. Sed sit amet dapibus te');
-
-insert into actividad(id_objetivo, descripcion)
-values (2, 'm quis diam finibus, vel semper urna dapibus. Praesent sodales at diam id efficitur. Proin consequat dignissim tortor, et tincidunt ligula ultrices eu. Sed sit amet dapibus te');
-
-insert into actividad(id_objetivo, descripcion)
-values (2, 'm quis diam finibus, vel semper urna dapibus. Praesent sodales at diam id efficitur. Proin consequat dignissim tortor, et tincidunt ligula ultrices eu. Sed sit amet dapibus te');
-
+insert into horario(id_jardin, rut_usuario, descripcion, fecha, inicio, fin, sala)
+values (1, 1, 'Maths', '2021-01-25', '15:00', '18:00', 'Sala 3')
 
 DROP TABLE sesion;
 DROP TABLE criterio;
