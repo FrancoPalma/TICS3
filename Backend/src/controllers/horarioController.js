@@ -18,9 +18,12 @@ horarioController.postAnadirHorario = async (req, res) => {
 
 horarioController.postVerHorario = async (req, res) => {
     let fecha = req.body.fecha;
+    console.log(fecha)
+    console.log(req.user.rut)
 
     pool.query('SELECT horario.id, horario.rut_usuario, horario.descripcion, horario.inicio, horario.fin, horario.sala FROM horario, jardin WHERE horario.fecha = $1 AND horario.rut_usuario = $2', [fecha, req.user.rut], (err, result) => {
         if(err){return res.sendStatus(404)}
+        console.log(result.rows)
         return res.json(result.rows)
     })
 }
