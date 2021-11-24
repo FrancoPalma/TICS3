@@ -122,7 +122,7 @@ export default function SignIn() {
             <h3>Contraseña</h3>
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)}/>
+          <SuiInput type="password" placeholder="Contraseña" onChange={(event) => setPassword(event.target.value)}/>
         </SuiBox>
         <SuiBox mt={4} mb={1}>
           <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarDatos}>

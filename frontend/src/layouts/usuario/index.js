@@ -290,7 +290,7 @@ console.log(info.gestion_infante)
         setListo(0);
       }
       else{
-        console.log("Hubo un error en la conexión")
+        alert("Hubo un error en la conexión")
         console.log(response.status)
       }
     })
