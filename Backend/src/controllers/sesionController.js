@@ -42,7 +42,7 @@ sesionController.postSignup = async (req,res) => {
 			return res.sendStatus(200);
 		}) (req, res);
 	}else{
-		return res.sendStatus(404)
+		return res.sendStatus(405)
 	}
 };
 

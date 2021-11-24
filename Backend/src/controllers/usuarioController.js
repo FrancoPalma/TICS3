@@ -69,7 +69,7 @@ usuarioController.postEditarUsuario = (req, res) => {
 			return res.sendStatus(200);
 		});
 	}else{
-		return res.sendStatus(404)
+		return res.sendStatus(405)
 	}
 };
 
