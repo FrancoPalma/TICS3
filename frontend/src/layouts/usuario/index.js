@@ -135,8 +135,14 @@ console.log(info.gestion_infante)
 
   axios.post("/infante/importar_ficha/"+RutInfante, formData, { // receive two parameter endpoint url ,form data 
   })
-  .then(res => { // then print response status
-    console.log(res.statusText)
+  .then(response => {
+    console.log(response.status)
+    if(response.status == 200){
+      alert("Ficha importada");
+    }
+  })
+  .catch((err) => {
+    alert("La Ficha ser un PDF");
   })
   
   };
