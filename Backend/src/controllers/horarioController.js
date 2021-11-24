@@ -6,7 +6,7 @@ horarioController.postAnadirHorario = async (req, res) => {
     let descripcion = req.body.descripcion;
     let fecha = req.body.fecha;
     let inicio = req.body.inicio;
-    let fin = req.bodu.fin;
+    let fin = req.body.fin;
     let sala = req.body.sala;
 
     //let fin = new Date((hora + duracion) * 1000).toISOString().substr(11, 8);
