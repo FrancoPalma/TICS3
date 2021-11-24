@@ -16,8 +16,13 @@ import SuiInput from "components/SuiInput";
 import Icon from "@material-ui/core/Icon";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import TimePicker from 'react-time-picker';
+import TextField from '@mui/material/TextField';
 import { Confirm,} from 'react-st-modal';
+import DateAdapter from '@mui/lab/AdapterDayjs';
+import TimePicker from '@mui/lab/TimePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import Stack from '@mui/material/Stack';
 
 /*npm install @mui/material @emotion/react @emotion/styled*/
 
@@ -68,17 +73,26 @@ export default function Horario() {
   const [Listo, setListo] = useState(0);
   const [rows, setRow] = useState([]);
   const columns = [
-    { name: "hora", align: "left" },
+    { label: "Nombre",name: "hora", align: "left" },
     { name: "descripcion", align: "center" },
     { name: "sala", align: "center" }
   ];
   const [selectedDay, setSelectedDay] = useState(undefined);
-  const [value, setValue] = useState('10:00');
-  const [value2, setValue2] = useState('11:00');
+
+  const [value, setValue] = React.useState(new Date());
+  const handleChange = (newValue) => {
+    setValue(newValue);
+    console.log(newValue)
+  };
+
+  const [value2, setValue2] = React.useState(new Date());
+  const handleChange2 = (newValue) => {
+    setValue2(newValue);
+  };
+
   let info = JSON.parse(localStorage.getItem('usuario'));
   let sala;
   let descripcion;
-
   function handleDayClick(day, { selected }) {
     if (selected) {
       setSelectedDay(undefined);
@@ -168,15 +182,14 @@ export default function Horario() {
     }
   }
   function AgregarHorario(){
-    console.log(value)
-    console.log(value2)
     let aux = selectedDay.toLocaleDateString()
     let dia;
     let mes;
     let ano;
-    while(rows.length > 0) {
-      rows.pop();
-    }
+    
+    let ini = value.toString()
+    let fin = value2.toString()
+    console.log(ini[16]+ini[17]+ini[18]+ini[19]+ini[20])
     if (aux[1]=='/'){
       //D/MM/AAAA
       dia= '0'+aux[0];
@@ -209,8 +222,8 @@ export default function Horario() {
       body: JSON.stringify({
         rut_usuario: info.rut,
         fecha: ano+'-'+mes+'-'+dia,
-        inicio: value,
-        fin: value2,
+        inicio: ini[16]+ini[17]+ini[18]+ini[19]+ini[20],
+        fin: fin[16]+fin[17]+fin[18]+fin[19]+fin[20],
         descripcion: descripcion,
         sala: sala
       })
@@ -257,12 +270,16 @@ export default function Horario() {
         </Grid>
         
         <Grid item xs={6}>
-        <TimePicker
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
-          value={value}
-        />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Stack spacing={3}>
+            <TimePicker
+              label="Time"
+              value={value}
+              onChange={handleChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </Stack>
+        </LocalizationProvider>
         </Grid>
         
         <Grid item xs={6}>
@@ -270,12 +287,17 @@ export default function Horario() {
         </Grid>
         
         <Grid item xs={6}>
-        <TimePicker
-          onChange={(e) => {
-            setValue2(e.target.value);
-          }}
-          value={value2}
-        />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Stack spacing={3}>
+            <TimePicker
+              label="Time"
+              value={value2}
+              onChange={handleChange2}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </Stack>
+        </LocalizationProvider>
+        
         </Grid>
         <Grid item xs={6}>
         <label>Sala: </label>
@@ -317,34 +339,111 @@ export default function Horario() {
     <DashboardNavbar/>
     <SuiBox py={6}>
       <SuiBox mb={6}>
+        <Tabs value={tabValue} onChange={handleSetTabValue}>
+          <Tab label="Buscar" {...a11yProps(0)}/>
+          <Tab label="Añadir" {...a11yProps(1)}/>
+        </Tabs>
+        <TabPanel value={tabValue} index={0}>
         <Card>
-        {selectedDay ? (
-          <BotonAgregar/>
-        ) : (
-          <SuiButton buttonColor="info" 
-            onClick={async () => {
-              alert("Seleccione una fecha")
-            }}
-      >
-        Agregar Horario
-        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
-          add
-        </Icon>
-      </SuiButton>
-        )}
-        
+        <SuiTypography variant="body2" textColor="text" fontWeight="medium">
+           Seleccione una fecha
+        </SuiTypography>
         <DayPicker onDayClick={handleDayClick}
-        months={MONTHS}
-        selectedDays={selectedDay}
-        weekdaysShort={WEEKDAYS_SHORT}
-        disabledDays={{ daysOfWeek: [0,6] }}
-        firstDayOfWeek={1}/>
+          months={MONTHS}
+          selectedDays={selectedDay}
+          weekdaysShort={WEEKDAYS_SHORT}
+          disabledDays={{ daysOfWeek: [0,6] }}
+          firstDayOfWeek={1}/>
         </Card>
         <Card>
           <SuiButton buttonColor="info" onClick={EnviarFecha}>
             Consultar
           </SuiButton>
         </Card>
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <Card>
+          <SuiTypography variant="body2" textColor="text" fontWeight="medium">
+           Seleccione una fecha
+        </SuiTypography>
+          <DayPicker onDayClick={handleDayClick}
+          months={MONTHS}
+          selectedDays={selectedDay}
+          weekdaysShort={WEEKDAYS_SHORT}
+          disabledDays={{ daysOfWeek: [0,6] }}
+          firstDayOfWeek={1}/>
+        <Grid container spacing={3}display="row">
+          <Grid item xs={6}>
+          <label>Inicio: </label>
+          </Grid>
+          
+          <Grid item xs={6}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Stack spacing={3}>
+              <TimePicker
+                label="Time"
+                value={value}
+                onChange={handleChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </Stack>
+          </LocalizationProvider>
+          </Grid>
+          
+          <Grid item xs={6}>
+          <label>Fin: </label>
+          </Grid>
+          
+          <Grid item xs={6}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Stack spacing={3}>
+              <TimePicker
+                label="Time"
+                value={value2}
+                onChange={handleChange2}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </Stack>
+          </LocalizationProvider>
+          
+          </Grid>
+          <Grid item xs={6}>
+          <label>Sala: </label>
+          </Grid>
+          
+          <Grid item xs={6}>
+            <input
+              type="text"
+              name="sala"
+              display="flex"
+              onChange={(e) => {
+                sala = e.target.value;
+              }}
+            />
+          </Grid>
+          
+          <Grid item xs={6}>
+          <label>Descripción: </label>
+          </Grid>
+          
+          <Grid item xs={6}>
+            <input
+              type="text"
+              name="descripcion"
+              display="flex"
+              onChange={(e) => {
+                descripcion = e.target.value;
+              }}
+            />
+          </Grid>
+        </Grid>
+        </Card>
+        <Card>
+          <SuiButton buttonColor="info" onClick={AgregarHorario}>
+            Agregar
+          </SuiButton>
+        </Card>
+        </TabPanel>
       </SuiBox>
     </SuiBox>
     <Footer />
