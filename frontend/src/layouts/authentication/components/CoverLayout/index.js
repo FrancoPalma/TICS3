@@ -59,7 +59,6 @@ function CoverLayout({ color, header, title, description, image, top, children }
           </SuiBox>
         </Grid>
       </Grid>
-      <Footer />
     </PageLayout>
   );
 }

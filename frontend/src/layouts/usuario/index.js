@@ -7,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -286,12 +285,11 @@ console.log(info.gestion_infante)
     })
     .then((response) => {
       if (response.status == 200){
-        console.log("Eliminado correctamente")
         alert("Eliminado correctamente");
         setListo(0);
       }
       else{
-        console.log("Hubo un error")
+        alert("Hubo un error en la conexión")
         console.log(response.status)
       }
     })
@@ -448,15 +446,15 @@ console.log(info.gestion_infante)
   function Formulario(){
     return(
       <>
-      <h3>Datos del Infante</h3>
+      <h3>Datos del Usuario</h3>
       <Grid container spacing={3}display="row">
 
         <Grid item xs={6}>
-        <label>RUT Infante: </label>
+        <label>RUT Usuario: </label>
         </Grid>
         
         <Grid item xs={6}>
-          <TextField
+          <input
           container
           type="text"
           name="rut_infante"
@@ -467,7 +465,7 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-        <label>Nombre Infante: </label>
+        <label>Nombre Usuario: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -501,7 +499,7 @@ console.log(info.gestion_infante)
         <Grid container spacing={3}display="row">
 
         <Grid item xs={6}>
-        <label>Nombre apoderado: </label>
+        <label>Nombre Apoderado: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -516,7 +514,7 @@ console.log(info.gestion_infante)
         </Grid>
 
         <Grid item xs={6}>
-        <label>RUT apoderado: </label>
+        <label>RUT Apoderado: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -539,6 +537,7 @@ console.log(info.gestion_infante)
             type="text"
             name="telefono"
             display="flex"
+            defaultValue = "569"
             onChange={(e) => {
               telefono = e.target.value;
             }}
@@ -605,11 +604,10 @@ console.log(info.gestion_infante)
       })
       .then( (response) => {
         if(response.status === 200) {
-            console.log("Agregado correctamente")
+           alert("Agregado correctamente")
             
         } else {
             alert('Hubo un error')
-            console.log(response.status)
         }
         setListo(0);
     })
@@ -706,7 +704,7 @@ console.log(info.gestion_infante)
 
 
       <Grid item xs={6}>
-        <label>Nombre del infante: </label>
+        <label>Nombre del usuario: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -767,6 +765,7 @@ console.log(info.gestion_infante)
             name="telefono"
             defaultValue={telefono}
             display="flex"
+            defaultValue = "569"
             onChange={(e) => {
               telefono = e.target.value;
             }}
@@ -783,6 +782,7 @@ console.log(info.gestion_infante)
             name="email"
             defaultValue={email}
             display="flex"
+  
             onChange={(e) => {
               email = e.target.value;
             }}
@@ -813,7 +813,7 @@ console.log(info.gestion_infante)
         console.log("ok")
         return response.json()
       }else{
-        console.log("error")
+        alert("Error al enviar informe, por favor vuelva a intentarlo.")
       }
     })
     .then(users => {
@@ -834,7 +834,6 @@ console.log(info.gestion_infante)
     body: JSON.stringify({
 
       nombre: nombre_infante,
-
       rut_apoderado: rut_apoderado,
       nombre_apoderado: nombre_a,
       telefono: telefono,
@@ -845,11 +844,15 @@ console.log(info.gestion_infante)
     .then( (response) => {
         if(response.status === 200) {
 
-            console.log("Editado correctamente")
+            alert("Editado correctamente")
             setListo(2)
 
-        } else {
-            console.log('Hubo un error')
+        }else if(response.status === 404){
+            alert("Error en la conección")
+        } 
+        
+        else if(response.status === 405){
+            alert("Datos ingresados inválidos")
             console.log(response.status)
         }
     })
@@ -874,7 +877,7 @@ console.log(info.gestion_infante)
             alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
-            console.log('Hubo un error')
+            alert('Hubo un error en la conexión')
         }
     })
     .catch((error) => {
@@ -895,10 +898,10 @@ console.log(info.gestion_infante)
     })
     .then((response) => {
       if(response.status !== 404){
-        console.log("ok")
+        alert("Informe editado correctamente")
         return response.json()
       }else{
-        console.log("error")
+        alert("Error en la conexión vuelva a intentarlo")
       }
     })
     .then(users => {
@@ -994,7 +997,6 @@ console.log(info.gestion_infante)
     }
     return(
       <DashboardLayout>
-        <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
             <Card>
@@ -1014,7 +1016,6 @@ console.log(info.gestion_infante)
     }
     return(
         <DashboardLayout>
-          <DashboardNavbar />
           <SuiBox py={3}>
             <SuiBox mb={3}>
               <Card>
@@ -1031,7 +1032,6 @@ console.log(info.gestion_infante)
   if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === true){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1046,16 +1046,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1106,7 +1106,7 @@ console.log(info.gestion_infante)
             }
           }}
           >
-            Editar Infante
+            Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
         </TabPanel>
@@ -1147,7 +1147,6 @@ console.log(info.gestion_infante)
     else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === true && info.gestion_ficha === true){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1162,16 +1161,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1248,7 +1247,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === true && info.gestion_ficha === false){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1263,16 +1261,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1345,7 +1343,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === false && info.gestion_ficha === false){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1360,16 +1357,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1442,7 +1439,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === false){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1457,16 +1453,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1518,7 +1514,7 @@ console.log(info.gestion_infante)
             }
           }}
           >
-            Editar Infante
+            Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
 
@@ -1556,7 +1552,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === false){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1571,16 +1566,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1632,7 +1627,7 @@ console.log(info.gestion_infante)
             }
           }}
           >
-            Editar Infante
+            Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
 
@@ -1670,7 +1665,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === true){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1685,16 +1679,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1746,7 +1740,7 @@ console.log(info.gestion_infante)
             }
           }}
           >
-            Editar Infante
+            Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
 
@@ -1787,7 +1781,6 @@ console.log(info.gestion_infante)
   if(Listo === 5){
     return(
       <DashboardLayout>
-      <DashboardNavbar />
       <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1801,16 +1794,16 @@ console.log(info.gestion_infante)
           <Card>
           <TabPanel value={tabValue} index={0}>
             <Box sx={{ width: '100%' }}>
-              <h3>Datos personales del infante</h3>
+              <h3>Datos personales del usuario</h3>
               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                   <Grid item xs={6}>
-                    <Item>RUT del infante: </Item>
+                    <Item>RUT del usuario: </Item>
                   </Grid>
                   <Grid item xs={6}>
                     <Item>{RutInfante}</Item>
                   </Grid>
                   <Grid item xs={6}>
-                    <Item>Nombre del infante: </Item>
+                    <Item>Nombre del usuario: </Item>
                   </Grid>
                   <Grid item xs={6}>
                     <Item>{NameChild}</Item>
@@ -1861,7 +1854,7 @@ console.log(info.gestion_infante)
               }
             }}
             >
-              Editar Infante
+              Editar usuario
               <Icon classsName="material-icons-round">edit</Icon>
             </SuiButton>
           </TabPanel>

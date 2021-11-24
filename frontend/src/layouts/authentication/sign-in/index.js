@@ -16,7 +16,7 @@ import SuiButton from "components/SuiButton";
 // Authentication layout components
 import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
-import curved9 from "assets/images/curved-images/curved-6.jpg";
+import curved9 from "assets/images/curved-images/curved14.jpg";
 
 export default function SignIn() {
   const hist = useHistory();
@@ -122,7 +122,7 @@ export default function SignIn() {
             <h3>Contraseña</h3>
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)}/>
+          <SuiInput type="password" placeholder="Contraseña" onChange={(event) => setPassword(event.target.value)}/>
         </SuiBox>
         <SuiBox mt={4} mb={1}>
           <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={EnviarDatos}>

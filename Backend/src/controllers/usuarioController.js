@@ -38,15 +38,18 @@ usuarioController.postEliminarUsuario = (req, res) => {
 
 	pool.query('BEGIN', (err) => {
 		if(err){return res.sendStatus(404)}
-		pool.query('DELETE FROM privilegios WHERE rut_usuario = $1', [rut_usuario], (err) => {
+		pool.query('DELETE FROM horario WHERE rut_usuario = $1', [rut_usuario], (err) => {
 			if(err){return res.sendStatus(404)}
-			pool.query('DELETE FROM usuario WHERE usuario.rut = $1', [rut_usuario], (err) => {
+			pool.query('DELETE FROM privilegios WHERE rut_usuario = $1', [rut_usuario], (err) => {
 				if(err){return res.sendStatus(404)}
-				pool.query('COMMIT', (err)=> {
+				pool.query('DELETE FROM usuario WHERE usuario.rut = $1', [rut_usuario], (err) => {
 					if(err){return res.sendStatus(404)}
-					return res.sendStatus(200);
-				})
-			});
+					pool.query('COMMIT', (err)=> {
+						if(err){return res.sendStatus(404)}
+						return res.sendStatus(200);
+					})
+				});
+			})
 		})
 	})
 };
@@ -59,7 +62,7 @@ usuarioController.postEditarUsuario = (req, res) => {
 	let email = req.body.email;
 	let especialidad = req.body.especialidad;
 
-	let REletras = new RegExp('^[A-Za-z]+$');
+	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]+$');
 	let REnumeros = new RegExp('[0-9]')
 	let REemail = new RegExp('[@]')
 

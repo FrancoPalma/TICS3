@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Card from "@material-ui/core/Card";
 import { styled } from '@mui/material/styles';
+import SuiInput from "components/SuiInput";
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import Table from "examples/Table";
@@ -167,15 +168,24 @@ export default function Perfil(){
 
         <Card>
         <TabPanel value={tabValue} index={0}>
+        <center>        
         <Box sx={{ width: '50%' }}>
-          <h3>Datos personales</h3>
+
+          <h2>Datos personales</h2>
           <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center" justify="center" justifyContent="center">
               <Grid item xs={6}>
-                <Item><h5>Nombre: </h5></Item>
+                <Item>Nombre: </Item>
               </Grid>
 
               <Grid item xs={6}>
                 <Item>{Nombre}</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>RUT: </Item>
+              </Grid>
+        
+              <Grid item xs={6}>
+                <Item>{Rut}</Item>
               </Grid>
               
               <Grid item xs={6}>
@@ -187,6 +197,14 @@ export default function Perfil(){
               </Grid>
 
               <Grid item xs={6}>
+                <Item>Email: </Item>
+              </Grid>
+        
+              <Grid item xs={6}>
+                <Item>{Email}</Item>
+              </Grid>
+
+              <Grid item xs={6}>
                 <Item>Especialidad: </Item>
               </Grid>
         
@@ -194,54 +212,55 @@ export default function Perfil(){
                 <Item>{Especialidad}</Item>
               </Grid>
             </Grid>
+
         </Box>
+        </center>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-        <SuiBox display="inrow" justifyContent="space-between" alignItems="center" p={3}>
+
+          <center>
         <Box
             sx={{
-            width: 500,
-            maxWidth: '100%',
+            width: "50%"
         }}>
-        
-        <TextField
-              label="Contraseña antigua"
-              placeholder = "Contraseña antigua"
-              variant = "outlined"
-              multiline
-              fullWidth 
-              rows={1}
-              required
-              onChange = {event => setOldPassword(event.target.value)}         
-            />
-
-        <TextField
-              label="Contraseña nueva"
-              placeholder = "Contraseña nueva"
-              variant = "outlined"
-              multiline
-              fullWidth 
-              rows={1}
-              required
-              onChange = {event => setNewPassword(event.target.value)}         
-            />
-
-        <TextField
-              label="Repita contraseña"
-              placeholder = "Repita contraseña"
-              variant = "outlined"
-              multiline
-              fullWidth 
-              rows={1}
-              required
-              onChange = {event => setCopyPassword(event.target.value)}         
-            />
-
-        <SuiButton startIcon ={<SaveIcon />} variant="gradient" buttonColor="success" halfWidth onClick={CambiarPassword}>
-                Guardar
-              </SuiButton>
-              </Box>
+              <SuiBox component="form" role="form">
+        <SuiBox mb={2}>
+          <SuiBox mb={1} ml={0.5}>
+            <SuiTypography component="label" variant="caption" fontWeight="bold">
+              <h2>Contraseña antigua</h2>
+            </SuiTypography>
+          </SuiBox>
+          <SuiInput type="password" placeholder="Contraseña antigua"  onChange={(event) => setOldPassword(event.target.value)}/>
+                
         </SuiBox>
+        <SuiBox mb={2}>
+          <SuiBox mb={1} ml={0.5}>
+            <SuiTypography component="label" variant="caption" fontWeight="bold">
+            <h2>Contraseña nueva</h2>
+            </SuiTypography>
+          </SuiBox>
+          <SuiInput type="password" placeholder="Contraseña nueva" onChange={(event) => setNewPassword(event.target.value)}/>
+        </SuiBox>
+
+        <SuiBox mb={2}>
+          <SuiBox mb={1} ml={0.5}>
+            <SuiTypography component="label" variant="caption" fontWeight="bold">
+            <h2>Contraseña nueva</h2>
+            </SuiTypography>
+          </SuiBox>
+          <SuiInput type="password" placeholder="Contraseña nueva" onChange={(event) => setCopyPassword(event.target.value)}/>
+        </SuiBox>
+
+        <SuiBox mt={4} mb={1}>
+          <SuiButton variant="gradient" buttonColor="info" onClick={CambiarPassword}>
+            Ingresar
+          </SuiButton>
+        </SuiBox>
+
+      </SuiBox>
+ 
+              </Box></center>
+
         </TabPanel>
         
 

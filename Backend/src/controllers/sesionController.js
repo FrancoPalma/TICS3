@@ -24,7 +24,7 @@ sesionController.postSignupAdmin = async (req,res) => {
 };
 
 sesionController.postSignup = async (req,res) => {
-	let REletras = new RegExp('[A-Za-z]');
+	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]+$');
 	let REnumeros = new RegExp('[0-9]')
 	let REemail = new RegExp('[@]')
 

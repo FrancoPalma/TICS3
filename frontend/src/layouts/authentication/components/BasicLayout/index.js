@@ -74,7 +74,6 @@ function BasicLayout({ title, description, image, children }) {
           </Grid>
         </Grid>
       </SuiBox>
-      <Footer />
     </PageLayout>
   );
 }
