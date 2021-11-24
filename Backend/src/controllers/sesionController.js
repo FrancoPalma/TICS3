@@ -24,13 +24,26 @@ sesionController.postSignupAdmin = async (req,res) => {
 };
 
 sesionController.postSignup = async (req,res) => {
-	await passport.authenticate('local-signup', function(err, user) {
-		console.log(user)
-		if (err) { return res.sendStatus(404); }
-		if (user == false) { 
-			return res.sendStatus(404); }
-		return res.sendStatus(200);
-	}) (req, res);
+	let REletras = new RegExp('[A-Za-z]');
+	let REnumeros = new RegExp('[0-9]')
+	let REemail = new RegExp('[@]')
+
+	let rut = req.body.rut;
+	let nombre = req.body.nombre;
+	let telefono = req.body.telefono;
+	let email = req.body.email;
+	let especialidad = req.body.especialidad;
+
+	if(REnumeros.test(rut) && REletras.test(nombre) && REletras.test(especialidad) && REnumeros.test(telefono) && REemail.test(email) && telefono.length <= 11 && telefono.length >= 9){	
+		await passport.authenticate('local-signup', function(err, user) {
+			if (err) { return res.sendStatus(404); }
+			if (user == false) { 
+				return res.sendStatus(404); }
+			return res.sendStatus(200);
+		}) (req, res);
+	}else{
+		return res.sendStatus(404)
+	}
 };
 
 sesionController.getLogout = (req, res) => {

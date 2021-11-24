@@ -546,7 +546,7 @@ export default function Profesionales() {
     });
   }
   function AgregarProfesional(){
-    fetch('sesion/agregar_usuario/', {
+    fetch('sesion/agregar_usuario', {
     method: 'POST',
     headers: {
         Accept: 'application/json',

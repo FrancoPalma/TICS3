@@ -4,10 +4,7 @@ usuarioController = {}
 
 usuarioController.getVerPrivilegios = (req, res) => {
 	pool.query('SELECT usuario.rut, usuario.nombre, privilegios.gestion_usuario, privilegios.gestion_ficha, privilegios.gestion_priv, privilegios.gestion_evaluacion, privilegios.gestion_infante, privilegios.gestion_horario FROM usuario, privilegios WHERE usuario.rut = privilegios.rut_usuario AND usuario.id_jardin = $1', [req.user.id_jardin], (err, result) => {
-		if(err){
-			return res.sendStatus(404) 
-		}
-
+		if(err){return res.sendStatus(404)}
 		return res.json(result.rows);
 	});
 };
@@ -16,7 +13,6 @@ usuarioController.getVerUsuarios = (req, res) => {
 	let id_jardin = req.user.id_jardin;
 	pool.query('SELECT usuario.rut, usuario.nombre, usuario.telefono, usuario.email, usuario.especialidad FROM usuario WHERE usuario.id_jardin = $1', [id_jardin], (err, result) => {
 		if(err){ return res.sendStatus(404)}
-		console.log(result.rows)
 		return res.json(result.rows)
 	})
 };
@@ -63,10 +59,18 @@ usuarioController.postEditarUsuario = (req, res) => {
 	let email = req.body.email;
 	let especialidad = req.body.especialidad;
 
-	pool.query('UPDATE usuario SET nombre = $1, telefono = $2, email = $3, especialidad = $4 WHERE usuario.rut = $5', [nombre, telefono, email, especialidad, rut_usuario], (err) => {
-		if(err){res.sendStatus(404)}
-		return res.sendStatus(200);
-	});
+	let REletras = new RegExp('^[A-Za-z]+$');
+	let REnumeros = new RegExp('[0-9]')
+	let REemail = new RegExp('[@]')
+
+	if(REletras.test(nombre) && REletras.test(especialidad) && REnumeros.test(telefono) && REemail.test(email) && telefono.length <= 11 && telefono.length >= 9){
+		pool.query('UPDATE usuario SET nombre = $1, telefono = $2, email = $3, especialidad = $4 WHERE usuario.rut = $5', [nombre, telefono, email, especialidad, rut_usuario], (err) => {
+			if(err){res.sendStatus(404)}
+			return res.sendStatus(200);
+		});
+	}else{
+		return res.sendStatus(404)
+	}
 };
 
 usuarioController.postEditarPassword = async (req, res) => {
