@@ -69,6 +69,7 @@ function Check({boleano}){
   }
 }
 export default function Profesionales() {
+  const [Confirmar, setConfirmar] = useState(true)
   const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
@@ -320,8 +321,9 @@ export default function Profesionales() {
       </>
     )
   }
+
+
   function Formulario2({r, n, t, e, es}){
-    let regex = new RegExp("^[a-z A-Z]+$");
     rut = r;
     nombre= n;
     telefono = t;
@@ -340,9 +342,7 @@ export default function Profesionales() {
             name="nombre"
             defaultValue={nombre}
             display="flex"
-            onChange={(e) => {
-              nombre = e.target.value;
-            }}
+            onChange={(e) => {nombre = e.target.value}}
           />
         </Grid>
 
@@ -398,32 +398,37 @@ export default function Profesionales() {
     )
   }
   function EditarEmpleado2() {
-    fetch('/usuario/editar_usuario/'+rut.toString(), {
-    method: 'POST',
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      rut_usuario: rut,
-      nombre: nombre,
-      telefono: telefono,
-      email: email,
-      especialidad: especialidad
-    })
-    })
-    .then( (response) => {
-        if(response.status === 200) {
-            alert("Editado correctamente")
-            window.location.href = window.location.href;
-        } else {
-            console.log('Hubo un error')
-            console.log(response.status)
-        }
-    })
-    .catch((error) => {
-        console.log(error)
-    });
+    if(Confirmar === true){
+          fetch('/usuario/editar_usuario/'+rut.toString(), {
+          method: 'POST',
+          headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            rut_usuario: rut,
+            nombre: nombre,
+            telefono: telefono,
+            email: email,
+            especialidad: especialidad
+          })
+          })
+          .then( (response) => {
+              if(response.status === 200) {
+                  alert("Editado correctamente")
+                  window.location.href = window.location.href;
+              } else if(response.status === 404) {
+                  alert('Error en la conexión por favor volver a intentarlo')
+              } else if (response.status === 405){
+                  alert("Datos ingresado inválidos")
+              }
+          })
+          .catch((error) => {
+              console.log(error)
+          });}
+          else{
+            alert("Error")
+          }
   }
   function BotonAgregar(){
     return(
@@ -456,12 +461,9 @@ export default function Profesionales() {
       fetch('/usuario/ver_privilegios')
 
         .then(res => {
-            if(res.status === 404){
-             alert("Error interno vuelva a cargar la página");
-             return;
-            }else{
+
             return res.json()
-            }
+            
         })
 
         .then(users => {
@@ -546,7 +548,7 @@ export default function Profesionales() {
     });
   }
   function AgregarProfesional(){
-    fetch('sesion/agregar_usuario/', {
+    fetch('sesion/agregar_usuario', {
     method: 'POST',
     headers: {
         Accept: 'application/json',

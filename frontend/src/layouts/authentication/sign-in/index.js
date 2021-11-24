@@ -82,6 +82,7 @@ export default function SignIn() {
         console.log(error)
       });
     }else{
+        Alert()
         alert("Rut o contraseña inválido");
 
     }
@@ -90,7 +91,9 @@ export default function SignIn() {
     return(        
       <>
       <Grid container spacing={3}display="row">
+        <Grid item xs={6}>
           <Alert severity="error">This is an error alert — check it out!</Alert>
+        </Grid>
       </Grid>
       </>
       
