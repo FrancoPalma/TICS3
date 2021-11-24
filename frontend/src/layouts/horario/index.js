@@ -73,8 +73,8 @@ export default function Horario() {
     { name: "sala", align: "center" }
   ];
   const [selectedDay, setSelectedDay] = useState(undefined);
-  const [value, onChange] = useState('10:00');
-  const [value2, onChange2] = useState('11:00');
+  const [value, setValue] = useState('10:00');
+  const [value2, setValue2] = useState('11:00');
   let info = JSON.parse(localStorage.getItem('usuario'));
   let sala;
   let descripcion;
@@ -137,10 +137,11 @@ export default function Horario() {
         }
       })
       .then(users => {
+        console.log(users)
         for(let i=0; i < users.length;i++){
           let aux = true;
           for(let e=0;e < rows.length;e++){
-            if(users[i].rut == rows[e].rut){
+            if(users[i].id == rows[e].id){
               aux=false;
             }
           }
@@ -167,35 +168,38 @@ export default function Horario() {
     }
   }
   function AgregarHorario(){
+    console.log(value)
+    console.log(value2)
     let aux = selectedDay.toLocaleDateString()
-      let dia;
-      let mes;
-      let ano;
-      while(rows.length > 0) {
-        rows.pop();
-      }
-      if (aux[1]=='/'){
-        //D/MM/AAAA
-        dia= '0'+aux[0];
-        if(aux[3]=='/'){
-          mes = '0'+aux[2];
-          ano = aux[4]+aux[5]+aux[6]+aux[7]; 
-        }else{
-          mes = aux[2]+aux[3];
-          ano = aux[5]+aux[6]+aux[7]+aux[8];
-        }
-
+    let dia;
+    let mes;
+    let ano;
+    while(rows.length > 0) {
+      rows.pop();
+    }
+    if (aux[1]=='/'){
+      //D/MM/AAAA
+      dia= '0'+aux[0];
+      if(aux[3]=='/'){
+        mes = '0'+aux[2];
+        ano = aux[4]+aux[5]+aux[6]+aux[7]; 
       }else{
-        //DD/MM/AAAA
-        dia= aux[0]+aux[1];
-        if(aux[4]=='/'){
-          mes = '0'+aux[3];
-          ano = aux[5]+aux[6]+aux[7]+aux[8];
-        }else{
-          mes = aux[3]+aux[4];
-          ano = aux[6]+aux[7]+aux[8]+aux[9];
-        }
+        mes = aux[2]+aux[3];
+        ano = aux[5]+aux[6]+aux[7]+aux[8];
       }
+
+    }else{
+      //DD/MM/AAAA
+      dia= aux[0]+aux[1];
+      if(aux[4]=='/'){
+        mes = '0'+aux[3];
+        ano = aux[5]+aux[6]+aux[7]+aux[8];
+      }else{
+        mes = aux[3]+aux[4];
+        ano = aux[6]+aux[7]+aux[8]+aux[9];
+      }
+    }
+    
     fetch('horario/anadir_horario/', {
       method: 'POST',
       headers: {
@@ -203,7 +207,7 @@ export default function Horario() {
           'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        rut: info.rut,
+        rut_usuario: info.rut,
         fecha: ano+'-'+mes+'-'+dia,
         inicio: value,
         fin: value2,
@@ -254,7 +258,9 @@ export default function Horario() {
         
         <Grid item xs={6}>
         <TimePicker
-          onChange={onChange}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
           value={value}
         />
         </Grid>
@@ -265,7 +271,9 @@ export default function Horario() {
         
         <Grid item xs={6}>
         <TimePicker
-          onChange={onChange2}
+          onChange={(e) => {
+            setValue2(e.target.value);
+          }}
           value={value2}
         />
         </Grid>

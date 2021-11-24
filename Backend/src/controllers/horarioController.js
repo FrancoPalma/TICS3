@@ -8,7 +8,6 @@ horarioController.postAnadirHorario = async (req, res) => {
     let inicio = req.body.inicio;
     let fin = req.body.fin;
     let sala = req.body.sala;
-
     //let fin = new Date((hora + duracion) * 1000).toISOString().substr(11, 8);
     pool.query('INSERT INTO horario(id_jardin, rut_usuario, descripcion, fecha, inicio, fin, sala) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.user.id_jardin, rut_usuario, descripcion, fecha, inicio, fin, sala], (err) => {
         if(err){return res.sendStatus(404);}
