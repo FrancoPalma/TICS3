@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 // @material-ui core components
+import Alert from '@mui/material/Alert';
+import Grid from "@material-ui/core/Grid";
 
 
 // Soft UI Dashboard Material-UI components
@@ -21,9 +23,28 @@ export default function SignIn() {
   const [rut, setRut] = useState('');
   const [password, setPassword] = useState('');
   const [isAutentificado, setsetisAutentificado] = useState(false);
+  const [EstadoRut,setEstadoRut] = useState(false)
+
+  function handleChangeInput(valor) {
+    //destructurin de los valores enviados por el metodo onchange de cada input
+    const value  = valor;
+    let regex = new RegExp("^[0-9 k]+$");
+    
+    if (regex.test(value) && value.length <10 && value.length >= 7 && (value.indexOf('k') === -1 || value.indexOf('k') === 8 || value.indexOf('k') === 9)) {
+      setRut(value)
+      setEstadoRut(true)
+    } else if(value.length <10 && regex.test(value)){
+      setRut(value)
+    }else if(value.length <10){
+      setRut(value)
+
+    }
+  }
   
   function EnviarDatos() {
-    if(1 == 1){
+
+
+    if(EstadoRut === true){
       fetch('/sesion/login', {
       method: 'POST',
       headers: {
@@ -44,6 +65,7 @@ export default function SignIn() {
         } else {
           console.log('FALLO EL INGRESO');
           setsetisAutentificado(false)
+          alert("Rut o contraseña inválido");
         }
 
       })
@@ -59,9 +81,21 @@ export default function SignIn() {
       .catch((error) => {
         console.log(error)
       });
+    }else{
+        alert("Rut o contraseña inválido");
+
     }
   }
-
+  function Alert(){
+    return(        
+      <>
+      <Grid container spacing={3}display="row">
+          <Alert severity="error">This is an error alert — check it out!</Alert>
+      </Grid>
+      </>
+      
+      );
+  }
   return (
     <CoverLayout
       title="Bienvenido"
@@ -72,15 +106,17 @@ export default function SignIn() {
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
             <SuiTypography component="label" variant="caption" fontWeight="bold">
-              Rut
+              <h3>RUT</h3>
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)}/>
+          <SuiInput type="text" placeholder="RUT" onChange={(event) => handleChangeInput(event.target.value)}
+            /><h5>Sin puntos ni dígito verificador</h5>
+                
         </SuiBox>
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
             <SuiTypography component="label" variant="caption" fontWeight="bold">
-              Contraseña
+            <h3>Contraseña</h3>
             </SuiTypography>
           </SuiBox>
           <SuiInput type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)}/>
@@ -90,21 +126,7 @@ export default function SignIn() {
             Ingresar
           </SuiButton>
         </SuiBox>
-        <SuiBox mt={3} textAlign="center">
-          <SuiTypography variant="button" textColor="text" fontWeight="regular">
-            ¿No estas registrado?{" "}
-            <SuiTypography
-              component={Link}
-              to="/authentication/sign-up"
-              variant="button"
-              textColor="info"
-              fontWeight="medium"
-              textGradient
-            >
-              Registrate 
-            </SuiTypography>
-          </SuiTypography>
-        </SuiBox>
+
       </SuiBox>
     </CoverLayout>
   );

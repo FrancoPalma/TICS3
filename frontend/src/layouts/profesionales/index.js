@@ -321,6 +321,7 @@ export default function Profesionales() {
     )
   }
   function Formulario2({r, n, t, e, es}){
+    let regex = new RegExp("^[a-z A-Z]+$");
     rut = r;
     nombre= n;
     telefono = t;
@@ -413,7 +414,7 @@ export default function Profesionales() {
     })
     .then( (response) => {
         if(response.status === 200) {
-            console.log("Editado correctamente")
+            alert("Editado correctamente")
             window.location.href = window.location.href;
         } else {
             console.log('Hubo un error')
@@ -453,9 +454,16 @@ export default function Profesionales() {
         rows2.pop();
       }
       fetch('/usuario/ver_privilegios')
+
         .then(res => {
+            if(res.status === 404){
+             alert("Error interno vuelva a cargar la página");
+             return;
+            }else{
             return res.json()
+            }
         })
+
         .then(users => {
           for(let i=0; i < users.length;i++){
             let aux = true;
@@ -526,11 +534,11 @@ export default function Profesionales() {
     })
     .then( (response) => {
         if(response.status === 200) {
-            console.log("Editado correctamente")
+           alert("Editado correctamente");
             window.location.href = window.location.href;
         } else {
-            console.log('Hubo un error')
-            console.log(response.status)
+            alert('Hubo un error')
+
         }
     })
     .catch((error) => {
@@ -555,10 +563,10 @@ export default function Profesionales() {
     })
     .then( (response) => {
         if(response.status === 200) {
-            console.log("Agregado correctamente")
+            alert("Agregado correctamente")
             window.location.href = window.location.href;
         } else {
-            console.log('Hubo un error')
+          alert('Hubo un error')
             console.log(response.status)
         }
     })
@@ -609,7 +617,7 @@ export default function Profesionales() {
             </SuiBox>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
-            <BotonAgregar/>
+  
             <SuiBox customClass={classes.tables_table}>
               <Table columns={columns} rows={rows} />
             </SuiBox>
