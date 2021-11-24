@@ -16,7 +16,7 @@ import SuiButton from "components/SuiButton";
 // Authentication layout components
 import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
-import curved9 from "assets/images/curved-images/curved-6.jpg";
+import curved9 from "assets/images/curved-images/curved14.jpg";
 
 export default function SignIn() {
   const hist = useHistory();

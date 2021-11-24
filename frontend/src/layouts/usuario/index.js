@@ -7,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -447,11 +446,11 @@ console.log(info.gestion_infante)
   function Formulario(){
     return(
       <>
-      <h3>Datos del usuario</h3>
+      <h3>Datos del Usuario</h3>
       <Grid container spacing={3}display="row">
 
         <Grid item xs={6}>
-        <label>RUT usuario: </label>
+        <label>RUT Usuario: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -500,7 +499,7 @@ console.log(info.gestion_infante)
         <Grid container spacing={3}display="row">
 
         <Grid item xs={6}>
-        <label>Nombre apoderado: </label>
+        <label>Nombre Apoderado: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -515,7 +514,7 @@ console.log(info.gestion_infante)
         </Grid>
 
         <Grid item xs={6}>
-        <label>RUT apoderado: </label>
+        <label>RUT Apoderado: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -998,7 +997,6 @@ console.log(info.gestion_infante)
     }
     return(
       <DashboardLayout>
-        <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
             <Card>
@@ -1018,7 +1016,6 @@ console.log(info.gestion_infante)
     }
     return(
         <DashboardLayout>
-          <DashboardNavbar />
           <SuiBox py={3}>
             <SuiBox mb={3}>
               <Card>
@@ -1035,7 +1032,6 @@ console.log(info.gestion_infante)
   if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === true){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1151,7 +1147,6 @@ console.log(info.gestion_infante)
     else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === true && info.gestion_ficha === true){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1252,7 +1247,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === true && info.gestion_ficha === false){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1349,7 +1343,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === false && info.gestion_ficha === false){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1446,7 +1439,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === false){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1560,7 +1552,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === false){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1674,7 +1665,6 @@ console.log(info.gestion_infante)
   else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === true){
     return(
     <DashboardLayout>
-    <DashboardNavbar />
     <SuiBox py={6}>
       <SuiBox mb={6}>
       <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -1791,7 +1781,6 @@ console.log(info.gestion_infante)
   if(Listo === 5){
     return(
       <DashboardLayout>
-      <DashboardNavbar />
       <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>

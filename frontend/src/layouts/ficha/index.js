@@ -9,7 +9,6 @@ import SuiButton from "components/SuiButton";
 import styles from "layouts/tables/styles";
 // Soft UI Dashboard Material-UI example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MaterialTable from 'material-table';
 import Tabs from '@material-ui/core/Tabs';
@@ -79,7 +78,6 @@ function TabPanel(props) {
     };
       return(
         <DashboardLayout>
-        <DashboardNavbar />
         <SuiBox py={3}>
           <SuiBox mb={3}>
           <Tabs value={tabValue} onChange={handleSetTabValue}>
