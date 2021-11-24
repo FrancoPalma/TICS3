@@ -455,7 +455,7 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <TextField
+          <input
           container
           type="text"
           name="rut_infante"
@@ -466,7 +466,7 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-        <label>Nombre Infante: </label>
+        <label>Nombre Usuario: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -704,7 +704,7 @@ console.log(info.gestion_infante)
 
 
       <Grid item xs={6}>
-        <label>Nombre del infante: </label>
+        <label>Nombre del usuario: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -1047,16 +1047,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1107,7 +1107,7 @@ console.log(info.gestion_infante)
             }
           }}
           >
-            Editar Infante
+            Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
         </TabPanel>
@@ -1163,16 +1163,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1264,16 +1264,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1361,16 +1361,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1458,16 +1458,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1519,7 +1519,7 @@ console.log(info.gestion_infante)
             }
           }}
           >
-            Editar Infante
+            Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
 
@@ -1572,16 +1572,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1633,7 +1633,7 @@ console.log(info.gestion_infante)
             }
           }}
           >
-            Editar Infante
+            Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
 
@@ -1686,16 +1686,16 @@ console.log(info.gestion_infante)
 
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del infante</h3>
+            <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={6}>
-                  <Item>RUT del infante: </Item>
+                  <Item>RUT del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{RutInfante}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Nombre del infante: </Item>
+                  <Item>Nombre del usuario: </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>{NameChild}</Item>
@@ -1747,7 +1747,7 @@ console.log(info.gestion_infante)
             }
           }}
           >
-            Editar Infante
+            Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
 
@@ -1802,16 +1802,16 @@ console.log(info.gestion_infante)
           <Card>
           <TabPanel value={tabValue} index={0}>
             <Box sx={{ width: '100%' }}>
-              <h3>Datos personales del infante</h3>
+              <h3>Datos personales del usuario</h3>
               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                   <Grid item xs={6}>
-                    <Item>RUT del infante: </Item>
+                    <Item>RUT del usuario: </Item>
                   </Grid>
                   <Grid item xs={6}>
                     <Item>{RutInfante}</Item>
                   </Grid>
                   <Grid item xs={6}>
-                    <Item>Nombre del infante: </Item>
+                    <Item>Nombre del usuario: </Item>
                   </Grid>
                   <Grid item xs={6}>
                     <Item>{NameChild}</Item>
@@ -1862,7 +1862,7 @@ console.log(info.gestion_infante)
               }
             }}
             >
-              Editar Infante
+              Editar usuario
               <Icon classsName="material-icons-round">edit</Icon>
             </SuiButton>
           </TabPanel>
