@@ -18,6 +18,11 @@ infanteController.postAgregarInfante = (req, res) => {
   let email = req.body.email;
   let telefono = req.body.telefono;
 
+  let RErut = new RegExp('([0-9][0-9]|[0-9])[0-9][0-9][0-9][0-9][0-9][0-9]-([0-9]|k|K)')
+  let REletras = new RegExp('^[A-Za-z]+$');
+	let REnumeros = new RegExp('^[0-9]+$')
+	let REemail = new RegExp('[@]')
+
   pool.query('BEGIN', (err) => {
     if(err){ return res.sendStatus(404)}
   
@@ -42,12 +47,6 @@ infanteController.postEditarInfante = (req, res) => {
   let nombre_apoderado = req.body.nombre_apoderado;
   let email = req.body.email;
   let telefono = req.body.telefono;
-
-  console.log(nombre)
-  console.log(nombre_apoderado)
-  console.log(rut_apoderado)
-  console.log(email)
-  console.log(telefono)
 
 
   pool.query('BEGIN', (err) => {
