@@ -447,11 +447,11 @@ console.log(info.gestion_infante)
   function Formulario(){
     return(
       <>
-      <h3>Datos del Infante</h3>
+      <h3>Datos del usuario</h3>
       <Grid container spacing={3}display="row">
 
         <Grid item xs={6}>
-        <label>RUT Infante: </label>
+        <label>RUT usuario: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -538,6 +538,7 @@ console.log(info.gestion_infante)
             type="text"
             name="telefono"
             display="flex"
+            defaultValue = "569"
             onChange={(e) => {
               telefono = e.target.value;
             }}
@@ -765,6 +766,7 @@ console.log(info.gestion_infante)
             name="telefono"
             defaultValue={telefono}
             display="flex"
+            defaultValue = "569"
             onChange={(e) => {
               telefono = e.target.value;
             }}
@@ -781,6 +783,7 @@ console.log(info.gestion_infante)
             name="email"
             defaultValue={email}
             display="flex"
+  
             onChange={(e) => {
               email = e.target.value;
             }}
