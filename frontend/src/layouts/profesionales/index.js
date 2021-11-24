@@ -508,8 +508,6 @@ export default function Profesionales() {
     }
   }
   function EditarEmpleado() {
-    let regex = new RegExp("^[a-z A-Z]+$");
-    let regex3 = new RegExp("^[0-9]+$");
     fetch('/usuario/editar_privilegios/'+aux[6].toString(), {
     method: 'POST',
     headers: {

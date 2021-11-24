@@ -68,6 +68,8 @@ function Configurator() {
     fetch('/sesion/logout')
       .then( (response) => {
           if(response.status === 200) {
+            localStorage.setItem('usuario', JSON.stringify(null));
+            dispatch({ type: "OPEN_CONFIGURATOR", value: false });
             hist.push('/authentication/sign-in');
           } else {
               alert("Algo no salio bien, intentalo de nuevo.")

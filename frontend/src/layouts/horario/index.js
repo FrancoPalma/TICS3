@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Grid from "@material-ui/core/Grid";
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import Card from "@material-ui/core/Card";
@@ -11,7 +12,12 @@ import styles from "layouts/tables/styles";
 import Table from "examples/Table";
 import { useHistory } from "react-router-dom";
 import SuiButton from "components/SuiButton";
+import SuiInput from "components/SuiInput";
 import Icon from "@material-ui/core/Icon";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import TimePicker from 'react-time-picker';
+import { Confirm,} from 'react-st-modal';
 
 /*npm install @mui/material @emotion/react @emotion/styled*/
 
@@ -55,7 +61,6 @@ export default function Horario() {
     'Diciembre',
   ];
   const WEEKDAYS_SHORT = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
-
   const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
@@ -63,12 +68,18 @@ export default function Horario() {
   const [Listo, setListo] = useState(0);
   const [rows, setRow] = useState([]);
   const columns = [
-    { name: "inicio", align: "left" },
-    { name: "fin", align: "left" },
+    { name: "hora", align: "left" },
     { name: "descripcion", align: "center" },
     { name: "sala", align: "center" }
   ];
   const [selectedDay, setSelectedDay] = useState(undefined);
+  const [value, onChange] = useState('10:00');
+  let rut;
+  let nombre;
+  let email;
+  let telefono;
+  let especialidad;
+
   function handleDayClick(day, { selected }) {
     if (selected) {
       setSelectedDay(undefined);
@@ -135,10 +146,10 @@ export default function Horario() {
             }
           }
           if(aux == true){
+            let hora1 = users[i].inicio[0]+users[i].inicio[1]+users[i].inicio[2]+users[i].inicio[3]+users[i].inicio[4]+'-'+users[i].fin[0]+users[i].fin[1]+users[i].fin[2]+users[i].fin[3]+users[i].fin[4]
             rows.push({id:users[i].id,
               descripcion: users[i].descripcion,
-              inicio: users[i].inicio,
-              fin: users[i].fin,
+              hora: hora1,
               sala: users[i].sala
             })
           }
@@ -156,34 +167,131 @@ export default function Horario() {
       alert("Seleccione una fecha")
     }
   }
+  function AgregarHorario(){
+    console.log("F");
+  }
+  function BotonAgregar(){
+    return(
+      <SuiButton buttonColor="info" 
+            onClick={async () => {
+              const result = await Confirm(<Formulario/>, 
+                'Agregar ');
+              if (result) {
+                AgregarHorario();
+              } else {
+                // Сonfirmation not confirmed
+              }
+            }}
+      >
+        Agregar Horario
+        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
+          add
+        </Icon>
+      </SuiButton>
+    )
+  }
+  function Formulario(){
+    return(
+      <>
+      <Grid container spacing={3}display="row">
+        <Grid item xs={6}>
+        <label>Inicio: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+        <TimePicker
+          onChange={onChange}
+          value={value}
+        />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Nombre: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="nombre"
+            display="flex"
+            onChange={(e) => {
+              nombre = e.target.value;
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+        <label>Teléfono: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="telefono"
+            display="flex"
+            onChange={(e) => {
+              telefono = e.target.value;
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Email: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="email"
+            display="flex"
+            onChange={(e) => {
+              email = e.target.value;
+            }}
+          />
+        </Grid>
+        
+        <Grid item xs={6}>
+        <label>Especialidad: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <input
+            type="text"
+            name="especialidad"
+            display="flex"
+            onChange={(e) => {
+              especialidad = e.target.value;
+              console.log(especialidad);
+            }}
+          />
+        </Grid>
+      </Grid>
+      </>
+    )
+  }
 
   if(Listo === 0){
   return (
     <DashboardLayout> 
     <DashboardNavbar/>
     <SuiBox py={6}>
-          <SuiBox mb={6}>
-            <Card>
-            <DayPicker onDayClick={handleDayClick}
-            months={MONTHS}
-            selectedDays={selectedDay}
-            weekdaysShort={WEEKDAYS_SHORT}
-            disabledDays={{ daysOfWeek: [0] }}
-            firstDayOfWeek={1}/>
-             {selectedDay ? (
-          <p>You clicked {selectedDay.toLocaleDateString()}</p>
-        ) : (
-          <p>Please select a day.</p>
-        )}
-            </Card>
-            <Card>
-              <SuiButton buttonColor="info" onClick={EnviarFecha}>
-                Subir
-              </SuiButton>
-            </Card>
-          </SuiBox>
-        </SuiBox>
-      <Footer />
+      <SuiBox mb={6}>
+        <Card>
+        <BotonAgregar/>
+        <DayPicker onDayClick={handleDayClick}
+        months={MONTHS}
+        selectedDays={selectedDay}
+        weekdaysShort={WEEKDAYS_SHORT}
+        disabledDays={{ daysOfWeek: [0,6] }}
+        firstDayOfWeek={1}/>
+        </Card>
+        <Card>
+          <SuiButton buttonColor="info" onClick={EnviarFecha}>
+            Consultar
+          </SuiButton>
+        </Card>
+      </SuiBox>
+    </SuiBox>
+    <Footer />
     </DashboardLayout>
   );
   }else if(Listo === 1){
