@@ -322,14 +322,7 @@ export default function Profesionales() {
     )
   }
 
-  function handleChangeInput(valor) {
-    //destructurin de los valores enviados por el metodo onchange de cada input
-    const value  = valor;
-    let regex = new RegExp("^[a-z A-Z]+$");
-    console.log(regex.test(value))
-    if (regex.test(value)){
-      setConfirmar(true)
-    }}
+
   function Formulario2({r, n, t, e, es}){
     rut = r;
     nombre= n;
@@ -424,9 +417,10 @@ export default function Profesionales() {
               if(response.status === 200) {
                   alert("Editado correctamente")
                   window.location.href = window.location.href;
-              } else {
-                  console.log('Hubo un error')
-                  console.log(response.status)
+              } else if(response.status === 404) {
+                  alert('Error en la conexión por favor volver a intentarlo')
+              } else if (response.status === 405){
+                  alert("Datos ingresado inválidos")
               }
           })
           .catch((error) => {
@@ -467,12 +461,9 @@ export default function Profesionales() {
       fetch('/usuario/ver_privilegios')
 
         .then(res => {
-            if(res.status === 404){
-             alert("Error interno vuelva a cargar la página");
-             return;
-            }else{
+
             return res.json()
-            }
+            
         })
 
         .then(users => {

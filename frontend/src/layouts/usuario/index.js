@@ -608,7 +608,7 @@ console.log(info.gestion_infante)
             console.log("Agregado correctamente")
             
         } else {
-            console.log('Hubo un error')
+            alert('Hubo un error')
             console.log(response.status)
         }
         setListo(0);
