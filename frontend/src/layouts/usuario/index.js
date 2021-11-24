@@ -286,12 +286,11 @@ console.log(info.gestion_infante)
     })
     .then((response) => {
       if (response.status == 200){
-        console.log("Eliminado correctamente")
         alert("Eliminado correctamente");
         setListo(0);
       }
       else{
-        console.log("Hubo un error")
+        console.log("Hubo un error en la conexión")
         console.log(response.status)
       }
     })
@@ -605,11 +604,10 @@ console.log(info.gestion_infante)
       })
       .then( (response) => {
         if(response.status === 200) {
-            console.log("Agregado correctamente")
+           alert("Agregado correctamente")
             
         } else {
             alert('Hubo un error')
-            console.log(response.status)
         }
         setListo(0);
     })
@@ -813,7 +811,7 @@ console.log(info.gestion_infante)
         console.log("ok")
         return response.json()
       }else{
-        console.log("error")
+        alert("Error al enviar informe, por favor vuelva a intentarlo.")
       }
     })
     .then(users => {
@@ -834,7 +832,6 @@ console.log(info.gestion_infante)
     body: JSON.stringify({
 
       nombre: nombre_infante,
-
       rut_apoderado: rut_apoderado,
       nombre_apoderado: nombre_a,
       telefono: telefono,
@@ -845,11 +842,15 @@ console.log(info.gestion_infante)
     .then( (response) => {
         if(response.status === 200) {
 
-            console.log("Editado correctamente")
+            alert("Editado correctamente")
             setListo(2)
 
-        } else {
-            console.log('Hubo un error')
+        }else if(response.status === 404){
+            alert("Error en la conección")
+        } 
+        
+        else if(response.status === 405){
+            alert("Datos ingresados inválidos")
             console.log(response.status)
         }
     })
@@ -874,7 +875,7 @@ console.log(info.gestion_infante)
             alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
-            console.log('Hubo un error')
+            alert('Hubo un error en la conexión')
         }
     })
     .catch((error) => {
@@ -895,10 +896,10 @@ console.log(info.gestion_infante)
     })
     .then((response) => {
       if(response.status !== 404){
-        console.log("ok")
+        alert("Informe editado correctamente")
         return response.json()
       }else{
-        console.log("error")
+        alert("Error en la conexión vuelva a intentarlo")
       }
     })
     .then(users => {
