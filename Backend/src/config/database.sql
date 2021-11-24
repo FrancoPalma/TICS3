@@ -39,7 +39,6 @@ create table informe (
     rut_usuario numeric(8,0),
     rut_infante VARCHAR(10),
     fecha DATE,
-    CONSTRAINT fk_rut FOREIGN KEY(rut_usuario) REFERENCES usuario(rut),
     CONSTRAINT fk_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
 );
 

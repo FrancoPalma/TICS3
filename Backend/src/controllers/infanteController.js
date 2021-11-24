@@ -19,24 +19,36 @@ infanteController.postAgregarInfante = (req, res) => {
   let telefono = req.body.telefono;
 
   let RErut = new RegExp('([0-9][0-9]|[0-9])[0-9][0-9][0-9][0-9][0-9][0-9]-([0-9]|k|K)')
-  let REletras = new RegExp('^[A-Za-z]+$');
+  let REfecha = new RegExp('^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]+$')
+  let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]+$');
 	let REnumeros = new RegExp('^[0-9]+$')
 	let REemail = new RegExp('[@]')
-
-  pool.query('BEGIN', (err) => {
-    if(err){ return res.sendStatus(404)}
   
-    pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
-      if(err){res.sendStatus(404)}
-      pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
+  console.log(RErut.test(rut_infante))
+  console.log(RErut.test(rut_apoderado))
+  console.log(REletras.test(nombre))
+  console.log(REletras.test(nombre_apoderado))
+  console.log(REfecha.test(fecha_nacimiento))
+  console.log(REemail.test(email))
+  console.log(REnumeros.test(telefono))
+
+  if(RErut.test(rut_infante) && RErut.test(rut_apoderado) && REletras.test(nombre) && REletras.test(nombre_apoderado) && REfecha.test(fecha_nacimiento) && REemail.test(email) && REnumeros.test(telefono)){
+    pool.query('BEGIN', (err) => {
+      if(err){ return res.sendStatus(404)}
+      pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
         if(err){res.sendStatus(404)}
-        pool.query('COMMIT', (err) => {
+        pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
           if(err){res.sendStatus(404)}
-          return res.sendStatus(200);
+          pool.query('COMMIT', (err) => {
+            if(err){res.sendStatus(404)}
+            return res.sendStatus(200);
+          });
         });
       });
-    });
-  })
+    })
+  }else{
+    return res.sendStatus(405)
+  }
 };
 
 infanteController.postEditarInfante = (req, res) => {
@@ -48,20 +60,28 @@ infanteController.postEditarInfante = (req, res) => {
   let email = req.body.email;
   let telefono = req.body.telefono;
 
+  let RErut = new RegExp('([0-9][0-9]|[0-9])[0-9][0-9][0-9][0-9][0-9][0-9]-([0-9]|k|K)')
+  let REletras = new RegExp('^[A-Za-z]+$');
+	let REnumeros = new RegExp('^[0-9]+$')
+	let REemail = new RegExp('[@]')
 
-  pool.query('BEGIN', (err) => {
-    if(err){ return res.sendStatus(200)}
-    pool.query('UPDATE infante SET nombre = $1 WHERE rut = $2', [nombre, rut_infante], (err) => {
-      if(err){res.sendStatus(404)}
-        pool.query('UPDATE apoderado SET rut = $1, nombre = $2, email = $3, telefono = $4 WHERE rut_infante = $5', [rut_apoderado, nombre_apoderado, email, telefono, rut_infante], (err) => {
-          if(err){res.sendStatus(404)}
-          pool.query('COMMIT', (err) => {
+  if(RErut.test(rut_apoderado) && REletras.test(nombre) && REletras.test(nombre_apoderado) && REemail.test(email) && REnumeros.test(telefono)){
+    pool.query('BEGIN', (err) => {
+      if(err){ return res.sendStatus(200)}
+      pool.query('UPDATE infante SET nombre = $1 WHERE rut = $2', [nombre, rut_infante], (err) => {
+        if(err){res.sendStatus(404)}
+          pool.query('UPDATE apoderado SET rut = $1, nombre = $2, email = $3, telefono = $4 WHERE rut_infante = $5', [rut_apoderado, nombre_apoderado, email, telefono, rut_infante], (err) => {
             if(err){res.sendStatus(404)}
-            return res.sendStatus(200);
+            pool.query('COMMIT', (err) => {
+              if(err){res.sendStatus(404)}
+              return res.sendStatus(200);
+            });
           });
         });
-      });
-  });  
+    }); 
+  }else{
+    return res.sendStatus(405)
+  }
 };
 
 infanteController.getVerInfantes = (req, res) => {
@@ -95,7 +115,7 @@ infanteController.postEliminarInfante = (req, res) => {
 };
 
 infanteController.postVerFicha = (req, res) => {
-  let rut_infante = req.body.rut_infante;
+  let rut_infante = req.params.rut_infante;
 
   archivo = path.join(__dirname, '../public/fichas','ficha'+rut_infante+'.pdf');
   
@@ -118,7 +138,16 @@ filename: (req, file, cb) => {
 
 
 infanteController.postImportarFicha = async (req, res) => {
-  var upload = multer({ storage: storage }).single('file')
+  var upload = multer({ storage: storage,
+    fileFilter: function (req, file, cb) {
+      let extension = path.extname(file.originalname) 
+      console.log(extension)
+      if (extension !== '.pdf') {
+        return cb(new Error('Extension de archivo incorrecta'))
+      }
+      cb(null, true)
+    }
+  }).single('file')
   upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       console.log(err)
