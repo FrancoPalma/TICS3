@@ -69,6 +69,7 @@ function Check({boleano}){
   }
 }
 export default function Profesionales() {
+  const [Confirmar, setConfirmar] = useState(true)
   const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
@@ -320,8 +321,16 @@ export default function Profesionales() {
       </>
     )
   }
-  function Formulario2({r, n, t, e, es}){
+
+  function handleChangeInput(valor) {
+    //destructurin de los valores enviados por el metodo onchange de cada input
+    const value  = valor;
     let regex = new RegExp("^[a-z A-Z]+$");
+    console.log(regex.test(value))
+    if (regex.test(value)){
+      setConfirmar(true)
+    }}
+  function Formulario2({r, n, t, e, es}){
     rut = r;
     nombre= n;
     telefono = t;
@@ -340,9 +349,7 @@ export default function Profesionales() {
             name="nombre"
             defaultValue={nombre}
             display="flex"
-            onChange={(e) => {
-              nombre = e.target.value;
-            }}
+            onChange={(e) => {nombre = e.target.value}}
           />
         </Grid>
 
@@ -398,32 +405,36 @@ export default function Profesionales() {
     )
   }
   function EditarEmpleado2() {
-    fetch('/usuario/editar_usuario/'+rut.toString(), {
-    method: 'POST',
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      rut_usuario: rut,
-      nombre: nombre,
-      telefono: telefono,
-      email: email,
-      especialidad: especialidad
-    })
-    })
-    .then( (response) => {
-        if(response.status === 200) {
-            alert("Editado correctamente")
-            window.location.href = window.location.href;
-        } else {
-            console.log('Hubo un error')
-            console.log(response.status)
-        }
-    })
-    .catch((error) => {
-        console.log(error)
-    });
+    if(Confirmar === true){
+          fetch('/usuario/editar_usuario/'+rut.toString(), {
+          method: 'POST',
+          headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            rut_usuario: rut,
+            nombre: nombre,
+            telefono: telefono,
+            email: email,
+            especialidad: especialidad
+          })
+          })
+          .then( (response) => {
+              if(response.status === 200) {
+                  alert("Editado correctamente")
+                  window.location.href = window.location.href;
+              } else {
+                  console.log('Hubo un error')
+                  console.log(response.status)
+              }
+          })
+          .catch((error) => {
+              console.log(error)
+          });}
+          else{
+            alert("Error")
+          }
   }
   function BotonAgregar(){
     return(
