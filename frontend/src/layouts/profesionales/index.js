@@ -557,11 +557,6 @@ export default function Profesionales() {
     });
   }
   function AgregarProfesional(){
-    console.log(rut);
-    console.log(nombre);
-    console.log(telefono);
-    console.log(email);
-    console.log(especialidad);
     fetch('sesion/agregar_usuario/', {
     method: 'POST',
     headers: {

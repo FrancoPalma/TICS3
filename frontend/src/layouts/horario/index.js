@@ -74,11 +74,10 @@ export default function Horario() {
   ];
   const [selectedDay, setSelectedDay] = useState(undefined);
   const [value, onChange] = useState('10:00');
-  let rut;
-  let nombre;
-  let email;
-  let telefono;
-  let especialidad;
+  const [value2, onChange2] = useState('11:00');
+  let info = JSON.parse(localStorage.getItem('usuario'));
+  let sala;
+  let descripcion;
 
   function handleDayClick(day, { selected }) {
     if (selected) {
@@ -168,7 +167,62 @@ export default function Horario() {
     }
   }
   function AgregarHorario(){
-    console.log("F");
+    let aux = selectedDay.toLocaleDateString()
+      let dia;
+      let mes;
+      let ano;
+      while(rows.length > 0) {
+        rows.pop();
+      }
+      if (aux[1]=='/'){
+        //D/MM/AAAA
+        dia= '0'+aux[0];
+        if(aux[3]=='/'){
+          mes = '0'+aux[2];
+          ano = aux[4]+aux[5]+aux[6]+aux[7]; 
+        }else{
+          mes = aux[2]+aux[3];
+          ano = aux[5]+aux[6]+aux[7]+aux[8];
+        }
+
+      }else{
+        //DD/MM/AAAA
+        dia= aux[0]+aux[1];
+        if(aux[4]=='/'){
+          mes = '0'+aux[3];
+          ano = aux[5]+aux[6]+aux[7]+aux[8];
+        }else{
+          mes = aux[3]+aux[4];
+          ano = aux[6]+aux[7]+aux[8]+aux[9];
+        }
+      }
+    fetch('horario/anadir_horario/', {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rut: info.rut,
+        fecha: ano+'-'+mes+'-'+dia,
+        inicio: value,
+        fin: value2,
+        descripcion: descripcion,
+        sala: sala
+      })
+      })
+      .then( (response) => {
+        if(response.status === 200) {
+            alert("Agregado correctamente")
+            window.location.href = window.location.href;
+        } else {
+            alert('Hubo un error')
+            console.log(response.status)
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
   }
   function BotonAgregar(){
     return(
@@ -206,61 +260,41 @@ export default function Horario() {
         </Grid>
         
         <Grid item xs={6}>
-        <label>Nombre: </label>
+        <label>Fin: </label>
+        </Grid>
+        
+        <Grid item xs={6}>
+        <TimePicker
+          onChange={onChange2}
+          value={value2}
+        />
+        </Grid>
+        <Grid item xs={6}>
+        <label>Sala: </label>
         </Grid>
         
         <Grid item xs={6}>
           <input
             type="text"
-            name="nombre"
+            name="sala"
             display="flex"
             onChange={(e) => {
-              nombre = e.target.value;
-            }}
-          />
-        </Grid>
-        <Grid item xs={6}>
-        <label>Teléfono: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="telefono"
-            display="flex"
-            onChange={(e) => {
-              telefono = e.target.value;
+              sala = e.target.value;
             }}
           />
         </Grid>
         
         <Grid item xs={6}>
-        <label>Email: </label>
+        <label>Descripción: </label>
         </Grid>
         
         <Grid item xs={6}>
           <input
             type="text"
-            name="email"
+            name="descripcion"
             display="flex"
             onChange={(e) => {
-              email = e.target.value;
-            }}
-          />
-        </Grid>
-        
-        <Grid item xs={6}>
-        <label>Especialidad: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="especialidad"
-            display="flex"
-            onChange={(e) => {
-              especialidad = e.target.value;
-              console.log(especialidad);
+              descripcion = e.target.value;
             }}
           />
         </Grid>
@@ -276,7 +310,21 @@ export default function Horario() {
     <SuiBox py={6}>
       <SuiBox mb={6}>
         <Card>
-        <BotonAgregar/>
+        {selectedDay ? (
+          <BotonAgregar/>
+        ) : (
+          <SuiButton buttonColor="info" 
+            onClick={async () => {
+              alert("Seleccione una fecha")
+            }}
+      >
+        Agregar Horario
+        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
+          add
+        </Icon>
+      </SuiButton>
+        )}
+        
         <DayPicker onDayClick={handleDayClick}
         months={MONTHS}
         selectedDays={selectedDay}
