@@ -12,6 +12,8 @@ informeController.postGuardarInforme = async (req, res) => {
   let id_informe = req.body.id_informe;
   let fecha = new Date().toISOString().slice(0, 10);
 
+
+  if(contenido.length != 0){
   if(id_informe == 0){
     pool.query('BEGIN', async (err) => {
       if(err){return res.sendStatus(404)}
@@ -68,6 +70,9 @@ informeController.postGuardarInforme = async (req, res) => {
       });
     })
   }
+}else{
+  return res.sendStatus(405)
+}
 }
 
 informeController.postVerInforme = async (req, res) => {
