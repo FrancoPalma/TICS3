@@ -722,7 +722,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="nombre_infante"
             defaultValue={nombre_infante}
@@ -761,8 +762,9 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
-            type="tel"
+          <TextField
+          variant="outlined"
+            type="text"
             name="nombre_a"
             defaultValue={nombre_a}
             display="flex"
@@ -777,8 +779,9 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
-            type="tel"
+          <TextField
+          variant="outlined"
+            type="text"
             name="telefono"
             defaultValue={telefono}
             display="flex"
@@ -793,7 +796,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="email"
             defaultValue={email}
