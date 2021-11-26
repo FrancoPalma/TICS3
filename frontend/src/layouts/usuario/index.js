@@ -255,8 +255,6 @@ console.log(info.gestion_infante)
     );
   }
   
-  
-  
   function Boton2({rut}){
     return(
       <>
@@ -809,7 +807,7 @@ console.log(info.gestion_infante)
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        rut_infante: "67891",
+        rut_infante: RutInfante,
         contenido: value,
         id_informe: id
       })
@@ -993,8 +991,6 @@ console.log(info.gestion_infante)
       </DashboardLayout>
     );
   }
-  
-  
   if (Listo === 0){
     if (info.gestion_infante === true ){
     ActualizarInfantes();
@@ -1553,8 +1549,6 @@ console.log(info.gestion_infante)
     <Footer />
   </DashboardLayout>
   );}
-
-
   else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === false){
     return(
     <DashboardLayout>
@@ -1666,8 +1660,6 @@ console.log(info.gestion_infante)
     <Footer />
   </DashboardLayout>
   );}  
-
-  
   else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === true){
     return(
     <DashboardLayout>

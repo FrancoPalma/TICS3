@@ -18,15 +18,17 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextField from '@mui/material/TextField';
 import { Confirm,} from 'react-st-modal';
-import DateAdapter from '@mui/lab/AdapterDayjs';
 import TimePicker from '@mui/lab/TimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import Stack from '@mui/material/Stack';
+import Select from 'react-select';
+
 
 /*npm install @mui/material @emotion/react @emotion/styled
 npm install -s @date-io/dayjs
-npm install @mui/lab*/
+npm install @mui/lab
+npm i --save react-select*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -76,8 +78,19 @@ export default function Horario() {
   const columns = [
     { label: "Nombre",name: "hora", align: "left" },
     { name: "descripcion", align: "center" },
-    { name: "sala", align: "center" }
+    { name: "sala", align: "center" },
+    { name: "acciones", align: "right" }
   ];
+
+  const [options] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const handleChange3 = (selectedOption) => {
+    setSelectedOption(selectedOption);
+    console.log(selectedOption)
+
+  };
+
+
   const [selectedDay, setSelectedDay] = useState(undefined);
 
   const [value, setValue] = React.useState(new Date());
@@ -100,6 +113,73 @@ export default function Horario() {
       return;
     }
     setSelectedDay(day);
+  }
+  function ActualizarEmpleados(){
+    if (Listo == 0){
+      while(options.length > 0) {
+        options.pop();
+      }
+      fetch('/usuario/ver_usuarios')
+      .then(res => {
+          return res.json()
+      })
+      .then(users => {
+        for(let i=0; i < users.length;i++){
+          let aux = true;
+          for(let e=0;e < options.length;e++){
+            if(users[i].rut == options[e].value){
+              aux=false;
+            }
+          }
+          if(aux == true){
+            options.push({label:users[i].nombre,
+              value: users[i].rut
+            })
+          }
+        }
+        setListo(1);
+      });
+    }
+  }
+ 
+  function EliminarHorario(id){
+    fetch('/horario/eliminar_horario',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: id
+      })
+    })
+    .then((response) => {
+      if(response.status == 200){
+        alert("Se ha eliminado correctamente")
+        window.location.href = window.location.href;
+        return response.json()
+      }else{
+        console.log("error")
+      }
+    })
+  }
+  function Boton({id}){
+    return(
+      <SuiButton buttonColor="info" iconOnly
+          onClick={async () => {
+            const result = await Confirm("¿Esta seguro que desea eliminar este horario?", 
+              'Confirmación de eliminación '+id.toString());
+            
+            if (result) {
+              EliminarHorario(id)
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+        >
+            <Icon classsName="material-icons-round">delete</Icon>
+        </SuiButton>
+    )
   }
   function EnviarFecha(){
     if(selectedDay != undefined){
@@ -165,12 +245,13 @@ export default function Horario() {
             rows.push({id:users[i].id,
               descripcion: users[i].descripcion,
               hora: hora1,
-              sala: users[i].sala
+              sala: users[i].sala,
+              acciones: <Boton id={hora1}/>
             })
           }
         }
         if(rows.length > 0)
-        setListo(1)
+        setListo(2)
         else
         alert("No hay nada asignado")
       })
@@ -242,113 +323,27 @@ export default function Horario() {
         console.log(error)
     });
   }
-  function BotonAgregar(){
-    return(
-      <SuiButton buttonColor="info" 
-            onClick={async () => {
-              const result = await Confirm(<Formulario/>, 
-                'Agregar ');
-              if (result) {
-                AgregarHorario();
-              } else {
-                // Сonfirmation not confirmed
-              }
-            }}
-      >
-        Agregar Horario
-        <Icon className="material-icons-round" color="inherit" fontSize="inherit">
-          add
-        </Icon>
-      </SuiButton>
-    )
-  }
-  function Formulario(){
-    return(
-      <>
-      <Grid container spacing={3}display="row">
-        <Grid item xs={6}>
-        <label>Inicio: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Stack spacing={3}>
-            <TimePicker
-              label="Time"
-              value={value}
-              onChange={handleChange}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </Stack>
-        </LocalizationProvider>
-        </Grid>
-        
-        <Grid item xs={6}>
-        <label>Fin: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Stack spacing={3}>
-            <TimePicker
-              label="Time"
-              value={value2}
-              onChange={handleChange2}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </Stack>
-        </LocalizationProvider>
-        
-        </Grid>
-        <Grid item xs={6}>
-        <label>Sala: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="sala"
-            display="flex"
-            onChange={(e) => {
-              sala = e.target.value;
-            }}
-          />
-        </Grid>
-        
-        <Grid item xs={6}>
-        <label>Descripción: </label>
-        </Grid>
-        
-        <Grid item xs={6}>
-          <input
-            type="text"
-            name="descripcion"
-            display="flex"
-            onChange={(e) => {
-              descripcion = e.target.value;
-            }}
-          />
-        </Grid>
-      </Grid>
-      </>
-    )
-  }
 
-  if(Listo === 0){
+  if(Listo === 1){
   return (
     <DashboardLayout> 
     <DashboardNavbar/>
-    <SuiBox py={6}>
-      <SuiBox mb={6}>
+    <SuiBox py={3}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
           <Tab label="Buscar" {...a11yProps(0)}/>
           <Tab label="Añadir" {...a11yProps(1)}/>
         </Tabs>
+      
         <TabPanel value={tabValue} index={0}>
         <Card>
-        <SuiTypography variant="body2" textColor="text" fontWeight="medium">
-           Seleccione una fecha
+        <SuiTypography variant="body2" textColor="text" display="flex" fontWeight="medium">
+           Seleccione un profesional y una fecha
         </SuiTypography>
+        <Select
+            value={selectedOption}
+            onChange={handleChange3}
+            options={options}
+          />
         <DayPicker onDayClick={handleDayClick}
           months={MONTHS}
           selectedDays={selectedDay}
@@ -362,102 +357,120 @@ export default function Horario() {
           </SuiButton>
         </Card>
         </TabPanel>
+
         <TabPanel value={tabValue} index={1}>
-          <Card>
-          <SuiTypography variant="body2" textColor="text" fontWeight="medium">
-           Seleccione una fecha
-        </SuiTypography>
-          <DayPicker onDayClick={handleDayClick}
-          months={MONTHS}
-          selectedDays={selectedDay}
-          weekdaysShort={WEEKDAYS_SHORT}
-          disabledDays={{ daysOfWeek: [0,6] }}
-          firstDayOfWeek={1}/>
-        <Grid container spacing={3}display="row">
-          <Grid item xs={6}>
-          <label>Inicio: </label>
-          </Grid>
-          
-          <Grid item xs={6}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Stack spacing={3}>
-              <TimePicker
-                label="Time"
-                value={value}
-                onChange={handleChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </Stack>
-          </LocalizationProvider>
-          </Grid>
-          
-          <Grid item xs={6}>
-          <label>Fin: </label>
-          </Grid>
-          
-          <Grid item xs={6}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Stack spacing={3}>
-              <TimePicker
-                label="Time"
-                value={value2}
-                onChange={handleChange2}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </Stack>
-          </LocalizationProvider>
-          
-          </Grid>
-          <Grid item xs={6}>
-          <label>Sala: </label>
-          </Grid>
-          
-          <Grid item xs={6}>
-            <input
-              type="text"
-              name="sala"
-              display="flex"
-              onChange={(e) => {
-                sala = e.target.value;
-              }}
-            />
-          </Grid>
-          
-          <Grid item xs={6}>
-          <label>Descripción: </label>
-          </Grid>
-          
-          <Grid item xs={6}>
-            <input
-              type="text"
-              name="descripcion"
-              display="flex"
-              onChange={(e) => {
-                descripcion = e.target.value;
-              }}
-            />
-          </Grid>
-        </Grid>
-        </Card>
+          <SuiBox mb={1.5} display="center">
+            <Grid  alignItems="center" justify="center" container spacing={3}>
+              <Grid item xs={12} lg={7}>
+              <Card>
+                <SuiTypography variant="body2" textColor="text" fontWeight="medium">
+                Seleccione una fecha
+                </SuiTypography>
+                <DayPicker onDayClick={handleDayClick}
+                months={MONTHS}
+                selectedDays={selectedDay}
+                weekdaysShort={WEEKDAYS_SHORT}
+                disabledDays={{ daysOfWeek: [0,6] }}
+                firstDayOfWeek={1}/>
+                <br/>
+                <br/>
+              </Card>
+              </Grid>
+              <Grid  justify="center" item xs={12} lg={5}>
+                <Card>
+                  <br/>
+                  <Select
+                    value={selectedOption}
+                    onChange={handleChange3}
+                    options={options}
+                  />
+                <Grid item xs={6}>
+                <label>Inicio: </label>
+                </Grid>
+                
+                <Grid item xs={6}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Stack spacing={3}>
+                    <TimePicker
+                      label=""
+                      value={value}
+                      onChange={handleChange}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+                </Grid>
+                
+                <Grid item xs={6}>
+                <label>Fin: </label>
+                </Grid>
+                
+                <Grid item xs={6}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Stack spacing={3}>
+                    <TimePicker
+                      label=""
+                      value={value2}
+                      onChange={handleChange2}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+                
+                </Grid>
+                <Grid item xs={6}>
+                <label>Sala: </label>
+                </Grid>
+                
+                <Grid item xs={6}>
+                  <SuiInput
+                    type="text"
+                    name="sala"
+                    display="flex"
+                    onChange={(e) => {
+                      sala = e.target.value;
+                    }}
+                  />
+                </Grid>
+                
+                <Grid item xs={6}>
+                <label>Descripción: </label>
+                </Grid>
+                
+                <Grid item xs={6}>
+                  <SuiInput
+                    type="text"
+                    name="descripcion"
+                    display="flex"
+                    onChange={(e) => {
+                      descripcion = e.target.value;
+                    }}
+                  />
+                </Grid>
+                <br/>
+                </Card>
+              </Grid>
+            </Grid>
+          </SuiBox>
         <Card>
           <SuiButton buttonColor="info" onClick={AgregarHorario}>
             Agregar
           </SuiButton>
         </Card>
         </TabPanel>
-      </SuiBox>
+
     </SuiBox>
     <Footer />
     </DashboardLayout>
   );
-  }else if(Listo === 1){
+  }else if(Listo === 2){
     return (
       <DashboardLayout>
       <DashboardNavbar/>
         <SuiBox py={6}>
           <SuiBox mb={6}>
             <Card>
-            <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+            <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(1)}}>
               <Icon classsName="material-icons-round">keyboard_backspace</Icon>
             </SuiButton>
             <SuiBox customClass={classes.tables_table}>
@@ -465,6 +478,31 @@ export default function Horario() {
             </SuiBox>
             </Card>
           </SuiBox>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+  }else if(Listo === 0 ){
+    ActualizarEmpleados();
+    return(
+      <DashboardLayout>
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+          <Tabs value={tabValue} onChange={handleSetTabValue}>
+            <Tab label="Buscar" {...a11yProps(0)}/>
+            <Tab label="Añadir" {...a11yProps(1)}/>
+          </Tabs>
+            <Card>
+            <TabPanel value={tabValue} index={0}>
+              Cargando...
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+              Cargando...
+            </TabPanel>
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
         </SuiBox>
         <Footer />
       </DashboardLayout>
