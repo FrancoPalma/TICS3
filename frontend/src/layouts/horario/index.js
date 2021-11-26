@@ -136,12 +136,12 @@ export default function Horario() {
               value: users[i].rut
             })
           }
+          setSelectedOption({label: info.nombre, value: info.rut});
         }
         setListo(1);
       });
     }
   }
- 
   function EliminarHorario(id){
     fetch('/horario/eliminar_horario',{
       method: 'POST',
@@ -150,7 +150,7 @@ export default function Horario() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: id
+        id_horario: id
       })
     })
     .then((response) => {
@@ -246,8 +246,93 @@ export default function Horario() {
               descripcion: users[i].descripcion,
               hora: hora1,
               sala: users[i].sala,
-              acciones: <Boton id={hora1}/>
+              acciones: <Boton id={users[i].id}/>
             })
+          }
+        }
+        if(rows.length > 0)
+        setListo(2)
+        else
+        alert("No hay nada asignado")
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+  
+    }else{
+      alert("Seleccione una fecha")
+    }
+  }
+  function EnviarFechaAdmin(){
+    if(selectedDay != undefined){
+      let aux = selectedDay.toLocaleDateString()
+      let dia;
+      let mes;
+      let ano;
+      while(rows.length > 0) {
+        rows.pop();
+      }
+      if (aux[1]=='/'){
+        //D/MM/AAAA
+        dia= '0'+aux[0];
+        if(aux[3]=='/'){
+          mes = '0'+aux[2];
+          ano = aux[4]+aux[5]+aux[6]+aux[7]; 
+        }else{
+          mes = aux[2]+aux[3];
+          ano = aux[5]+aux[6]+aux[7]+aux[8];
+        }
+
+      }else{
+        //DD/MM/AAAA
+        dia= aux[0]+aux[1];
+        if(aux[4]=='/'){
+          mes = '0'+aux[3];
+          ano = aux[5]+aux[6]+aux[7]+aux[8];
+        }else{
+          mes = aux[3]+aux[4];
+          ano = aux[6]+aux[7]+aux[8]+aux[9];
+        }
+      }
+      console.log(ano+'-'+mes+'-'+dia)
+      fetch('/horario/ver_horario_admin',{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fecha: ano+'-'+mes+'-'+dia
+        })
+      })
+      .then((response) => {
+        if(response.status == 200){
+          console.log("ok")
+          return response.json()
+        }else{
+          console.log("error")
+        }
+      })
+      .then(users => {
+        console.log(users)
+        console.log(selectedOption.value)
+        for(let i=0; i < users.length;i++){
+          if(users[i].rut_usuario === selectedOption.value){
+            let aux = true;
+          for(let e=0;e < rows.length;e++){
+            if(users[i].id == rows[e].id){
+              aux=false;
+            }
+          }
+          if(aux == true){
+            let hora1 = users[i].inicio[0]+users[i].inicio[1]+users[i].inicio[2]+users[i].inicio[3]+users[i].inicio[4]+'-'+users[i].fin[0]+users[i].fin[1]+users[i].fin[2]+users[i].fin[3]+users[i].fin[4]
+            rows.push({id:users[i].id,
+              descripcion: users[i].descripcion,
+              hora: hora1,
+              sala: users[i].sala,
+              acciones: <Boton id={users[i].id}/>
+            })
+          }
           }
         }
         if(rows.length > 0)
@@ -352,7 +437,7 @@ export default function Horario() {
           firstDayOfWeek={1}/>
         </Card>
         <Card>
-          <SuiButton buttonColor="info" onClick={EnviarFecha}>
+          <SuiButton buttonColor="info" onClick={EnviarFechaAdmin}>
             Consultar
           </SuiButton>
         </Card>
