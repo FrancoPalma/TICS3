@@ -169,7 +169,10 @@ export default function Perfil(){
         <Card>
         <TabPanel value={tabValue} index={0}>
         <center>        
-        <Box sx={{ width: '50%' }}>
+        <Box sx={{ width: '50%',        backgroundColor: 'primary',
+        '&:hover': {
+          backgroundColor: 'primary.main',
+          opacity: [0.9, 0.8, 0.7]}, }}>
 
           <h2>Datos personales</h2>
           <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center" justify="center" justifyContent="center">
@@ -252,8 +255,8 @@ export default function Perfil(){
         </SuiBox>
 
         <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" buttonColor="info" onClick={CambiarPassword}>
-            Ingresar
+          <SuiButton variant="gradient" buttonColor="success" onClick={CambiarPassword}>
+            Guardar
           </SuiButton>
         </SuiBox>
 

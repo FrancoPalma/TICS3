@@ -2385,13 +2385,6 @@
   "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.10.2.tgz"
   "version" "2.10.2"
 
-"@react-native-community/datetimepicker@^4.0.0":
-  "integrity" "sha512-q3JfDHX5PI0AxFeMsB6jcHSXODloXAqBVsOfkIvm+YbAe1TUs/xZ3qGazsKVBk9EdFyHO4k+S1Q8tQkEnk2YrQ=="
-  "resolved" "https://registry.npmjs.org/@react-native-community/datetimepicker/-/datetimepicker-4.0.0.tgz"
-  "version" "4.0.0"
-  dependencies:
-    "invariant" "^2.2.4"
-
 "@react-pdf-viewer/core@^2.10.1":
   "integrity" "sha512-57kYwArs4lV6S5lKcas+nhJHXYu+E4VAvIylhpPslWHN28uUq3exAzp/t816TeuPQGJd9NQ25Cngod3pKvBBQg=="
   "resolved" "https://registry.npmjs.org/@react-pdf-viewer/core/-/core-2.10.1.tgz"
