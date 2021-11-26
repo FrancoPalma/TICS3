@@ -24,8 +24,9 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import Stack from '@mui/material/Stack';
 
-/*npm install @mui/material @emotion/react @emotion/styled*/
-
+/*npm install @mui/material @emotion/react @emotion/styled
+npm install -s @date-io/dayjs
+npm install @mui/lab*/
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
