@@ -465,7 +465,7 @@ console.log(info.gestion_infante)
           variant="outlined"
           type="text"
           name="rut_infante"
-          helperText="Incorrect entry."
+          helperText="Sin puntos y con guión."
           onChange={(e) => {
             rut_infante = e.target.value;
           }}/>
@@ -492,7 +492,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+                      variant="outlined"
             type="date"
             name="fecha_nacimiento"
             display="flex"
@@ -531,6 +532,7 @@ console.log(info.gestion_infante)
           variant="outlined"
             type="text"
             name="rut_apoderado"
+            helperText = "Sin puntos y con guión"
             display="flex"
             onChange={(e) => {
               rut_apoderado = e.target.value;
