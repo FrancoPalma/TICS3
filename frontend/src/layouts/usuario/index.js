@@ -923,7 +923,6 @@ console.log(info.gestion_infante)
     })
     .then((response) => {
       if(response.status !== 404){
-        alert("Informe editado correctamente")
         return response.json()
       }else{
         alert("Error en la conexión")
