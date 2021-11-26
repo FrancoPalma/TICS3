@@ -28,6 +28,7 @@
     "@material-ui/lab": "5.0.0-alpha.24",
     "@material-ui/pickers": "^3.3.10",
     "@material-ui/styles": "^4.11.4",
+    "@mui/lab": "^5.0.0-alpha.56",
     "@mui/material": "^5.1.1",
     "@mui/styled-engine-sc": "^5.1.0",
     "@react-pdf-viewer/core": "^2.10.1",

@@ -170,10 +170,16 @@ console.log(info.gestion_infante)
     const file = new Blob([response], {
       type: "application/pdf"
     });
+
+    if(response.size == 9){
+      alert("No existe la Ficha técnica")
+    }else{
+
     //Build a URL from the file
     const fileURL = URL.createObjectURL(file);
     //Open the URL on new Window
     window.open(fileURL);
+    }
   })
   .catch(error => {
     alert("Este infante no tiene ficha.");
@@ -612,8 +618,10 @@ console.log(info.gestion_infante)
         if(response.status === 200) {
            alert("Agregado correctamente")
             
-        } else {
-            alert('Hubo un error')
+        }else if(response.status === 404){
+          alert("Error en la conexión")
+        }else if(response.status === 405){
+          alert("Datos ingresados inválidos")
         }
         setListo(0);
     })
@@ -854,12 +862,11 @@ console.log(info.gestion_infante)
             setListo(2)
 
         }else if(response.status === 404){
-            alert("Error en la conección")
+            alert("Error en la conexión")
         } 
         
         else if(response.status === 405){
             alert("Datos ingresados inválidos")
-            console.log(response.status)
         }
     })
     .catch((error) => {
@@ -879,11 +886,10 @@ console.log(info.gestion_infante)
     })
     .then( (response) => {
         if(response.status == 200) {
-            console.log("Eliminado correctamente")
             alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
-            alert('Hubo un error en la conexión')
+            alert('Error en la conexión')
         }
     })
     .catch((error) => {
@@ -907,7 +913,7 @@ console.log(info.gestion_infante)
         alert("Informe editado correctamente")
         return response.json()
       }else{
-        alert("Error en la conexión vuelva a intentarlo")
+        alert("Error en la conexión")
       }
     })
     .then(users => {
