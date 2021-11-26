@@ -5,6 +5,7 @@ import SuiTypography from "components/SuiTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import TextField from "@material-ui/core/TextField";
 import Checkbox from '@mui/material/Checkbox';
 import Footer from "examples/Footer";
 import Tabs from '@material-ui/core/Tabs';
@@ -248,10 +249,12 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
           type="text"
           name="rut"
           display="flex"
+          helperText = "Sin punto y con guión"
           onChange={(e) => {
             rut = e.target.value;
           }}/>
@@ -262,7 +265,8 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="nombre"
             display="flex"
@@ -276,7 +280,8 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="telefono"
             display="flex"
@@ -291,7 +296,8 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="email"
             display="flex"
@@ -306,7 +312,8 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="especialidad"
             display="flex"
@@ -336,7 +343,8 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="nombre"
             defaultValue={nombre}
@@ -350,7 +358,8 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="tel"
             name="telefono"
             defaultValue={telefono}
@@ -366,7 +375,8 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="email"
             defaultValue={email}
@@ -382,7 +392,8 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="especialidad"
             defaultValue={especialidad}
