@@ -170,10 +170,16 @@ console.log(info.gestion_infante)
     const file = new Blob([response], {
       type: "application/pdf"
     });
+
+    if(response.size == 9){
+      alert("No existe la Ficha técnica")
+    }else{
+
     //Build a URL from the file
     const fileURL = URL.createObjectURL(file);
     //Open the URL on new Window
     window.open(fileURL);
+    }
   })
   .catch(error => {
     alert("Este infante no tiene ficha.");
@@ -455,14 +461,15 @@ console.log(info.gestion_infante)
 
         <Grid item xs={6}>
         <label>RUT Usuario: </label>
+
         </Grid>
         
         <Grid item xs={6}>
-          <input
-          container
+          <TextField
+          variant="outlined"
           type="text"
           name="rut_infante"
-          display="flex"
+          helperText="Sin puntos y con guión."
           onChange={(e) => {
             rut_infante = e.target.value;
           }}/>
@@ -473,7 +480,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="nombre_infante"
             display="flex"
@@ -488,7 +496,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+                      variant="outlined"
             type="date"
             name="fecha_nacimiento"
             display="flex"
@@ -507,7 +516,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="nombre_a"
             display="flex"
@@ -522,9 +532,11 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="rut_apoderado"
+            helperText = "Sin puntos y con guión"
             display="flex"
             onChange={(e) => {
               rut_apoderado = e.target.value;
@@ -537,7 +549,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="telefono"
             display="flex"
@@ -553,7 +566,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="email"
             display="flex"
@@ -610,8 +624,10 @@ console.log(info.gestion_infante)
         if(response.status === 200) {
            alert("Agregado correctamente")
             
-        } else {
-            alert('Hubo un error')
+        }else if(response.status === 404){
+          alert("Error en la conexión")
+        }else if(response.status === 405){
+          alert("Datos ingresados inválidos")
         }
         setListo(0);
     })
@@ -697,7 +713,7 @@ console.log(info.gestion_infante)
     return(
       <>
       <h3>Datos del infante</h3>
-      <Grid container spacing={3}display="row">
+      <Grid container spacing={3} display="row">
 
       <Grid item xs={6}>
         <label>RUT:</label>
@@ -712,7 +728,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="nombre_infante"
             defaultValue={nombre_infante}
@@ -730,9 +747,12 @@ console.log(info.gestion_infante)
         <Grid item xs={6}>
             {fecha_nacimiento}
         </Grid>
+        
+
+        <Grid item xs={6}>
+        <h3>Datos del apoderado</h3>        
         </Grid>
-        <h3>Datos del apoderado</h3>
-        <Grid container spacing={3}display="row">
+        <Grid item xs={6}></Grid>
 
 
         <Grid item xs={6}>
@@ -748,8 +768,9 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
-            type="tel"
+          <TextField
+          variant="outlined"
+            type="text"
             name="nombre_a"
             defaultValue={nombre_a}
             display="flex"
@@ -764,12 +785,12 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
-            type="tel"
+          <TextField
+          variant="outlined"
+            type="text"
             name="telefono"
             defaultValue={telefono}
             display="flex"
-            defaultValue = "569"
             onChange={(e) => {
               telefono = e.target.value;
             }}
@@ -781,7 +802,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="email"
             defaultValue={email}
@@ -852,12 +874,11 @@ console.log(info.gestion_infante)
             setListo(2)
 
         }else if(response.status === 404){
-            alert("Error en la conección")
+            alert("Error en la conexión")
         } 
         
         else if(response.status === 405){
             alert("Datos ingresados inválidos")
-            console.log(response.status)
         }
     })
     .catch((error) => {
@@ -877,11 +898,10 @@ console.log(info.gestion_infante)
     })
     .then( (response) => {
         if(response.status == 200) {
-            console.log("Eliminado correctamente")
             alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
-            alert('Hubo un error en la conexión')
+            alert('Error en la conexión')
         }
     })
     .catch((error) => {
@@ -905,7 +925,7 @@ console.log(info.gestion_infante)
         alert("Informe editado correctamente")
         return response.json()
       }else{
-        alert("Error en la conexión vuelva a intentarlo")
+        alert("Error en la conexión")
       }
     })
     .then(users => {
