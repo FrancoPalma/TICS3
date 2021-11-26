@@ -11,11 +11,13 @@ informeController.postGuardarInforme = async (req, res) => {
   let contenido = req.body.contenido;
   let id_informe = req.body.id_informe;
   let fecha = new Date().toISOString().slice(0, 10);
+
   if(id_informe == 0){
     pool.query('BEGIN', async (err) => {
       if(err){return res.sendStatus(404)}
       pool.query('INSERT INTO informe(rut_infante, rut_usuario, fecha) VALUES ($1, $2, $3) RETURNING id',[rut_infante, req.user.rut, fecha], async (err, result) => {
-        if(err){return res.sendStatus(404)}
+        if(err){
+          return res.sendStatus(404)}
         id_informe = result.rows[0].id
 
         fs.writeFile(path.join(__dirname, '../public/informes/informe'+id_informe+'.html'), contenido, async (err) => { 
@@ -30,7 +32,8 @@ informeController.postGuardarInforme = async (req, res) => {
               return res.sendStatus(404)
             }
             pool.query('COMMIT', (err) => {
-              if(err){return res.sendStatus(404)}
+              if(err){
+                return res.sendStatus(404)}
               return res.json({
                   id_informe: id_informe
                 }
