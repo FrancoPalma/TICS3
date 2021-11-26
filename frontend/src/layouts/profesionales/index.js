@@ -548,9 +548,10 @@ export default function Profesionales() {
         if(response.status === 200) {
            alert("Editado correctamente");
             window.location.href = window.location.href;
-        } else {
-            alert('Hubo un error')
-
+        } else if (response.status === 405){
+            alert('Datos ingresados inválidos')
+        }else{
+          alert('Hubo un error')
         }
     })
     .catch((error) => {
@@ -577,9 +578,10 @@ export default function Profesionales() {
         if(response.status === 200) {
             alert("Agregado correctamente")
             window.location.href = window.location.href;
-        } else {
+        } else if (response.status === 405){
+          alert('Datos ingresados inválidos')
+        }else{
           alert('Hubo un error')
-            console.log(response.status)
         }
     })
     .catch((error) => {

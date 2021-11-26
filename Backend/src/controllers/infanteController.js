@@ -24,23 +24,26 @@ infanteController.postAgregarInfante = (req, res) => {
 	let REnumeros = new RegExp('^[0-9]+$')
 	let REemail = new RegExp('[@]')
   
-  console.log(RErut.test(rut_infante))
+  /*console.log(RErut.test(rut_infante))
   console.log(RErut.test(rut_apoderado))
   console.log(REletras.test(nombre))
   console.log(REletras.test(nombre_apoderado))
   console.log(REfecha.test(fecha_nacimiento))
   console.log(REemail.test(email))
-  console.log(REnumeros.test(telefono))
+  console.log(REnumeros.test(telefono))*/
 
   if(RErut.test(rut_infante) && RErut.test(rut_apoderado) && REletras.test(nombre) && REletras.test(nombre_apoderado) && REfecha.test(fecha_nacimiento) && REemail.test(email) && REnumeros.test(telefono)){
     pool.query('BEGIN', (err) => {
       if(err){ return res.sendStatus(404)}
       pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
-        if(err){res.sendStatus(404)}
+        if(err){ 
+          return res.sendStatus(404)}
         pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
-          if(err){res.sendStatus(404)}
+          if(err){
+            return res.sendStatus(404)}
           pool.query('COMMIT', (err) => {
-            if(err){res.sendStatus(404)}
+            if(err){
+              return res.sendStatus(404)}
             return res.sendStatus(200);
           });
         });
@@ -61,9 +64,16 @@ infanteController.postEditarInfante = (req, res) => {
   let telefono = req.body.telefono;
 
   let RErut = new RegExp('([0-9][0-9]|[0-9])[0-9][0-9][0-9][0-9][0-9][0-9]-([0-9]|k|K)')
-  let REletras = new RegExp('^[A-Za-z]+$');
+  let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]+$');
 	let REnumeros = new RegExp('^[0-9]+$')
 	let REemail = new RegExp('[@]')
+
+  console.log(RErut.test(rut_infante))
+  console.log(RErut.test(rut_apoderado))
+  console.log(REletras.test(nombre))
+  console.log(REletras.test(nombre_apoderado))
+  console.log(REemail.test(email))
+  console.log(REnumeros.test(telefono))
 
   if(RErut.test(rut_apoderado) && REletras.test(nombre) && REletras.test(nombre_apoderado) && REemail.test(email) && REnumeros.test(telefono)){
     pool.query('BEGIN', (err) => {
@@ -131,6 +141,7 @@ var storage = multer.diskStorage({
   cb(null, path.join(__dirname, '../public/fichas'))
 },
 filename: (req, file, cb) => {
+  console.log(file)
   let rut_infante = req.params.rut_infante
   cb(null, 'ficha'+rut_infante+'.pdf')
 }
@@ -141,7 +152,6 @@ infanteController.postImportarFicha = async (req, res) => {
   var upload = multer({ storage: storage,
     fileFilter: function (req, file, cb) {
       let extension = path.extname(file.originalname) 
-      console.log(extension)
       if (extension !== '.pdf') {
         return cb(new Error('Extension de archivo incorrecta'))
       }
