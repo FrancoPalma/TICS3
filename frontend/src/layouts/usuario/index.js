@@ -463,14 +463,15 @@ console.log(info.gestion_infante)
 
         <Grid item xs={6}>
         <label>RUT Usuario: </label>
+
         </Grid>
         
         <Grid item xs={6}>
-          <input
-          container
+          <TextField
+          variant="outlined"
           type="text"
           name="rut_infante"
-          display="flex"
+          helperText="Sin puntos y con guión."
           onChange={(e) => {
             rut_infante = e.target.value;
           }}/>
@@ -481,7 +482,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="nombre_infante"
             display="flex"
@@ -496,7 +498,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+                      variant="outlined"
             type="date"
             name="fecha_nacimiento"
             display="flex"
@@ -515,7 +518,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="nombre_a"
             display="flex"
@@ -530,9 +534,11 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="rut_apoderado"
+            helperText = "Sin puntos y con guión"
             display="flex"
             onChange={(e) => {
               rut_apoderado = e.target.value;
@@ -545,7 +551,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="telefono"
             display="flex"
@@ -561,7 +568,8 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <input
+          <TextField
+          variant="outlined"
             type="text"
             name="email"
             display="flex"
@@ -707,7 +715,7 @@ console.log(info.gestion_infante)
     return(
       <>
       <h3>Datos del infante</h3>
-      <Grid container spacing={3}display="row">
+      <Grid container spacing={3} display="row">
 
       <Grid item xs={6}>
         <label>RUT:</label>
@@ -740,9 +748,12 @@ console.log(info.gestion_infante)
         <Grid item xs={6}>
             {fecha_nacimiento}
         </Grid>
+        
+
+        <Grid item xs={6}>
+        <h3>Datos del apoderado</h3>        
         </Grid>
-        <h3>Datos del apoderado</h3>
-        <Grid container spacing={3}display="row">
+        <Grid item xs={6}></Grid>
 
 
         <Grid item xs={6}>
@@ -779,7 +790,6 @@ console.log(info.gestion_infante)
             name="telefono"
             defaultValue={telefono}
             display="flex"
-            defaultValue = "569"
             onChange={(e) => {
               telefono = e.target.value;
             }}
