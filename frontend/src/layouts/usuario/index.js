@@ -837,7 +837,7 @@ console.log(info.gestion_infante)
     })
     .then((response) => {
       if(response.status !== 404){
-        console.log("ok")
+        alert("Informe guardado")
         return response.json()
       }else{
         alert("Error al enviar informe, por favor vuelva a intentarlo.")
