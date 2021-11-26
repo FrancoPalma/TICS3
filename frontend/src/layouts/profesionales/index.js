@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from "@material-ui/core/TextField";
@@ -616,6 +617,7 @@ export default function Profesionales() {
   if(Listo === 1 && info.gestion_priv === true){
   return (
     <DashboardLayout>
+      <DashboardNavbar/>
       <SuiBox py={6}>
         <SuiBox mb={6}>
         <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -647,6 +649,7 @@ export default function Profesionales() {
   if(Listo === 1 && info.gestion_priv === false){
     return (
       <DashboardLayout>
+        <DashboardNavbar/>
         <SuiBox py={6}>
           <SuiBox mb={6}>
 
@@ -673,6 +676,7 @@ export default function Profesionales() {
     ActualizarEmpleados();
     return(
       <DashboardLayout>
+        <DashboardNavbar/>
         <SuiBox py={3}>
           <SuiBox mb={3}>
           <Tabs value={tabValue} onChange={handleSetTabValue}>
@@ -698,6 +702,7 @@ export default function Profesionales() {
     alert("Usted no tiene acceso a este modulo");
     return(
       <DashboardLayout>
+        <DashboardNavbar/>
         <SuiBox py={3}>
           <SuiBox mb={3}>
 

@@ -136,9 +136,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
       className={classes.navbar}
     >
       <Toolbar className={classes.navbar_container}>
-        <SuiBox customClass={classes.navbar_row} color="inherit" mb={{ xs: 1, md: 0 }}>
-          <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
-        </SuiBox>
         {isMini ? null : (
           <SuiBox customClass={classes.navbar_row}>
             <SuiBox
