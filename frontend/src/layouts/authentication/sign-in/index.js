@@ -42,8 +42,6 @@ export default function SignIn() {
   }
   
   function EnviarDatos() {
-
-
     if(EstadoRut === true){
       fetch('/sesion/login', {
       method: 'POST',
