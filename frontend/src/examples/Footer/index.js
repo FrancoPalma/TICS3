@@ -31,7 +31,6 @@ import typography from "assets/theme/base/typography";
 import styles from "examples/Footer/styles";
 
 function Footer({ company, links }) {
-  const { href, name } = company;
   const { size } = typography;
   const classes = styles();
 
@@ -70,16 +69,8 @@ function Footer({ company, links }) {
             favorite
           </Icon>
         </SuiBox>
-        by
-        <Link href={href} target="_blank">
-          <SuiTypography variant="button" fontWeight="medium">
-            &nbsp;{name}&nbsp;
-          </SuiTypography>
-        </Link>
+        by Grupo 2
         para una mejor web.
-      </SuiBox>
-      <SuiBox component="ul" customClass={classes.footer_list}>
-        {renderLinks()}
       </SuiBox>
     </SuiBox>
   );
@@ -87,12 +78,7 @@ function Footer({ company, links }) {
 
 // Setting default values for the props of Footer
 Footer.defaultProps = {
-  company: { href: "https://www.creative-tim.com/", name: "Creative Tim" },
-  links: [
-    { href: "https://www.creative-tim.com/", name: "Creative Tim" },
-    { href: "https://www.creative-tim.com/presentation", name: "About Us" },
-    { href: "https://www.creative-tim.com/blog", name: "Blog" },
-    { href: "https://www.creative-tim.com/license", name: "License" },
+  links: [    { href: "https://www.creative-tim.com/license", name: "License" },
   ],
 };
 

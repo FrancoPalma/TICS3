@@ -67,7 +67,7 @@ function Configurator() {
   function CerrarSesion(){
     fetch('/sesion/logout')
       .then( (response) => {
-          if(response.status === 200) {
+          if(response.status !== 404) {
             localStorage.setItem('usuario', JSON.stringify(null));
             dispatch({ type: "OPEN_CONFIGURATOR", value: false });
             hist.push('/authentication/sign-in');
@@ -113,9 +113,7 @@ function Configurator() {
 
       <Divider />
 
-      <SuiBox pt={1.25} pb={3} px={3}>
-
-        
+      <SuiBox pt={1.25} pb={3} py={3} px={3}>
         <SuiBox mt={3}>
           <SuiBox customClass={classes.configurator_sidenav_types}>
             <SuiButton
