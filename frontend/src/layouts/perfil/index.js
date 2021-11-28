@@ -126,7 +126,9 @@ export default function Perfil(){
         if(response.status === 200) {
             alert("Contraseña actualizada")
             
-        } else {
+        } else if(response.status == 405){
+          alert("Contraseña antigua no válida")
+        }else {
             alert('Hubo un error')
         }
         setListo(0);

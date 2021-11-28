@@ -78,18 +78,22 @@ usuarioController.postEditarUsuario = (req, res) => {
 
 usuarioController.postEditarPassword = async (req, res) => {
 	let rut_usuario = req.params.rut_usuario;
-	let password_anterior = req.body.password_anterior;
+	let password_anterior = req.body.password_antigua;
 	let password_nueva = req.body.password_nueva;
 	
 	pool.query('SELECT password FROM usuario WHERE rut = $1', [rut_usuario], (err, result) => {
 		if(err){return res.sendStatus(404)}
 		let passHash_anterior = result.rows[0].password
 		bcrypt.compare(password_anterior, passHash_anterior, async (err, isValid) => {
-			let passHash_nueva = await bcrypt.hash(password_nueva, 8);
-			pool.query('UPDATE usuario SET password = $1 WHERE usuario.rut = $2', [passHash_nueva, rut_usuario], (err) => {
-				if(err){res.sendStatus(404)}
-				return res.sendStatus(200);
-			});
+			if(isValid){
+				let passHash_nueva = await bcrypt.hash(password_nueva, 8);
+				pool.query('UPDATE usuario SET password = $1 WHERE usuario.rut = $2', [passHash_nueva, rut_usuario], (err) => {
+					if(err){res.sendStatus(404)}
+					return res.sendStatus(200);
+				});
+			}else{
+				return res.sendStatus(405)
+			}
 		})
 	})
 }
