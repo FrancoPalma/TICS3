@@ -133,7 +133,7 @@ console.log(info.gestion_infante)
 
   const formData = new FormData();
   formData.append('file', selectedFile);
-
+  console.log(formData.entries().next().value)
   axios.post("/infante/importar_ficha/"+RutInfante, formData, { // receive two parameter endpoint url ,form data 
   })
   .then(response => {
