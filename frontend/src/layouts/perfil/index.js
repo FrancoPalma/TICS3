@@ -124,11 +124,10 @@ export default function Perfil(){
       })
       .then( (response) => {
         if(response.status === 200) {
-            console.log("Agregado correctamente")
+            alert("Contraseña actualizada")
             
         } else {
-            console.log('Hubo un error')
-            console.log(response.status)
+            alert('Hubo un error')
         }
         setListo(0);
     })}
