@@ -502,7 +502,9 @@ export default function Horario() {
             <TabPanel value={tabValue} index={0}>
             <Card>
             <SuiTypography variant="body2" textColor="text" display="flex" fontWeight="medium">
+
                Seleccione un profesional y una fecha
+            
             </SuiTypography>
             <Select
                 value={selectedOption}
@@ -530,7 +532,9 @@ export default function Horario() {
                   <Grid item xs={12} lg={7}>
                   <Card>
                     <SuiTypography variant="body2" textColor="text" fontWeight="medium">
+                      <center>
                     Seleccione una fecha
+                    </center>
                     </SuiTypography>
                     <DayPicker onDayClick={handleDayClick}
                     months={MONTHS}
@@ -690,7 +694,9 @@ export default function Horario() {
             <TabPanel value={tabValue} index={0}>
             <Card>
             <SuiTypography variant="body2" textColor="text" display="flex" fontWeight="medium">
+              <center>
                Seleccione una fecha
+               </center>
             </SuiTypography>
             <DayPicker onDayClick={handleDayClick}
               months={MONTHS}
@@ -710,9 +716,13 @@ export default function Horario() {
                 <Grid  alignItems="center" justify="center" container spacing={3}>
                   <Grid item xs={12} lg={7}>
                   <Card>
+
                     <SuiTypography variant="body2" textColor="text" fontWeight="medium">
+                      <center>
                     Seleccione una fecha
+                    </center>
                     </SuiTypography>
+
                     <DayPicker onDayClick={handleDayClick}
                     months={MONTHS}
                     selectedDays={selectedDay}
@@ -725,6 +735,7 @@ export default function Horario() {
                   </Grid>
                   <Grid  justify="center" item xs={12} lg={5}>
                     <Card>
+                      <center>
                       <br/>
                     <Grid item xs={6}>
                     <label>Inicio: </label>
@@ -783,6 +794,7 @@ export default function Horario() {
                       />
                     </Grid>
                     <br/>
+                    </center>
                     </Card>
                   </Grid>
                 </Grid>
