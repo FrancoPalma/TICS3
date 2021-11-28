@@ -107,7 +107,8 @@ async function (req, rut, password, done) {
           gestion_ficha: user.gestion_ficha,
           gestion_priv: user.gestion_priv,
           gestion_evaluacion: user.gestion_evaluacion,
-          gestion_infante: user.gestion_infante
+          gestion_infante: user.gestion_infante,
+          gestion_horario: user.gestion_horario
         });
       }
     });
