@@ -525,6 +525,7 @@ export default function Horario() {
     
             <TabPanel value={tabValue} index={1}>
               <SuiBox mb={1.5} display="center">
+                <center>
                 <Grid  alignItems="center" justify="center" container spacing={3}>
                   <Grid item xs={12} lg={7}>
                   <Card>
@@ -543,6 +544,7 @@ export default function Horario() {
                   </Grid>
                   <Grid  justify="center" item xs={12} lg={5}>
                     <Card>
+                      <center>
                       <br/>
                       <Select
                         value={selectedOption}
@@ -613,9 +615,11 @@ export default function Horario() {
                       />
                     </Grid>
                     <br/>
+                    </center>
                     </Card>
                   </Grid>
                 </Grid>
+                </center>
               </SuiBox>
             <Card>
               <SuiButton buttonColor="info" onClick={AgregarHorarioAdmin}>
