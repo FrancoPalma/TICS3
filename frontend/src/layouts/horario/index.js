@@ -488,7 +488,7 @@ export default function Horario() {
         console.log(error)
     });
   }
-  if(true){
+  if(info.gestion_horario == true){
     if(Listo === 1){
       return (
         <DashboardLayout> 
