@@ -13,8 +13,6 @@ export default function Horario() {
             if(response.status !== 404) {
                 localStorage.setItem('usuario', JSON.stringify(null));
                 hist.push('/authentication/sign-in');
-            } else {
-                alert("Algo no salio bien, intentalo de nuevo.")
             }
         })
         .catch((error) => {
