@@ -88,8 +88,6 @@ console.log(info.gestion_infante)
     {name: "visualizar", align:"center" },
     {name: "eliminar", align:"center" },
   ];
-
-
   const columns_aux    = [
     { name: "nombre", align: "left" },
     { name: "rut", align: "left" },
@@ -98,15 +96,12 @@ console.log(info.gestion_infante)
     { name: "telefono_apoderado", align: "center" },
     {name: "visualizar", align:"center" },
   ];
-
-
   const columns2 = [
     { name: "id", align: "left" },
     { name: "fecha", align: "center" },
     {name: "visualizar", align:"right" },
     {name: "acciones", align:"right" }
   ];
-
   const columns2_aux = [
     { name: "id", align: "left" },
     { name: "fecha", align: "center" },
@@ -128,12 +123,9 @@ console.log(info.gestion_infante)
   setIsSelected(true);
   setLoaded(0);
 };
-
   const handleSubmission = () => {
-
   const formData = new FormData();
   formData.append('file', selectedFile);
-  console.log(formData.entries().next().value)
   axios.post("/infante/importar_ficha/"+RutInfante, formData, { // receive two parameter endpoint url ,form data 
   })
   .then(response => {
@@ -147,7 +139,6 @@ console.log(info.gestion_infante)
   })
   
   };
-
   
   const [rows] = useState([]);
   const [rows2] = useState([]);
@@ -266,7 +257,6 @@ console.log(info.gestion_infante)
       </> 
     );
   }
-  
   function Boton2({rut}){
     return(
       <>
@@ -310,7 +300,6 @@ console.log(info.gestion_infante)
       }
     })
   }
-
   function VisualizarDatos_Aux(rut_infante){
     let bolean = true;
     if(Listo === 2){
@@ -384,13 +373,15 @@ console.log(info.gestion_infante)
       setListo(3);
     }
   }
-
   function VisualizarDatos(rut_infante){
     let bolean = true;
     if(Listo === 2){
       while(rows.length > 0) {
-          rows.pop();
-          }
+        rows.pop();
+      }
+      while(rows2.length > 0) {
+        rows2.pop();
+      }
       fetch('/infante/ver_infante/'+rut_infante.toString(),{
           method:'POST',
           headers: {
