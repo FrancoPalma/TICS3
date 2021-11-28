@@ -61,7 +61,7 @@ const info = JSON.parse(localStorage.getItem('usuario'));
 const routes = [
   {
     type: "collapse",
-    name: "Dashboard",
+    name: "Inicio",
     key: "dashboard",
     route: "/dashboard",
     icon: <Shop size="12px" />,
