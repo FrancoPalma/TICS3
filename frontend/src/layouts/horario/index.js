@@ -369,124 +369,132 @@ export default function Horario() {
     }
   }
   function AgregarHorario(){
-    let aux = selectedDay.toLocaleDateString()
-    let dia;
-    let mes;
-    let ano;
-    
-    let ini = value.toString()
-    let fin = value2.toString()
-    console.log(ini[16]+ini[17]+ini[18]+ini[19]+ini[20])
-    if (aux[1]=='/'){
-      //D/MM/AAAA
-      dia= '0'+aux[0];
-      if(aux[3]=='/'){
-        mes = '0'+aux[2];
-        ano = aux[4]+aux[5]+aux[6]+aux[7]; 
-      }else{
-        mes = aux[2]+aux[3];
-        ano = aux[5]+aux[6]+aux[7]+aux[8];
-      }
-
-    }else{
-      //DD/MM/AAAA
-      dia= aux[0]+aux[1];
-      if(aux[4]=='/'){
-        mes = '0'+aux[3];
-        ano = aux[5]+aux[6]+aux[7]+aux[8];
-      }else{
-        mes = aux[3]+aux[4];
-        ano = aux[6]+aux[7]+aux[8]+aux[9];
-      }
-    }
-    
-    fetch('horario/anadir_horario/', {
-      method: 'POST',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        rut_usuario: info.rut,
-        fecha: ano+'-'+mes+'-'+dia,
-        inicio: ini[16]+ini[17]+ini[18]+ini[19]+ini[20],
-        fin: fin[16]+fin[17]+fin[18]+fin[19]+fin[20],
-        descripcion: descripcion,
-        sala: sala
-      })
-      })
-      .then( (response) => {
-        if(response.status === 200) {
-            alert("Agregado correctamente")
-            window.location.href = window.location.href;
-        } else {
-            alert('Hubo un error')
-            console.log(response.status)
+    if(selectedDay != undefined){
+      let aux = selectedDay.toLocaleDateString()
+      let dia;
+      let mes;
+      let ano;
+      
+      let ini = value.toString()
+      let fin = value2.toString()
+      console.log(ini[16]+ini[17]+ini[18]+ini[19]+ini[20])
+      if (aux[1]=='/'){
+        //D/MM/AAAA
+        dia= '0'+aux[0];
+        if(aux[3]=='/'){
+          mes = '0'+aux[2];
+          ano = aux[4]+aux[5]+aux[6]+aux[7]; 
+        }else{
+          mes = aux[2]+aux[3];
+          ano = aux[5]+aux[6]+aux[7]+aux[8];
         }
-    })
-    .catch((error) => {
-        console.log(error)
-    });
+
+      }else{
+        //DD/MM/AAAA
+        dia= aux[0]+aux[1];
+        if(aux[4]=='/'){
+          mes = '0'+aux[3];
+          ano = aux[5]+aux[6]+aux[7]+aux[8];
+        }else{
+          mes = aux[3]+aux[4];
+          ano = aux[6]+aux[7]+aux[8]+aux[9];
+        }
+      }
+      
+      fetch('horario/anadir_horario/', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rut_usuario: info.rut,
+          fecha: ano+'-'+mes+'-'+dia,
+          inicio: ini[16]+ini[17]+ini[18]+ini[19]+ini[20],
+          fin: fin[16]+fin[17]+fin[18]+fin[19]+fin[20],
+          descripcion: descripcion,
+          sala: sala
+        })
+        })
+        .then( (response) => {
+          if(response.status === 200) {
+              alert("Agregado correctamente")
+              window.location.href = window.location.href;
+          } else {
+              alert('Hubo un error')
+              console.log(response.status)
+          }
+      })
+      .catch((error) => {
+          console.log(error)
+      });
+    }else{
+      alert("Seleccione una fecha")
+    }
   }
   function AgregarHorarioAdmin(){
-    let aux = selectedDay.toLocaleDateString()
-    let dia;
-    let mes;
-    let ano;
-    
-    let ini = value.toString()
-    let fin = value2.toString()
-    console.log(ini[16]+ini[17]+ini[18]+ini[19]+ini[20])
-    if (aux[1]=='/'){
-      //D/MM/AAAA
-      dia= '0'+aux[0];
-      if(aux[3]=='/'){
-        mes = '0'+aux[2];
-        ano = aux[4]+aux[5]+aux[6]+aux[7]; 
-      }else{
-        mes = aux[2]+aux[3];
-        ano = aux[5]+aux[6]+aux[7]+aux[8];
-      }
-
-    }else{
-      //DD/MM/AAAA
-      dia= aux[0]+aux[1];
-      if(aux[4]=='/'){
-        mes = '0'+aux[3];
-        ano = aux[5]+aux[6]+aux[7]+aux[8];
-      }else{
-        mes = aux[3]+aux[4];
-        ano = aux[6]+aux[7]+aux[8]+aux[9];
-      }
-    }
-    
-    fetch('horario/anadir_horario/', {
-      method: 'POST',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        rut_usuario: selectedOption.value,
-        fecha: ano+'-'+mes+'-'+dia,
-        inicio: ini[16]+ini[17]+ini[18]+ini[19]+ini[20],
-        fin: fin[16]+fin[17]+fin[18]+fin[19]+fin[20],
-        descripcion: descripcion,
-        sala: sala
-      })
-      })
-      .then( (response) => {
-        if(response.status === 200) {
-            alert("Agregado correctamente")
-            window.location.href = window.location.href;
-        } else {
-            alert('Hubo un error')
-            console.log(response.status)
+    if(selectedDay != undefined){
+      let aux = selectedDay.toLocaleDateString()
+      let dia;
+      let mes;
+      let ano;
+      
+      let ini = value.toString()
+      let fin = value2.toString()
+      console.log(ini[16]+ini[17]+ini[18]+ini[19]+ini[20])
+      if (aux[1]=='/'){
+        //D/MM/AAAA
+        dia= '0'+aux[0];
+        if(aux[3]=='/'){
+          mes = '0'+aux[2];
+          ano = aux[4]+aux[5]+aux[6]+aux[7]; 
+        }else{
+          mes = aux[2]+aux[3];
+          ano = aux[5]+aux[6]+aux[7]+aux[8];
         }
-    })
-    .catch((error) => {
-        console.log(error)
-    });
+
+      }else{
+        //DD/MM/AAAA
+        dia= aux[0]+aux[1];
+        if(aux[4]=='/'){
+          mes = '0'+aux[3];
+          ano = aux[5]+aux[6]+aux[7]+aux[8];
+        }else{
+          mes = aux[3]+aux[4];
+          ano = aux[6]+aux[7]+aux[8]+aux[9];
+        }
+      }
+      
+      fetch('horario/anadir_horario/', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rut_usuario: selectedOption.value,
+          fecha: ano+'-'+mes+'-'+dia,
+          inicio: ini[16]+ini[17]+ini[18]+ini[19]+ini[20],
+          fin: fin[16]+fin[17]+fin[18]+fin[19]+fin[20],
+          descripcion: descripcion,
+          sala: sala
+        })
+        })
+        .then( (response) => {
+          if(response.status === 200) {
+              alert("Agregado correctamente")
+              window.location.href = window.location.href;
+          } else {
+              alert('Hubo un error')
+              console.log(response.status)
+          }
+      })
+      .catch((error) => {
+          console.log(error)
+      });
+    }else{
+      alert("Seleccione una fecha")
+    }
   }
   if(info.gestion_horario == true){
     if(Listo === 1){
@@ -501,7 +509,7 @@ export default function Horario() {
           
             <TabPanel value={tabValue} index={0}>
             <Card>
-            <SuiTypography variant="subtitle1" textColor="text" display="flex" fontWeight="medium">
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
 
                Seleccione un profesional y una fecha
             
@@ -531,7 +539,7 @@ export default function Horario() {
                 <Grid  alignItems="center" justify="center" container spacing={3}>
                   <Grid item xs={12} lg={7}>
                   <Card>
-                    <SuiTypography variant="subtitle1" textColor="text" fontWeight="medium">
+                    <SuiTypography variant="h3" textColor="text" fontWeight="medium">
                       <center>
                     Seleccione una fecha
                     </center>
@@ -693,7 +701,7 @@ export default function Horario() {
             </Tabs>
             <TabPanel value={tabValue} index={0}>
             <Card>
-            <SuiTypography variant="subtitle1" textColor="text" display="flex" fontWeight="medium">
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
               <center>
                Seleccione una fecha
                </center>
@@ -717,7 +725,7 @@ export default function Horario() {
                   <Grid item xs={12} lg={7}>
                   <Card>
 
-                    <SuiTypography variant="subtitle1" textColor="text" fontWeight="medium">
+                    <SuiTypography variant="h3" textColor="text" fontWeight="medium">
                       <center>
                     Seleccione una fecha
                     </center>

@@ -40,7 +40,10 @@ export default function SignIn() {
 
     }
   }
-  
+  function Cambio(){
+    hist.push('/profesionales')
+    hist.push('/profesionales')
+  }
   function EnviarDatos() {
     if(EstadoRut === true){
       fetch('/sesion/login', {
@@ -72,10 +75,9 @@ export default function SignIn() {
           localStorage.setItem('usuario', JSON.stringify(users));
           console.log("LOGEADO")
           console.log(users)
-          setTimeout(() => {  hist.push('/profesionales'); }, 500);
           hist.push('/profesionales')
+          Cambio();
         }
-
       })
       .catch((error) => {
         console.log(error)
