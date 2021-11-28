@@ -6,7 +6,6 @@ sesionController.postLogin = (req,res) => {
 	passport.authenticate('local-login', function(err, user) {
 		if (err) { return res.sendStatus(404); }
 		if (user == undefined || user == false) { return res.sendStatus(404); }
-		
 		req.logIn(user, function(err) {
 			if (err) { return res.sendStatus(404); }
 			return res.json(user);
