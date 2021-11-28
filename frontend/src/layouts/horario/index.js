@@ -509,6 +509,7 @@ export default function Horario() {
           
             <TabPanel value={tabValue} index={0}>
             <Card>
+              <center>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
 
                Seleccione un profesional y una fecha
@@ -519,6 +520,7 @@ export default function Horario() {
                 onChange={handleChange3}
                 options={options}
               />
+              </center>
             <DayPicker onDayClick={handleDayClick}
               months={MONTHS}
               selectedDays={selectedDay}
