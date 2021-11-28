@@ -205,10 +205,15 @@ console.log(info.gestion_infante)
       const file = new Blob([response], {
         type: "application/pdf"
       });
+
+      if(response.size == 9){
+        alert("Debe guardar el informe")
+      }else{
       //Build a URL from the file
       const fileURL = URL.createObjectURL(file);
       //Open the URL on new Window
       window.open(fileURL);
+      }
     })
     .catch(error => {
       console.log(error);
@@ -836,7 +841,9 @@ console.log(info.gestion_infante)
       })
     })
     .then((response) => {
-      if(response.status !== 404){
+      if(response.status == 405){
+        alert("El informe debe tener algún contenido")
+      }else if(response.status !== 404){
         alert("Informe guardado")
         return response.json()
       }else{

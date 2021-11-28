@@ -101,9 +101,6 @@ function Configurator() {
       >
         <SuiBox>
           <SuiTypography variant="h5">Club Kiddo</SuiTypography>
-          <SuiTypography variant="body2" textColor="text">
-            Visualizaciones del Dashboard.
-          </SuiTypography>
         </SuiBox>
 
         <Icon
@@ -117,51 +114,9 @@ function Configurator() {
       <Divider />
 
       <SuiBox pt={1.25} pb={3} px={3}>
-        <SuiBox>
-          <SuiTypography variant="h6">Colores del navegador</SuiTypography>
 
-          <SuiBox my={0.5}>
-            {sidenavColors.map((color) => (
-              <IconButton
-                key={color}
-                className={clsx(classes.configurator_sidenav_color, classes[color], {
-                  [classes.active_color]: sidenavColor === color,
-                })}
-                onClick={() => dispatch({ type: "SIDENAV_COLOR", value: color })}
-              />
-            ))}
-          </SuiBox>
-        </SuiBox>
-
+        
         <SuiBox mt={3}>
-          <SuiTypography variant="h6">Tipos de Navegadores</SuiTypography>
-          <SuiTypography variant="button" textColor="text" fontWeight="regular">
-            Eliga entre los 2 tipos de sidenav.
-          </SuiTypography>
-
-          <SuiBox customClass={classes.configurator_sidenav_types}>
-            <SuiButton
-              buttonColor="info"
-              variant={transparentSidenav ? "gradient" : "outlined"}
-              onClick={handleTransparentSidenav}
-              disabled={disabled}
-              fullWidth
-            >
-              Transparente
-            </SuiButton>
-            <SuiButton
-              buttonColor="info"
-              variant={transparentSidenav ? "outlined" : "gradient"}
-              onClick={handleWhiteSidenav}
-              disabled={disabled}
-              fullWidth
-            >
-              Blanco
-            </SuiButton>
-          </SuiBox>
-        </SuiBox>
-        <SuiBox mt={3}>
-          <SuiTypography variant="h6">Cerrar Sesión</SuiTypography>
           <SuiBox customClass={classes.configurator_sidenav_types}>
             <SuiButton
               buttonColor="info"

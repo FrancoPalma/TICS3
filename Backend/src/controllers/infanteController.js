@@ -115,14 +115,56 @@ infanteController.postVerInfante = (req, res) => {
 infanteController.postEliminarInfante = (req, res) => {
 	let rut_infante = req.params.rut_infante;
 
-  pool.query('DELETE FROM apoderado WHERE rut_infante = $1', [rut_infante], (err) => {
+  pool.query('BEGIN', (err) => {
     if(err){return res.sendStatus(404)}
-  	pool.query('DELETE FROM infante WHERE infante.rut = $1', [rut_infante], (err) => {
-      if(err){return res.sendStatus(404)}
-      return res.sendStatus(200);
-    });
-  })
-};
+  pool.query('SELECT informe.id FROM informe, infante WHERE informe.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result) => {
+    let informes = result.rows
+    if(err){
+      console.log("hola1")
+      pool.query('ROLLBACK')
+      return res.sendStatus(404)
+    }
+    pool.query('DELETE FROM apoderado WHERE rut_infante = $1', [rut_infante], (err) => {
+      if(err){
+        console.log("hola2")
+        pool.query('ROLLBACK')
+        return res.sendStatus(404)
+      }
+      pool.query('DELETE FROM informe WHERE rut_infante = $1', [rut_infante], (err) => {
+        if(err){
+          console.log("hola2")
+          pool.query('ROLLBACK')
+          return res.sendStatus(404)
+        }
+        pool.query('DELETE FROM infante WHERE infante.rut = $1', [rut_infante], (err) => {
+          if(err){
+            pool.query('ROLLBACK')
+            return res.sendStatus(404)
+          }
+          fs.unlink(path.join(__dirname, '../public/fichas/ficha'+rut_infante+'.pdf'), (err) => {
+            if(informes.length > 0){
+              for(let i = 0; i < informes.length; i++){
+                fs.unlink(path.join(__dirname, '../public/informes/informe'+informes[i].id+'.pdf'), (err) => {
+                  if (err) {console.log(err)}
+                  fs.unlink(path.join(__dirname, '../public/informes/informe'+informes[i].id+'.html'), (err) => {
+                    if (err) {console.log(err)}
+                  })
+                })
+              }
+              pool.query('COMMIT')
+              return res.sendStatus(200)
+            }else{
+              pool.query('COMMIT')
+              return res.sendStatus(200)
+            };
+          })
+            
+        })
+      })
+    })
+  });
+})
+}
 
 infanteController.postVerFicha = (req, res) => {
   let rut_infante = req.params.rut_infante;

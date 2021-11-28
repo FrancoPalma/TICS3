@@ -150,13 +150,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon className="material-icons-round">{miniSidenav ? "menu_open" : "menu"}</Icon>
               </IconButton>
-              <IconButton
-                color="inherit"
-                className={classes.navbar_icon_button}
-                onClick={handleConfiguratorOpen}
-              >
-                <Icon className="material-icons-round">settings</Icon>
-              </IconButton>
+
               {renderMenu()}
             </SuiBox>
           </SuiBox>
