@@ -454,7 +454,7 @@ console.log(info.gestion_infante)
     return(
       <>
       <h3>Datos del Usuario</h3>
-      <Grid container spacing={3}display="row">
+      <Grid container spacing={2}display="row">
 
         <Grid item xs={6}>
         <label>RUT Usuario: </label>
@@ -506,7 +506,7 @@ console.log(info.gestion_infante)
 </Grid>
 <br />
 <h3>Datos del Apoderado</h3>
-        <Grid container spacing={3}display="row">
+        <Grid container spacing={2}display="row">
 
         <Grid item xs={6}>
         <label>Nombre Apoderado: </label>
