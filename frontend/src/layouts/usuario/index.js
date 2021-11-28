@@ -462,7 +462,7 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <TextField
+          <SuiInput
           variant="outlined"
           type="text"
           name="rut_infante"
