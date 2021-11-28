@@ -31,7 +31,6 @@ import typography from "assets/theme/base/typography";
 import styles from "examples/Footer/styles";
 
 function Footer({ company, links }) {
-  const { href, name } = company;
   const { size } = typography;
   const classes = styles();
 
