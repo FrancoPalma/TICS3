@@ -501,7 +501,7 @@ export default function Horario() {
           
             <TabPanel value={tabValue} index={0}>
             <Card>
-            <SuiTypography variant="body2" textColor="text" display="flex" fontWeight="medium">
+            <SuiTypography variant="subtitle1" textColor="text" display="flex" fontWeight="medium">
 
                Seleccione un profesional y una fecha
             
@@ -531,7 +531,7 @@ export default function Horario() {
                 <Grid  alignItems="center" justify="center" container spacing={3}>
                   <Grid item xs={12} lg={7}>
                   <Card>
-                    <SuiTypography variant="body2" textColor="text" fontWeight="medium">
+                    <SuiTypography variant="subtitle1" textColor="text" fontWeight="medium">
                       <center>
                     Seleccione una fecha
                     </center>
@@ -693,7 +693,7 @@ export default function Horario() {
             </Tabs>
             <TabPanel value={tabValue} index={0}>
             <Card>
-            <SuiTypography variant="body2" textColor="text" display="flex" fontWeight="medium">
+            <SuiTypography variant="subtitle1" textColor="text" display="flex" fontWeight="medium">
               <center>
                Seleccione una fecha
                </center>
@@ -717,7 +717,7 @@ export default function Horario() {
                   <Grid item xs={12} lg={7}>
                   <Card>
 
-                    <SuiTypography variant="body2" textColor="text" fontWeight="medium">
+                    <SuiTypography variant="subtitle1" textColor="text" fontWeight="medium">
                       <center>
                     Seleccione una fecha
                     </center>
