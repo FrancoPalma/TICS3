@@ -37,21 +37,12 @@ Coded by www.creative-tim.com
 
 // Soft UI Dashboard Material-UI layouts
 import Dashboard from "layouts/dashboard";
-import Privilegios from "layouts/privilegios";
 import Profesionales from "layouts/profesionales";
-import Ficha from "layouts/ficha";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-
-import VirtualReality from "layouts/virtual-reality";
-import RTL from "layouts/rtl";
 import Perfil from "layouts/perfil";
-import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Horario from "layouts/horario";
-import Test from "layouts/test";
-import Formulario from "layouts/formulario";
+import LogOut from "layouts/logout";
 import Usuarios from "layouts/usuario";
 // Soft UI Dashboard Material-UI icons
 import Shop from "examples/Icons/Shop";
@@ -111,6 +102,15 @@ const routes = [
     route: "/perfil",
     icon: <Shop size="12px" />,
     component: Perfil,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Cerrar Sesión",
+    key: "logout",
+    route: "/logout",
+    icon: <Shop size="12px" />,
+    component: LogOut,
     noCollapse: true,
   },
   {
