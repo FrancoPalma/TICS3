@@ -639,6 +639,9 @@ console.log(info.gestion_infante)
     })
   }
   function ActualizarInfantes_Aux(){
+    if(info == null){
+      hist.push('/authentication/sign-in');
+    }
   if (Listo == 0){
     while(rows.length > 0) {
     rows.pop();
@@ -672,6 +675,9 @@ console.log(info.gestion_infante)
       });
   }}
   function ActualizarInfantes(){
+    if(info == null){
+      hist.push('/authentication/sign-in');
+    }
     if (Listo == 0){
       while(rows.length > 0) {
       rows.pop();

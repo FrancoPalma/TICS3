@@ -115,7 +115,9 @@ export default function Horario() {
     setSelectedDay(day);
   }
   function ActualizarEmpleados(){
-    console.log(info)
+    if(info == null){
+      hist.push('/authentication/sign-in');
+    }
     if (Listo == 0){
       while(options.length > 0) {
         options.pop();

@@ -22,6 +22,7 @@ import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 import SuiButton from "components/SuiButton";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { useHistory } from "react-router-dom";
 
 // Soft UI Dashboard Material-UI base styles
 import typography from "assets/theme/base/typography";
@@ -61,7 +62,7 @@ function a11yProps(index) {
   };
 }
 
-
+let info = JSON.parse(localStorage.getItem('usuario'));
 export default function Perfil(){
     const Item = styled(Paper)(({ theme }) => ({
         ...theme.typography.body2,
@@ -72,7 +73,7 @@ export default function Perfil(){
 
     const [tabValue, setTabValue] = useState(0);
     const handleSetTabValue = (event, newValue) => setTabValue(newValue);
-
+    const hist = useHistory();
     const [Rut, setRut] = useState('');
     const [Telefono, setTelefono] = useState('');
     const [Nombre, setNombre] = useState('');
@@ -84,6 +85,9 @@ export default function Perfil(){
     const [OldPassword, setOldPassword] = useState ('');
 
     function VisualizarDatos(){
+      if(info == null){
+        hist.push('/authentication/sign-in');
+      }
             fetch('/usuario/ver_perfil/',{
             method:'GET',
             headers: {
