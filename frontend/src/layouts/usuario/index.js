@@ -1068,7 +1068,7 @@ console.log(info.gestion_infante)
         <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
         <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
       </Tabs>
-      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0); setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
@@ -1188,7 +1188,7 @@ console.log(info.gestion_infante)
         <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
         <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
       </Tabs>
-      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0); setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
@@ -1289,7 +1289,7 @@ console.log(info.gestion_infante)
         <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
         <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
       </Tabs>
-      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
@@ -1386,7 +1386,7 @@ console.log(info.gestion_infante)
         <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
         <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
       </Tabs>
-      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
@@ -1483,7 +1483,7 @@ console.log(info.gestion_infante)
         <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
         <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
       </Tabs>
-      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0);}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
@@ -1595,7 +1595,7 @@ console.log(info.gestion_infante)
         <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
         <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
       </Tabs>
-      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
@@ -1707,7 +1707,7 @@ console.log(info.gestion_infante)
         <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
         <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
       </Tabs>
-      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
@@ -1824,7 +1824,7 @@ console.log(info.gestion_infante)
           <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
           <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
         </Tabs>
-        <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0)}}>
+        <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
           <Icon classsName="material-icons-round">keyboard_backspace</Icon>
           </SuiButton>
           <Card>
