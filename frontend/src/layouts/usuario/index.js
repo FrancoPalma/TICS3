@@ -462,7 +462,7 @@ console.log(info.gestion_infante)
         </Grid>
         
         <Grid item xs={6}>
-          <SuiInput
+          <TextField
           variant="outlined"
           type="text"
           name="rut_infante"
@@ -1140,13 +1140,17 @@ console.log(info.gestion_infante)
           </SuiButton>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
+          <center>
           <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
-          <SuiButton onClick={handleSubmission}>
+          <SuiButton onClick={handleSubmission} buttonColor = "secondary">
             Subir
+            <Icon classsName="material-icons-round">file_upload</Icon>
           </SuiButton>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+          </center>
+          <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha} mb={2}>
             Visualizar
           </SuiButton>
+         
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
