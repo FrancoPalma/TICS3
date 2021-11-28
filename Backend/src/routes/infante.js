@@ -3,9 +3,9 @@ const router = express.Router();
 const infanteController = require('../controllers/infanteController.js');
 const sesionController = require('../controllers/sesionController.js');
 
-router.get('/ver_infantes', infanteController.getVerInfantes)
+router.get('/ver_infantes', sesionController.isLoggedIn, infanteController.getVerInfantes)
 
-router.post('/ver_infante/:rut_infante', infanteController.postVerInfante)
+router.post('/ver_infante/:rut_infante', sesionController.isLoggedIn, infanteController.postVerInfante)
 
 router.post('/editar_infante/:rut_infante', sesionController.isLoggedIn, sesionController.gestionInfante, infanteController.postEditarInfante);
 
@@ -15,7 +15,7 @@ router.post('/eliminar_infante/:rut_infante', sesionController.isLoggedIn, sesio
 
 router.post('/importar_ficha/:rut_infante', sesionController.isLoggedIn, sesionController.gestionFicha, infanteController.postImportarFicha);
 
-router.post('/ver_ficha/:rut_infante', sesionController.isLoggedIn, sesionController.gestionFicha, infanteController.postVerFicha);
+router.post('/ver_ficha/:rut_infante', sesionController.isLoggedIn, infanteController.postVerFicha);
 
 router.post('/ver_informes/:rut_infante', sesionController.isLoggedIn,  infanteController.postVerInformes);
 
