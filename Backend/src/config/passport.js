@@ -87,7 +87,7 @@ passport.use('local-login', new LocalStrategy({
   passReqToCallback: true
 },
 async function (req, rut, password, done) {
-  await pool.query('SELECT usuario.id_jardin, usuario.rut, usuario.nombre, usuario.telefono, usuario.especialidad, usuario.password, privilegios.gestion_usuario, privilegios.gestion_ficha, privilegios.gestion_priv, privilegios.gestion_evaluacion, privilegios.gestion_infante FROM usuario, privilegios WHERE privilegios.rut_usuario = usuario.rut AND usuario.rut = $1' , [rut], (err, result) => {
+  await pool.query('SELECT usuario.id_jardin, usuario.rut, usuario.nombre, usuario.telefono, usuario.especialidad, usuario.password, privilegios.gestion_usuario, privilegios.gestion_ficha, privilegios.gestion_priv, privilegios.gestion_evaluacion, privilegios.gestion_infante, privilegios.gestion_horario FROM usuario, privilegios WHERE privilegios.rut_usuario = usuario.rut AND usuario.rut = $1' , [rut], (err, result) => {
     if (err) { return done(err); }
     const user = result.rows[0];
     if (user == undefined) {
