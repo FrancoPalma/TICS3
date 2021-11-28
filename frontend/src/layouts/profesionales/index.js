@@ -462,6 +462,9 @@ export default function Profesionales() {
     )
   }
   function ActualizarEmpleados(){
+    if(info == null){
+      hist.push('/authentication/sign-in');
+    }
     if (Listo == 0){
       while(rows.length > 0) {
         rows.pop();

@@ -42,8 +42,6 @@ export default function SignIn() {
   }
   
   function EnviarDatos() {
-
-
     if(EstadoRut === true){
       fetch('/sesion/login', {
       method: 'POST',
@@ -71,9 +69,10 @@ export default function SignIn() {
       })
       .then(users => {
         if(isAutentificado === true) {
+          localStorage.setItem('usuario', JSON.stringify(users));
           console.log("LOGEADO")
           console.log(users)
-          localStorage.setItem('usuario', JSON.stringify(users));
+          setTimeout(() => {  hist.push('/profesionales'); }, 500);
           hist.push('/profesionales')
         }
 
@@ -82,7 +81,6 @@ export default function SignIn() {
         console.log(error)
       });
     }else{
-        Alert()
         alert("Rut o contraseña inválido");
 
     }
