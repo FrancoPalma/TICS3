@@ -83,7 +83,6 @@ export default function Profesionales() {
     { name: "infante", align: "center" },
     { name: "privilegios", align: "center" },
     { name: "usuario", align: "center" },
-    { name: "horario", align: "center" },
     { name: "acciones", align: "right" }
   ];
   const columns2 = [
@@ -492,7 +491,6 @@ export default function Profesionales() {
                 infante: <Check boleano={users[i].gestion_infante}/>,
                 privilegios: <Check boleano={users[i].gestion_priv}/>,
                 usuario: <Check boleano={users[i].gestion_usuario}/>,
-                horario: <Check boleano={users[i].gestion_horario}/> ,
                 acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario} p6={users[i].gestion_horario}/>
               })
             }
