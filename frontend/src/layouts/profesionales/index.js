@@ -705,7 +705,7 @@ export default function Profesionales() {
           </DashboardLayout>
         );
       }else if(Listo === 0 && info.gestion_usuario === false){
-        alert("Usted no tiene acceso a este modulo");
+
         return(
           <DashboardLayout>
             <DashboardNavbar/>
