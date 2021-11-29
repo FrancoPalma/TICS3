@@ -143,6 +143,7 @@ export default function Horario() {
         }
         setListo(1);
       });
+      
     }
   }
   function EliminarHorario(id){
@@ -848,7 +849,7 @@ export default function Horario() {
         </DashboardLayout>
       );
     }else if(Listo === 0 ){
-      ActualizarEmpleados();
+      setListo(1);
       return(
         <DashboardLayout>
           <SuiBox py={3}>
