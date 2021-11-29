@@ -3,7 +3,7 @@ const bcrypt= require('bcrypt');
 usuarioController = {}
 
 usuarioController.getVerPrivilegios = (req, res) => {
-	pool.query('SELECT usuario.rut, usuario.nombre, privilegios.gestion_usuario, privilegios.gestion_ficha, privilegios.gestion_priv, privilegios.gestion_evaluacion, privilegios.gestion_infante, privilegios.gestion_horario FROM usuario, privilegios WHERE usuario.rut = privilegios.rut_usuario AND usuario.id_jardin = $1', [req.user.id_jardin], (err, result) => {
+	pool.query('SELECT usuario.rut, usuario.nombre, privilegios.gestion_usuario, privilegios.gestion_ficha, privilegios.gestion_priv, privilegios.gestion_evaluacion, privilegios.gestion_infante FROM usuario, privilegios WHERE usuario.rut = privilegios.rut_usuario AND usuario.id_jardin = $1', [req.user.id_jardin], (err, result) => {
 		if(err){return res.sendStatus(404)}
 		return res.json(result.rows);
 	});
@@ -25,9 +25,8 @@ usuarioController.postEditarPrivilegios = (req, res) => {
 	let gestion_priv = req.body.gestion_priv;
 	let gestion_evaluacion = req.body.gestion_evaluacion;
 	let gestion_infante = req.body.gestion_infante;
-	let gestion_horario = req.body.gestion_horario;
 
-	pool.query('UPDATE privilegios SET gestion_usuario = $1, gestion_ficha = $2, gestion_priv = $3, gestion_evaluacion = $4, gestion_infante = $5, gestion_horario = $6 WHERE privilegios.rut_usuario = $7', [gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante, gestion_horario, rut_usuario], (err) => {
+	pool.query('UPDATE privilegios SET gestion_usuario = $1, gestion_ficha = $2, gestion_priv = $3, gestion_evaluacion = $4, gestion_infante = $5 WHERE privilegios.rut_usuario = $6', [gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante, rut_usuario], (err) => {
 		if(err){ return res.sendStatus(404)}
 		return res.sendStatus(200);
 	});
