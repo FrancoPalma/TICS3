@@ -16,7 +16,6 @@ create table privilegios (
     gestion_priv BOOLEAN,
     gestion_evaluacion BOOLEAN,
     gestion_infante BOOLEAN,
-    gestion_horario BOOLEAN,
     administrador BOOLEAN,
     CONSTRAINT fk_rut FOREIGN KEY(rut_usuario) REFERENCES usuario(rut)
 );
@@ -61,7 +60,7 @@ create table infante(
 );
 
 create table apoderado(
-    rut varchar(10) primary key,
+    rut varchar(10),
     rut_infante varchar (10),
     nombre varchar(80),
     email varchar (50),
