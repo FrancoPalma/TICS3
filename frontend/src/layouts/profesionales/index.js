@@ -633,7 +633,7 @@ export default function Profesionales() {
   
               <Card>
               <center>
-                <h1>Usted no tiene acceso a este modulo</h1>
+                <h1>Usted no tiene acceso a este módulo</h1>
               </center>
               </Card>
             </SuiBox>
