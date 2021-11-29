@@ -623,6 +623,27 @@ export default function Profesionales() {
   if(info == null){
     Fuera();
   }else{
+    if (info.gestion_usuario === false){
+      return(
+        <DashboardLayout>
+          <DashboardNavbar/>
+          <SuiBox py={3}>
+            <SuiBox mb={3}>
+  
+              <Card>
+              <center>
+                <h1>Usted no tiene acceso a este módulo</h1>
+              </center>
+              </Card>
+            </SuiBox>
+            <Card>
+            </Card>
+          </SuiBox>
+          <Footer />
+        </DashboardLayout>
+      );
+    }
+    else{
     if(Listo === 1 && info.gestion_priv === true){
       return (
         <DashboardLayout>
@@ -704,27 +725,8 @@ export default function Profesionales() {
             <Footer />
           </DashboardLayout>
         );
-      }else if(Listo === 0 && info.gestion_usuario === false){
-
-        return(
-          <DashboardLayout>
-            <DashboardNavbar/>
-            <SuiBox py={3}>
-              <SuiBox mb={3}>
-    
-                <Card>
-                <center>
-                  <h1>Usted no tiene acceso a este modulo</h1>
-                </center>
-                </Card>
-              </SuiBox>
-              <Card>
-              </Card>
-            </SuiBox>
-            <Footer />
-          </DashboardLayout>
-        );
       }
+    }
   }
 }
 
