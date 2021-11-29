@@ -491,7 +491,7 @@ export default function Profesionales() {
                 infante: <Check boleano={users[i].gestion_infante}/>,
                 privilegios: <Check boleano={users[i].gestion_priv}/>,
                 usuario: <Check boleano={users[i].gestion_usuario}/>,
-                acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario} p6={users[i].gestion_horario}/>
+                acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario} />
               })
             }
           }
@@ -595,8 +595,7 @@ export default function Profesionales() {
               infante: <Check boleano={users[i].gestion_infante}/>,
               privilegios: <Check boleano={users[i].gestion_priv}/>,
               usuario: <Check boleano={users[i].gestion_usuario}/>,
-              horario: <Check boleano={users[i].gestion_horario}/> ,
-              acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario} p6={users[i].gestion_horario}/>
+              acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario}/>
             })
           }
         }
@@ -613,13 +612,12 @@ export default function Profesionales() {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut_usuario: aux[6],
+      rut_usuario: aux[5],
       gestion_evaluacion: aux[0],
       gestion_ficha: aux[1],
       gestion_infante: aux[2],
       gestion_priv: aux[3],
       gestion_usuario: aux[4],
-      gestion_horario: aux[5],
     })
     })
     .then( (response) => {
