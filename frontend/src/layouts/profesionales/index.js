@@ -562,8 +562,6 @@ export default function Profesionales() {
       });
     }
   }
-
-
   function ActualizarEmpleadosFT(){
     if(info === null){
       hist.push('/authentication/sign-in');
@@ -603,7 +601,6 @@ export default function Profesionales() {
       });
     }
   }
-
   function EditarEmpleado() {
     fetch('/usuario/editar_privilegios/'+aux[6].toString(), {
     method: 'POST',

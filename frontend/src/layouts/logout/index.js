@@ -7,11 +7,12 @@ import Footer from "examples/Footer";
 
 export default function Horario() {
     const hist = useHistory();
+    localStorage.clear();
     function LogOut(){
         fetch('/sesion/logout')
         .then( (response) => {
             if(response.status !== 404) {
-                localStorage.setItem('usuario', JSON.stringify(null));
+                localStorage.setItem('usuario', JSON.stringify({cerrar: true}));
                 hist.push('/authentication/sign-in');
             }
         })

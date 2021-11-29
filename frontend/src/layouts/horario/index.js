@@ -458,7 +458,7 @@ export default function Horario() {
     let ini = value.toString()
           let fin = value2.toString()
     if(selectedDay != undefined){
-      if(descripcion == "" || sala==""){
+      if(descripcion === "" || sala ===""){
         alert("Agregue la descripción y sala");
       }else{
         if(parseInt(ini[16]+ini[17]+ini[19]+ini[20]) < parseInt(fin[16]+fin[17]+fin[19]+fin[20])){
@@ -518,7 +518,7 @@ export default function Horario() {
               console.log(error)
           });
         }else{
-          alert("La hora de fin no puede ser antes que la hora de inicio")
+          alert("La hora de fin no puede ser antes o igual que la hora de inicio")
         }
       }
     }else{
