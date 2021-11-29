@@ -56,7 +56,7 @@ function a11yProps(index) {
 
 export default function Usuarios() {
   let info = JSON.parse(localStorage.getItem('usuario'));
-console.log(info.gestion_infante)
+
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -1002,7 +1002,7 @@ console.log(info.gestion_infante)
         <SuiBox py={6}>
           <SuiBox mb={6}>
             <Card>
-            <BotonAgregar/>
+
               <SuiBox customClass={classes.tables_table}>
                 <Table columns={columns_aux} rows={rows} />
               </SuiBox>
@@ -1450,14 +1450,7 @@ console.log(info.gestion_infante)
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
-            <SuiButton onClick={async() => {setListo(5)
-            setValue('')
-            setID(0)}}>
-              <Icon classsName="material-icons-round">
-                add
-              </Icon>
-              Agregar Evaluación
-            </SuiButton>
+
           </SuiBox>
           <SuiBox customClass={classes.tables_table}>
             <Table columns={columns2_aux} rows={rows2} />
@@ -1562,16 +1555,8 @@ console.log(info.gestion_infante)
           </SuiButton>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
-          <SuiBox>
-            <SuiButton onClick={async() => {setListo(5)
-            setValue('')
-            setID(0)}}>
-              <Icon classsName="material-icons-round">
-                add
-              </Icon>
-              Agregar Evaluación
-            </SuiButton>
-          </SuiBox>
+
+
           <SuiBox customClass={classes.tables_table}>
             <Table columns={columns2_aux} rows={rows2} />
           </SuiBox>
@@ -1790,16 +1775,7 @@ console.log(info.gestion_infante)
           </SuiButton>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
-          <SuiBox>
-            <SuiButton onClick={async() => {setListo(5)
-            setValue('')
-            setID(0)}}>
-              <Icon classsName="material-icons-round">
-                add
-              </Icon>
-              Agregar Evaluación
-            </SuiButton>
-          </SuiBox>
+
           <SuiBox customClass={classes.tables_table}>
             <Table columns={columns2_aux} rows={rows2} />
           </SuiBox>
