@@ -623,7 +623,7 @@ export default function Profesionales() {
   if(info == null){
     Fuera();
   }else{
-    if (info.gestion_usuario === false){
+    if (info.gestion_usuario == false){
       return(
         <DashboardLayout>
           <DashboardNavbar/>
@@ -643,7 +643,7 @@ export default function Profesionales() {
         </DashboardLayout>
       );
     }
-    else{
+    else if (info.gestion_usuario == true){
     if(Listo === 1 && info.gestion_priv === true){
       return (
         <DashboardLayout>
@@ -699,7 +699,7 @@ export default function Profesionales() {
           </DashboardLayout>
         );
         }
-      if (Listo === 0 && info.gestion_usuario === true){
+      if (Listo === 0){
         ActualizarEmpleados();
         return(
           <DashboardLayout>
