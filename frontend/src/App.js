@@ -119,11 +119,8 @@ export default function App() {
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
             />
-            <Configurator />
-            {configsButton}
           </>
         )}
-        {layout === "vr" && <Configurator />}
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/authentication/sign-in" />
@@ -140,11 +137,8 @@ export default function App() {
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
-          <Configurator />
-          {configsButton}
         </>
       )}
-      {layout === "vr" && <Configurator />}
       <Switch>
         {getRoutes(routes)}
         <Redirect from="*" to="/authentication/sign-in" />

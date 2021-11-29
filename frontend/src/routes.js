@@ -16,6 +16,7 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+import Basket from "examples/Icons/Basket";
 
 
 
@@ -37,7 +38,7 @@ const routes = [
     name: "Profesionales",
     key: "profesionales",
     route: "/profesionales",
-    icon: <Office size="12px" />,
+    icon: <Document size="12px" />,
     component: Profesionales,
     noCollapse: true,
   },
@@ -46,7 +47,7 @@ const routes = [
     name: "Horario",
     key: "horario",
     route: "/horario",
-    icon: <Shop size="12px" />,
+    icon: <Cube size="12px" />,
     component: Horario,
     noCollapse: true,
   },
@@ -55,7 +56,7 @@ const routes = [
     name: "Usuarios",
     key: "usuarios",
     route: "/usuarios",
-    icon: <SpaceShip size="12px" />,
+    icon: <Basket size="12px" />,
     component: Usuarios,
     noCollapse: true,
   },
@@ -73,7 +74,7 @@ const routes = [
     name: "Cerrar Sesión",
     key: "logout",
     route: "/logout",
-    icon: <Shop size="12px" />,
+    icon: <Settings size="12px" />,
     component: LogOut,
     noCollapse: true,
   },

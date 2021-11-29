@@ -158,7 +158,7 @@ export default function Horario() {
     })
     .then((response) => {
       if(response.status == 200){
-        alert("Se ha eliminado correctamente")
+        alert("Eliminado correctamente")
         window.location.href = window.location.href;
         return response.json()
       }else{
@@ -371,7 +371,7 @@ export default function Horario() {
   function AgregarHorario(){
     if(selectedDay != undefined){
       if(descripcion == "" || sala==""){
-        alert("Agregue la descripción y sala");
+        alert("Datos ingresados inválidos");
       }else{
         let aux = selectedDay.toLocaleDateString()
         let dia;
