@@ -505,7 +505,7 @@ export default function Horario() {
       alert("Seleccione una fecha")
     }
   }
-  if(info.gestion_horario == true){
+  if(info.gestion_horario === true){
     if(Listo === 1){
       return (
         <DashboardLayout> 
@@ -706,11 +706,6 @@ export default function Horario() {
         <DashboardLayout> 
         <DashboardNavbar/>
         <SuiBox py={3}>
-            <Tabs value={tabValue} onChange={handleSetTabValue}>
-              <Tab label="Buscar" {...a11yProps(0)}/>
-              <Tab label="Añadir" {...a11yProps(1)}/>
-            </Tabs>
-            <TabPanel value={tabValue} index={0}>
             <Card>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
               <center>
@@ -729,102 +724,6 @@ export default function Horario() {
                 Consultar
               </SuiButton>
             </Card>
-            </TabPanel>
-            <TabPanel value={tabValue} index={1}>
-              <SuiBox mb={1.5} display="center">
-                <Grid  alignItems="center" justify="center" container spacing={3}>
-                  <Grid item xs={12} lg={7}>
-                  <Card>
-
-                    <SuiTypography variant="h3" textColor="text" fontWeight="medium">
-                      <center>
-                    Seleccione una fecha
-                    </center>
-                    </SuiTypography>
-
-                    <DayPicker onDayClick={handleDayClick}
-                    months={MONTHS}
-                    selectedDays={selectedDay}
-                    weekdaysShort={WEEKDAYS_SHORT}
-                    disabledDays={{ daysOfWeek: [0,6] }}
-                    firstDayOfWeek={1}/>
-                    <br/>
-                    <br/>
-                  </Card>
-                  </Grid>
-                  <Grid  justify="center" item xs={12} lg={5}>
-                    <Card>
-                      <center>
-                      <br/>
-                    <Grid item xs={6}>
-                    <label>Inicio: </label>
-                    </Grid>
-                    <Grid item xs={6}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <Stack spacing={3}>
-                        <TimePicker
-                          label=""
-                          value={value}
-                          onChange={handleChange}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Stack>
-                    </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={6}>
-                    <label>Fin: </label>
-                    </Grid>
-                    <Grid item xs={6}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <Stack spacing={3}>
-                        <TimePicker
-                          label=""
-                          value={value2}
-                          onChange={handleChange2}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Stack>
-                    </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={6}>
-                    <label>Sala: </label>
-                    </Grid>             
-                    <Grid item xs={6}>
-                      <SuiInput
-                        type="text"
-                        name="sala"
-                        display="flex"
-                        onChange={(e) => {
-                          sala = e.target.value;
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                    <label>Descripción: </label>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <SuiInput
-                        type="text"
-                        name="descripcion"
-                        display="flex"
-                        onChange={(e) => {
-                          descripcion = e.target.value;
-                        }}
-                      />
-                    </Grid>
-                    <br/>
-                    </center>
-                    </Card>
-                  </Grid>
-                </Grid>
-              </SuiBox>
-            <Card>
-              <SuiButton buttonColor="info" onClick={AgregarHorario}>
-                Agregar
-              </SuiButton>
-            </Card>
-            </TabPanel>
-    
         </SuiBox>
         <Footer />
         </DashboardLayout>
