@@ -505,7 +505,7 @@ export default function Horario() {
       alert("Seleccione una fecha")
     }
   }
-  if(info.gestion_horario === true){
+  if(info.gestion_usuario === true){
     if(Listo === 1){
       return (
         <DashboardLayout> 

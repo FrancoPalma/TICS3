@@ -22,7 +22,6 @@ import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 
 let info = JSON.parse(localStorage.getItem('usuario'));
-console.log(info)
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -320,7 +319,6 @@ export default function Profesionales() {
             display="flex"
             onChange={(e) => {
               especialidad = e.target.value;
-              console.log(especialidad);
             }}
           />
         </Grid>
@@ -328,8 +326,6 @@ export default function Profesionales() {
       </>
     )
   }
-
-
   function Formulario2({r, n, t, e, es}){
     rut = r;
     nombre= n;
@@ -465,24 +461,21 @@ export default function Profesionales() {
     hist.push('/authentication/sign-in');
   }
   function ActualizarEmpleados(){
-    if(info == null){
+    if(info === null){
       hist.push('/authentication/sign-in');
     }
-    if (Listo == 0){
+    if(Listo == 0){
       while(rows.length > 0) {
         rows.pop();
       }
       while(rows2.length > 0) {
         rows2.pop();
       }
-      fetch('/usuario/ver_privilegios')
-
+      if(info.gestion_priv){
+        fetch('/usuario/ver_privilegios')
         .then(res => {
-
             return res.json()
-            
         })
-
         .then(users => {
           for(let i=0; i < users.length;i++){
             let aux = true;
@@ -505,7 +498,8 @@ export default function Profesionales() {
             }
           }
         });
-
+      }
+      if(info.gestion_usuario){
         fetch('/usuario/ver_usuarios')
         .then(res => {
             return res.json()
@@ -530,10 +524,89 @@ export default function Profesionales() {
           }
           setListo(1);
         });
-
-
+      }
     }
   }
+  function ActualizarEmpleadosTF(){
+    if(info === null){
+      hist.push('/authentication/sign-in');
+    }
+    if(Listo == 0){
+      while(rows.length > 0) {
+        rows.pop();
+      }
+      while(rows2.length > 0) {
+        rows2.pop();
+      }
+      fetch('/usuario/ver_usuarios')
+      .then(res => {
+          return res.json()
+      })
+      .then(users => {
+        for(let i=0; i < users.length;i++){
+          let aux = true;
+          for(let e=0;e < rows2.length;e++){
+            if(users[i].rut == rows2[e].rut){
+              aux=false;
+            }
+          }
+          if(aux == true){
+            rows2.push({nombre:users[i].nombre,
+              rut: users[i].rut,
+              telefono: users[i].telefono,
+              email: users[i].email,
+              especialidad: users[i].especialidad,
+              acciones: <Boton2 rut={users[i].rut} nombre={users[i].nombre} telefono={users[i].telefono} email={users[i].email} especialidad={users[i].especialidad}/>
+            })
+          }
+        }
+        setListo(1);
+      });
+    }
+  }
+
+
+  function ActualizarEmpleadosFT(){
+    if(info === null){
+      hist.push('/authentication/sign-in');
+    }
+    if(Listo == 0){
+      while(rows.length > 0) {
+        rows.pop();
+      }
+      while(rows2.length > 0) {
+        rows2.pop();
+      }
+      fetch('/usuario/ver_privilegios')
+      .then(res => {
+          return res.json()
+      })
+      .then(users => {
+        for(let i=0; i < users.length;i++){
+          let aux = true;
+          for(let e=0;e < rows.length;e++){
+            if(users[i].rut == rows[e].rut){
+              aux=false;
+            }
+          }
+          if(aux == true){
+            rows.push({nombre:users[i].nombre,
+              rut: users[i].rut,
+              evaluación: <Check boleano={ users[i].gestion_evaluacion}/>,
+              ficha: <Check boleano={users[i].gestion_ficha}/>,
+              infante: <Check boleano={users[i].gestion_infante}/>,
+              privilegios: <Check boleano={users[i].gestion_priv}/>,
+              usuario: <Check boleano={users[i].gestion_usuario}/>,
+              horario: <Check boleano={users[i].gestion_horario}/> ,
+              acciones: <Boton rut={users[i].rut} p1={users[i].gestion_evaluacion} p2={users[i].gestion_ficha} p3 ={users[i].gestion_infante} p4={users[i].gestion_priv} p5={users[i].gestion_usuario} p6={users[i].gestion_horario}/>
+            })
+          }
+        }
+        setListo(1);
+      });
+    }
+  }
+
   function EditarEmpleado() {
     fetch('/usuario/editar_privilegios/'+aux[6].toString(), {
     method: 'POST',
@@ -623,104 +696,107 @@ export default function Profesionales() {
   if(info == null){
     Fuera();
   }else{
-    if (info.gestion_usuario == false){
+    if (Listo === 0){
+      if(info.gestion_usuario === true && info.gestion_priv === true){
+        ActualizarEmpleados();
+      }else if(info.gestion_usuario === true && info.gestion_priv === false){
+        ActualizarEmpleadosTF();
+      }else if(info.gestion_usuario === false && info.gestion_priv === true){
+        ActualizarEmpleadosFT();
+      }
       return(
         <DashboardLayout>
           <DashboardNavbar/>
           <SuiBox py={3}>
             <SuiBox mb={3}>
-  
-              <Card>
+            <Card>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
               <center>
-                <h1>Usted no tiene acceso a este módulo</h1>
-              </center>
-              </Card>
-            </SuiBox>
-            <Card>
+               Cargando...
+               </center>
+            </SuiTypography>
             </Card>
-          </SuiBox>
+            </SuiBox>
+            </SuiBox>
           <Footer />
         </DashboardLayout>
       );
-    }
-    else if (info.gestion_usuario == true){
-    if(Listo === 1 && info.gestion_priv === true){
-      return (
-        <DashboardLayout>
-          <DashboardNavbar/>
-          <SuiBox py={6}>
-            <SuiBox mb={6}>
-            <Tabs value={tabValue} onChange={handleSetTabValue}>
-                <Tab label="Datos" {...a11yProps(0)}/>
-                <Tab label="Privilegios" {...a11yProps(1)}/>
-            </Tabs>
-              <Card>
-              <TabPanel value={tabValue} index={0}>
-                <BotonAgregar/>
-                <SuiBox customClass={classes.tables_table}>
-                  <Table columns={columns2} rows={rows2} />
-                </SuiBox>
-              </TabPanel>
-              <TabPanel value={tabValue} index={1}>
-      
-                <SuiBox customClass={classes.tables_table}>
-                  <Table columns={columns} rows={rows} />
-                </SuiBox>
-              </TabPanel>
-              </Card>
-            </SuiBox>
-            <Card>
-            </Card>
-          </SuiBox>
-          <Footer />
-        </DashboardLayout>
-      );
-      }
-      if(Listo === 1 && info.gestion_priv === false){
+    }else if(Listo === 1){
+      if(info.gestion_usuario === true && info.gestion_priv === true){
         return (
           <DashboardLayout>
             <DashboardNavbar/>
             <SuiBox py={6}>
               <SuiBox mb={6}>
-    
+              <Tabs value={tabValue} onChange={handleSetTabValue}>
+                  <Tab label="Datos" {...a11yProps(0)}/>
+                  <Tab label="Privilegios" {...a11yProps(1)}/>
+              </Tabs>
                 <Card>
-                  <h3>Datos</h3>
+                <TabPanel value={tabValue} index={0}>
                   <BotonAgregar/>
                   <SuiBox customClass={classes.tables_table}>
                     <Table columns={columns2} rows={rows2} />
                   </SuiBox>
-    
+                </TabPanel>
+                <TabPanel value={tabValue} index={1}>
+                  <SuiBox customClass={classes.tables_table}>
+                    <Table columns={columns} rows={rows} />
+                  </SuiBox>
+                </TabPanel>
                 </Card>
               </SuiBox>
-              <Card>
-              </Card>
             </SuiBox>
             <Footer />
           </DashboardLayout>
         );
-        }
-      if (Listo === 0){
-        ActualizarEmpleados();
-        return(
+      }else if(info.gestion_usuario === true && info.gestion_priv === false){
+        return (
           <DashboardLayout>
             <DashboardNavbar/>
-            <SuiBox py={3}>
-              <SuiBox mb={3}>
-              <Tabs value={tabValue} onChange={handleSetTabValue}>
-                  <Tab label="Datos" {...a11yProps(0)}/>
-                  <Tab label="Privilegios" {...a11yProps(1)}/>
-                </Tabs>
+            <SuiBox py={6}>
+              <SuiBox mb={6}>
                 <Card>
-                <TabPanel value={tabValue} index={0}>
-                  Cargando...
-                </TabPanel>
-                <TabPanel value={tabValue} index={1}>
-                  Cargando...
-                </TabPanel>
+                  <BotonAgregar/>
+                  <SuiBox customClass={classes.tables_table}>
+                    <Table columns={columns2} rows={rows2} />
+                  </SuiBox>
                 </Card>
               </SuiBox>
-              <Card>
-              </Card>
+            </SuiBox>
+            <Footer />
+          </DashboardLayout>
+        );
+      }else if(info.gestion_usuario === false && info.gestion_priv === true){
+        return (
+          <DashboardLayout>
+            <DashboardNavbar/>
+            <SuiBox py={6}>
+              <SuiBox mb={6}>
+                <Card>
+                  <SuiBox customClass={classes.tables_table}>
+                    <Table columns={columns} rows={rows} />
+                  </SuiBox>
+                </Card>
+              </SuiBox>
+            </SuiBox>
+            <Footer />
+          </DashboardLayout>
+        );
+      }else{
+        return (
+          <DashboardLayout>
+            <DashboardNavbar/>
+            <SuiBox py={6}>
+              <SuiBox mb={6}>
+                <Card>
+                <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+                  <center>
+                    Usted no tiene acceso a este modulo
+                  </center>
+                </SuiTypography>
+                </Card>
+              </SuiBox>
             </SuiBox>
             <Footer />
           </DashboardLayout>
@@ -729,4 +805,5 @@ export default function Profesionales() {
     }
   }
 }
+
 
