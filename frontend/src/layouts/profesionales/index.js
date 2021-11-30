@@ -79,19 +79,29 @@ export default function Profesionales() {
   function getInfo(){
     fetch("sesion/datos_usuario/")
     .then( (response) => {
-      if (response.status === 404){
-        hist.push('/authentication/sign-in')
-      }else{
         return response.json()
-      }
+      
     })
 
     .then(users => {
+      console.log("este es el user")
+      console.log(users)
+      console.log("fin users")
+      console.log(users.rut)
+      console.log(users.nombre)
+      console.log(users.rut)
       info = JSON.parse(users)
+
+      console.log("este es info")
+      console.log(info)
+      console.log("fin info")
     });
   }
 
-
+  getInfo();
+  console.log("este es info")
+  console.log(info)
+  console.log("fin info")
   const [Confirmar, setConfirmar] = useState(true)
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
@@ -449,7 +459,7 @@ export default function Profesionales() {
               }
           })
           .catch((error) => {
-              console.log(error)
+              alert(error)
           });}
           else{
             alert("Error")
@@ -582,7 +592,7 @@ export default function Profesionales() {
     }
   }
   function ActualizarEmpleadosFT(){
-    console.log("ACA2")
+
     if(info === null){
       hist.push('/authentication/sign-in');
     }
@@ -648,7 +658,7 @@ export default function Profesionales() {
         }
     })
     .catch((error) => {
-        console.log(error)
+        alert(error)
     });
   }
   function AgregarProfesional(){
@@ -678,7 +688,7 @@ export default function Profesionales() {
         }
     })
     .catch((error) => {
-        console.log(error)
+        alert(error)
     });
   }
   function EliminarEmpleado() {
@@ -694,31 +704,31 @@ export default function Profesionales() {
     })
     .then( (response) => {
         if(response.status == 200) {
-            console.log("Eliminado correctamente")
+            alert("Eliminado correctamente")
             alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
-            console.log('Hubo un error')
+          alert('Hubo un error')
         }
     })
     .catch((error) => {
-        console.log(error)
+        alert(error)
     });
   }
-  getInfo();
 
-  if(info == null){
-    Fuera();
-  }else{
+
+  //if(info == null){
+   // Fuera();
+  //}else{
 
     if (Listo === 0){
-      
+      getInfo();
       if(info.gestion_usuario === true && info.gestion_priv === true){
         ActualizarEmpleados();
       }else if(info.gestion_usuario === true && info.gestion_priv === false){
         ActualizarEmpleadosTF();
       }else if(info.gestion_usuario === false && info.gestion_priv === true){
-        console.log("aca")
+
         ActualizarEmpleadosFT();
       }
       else{
@@ -829,7 +839,7 @@ export default function Profesionales() {
     }
 
 
-  }
+  //}
 }
 
 
