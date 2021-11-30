@@ -9,6 +9,8 @@ router.get('/ver_usuarios', sesionController.isLoggedIn, sesionController.gestio
 
 router.get('/ver_perfil', sesionController.isLoggedIn, usuarioController.getVerPerfil);
 
+router.post('/agregar_usuario/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.postAgregarUsuario)
+
 router.post('/editar_privilegios/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionPriv, usuarioController.postEditarPrivilegios);
 
 router.post('/eliminar_usuario/:rut_usuario', sesionController.isLoggedIn, sesionController.gestionUsuario, usuarioController.postEliminarUsuario)
