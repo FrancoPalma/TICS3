@@ -15,6 +15,6 @@ router.post('/agregar_usuario_admin', sesionController.postSignupAdmin)
 
 router.get('/logout', sesionController.isLoggedIn, sesionController.getLogout);
 
-router.get('/datos_usuario', sesionController.isLoggedIn, sesionController.getDatosUsuaio)
+router.get('/datos_usuario', sesionController.isLoggedIn, sesionController.getDatosUsuario)
 
 module.exports = router;
