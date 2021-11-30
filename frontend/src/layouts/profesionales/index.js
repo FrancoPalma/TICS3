@@ -74,34 +74,24 @@ function Check({boleano}){
 }
 export default function Profesionales() {
   const hist = useHistory();
-  let info;
 
-  function getInfo(){
-    fetch("sesion/datos_usuario/")
-    .then( (response) => {
-        return response.json()
-      
-    })
+  const [info] = useState([]);
+  function GetInfo(){
+      fetch("sesion/datos_usuario/")
+      .then( (response) => {
+          return response.json()
+        
+      })
 
-    .then(users => {
-      console.log("este es el user")
-      console.log(users)
-      console.log("fin users")
-      console.log(users.rut)
-      console.log(users.nombre)
-      console.log(users.rut)
-      info = JSON.parse(users)
+      .then(users => {
+            info.push({rut: users.rut, nombre: users.nombre, telefono: users.telefono,especialidad: users.especialidad, 
+                      gestion_usuario: users.gestion_usuario, gestion_evaluacion: users.gestion_evaluacion,
+                        gestion_ficha: users.gestion_ficha, gestion_priv:users.gestion_priv, gestion_infante:users.gestion_infante
+            })
+      });}
+    
 
-      console.log("este es info")
-      console.log(info)
-      console.log("fin info")
-    });
-  }
 
-  getInfo();
-  console.log("este es info")
-  console.log(info)
-  console.log("fin info")
   const [Confirmar, setConfirmar] = useState(true)
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
@@ -722,12 +712,13 @@ export default function Profesionales() {
   //}else{
 
     if (Listo === 0){
-      getInfo();
-      if(info.gestion_usuario === true && info.gestion_priv === true){
+      GetInfo()
+      console.log(info.nombre)
+      if(info[0].gestion_usuario === true && info[0].gestion_priv === true){
         ActualizarEmpleados();
-      }else if(info.gestion_usuario === true && info.gestion_priv === false){
+      }else if(info[0].gestion_usuario === true && info[0].gestion_priv === false){
         ActualizarEmpleadosTF();
-      }else if(info.gestion_usuario === false && info.gestion_priv === true){
+      }else if(info[0].gestion_usuario === false && info[0].gestion_priv === true){
 
         ActualizarEmpleadosFT();
       }
