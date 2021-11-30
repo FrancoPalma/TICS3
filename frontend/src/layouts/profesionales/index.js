@@ -70,7 +70,6 @@ function Check({boleano}){
 export default function Profesionales() {
   const hist = useHistory();
   let info;
-
   function Datos(){
     fetch('/sesion/datos_usuario')
     .then( (response) => {
@@ -455,7 +454,7 @@ export default function Profesionales() {
               }
           })
           .catch((error) => {
-              console.log(error)
+              alert(error)
           });}
           else{
             alert("Error")
@@ -588,7 +587,7 @@ export default function Profesionales() {
     }
   }
   function ActualizarEmpleadosFT(){
-    console.log("ACA2")
+
     if(info === null){
       hist.push('/authentication/sign-in');
     }
@@ -654,7 +653,7 @@ export default function Profesionales() {
         }
     })
     .catch((error) => {
-        console.log(error)
+        alert(error)
     });
   }
   function AgregarProfesional(){
@@ -684,7 +683,7 @@ export default function Profesionales() {
         }
     })
     .catch((error) => {
-        console.log(error)
+        alert(error)
     });
   }
   function EliminarEmpleado() {
@@ -700,15 +699,15 @@ export default function Profesionales() {
     })
     .then( (response) => {
         if(response.status == 200) {
-            console.log("Eliminado correctamente")
+            alert("Eliminado correctamente")
             alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
-            console.log('Hubo un error')
+          alert('Hubo un error')
         }
     })
     .catch((error) => {
-        console.log(error)
+        alert(error)
     });
   }
 
