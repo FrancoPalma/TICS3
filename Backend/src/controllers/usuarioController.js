@@ -97,6 +97,35 @@ usuarioController.postEditarPassword = async (req, res) => {
 	})
 }
 
+usuarioController.postAgregarUsuario = (req, res) => {
+	pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], async (err, usuario) => {
+		if (err) {
+		  return res.sendStatus(404);
+		}
+		const user = usuario.rows[0]
+		if (user != undefined) {
+		  return res.sendStatus(404);
+		} else {
+		  let passHash = await bcrypt.hash(password, 8);
+		  pool.query('BEGIN', (err) => {
+			if(err){return res.sendStatus(404)}
+			pool.query('INSERT INTO usuario (id_jardin, rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.body.id_jardin, rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err) => {
+			  if(err){return res.sendStatus(404);}
+			  pool.query('INSERT INTO privilegios (rut_usuario, gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante, administrador) VALUES ($1, $2, $3, $4, $5, $6, $7)', [rut, true, true, true, true, true, true], (err) => {
+				if(err){return res.sendStatus(404);}
+				pool.query('COMMIT', (err) => {
+				  if (err){return res.sendStatus(404);}
+				  else{
+					return res.sendStatus(200)
+				  }
+				}) 
+			  })
+			})
+		  })       
+		}
+	  });
+}
+
 usuarioController.getVerPerfil= (req, res) => {
 	pool.query('SELECT usuario.rut, usuario.nombre, usuario.telefono, usuario.email, usuario.especialidad FROM usuario WHERE usuario.rut = $1', [req.user.rut], (err, result) => {
 		if(err){ return res.sendStatus(404)}

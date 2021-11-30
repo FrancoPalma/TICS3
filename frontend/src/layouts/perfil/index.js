@@ -96,6 +96,9 @@ export default function Perfil(){
             }
         })
         .then(res => {
+          if(res.status === 404) {
+            alert("Error en la conexión")
+          }
             return res.json()
         })
         .then(users => {            
@@ -129,7 +132,7 @@ export default function Perfil(){
         } else if(response.status == 405){
           alert("Contraseña antigua no válida")
         }else {
-            alert('Hubo un error')
+            alert('Error en la conexión')
         }
         setListo(0);
     })}
