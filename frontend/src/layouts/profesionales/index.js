@@ -697,6 +697,10 @@ export default function Profesionales() {
       }else if(info.gestion_usuario === false && info.gestion_priv === true){
         ActualizarEmpleadosFT();
       }
+      else if(info.gestion_usuario === false && info.gestion_priv === false){
+        setListo(5);
+      }
+
       return(
         <DashboardLayout>
           <DashboardNavbar/>
@@ -776,26 +780,29 @@ export default function Profesionales() {
             <Footer />
           </DashboardLayout>
         );
-      }else{
-        return (
-          <DashboardLayout>
-            <DashboardNavbar/>
-            <SuiBox py={6}>
-              <SuiBox mb={6}>
-                <Card>
-                <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-                  <center>
-                    Usted no tiene acceso a este modulo
-                  </center>
-                </SuiTypography>
-                </Card>
-              </SuiBox>
-            </SuiBox>
-            <Footer />
-          </DashboardLayout>
-        );
       }
     }
+
+    else if(Listo === 5){
+      return (
+        <DashboardLayout>
+          <DashboardNavbar/>
+          <SuiBox py={6}>
+            <SuiBox mb={6}>
+              <Card>
+              <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+                <center>
+                  Usted no tiene acceso a este modulo
+                </center>
+              </SuiTypography>
+              </Card>
+            </SuiBox>
+          </SuiBox>
+          <Footer />
+        </DashboardLayout>
+      );
+    }
+
   }
 }
 
