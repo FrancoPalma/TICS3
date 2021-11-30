@@ -21,7 +21,11 @@ import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 
-let info = JSON.parse(localStorage.getItem('usuario'));
+
+
+
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -69,6 +73,25 @@ function Check({boleano}){
   }
 }
 export default function Profesionales() {
+  const hist = useHistory();
+  let info;
+
+  function getInfo(){
+    fetch("sesion/datos_usuario/")
+    .then( (response) => {
+      if (response.status === 404){
+        hist.push('/authentication/sign-in')
+      }else{
+        return res.json()
+      }
+    })
+
+    .then(users => {
+      info = JSON.parse(users)
+    });
+  }
+
+
   const [Confirmar, setConfirmar] = useState(true)
   const hist = useHistory();
   const classes = styles();
@@ -154,9 +177,6 @@ export default function Profesionales() {
           <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Infante" />
           <FormControlLabel control={<Checkbox onChange={handleChange3} defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
           <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
-          <FormControlLabel control={<Checkbox onChange={handleChange5} defaultChecked={aux[5]}/>} label="Gestión Horarios" />
-
-
         </FormGroup>
       </div>
     )
@@ -563,6 +583,7 @@ export default function Profesionales() {
     }
   }
   function ActualizarEmpleadosFT(){
+    console.log("ACA2")
     if(info === null){
       hist.push('/authentication/sign-in');
     }
@@ -685,18 +706,26 @@ export default function Profesionales() {
         console.log(error)
     });
   }
+  getInfo();
 
   if(info == null){
     Fuera();
   }else{
+
     if (Listo === 0){
+      
       if(info.gestion_usuario === true && info.gestion_priv === true){
         ActualizarEmpleados();
       }else if(info.gestion_usuario === true && info.gestion_priv === false){
         ActualizarEmpleadosTF();
       }else if(info.gestion_usuario === false && info.gestion_priv === true){
+        console.log("aca")
         ActualizarEmpleadosFT();
       }
+      else{
+        setListo(1);
+      }
+
       return(
         <DashboardLayout>
           <DashboardNavbar/>
@@ -776,7 +805,9 @@ export default function Profesionales() {
             <Footer />
           </DashboardLayout>
         );
-      }else{
+      }
+
+      else if(info.gestion_usuario === false && info.gestion_priv === false) {
         return (
           <DashboardLayout>
             <DashboardNavbar/>
@@ -795,7 +826,10 @@ export default function Profesionales() {
           </DashboardLayout>
         );
       }
+
     }
+
+
   }
 }
 
