@@ -60,11 +60,12 @@ export default function Usuarios() {
   function getInfo(){
     fetch("sesion/datos_usuario/")
     .then( (response) => {
+      console.log(response.status)
       if (response.status === 404){
-        hist.push('/authentication/sign-in')
-      }else{
-        return res.json()
+        //hist.push('/authentication/sign-in')
       }
+        return response.json()
+  
     })
 
     .then(users => {
