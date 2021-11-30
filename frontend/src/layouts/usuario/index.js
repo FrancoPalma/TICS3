@@ -135,7 +135,7 @@ export default function Usuarios() {
     }
   })
   .catch((err) => {
-    alert("La Ficha ser un PDF");
+    alert("La Ficha debe ser un PDF");
   })
   
   };
@@ -207,7 +207,7 @@ export default function Usuarios() {
       }
     })
     .catch(error => {
-      console.log(error);
+      alert("Error en la conexión");
     });
   }
   function RecibirInformeid(id){
@@ -295,7 +295,7 @@ export default function Usuarios() {
         setListo(0);
       }
       else{
-        alert("Hubo un error en la conexión")
+        alert("Error en la conexión")
         console.log(response.status)
       }
     })
@@ -316,11 +316,12 @@ export default function Usuarios() {
       .then(res => {
         if(res.status === 404) {
           bolean = false;
+          alert("Error en la conexión")
       }
           return res.json()
       })
       .then(users => {
-
+          
           let date = users.fecha_nacimiento;
           date = date.toString();
           date = date.slice(0,9);
@@ -343,6 +344,7 @@ export default function Usuarios() {
         .then(res => {
           if(res.status === 404) {
             bolean = false;
+            alert("Error en la conexión")
         }
             return res.json()
         })
@@ -392,6 +394,7 @@ export default function Usuarios() {
       .then(res => {
         if(res.status === 404) {
           bolean = false;
+          alert("Error en la conexión")
       }
           return res.json()
       })
@@ -639,6 +642,9 @@ export default function Usuarios() {
     }
     fetch('/infante/ver_infantes')
       .then(res => {
+        if(res.status == 404){
+          alert("Error en la conexión")
+        }
           return res.json()
       })
       .then(users => {
@@ -675,6 +681,9 @@ export default function Usuarios() {
       }
       fetch('/infante/ver_infantes')
         .then(res => {
+          if(res.status == 404){
+            alert("Error en la conexión")
+          }
             return res.json()
         })
         .then(users => {
@@ -844,7 +853,7 @@ export default function Usuarios() {
         alert("Informe guardado")
         return response.json()
       }else{
-        alert("Error al enviar informe, por favor vuelva a intentarlo.")
+        alert("Error en la conexión.")
       }
     })
     .then(users => {
