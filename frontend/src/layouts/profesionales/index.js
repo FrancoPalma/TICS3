@@ -82,7 +82,7 @@ export default function Profesionales() {
       if (response.status === 404){
         hist.push('/authentication/sign-in')
       }else{
-        return res.json()
+        return response.json()
       }
     })
 
@@ -93,7 +93,6 @@ export default function Profesionales() {
 
 
   const [Confirmar, setConfirmar] = useState(true)
-  const hist = useHistory();
   const classes = styles();
   const [tabValue, setTabValue] = useState(0);
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);

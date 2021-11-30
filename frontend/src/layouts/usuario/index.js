@@ -63,7 +63,7 @@ export default function Usuarios() {
       if (response.status === 404){
         hist.push('/authentication/sign-in')
       }else{
-        return res.json()
+        return response.json()
       }
     })
 
