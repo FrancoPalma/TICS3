@@ -45,6 +45,13 @@ sesionController.postSignup = async (req,res) => {
 	}
 };
 
+sesionController.getDatosUsuario = (req, res) => {
+	if (req.isAuthenticated()) {
+		return res.json(req.user);
+	}
+	res.sendStatus(404);
+}
+
 sesionController.getLogout = (req, res) => {
 	req.logout();
 	res.sendStatus(200);
