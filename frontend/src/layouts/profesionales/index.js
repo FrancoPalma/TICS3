@@ -21,7 +21,11 @@ import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 /*npm install @mui/material @emotion/react @emotion/styled*/
 
-let info = JSON.parse(localStorage.getItem('usuario'));
+
+
+
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -69,6 +73,25 @@ function Check({boleano}){
   }
 }
 export default function Profesionales() {
+  const hist = useHistory();
+  let info;
+
+  function getInfo(){
+    fetch("sesion/datos_usuario/")
+    .then( (response) => {
+      if (response.status === 404){
+        hist.push('/authentication/sign-in')
+      }else{
+        return res.json()
+      }
+    })
+
+    .then(users => {
+      info = JSON.parse(users)
+    });
+  }
+
+
   const [Confirmar, setConfirmar] = useState(true)
   const hist = useHistory();
   const classes = styles();
@@ -683,12 +706,14 @@ export default function Profesionales() {
         console.log(error)
     });
   }
+  getInfo();
 
   if(info == null){
     Fuera();
   }else{
-    if (Listo === 0){
 
+    if (Listo === 0){
+      
       if(info.gestion_usuario === true && info.gestion_priv === true){
         ActualizarEmpleados();
       }else if(info.gestion_usuario === true && info.gestion_priv === false){

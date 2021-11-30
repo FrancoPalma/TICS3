@@ -93,7 +93,7 @@ export default function SignIn() {
       );
   }
   if(isAutentificado){
-    GO();
+
     return (
       <CoverLayout
         title="Bienvenido"
