@@ -55,7 +55,22 @@ function a11yProps(index) {
 }
 
 export default function Usuarios() {
-  let info = JSON.parse(localStorage.getItem('usuario'));
+  let info;
+
+  function getInfo(){
+    fetch("sesion/datos_usuario/")
+    .then( (response) => {
+      if (response.status === 404){
+        hist.push('/authentication/sign-in')
+      }else{
+        return res.json()
+      }
+    })
+
+    .then(users => {
+      info = JSON.parse(users)
+    });
+  }
 
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -976,6 +991,8 @@ export default function Usuarios() {
       </>  
     );
   }
+
+  getInfo()
 
   if(Listo === 1 && info.gestion_infante === true){
   return (
