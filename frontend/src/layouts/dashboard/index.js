@@ -43,6 +43,7 @@ function Dashboard() {
   ];
 
   function EnviarFecha(){
+    console.log(info)
       let dia;
       let mes;
       let ano;
@@ -51,7 +52,6 @@ function Dashboard() {
       }
       var today = new Date()
       today = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-      console.log(today)
       fetch('/horario/ver_horario',{
         method: 'POST',
         headers: {
@@ -64,7 +64,6 @@ function Dashboard() {
       })
       .then((response) => {
         if(response.status == 200){
-          console.log("ok")
           return response.json()
         }else{
           console.log("error")

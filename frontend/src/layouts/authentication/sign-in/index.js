@@ -37,7 +37,7 @@ export default function SignIn() {
     }
   }
   
-  function EnviarDatos() {
+  function EnviarDatos(){
     if(EstadoRut === true){
       fetch('/sesion/login', {
       method: 'POST',
@@ -61,10 +61,11 @@ export default function SignIn() {
         }
       })
       .then(users => {
+        localStorage.setItem('usuario', JSON.stringify(users));
         if(isAutentificado === true) {
+          localStorage.setItem('usuario', JSON.stringify(users));
           console.log("LOGEADO")
           console.log(users)
-          localStorage.setItem('usuario', JSON.stringify(users));
           hist.push('/dashboard')
         }
       })
