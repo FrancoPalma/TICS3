@@ -154,9 +154,6 @@ export default function Profesionales() {
           <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Infante" />
           <FormControlLabel control={<Checkbox onChange={handleChange3} defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
           <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
-          <FormControlLabel control={<Checkbox onChange={handleChange5} defaultChecked={aux[5]}/>} label="Gestión Horarios" />
-
-
         </FormGroup>
       </div>
     )
@@ -563,6 +560,7 @@ export default function Profesionales() {
     }
   }
   function ActualizarEmpleadosFT(){
+    console.log("ACA2")
     if(info === null){
       hist.push('/authentication/sign-in');
     }
@@ -696,6 +694,7 @@ export default function Profesionales() {
       }else if(info.gestion_usuario === true && info.gestion_priv === false){
         ActualizarEmpleadosTF();
       }else if(info.gestion_usuario === false && info.gestion_priv === true){
+        console.log("aca")
         ActualizarEmpleadosFT();
       }
       else{

@@ -12,7 +12,6 @@ export default function Horario() {
         fetch('/sesion/logout')
         .then( (response) => {
             if(response.status !== 404) {
-                localStorage.setItem('usuario', JSON.stringify({cerrar: true}));
                 hist.push('/authentication/sign-in');
             }
         })
