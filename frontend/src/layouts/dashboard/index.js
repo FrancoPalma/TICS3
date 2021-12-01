@@ -24,16 +24,18 @@ import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets"
 import Projects from "layouts/dashboard/components/Projects";
 import OrderOverview from "layouts/dashboard/components/OrderOverview";
 
+import { useHistory } from "react-router-dom";
+
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
-let info = JSON.parse(localStorage.getItem('usuario'));
 
 function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
   const classes = styles();
-  
+  const [nombre,setNombre] = useState(null);
+  const hist = useHistory();
   const [Listo, setListo] = useState(0);
   const [rows, setRow] = useState([]);
   const columns = [
@@ -41,6 +43,29 @@ function Dashboard() {
     { name: "descripcion", align: "center" },
     { name: "sala", align: "center" }
   ];
+  let info = null;
+
+  function Datos(){
+    fetch('/sesion/datos_usuario')
+    .then( (response) => {
+      if(response.status !== 404) {
+        return response.json()
+      } else {
+        hist.push('/authentication/sign-in')
+      }
+    })
+    .then(users => {
+      info = users;
+      setNombre(users.nombre);
+      console.log(info)
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+    setTimeout(()=>{
+      EnviarFecha();
+    },1000);
+  }
 
   function EnviarFecha(){
     console.log(info)
@@ -114,7 +139,7 @@ function Dashboard() {
       });
   }
   if(Listo === 0){
-    EnviarFecha();
+    Datos();
     return(
       <DashboardLayout>
         <SuiBox py={3}>
@@ -145,7 +170,7 @@ function Dashboard() {
                   </SuiTypography>
                   <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
                     <br/>
-                   Ten un buen día querido {info.nombre}!
+                   Ten un buen día querido {nombre}!
                     
                   </SuiTypography>
                   <br/><br/><br/><br/>
@@ -192,7 +217,7 @@ function Dashboard() {
                   </SuiTypography>
                   <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
                     <br/>
-                   Ten un buen día querido {info.nombre}!
+                   Ten un buen día querido {nombre}!
                     
                   </SuiTypography>
                   <br/><br/><br/><br/>

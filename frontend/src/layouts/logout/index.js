@@ -7,6 +7,7 @@ import Footer from "examples/Footer";
 
 export default function Horario() {
     const hist = useHistory();
+    let info;
     localStorage.clear();
     function LogOut(){
         fetch('/sesion/logout')
@@ -19,7 +20,27 @@ export default function Horario() {
             console.log(error)
         });
     }
-    LogOut();
+    function Datos(){
+      fetch('/sesion/datos_usuario')
+      .then( (response) => {
+        if(response.status !== 404) {
+          return response.json()
+        } else {
+          hist.push('/authentication/sign-in')
+        }
+      })
+      .then(users => {
+        info = users;
+        console.log(info)
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+      setTimeout(()=>{
+        LogOut();;
+      },500);
+    }
+    Datos();
     return(
         <DashboardLayout>
           <SuiBox py={3}>
