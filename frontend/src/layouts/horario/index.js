@@ -81,6 +81,11 @@ export default function Horario() {
     { name: "sala", align: "center" },
     { name: "acciones", align: "right" }
   ];
+  const columns2 = [
+    { label: "Nombre",name: "hora", align: "left" },
+    { name: "descripcion", align: "center" },
+    { name: "sala", align: "center" }
+  ];
   const [priv, setPriv] = useState(false);
   const [options] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -768,7 +773,7 @@ export default function Horario() {
                 <Icon classsName="material-icons-round">keyboard_backspace</Icon>
               </SuiButton>
               <SuiBox customClass={classes.tables_table}>
-                <Table columns={columns} rows={rows} />
+                <Table columns={columns2} rows={rows} />
               </SuiBox>
               </Card>
             </SuiBox>
