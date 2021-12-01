@@ -22,20 +22,6 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [isAutentificado, setsetisAutentificado] = useState(false);
   const [EstadoRut,setEstadoRut] = useState(false)
-  function handleChangeInput(valor) {
-    //destructurin de los valores enviados por el metodo onchange de cada input
-    const value  = valor;
-    let regex = new RegExp("^[0-9 k]+$");
-    
-    if (regex.test(value) && value.length <10 && value.length >= 7 && (value.indexOf('k') === -1 || value.indexOf('k') === 8 || value.indexOf('k') === 9)) {
-      setRut(value)
-      setEstadoRut(true)
-    } else if(value.length <10 && regex.test(value)){
-      setRut(value)
-    }else if(value.length <10){
-      setRut(value)
-    }
-  }
   
   function EnviarDatos(){
       fetch('/sesion/login', {
@@ -50,13 +36,15 @@ export default function SignIn() {
       })
       })
       .then( (response) => {
+        console.log(rut)
         if(response.status == 405) {
-          alert("Rut o contraseña inválido")
+          alert("Rut sin puntos y con guión")
           return response.json()
         }else if(response.status !== 404) {
             setsetisAutentificado(true)
             return response.json()
         } else {
+          alert("Rut o contraseña inválido")
           console.log('FALLO EL INGRESO');
           setsetisAutentificado(false)
         }
@@ -104,7 +92,7 @@ export default function SignIn() {
                 <h3>RUT</h3>
               </SuiTypography>
             </SuiBox>
-            <SuiInput type="text" placeholder="RUT" onChange={(event) => handleChangeInput(event.target.value)}
+            <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)}
               /><h5>Sin puntos ni dígito verificador</h5>
                   
           </SuiBox>
@@ -138,7 +126,7 @@ export default function SignIn() {
                 <h3>RUT</h3>
               </SuiTypography>
             </SuiBox>
-            <SuiInput type="text" placeholder="RUT" onChange={(event) => handleChangeInput(event.target.value)}
+            <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)}
               /><h5>Sin puntos ni dígito verificador</h5>
                   
           </SuiBox>
