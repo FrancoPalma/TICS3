@@ -904,7 +904,6 @@ export default function Usuarios() {
     )
   }
   function EnviarInforme(){
-    console.log(id)
     fetch('/informe/guardar_informe',{
       method: 'POST',
       headers: {
@@ -1014,7 +1013,7 @@ export default function Usuarios() {
     })
     .then(users => {
       setValue(users.contenido);
-      setListo(5);
+      setListo(12);
     })
     .catch((error) => {
       console.log(error)
