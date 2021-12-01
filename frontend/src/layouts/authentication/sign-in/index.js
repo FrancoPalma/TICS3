@@ -38,7 +38,6 @@ export default function SignIn() {
   }
   
   function EnviarDatos(){
-    if(EstadoRut === true){
       fetch('/sesion/login', {
       method: 'POST',
       headers: {
@@ -51,13 +50,15 @@ export default function SignIn() {
       })
       })
       .then( (response) => {
-        if(response.status !== 404) {
-          setsetisAutentificado(true)
+        if(response.status == 405) {
+          alert("Rut o contraseña inválido")
           return response.json()
+        }else if(response.status !== 404) {
+            setsetisAutentificado(true)
+            return response.json()
         } else {
           console.log('FALLO EL INGRESO');
           setsetisAutentificado(false)
-          alert("Rut o contraseña inválido");
         }
       })
       .then(users => {
@@ -72,10 +73,6 @@ export default function SignIn() {
       .catch((error) => {
         console.log(error)
       });
-    }else{
-        Alert()
-        alert("Rut o contraseña inválido");
-    }
   }
   function GO(){
     hist.push('/dashboard')

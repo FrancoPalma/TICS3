@@ -94,7 +94,6 @@ DROP TABLE evaluacion;
 DROP TABLE objetivo;
 DROP TABLE analisis;
 
-DROP TABLE modulo;
 DROP TABLE privilegios;
 DROP TABLE horario;
 DROP TABLE informe;
