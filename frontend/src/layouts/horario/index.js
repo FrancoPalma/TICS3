@@ -230,7 +230,7 @@ export default function Horario() {
           console.log("ok")
           return response.json()
         }else{
-          console.log("error")
+          alert('Error en la conexión')
         }
       })
       .then(users => {
@@ -440,7 +440,7 @@ export default function Horario() {
                 alert("Agregado correctamente")
                 window.location.href = window.location.href;
             } else {
-                alert('Hubo un error')
+                alert('Error en la conexión')
                 console.log(response.status)
             }
         })
@@ -508,7 +508,7 @@ export default function Horario() {
                   alert("Agregado correctamente")
                   window.location.href = window.location.href;
               } else {
-                  alert('Hubo un error')
+                  alert('Error en la conexión')
                   console.log(response.status)
               }
           })
@@ -567,7 +567,7 @@ export default function Horario() {
         <SuiBox py={3}>
             <Tabs value={tabValue} onChange={handleSetTabValue}>
               <Tab label="Buscar" {...a11yProps(0)}/>
-              <Tab label="Añadir" {...a11yProps(1)}/>
+              <Tab label="Agregar" {...a11yProps(1)}/>
             </Tabs>
           
             <TabPanel value={tabValue} index={0}>
