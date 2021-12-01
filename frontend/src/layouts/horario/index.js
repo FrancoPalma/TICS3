@@ -81,7 +81,7 @@ export default function Horario() {
     { name: "sala", align: "center" },
     { name: "acciones", align: "right" }
   ];
-
+  const [priv, setPriv] = useState(false);
   const [options] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const handleChange3 = (selectedOption) => {
@@ -89,22 +89,17 @@ export default function Horario() {
     console.log(selectedOption)
 
   };
-
-
   const [selectedDay, setSelectedDay] = useState(undefined);
-
   const [value, setValue] = React.useState(new Date());
   const handleChange = (newValue) => {
     setValue(newValue);
     console.log(newValue)
   };
-
   const [value2, setValue2] = React.useState(new Date());
   const handleChange2 = (newValue) => {
     setValue2(newValue);
   };
-
-  let info = JSON.parse(localStorage.getItem('usuario'));
+  let info;
   let sala ="";
   let descripcion="";
   function handleDayClick(day, { selected }) {
@@ -525,7 +520,52 @@ export default function Horario() {
       alert("Seleccione una fecha")
     }
   }
-  if(info.gestion_usuario === true){
+  function Datos(){
+    fetch('/sesion/datos_usuario')
+    .then( (response) => {
+      if(response.status !== 404) {
+        return response.json()
+      } else {
+        hist.push('/authentication/sign-in')
+      }
+    })
+    .then(users =>{
+      info = users;
+      setPriv(users.gestion_usuario);
+      ActualizarEmpleados();
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+  
+  if(Listo === 0 ){
+    Datos();
+    return(
+      <DashboardLayout>
+        <SuiBox py={3}>
+          <SuiBox mb={3}>
+          <Tabs value={tabValue} onChange={handleSetTabValue}>
+            <Tab label="Buscar" {...a11yProps(0)}/>
+            <Tab label="Añadir" {...a11yProps(1)}/>
+          </Tabs>
+            <Card>
+            <TabPanel value={tabValue} index={0}>
+              Cargando...
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+              Cargando...
+            </TabPanel>
+            </Card>
+          </SuiBox>
+          <Card>
+          </Card>
+        </SuiBox>
+        <Footer />
+      </DashboardLayout>
+    );
+  }
+  if(priv){
     if(Listo === 1){
       return (
         <DashboardLayout> 
@@ -694,31 +734,6 @@ export default function Horario() {
           <Footer />
         </DashboardLayout>
       );
-    }else if(Listo === 0 ){
-      ActualizarEmpleados();
-      return(
-        <DashboardLayout>
-          <SuiBox py={3}>
-            <SuiBox mb={3}>
-            <Tabs value={tabValue} onChange={handleSetTabValue}>
-              <Tab label="Buscar" {...a11yProps(0)}/>
-              <Tab label="Añadir" {...a11yProps(1)}/>
-            </Tabs>
-              <Card>
-              <TabPanel value={tabValue} index={0}>
-                Cargando...
-              </TabPanel>
-              <TabPanel value={tabValue} index={1}>
-                Cargando...
-              </TabPanel>
-              </Card>
-            </SuiBox>
-            <Card>
-            </Card>
-          </SuiBox>
-          <Footer />
-        </DashboardLayout>
-      );
     }
   }else{
     if(Listo === 1){
@@ -763,31 +778,6 @@ export default function Horario() {
               </SuiBox>
               </Card>
             </SuiBox>
-          </SuiBox>
-          <Footer />
-        </DashboardLayout>
-      );
-    }else if(Listo === 0 ){
-      setListo(1);
-      return(
-        <DashboardLayout>
-          <SuiBox py={3}>
-            <SuiBox mb={3}>
-            <Tabs value={tabValue} onChange={handleSetTabValue}>
-              <Tab label="Buscar" {...a11yProps(0)}/>
-              <Tab label="Añadir" {...a11yProps(1)}/>
-            </Tabs>
-              <Card>
-              <TabPanel value={tabValue} index={0}>
-                Cargando...
-              </TabPanel>
-              <TabPanel value={tabValue} index={1}>
-                Cargando...
-              </TabPanel>
-              </Card>
-            </SuiBox>
-            <Card>
-            </Card>
           </SuiBox>
           <Footer />
         </DashboardLayout>
