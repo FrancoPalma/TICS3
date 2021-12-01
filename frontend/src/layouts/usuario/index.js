@@ -67,9 +67,14 @@ export default function Usuarios() {
         return response.json()
   
     })
-
     .then(users => {
-      info = JSON.parse(users)
+      info = users
+      if(info.gestion_infante === false){
+        ActualizarInfantes_Aux()
+      }else if(info.gestion_infante === true){
+        ActualizarInfantes()
+      }
+
     });
   }
 
@@ -684,7 +689,7 @@ export default function Usuarios() {
             })
           }
         }
-        setListo(1);
+        setListo(7);
       });
   }}
   function ActualizarInfantes(){
@@ -1002,9 +1007,9 @@ export default function Usuarios() {
     );
   }
 
-  getInfo()
+  getInfo();
 
-  if(Listo === 1 && info.gestion_infante === true){
+  if(Listo === 1){
   return (
     <DashboardLayout>
       <DashboardNavbar/>
@@ -1023,7 +1028,7 @@ export default function Usuarios() {
       <Footer />
     </DashboardLayout>
   );
-  }else if(Listo === 1 && info.gestion_infante === false){
+  }else if(Listo === 7){
     return (
       <DashboardLayout>
       <DashboardNavbar/>
@@ -1044,11 +1049,7 @@ export default function Usuarios() {
     );
   }
   if (Listo === 0){
-    if (info.gestion_infante === true ){
-    ActualizarInfantes();
-    }else{
-      ActualizarInfantes_Aux();
-    }
+      getInfo();
     return(
       <DashboardLayout>
         <DashboardNavbar/>

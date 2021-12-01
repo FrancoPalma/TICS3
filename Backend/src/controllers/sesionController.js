@@ -3,14 +3,21 @@ const passport = require('../config/passport');
 const sesionController = {}
 
 sesionController.postLogin = (req,res) => {
-	passport.authenticate('local-login', function(err, user) {
-		if (err) { return res.sendStatus(404); }
-		if (user == undefined || user == false) { return res.sendStatus(404); }
-		req.logIn(user, function(err) {
+	let RErut = new RegExp('^([0-9][0-9]|[0-9])[0-9][0-9][0-9][0-9][0-9][0-9]-([0-9]|k|K)+$')
+	console.log(req.body.rut)
+	console.log(RErut.test(req.body.rut))
+	if(RErut.test(req.body.rut)){
+		passport.authenticate('local-login', function(err, user) {
 			if (err) { return res.sendStatus(404); }
-			return res.json(user);
-		});
-	}) (req, res);
+			if (user == undefined || user == false) { return res.sendStatus(404); }
+			req.logIn(user, function(err) {
+				if (err) { return res.sendStatus(404); }
+				return res.json(user);
+			});
+		}) (req, res);
+	}else{
+		return res.sendStatus(405)
+	}
 };
 
 sesionController.postSignupAdmin = async (req,res) => {

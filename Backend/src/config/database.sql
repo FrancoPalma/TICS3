@@ -1,6 +1,6 @@
 create table usuario (
     id_jardin INTEGER,
-    rut numeric(8,0) primary key,
+    rut varchar(10) primary key,
     nombre varchar(80),
     telefono numeric(11,0),
     email varchar(50),
@@ -10,7 +10,7 @@ create table usuario (
 );
 
 create table privilegios (
-    rut_usuario numeric(8,0),
+    rut_usuario varchar(10),
     gestion_usuario BOOLEAN,
     gestion_ficha BOOLEAN,
     gestion_priv BOOLEAN,
@@ -23,7 +23,7 @@ create table privilegios (
 create table horario (
     id SERIAL PRIMARY KEY,
     id_jardin INTEGER,
-    rut_usuario numeric(8,0),
+    rut_usuario varchar(10),
     descripcion text,
     fecha DATE,
     inicio TIME,
@@ -35,7 +35,7 @@ create table horario (
 
 create table informe (
     id SERIAL PRIMARY KEY,
-    rut_usuario numeric(8,0),
+    rut_usuario varchar(10),
     rut_infante VARCHAR(10),
     fecha DATE,
     CONSTRAINT fk_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
@@ -68,14 +68,6 @@ create table apoderado(
     CONSTRAINT fk_infante FOREIGN KEY(rut_infante) REFERENCES infante(rut)
 );
 
-create table modulo (
-    id_jardin INTEGER,
-    duracion numeric(10,0),
-    comienzo time,
-    fin time,
-    CONSTRAINT fk_jardin FOREIGN KEY(id_jardin) REFERENCES jardin(id)
-);
-
 insert into usuario(id_jardin,rut,nombre,telefono,email,especialidad, password)
 values (0,0,'Admin',0,'admin','admin', 'admin');
 
@@ -102,7 +94,6 @@ DROP TABLE evaluacion;
 DROP TABLE objetivo;
 DROP TABLE analisis;
 
-DROP TABLE modulo;
 DROP TABLE privilegios;
 DROP TABLE horario;
 DROP TABLE informe;

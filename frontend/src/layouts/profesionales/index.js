@@ -699,7 +699,6 @@ export default function Profesionales() {
     })
     .then( (response) => {
         if(response.status == 200) {
-            alert("Eliminado correctamente")
             alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
