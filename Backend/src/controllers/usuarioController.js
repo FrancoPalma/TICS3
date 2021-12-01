@@ -109,34 +109,41 @@ usuarioController.postAgregarUsuario = (req, res) => {
 	let email = req.body.email;
 	let especialidad = req.body.especialidad;
 	let password = req.body.password
-
+	console.log(rut)
 	if(RErut.test(rut) && REletras.test(nombre) && REletras.test(especialidad) && REnumeros.test(telefono) && REemail.test(email) && telefono.length <= 11 && telefono.length >= 9){
-		pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], async (err, usuario) => {
-			if (err) {
-			return res.sendStatus(404);
-			}
-			const user = usuario.rows[0]
-			if (user != undefined) {
-			return res.sendStatus(404);
-			} else {
-			let passHash = await bcrypt.hash(password, 8);
-			pool.query('BEGIN', (err) => {
-				if(err){return res.sendStatus(404)}
-				pool.query('INSERT INTO usuario (id_jardin, rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.user.id_jardin, rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err) => {
-				if(err){return res.sendStatus(404);}
-				pool.query('INSERT INTO privilegios (rut_usuario, gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante, administrador) VALUES ($1, $2, $3, $4, $5, $6, $7)', [rut, true, true, true, true, true, true], (err) => {
-					if(err){return res.sendStatus(404);}
-					pool.query('COMMIT', (err) => {
-					if (err){return res.sendStatus(404);}
-					else{
-						return res.sendStatus(200)
+		pool.query('SELECT rut FROM usuario WHERE rut = $1', [rut], (err, result) => {
+			if(err){return res.sendStatus(404)}
+			if(result.rows.length == 0){
+				pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], async (err, usuario) => {
+					if (err) {
+					return res.sendStatus(404);
 					}
-					}) 
-				})
-				})
-			})       
+					const user = usuario.rows[0]
+					if (user != undefined) {
+					return res.sendStatus(404);
+					} else {
+					let passHash = await bcrypt.hash(password, 8);
+					pool.query('BEGIN', (err) => {
+						if(err){return res.sendStatus(404)}
+						pool.query('INSERT INTO usuario (id_jardin, rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.user.id_jardin, rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err) => {
+						if(err){return res.sendStatus(404);}
+						pool.query('INSERT INTO privilegios (rut_usuario, gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante, administrador) VALUES ($1, $2, $3, $4, $5, $6, $7)', [rut, true, true, true, true, true, true], (err) => {
+							if(err){return res.sendStatus(404);}
+							pool.query('COMMIT', (err) => {
+							if (err){return res.sendStatus(404);}
+							else{
+								return res.sendStatus(200)
+							}
+							}) 
+						})
+						})
+					})       
+					}
+				});
+			}else{
+				return res.sendStatus(406)
 			}
-		});
+		})
 	}else{
 		return res.sendStatus(405)
 	}

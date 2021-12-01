@@ -21,34 +21,33 @@ infanteController.postAgregarInfante = (req, res) => {
   
   let REfecha = new RegExp('^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]+$')
   let RErut = new RegExp('^([0-9][0-9]|[0-9])[0-9][0-9][0-9][0-9][0-9][0-9]-([0-9]|k|K)+$')
-	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]+$');
+	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ]+$');
 	let REnumeros = new RegExp('^[0-9]+$')
 	let REemail = new RegExp('[@]')
   
-  /*console.log(RErut.test(rut_infante))
-  console.log(RErut.test(rut_apoderado))
-  console.log(REletras.test(nombre))
-  console.log(REletras.test(nombre_apoderado))
-  console.log(REfecha.test(fecha_nacimiento))
-  console.log(REemail.test(email))
-  console.log(REnumeros.test(telefono))*/
-
   if(RErut.test(rut_infante) && RErut.test(rut_apoderado) && REletras.test(nombre) && REletras.test(nombre_apoderado) && REfecha.test(fecha_nacimiento) && REemail.test(email) && REnumeros.test(telefono)){
-    pool.query('BEGIN', (err) => {
-      if(err){ return res.sendStatus(404)}
-      pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
-        if(err){ 
-          return res.sendStatus(404)}
-        pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
-          if(err){
-            return res.sendStatus(404)}
-          pool.query('COMMIT', (err) => {
-            if(err){
+    pool.query('SELECT rut FROM infante WHERE rut = $1', [rut_infante], (err, result) => {
+      if(err){return res.sendStatus(404)}
+      if(result.rows.length == 0){
+        pool.query('BEGIN', (err) => {
+          if(err){ return res.sendStatus(404)}
+          pool.query('INSERT INTO infante(id_jardin, rut, nombre, fecha_nacimiento) VALUES ($1,$2,$3, $4)', [id_jardin, rut_infante, nombre, fecha_nacimiento], (err) => {
+            if(err){ 
               return res.sendStatus(404)}
-            return res.sendStatus(200);
+            pool.query('INSERT INTO apoderado(rut, rut_infante, nombre, email, telefono) VALUES ($1,$2,$3,$4,$5)', [rut_apoderado, rut_infante, nombre_apoderado, email, telefono], (err) => {
+              if(err){
+                return res.sendStatus(404)}
+              pool.query('COMMIT', (err) => {
+                if(err){
+                  return res.sendStatus(404)}
+                return res.sendStatus(200);
+              });
+            });
           });
-        });
-      });
+        })
+      }else{
+        return res.sendStatus(406)
+      }
     })
   }else{
     return res.sendStatus(405)
@@ -65,16 +64,9 @@ infanteController.postEditarInfante = (req, res) => {
   let telefono = req.body.telefono;
 
 	let RErut = new RegExp('^([0-9][0-9]|[0-9])[0-9][0-9][0-9][0-9][0-9][0-9]-([0-9]|k|K)+$')
-	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]+$');
+	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ]+$');
 	let REnumeros = new RegExp('^[0-9]+$')
 	let REemail = new RegExp('[@]')
-
-  console.log(RErut.test(rut_infante))
-  console.log(RErut.test(rut_apoderado))
-  console.log(REletras.test(nombre))
-  console.log(REletras.test(nombre_apoderado))
-  console.log(REemail.test(email))
-  console.log(REnumeros.test(telefono))
 
   if(RErut.test(rut_apoderado) && REletras.test(nombre) && REletras.test(nombre_apoderado) && REemail.test(email) && REnumeros.test(telefono)){
     pool.query('BEGIN', (err) => {
@@ -115,25 +107,21 @@ infanteController.postVerInfante = (req, res) => {
 
 infanteController.postEliminarInfante = (req, res) => {
 	let rut_infante = req.params.rut_infante;
-
   pool.query('BEGIN', (err) => {
     if(err){return res.sendStatus(404)}
   pool.query('SELECT informe.id FROM informe, infante WHERE informe.rut_infante = infante.rut AND infante.rut = $1', [rut_infante], (err, result) => {
     let informes = result.rows
     if(err){
-      console.log("hola1")
       pool.query('ROLLBACK')
       return res.sendStatus(404)
     }
     pool.query('DELETE FROM apoderado WHERE rut_infante = $1', [rut_infante], (err) => {
       if(err){
-        console.log("hola2")
         pool.query('ROLLBACK')
         return res.sendStatus(404)
       }
       pool.query('DELETE FROM informe WHERE rut_infante = $1', [rut_infante], (err) => {
         if(err){
-          console.log("hola2")
           pool.query('ROLLBACK')
           return res.sendStatus(404)
         }
