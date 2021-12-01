@@ -38,7 +38,7 @@ export default function SignIn() {
       .then( (response) => {
         console.log(rut)
         if(response.status == 405) {
-          alert("Rut sin puntos y con guión")
+          alert("El RUT es sin puntos y con guión")
           return response.json()
         }else if(response.status !== 404) {
             setsetisAutentificado(true)
