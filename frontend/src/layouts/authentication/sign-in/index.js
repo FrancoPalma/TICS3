@@ -93,7 +93,7 @@ export default function SignIn() {
               </SuiTypography>
             </SuiBox>
             <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)}
-              /><h5>Sin puntos ni dígito verificador</h5>
+              /><h5>Sin puntos y con guión</h5>
                   
           </SuiBox>
           <SuiBox mb={2}>
@@ -126,8 +126,8 @@ export default function SignIn() {
                 <h3>RUT</h3>
               </SuiTypography>
             </SuiBox>
-            <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)}
-              /><h5>Sin puntos ni dígito verificador</h5>
+            <SuiInput type="text" placeholder="RUT" onChange={(event) => setRut(event.target.value)} 
+              /><h5>Sin puntos y con guión</h5>
                   
           </SuiBox>
           <SuiBox mb={2}>
