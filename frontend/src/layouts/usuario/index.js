@@ -69,11 +69,9 @@ export default function Usuarios() {
     })
     .then(users => {
       info = users
-      if(info.gestion_infante === false){
-        ActualizarInfantes_Aux()
-      }else if(info.gestion_infante === true){
-        ActualizarInfantes()
-      }
+
+      ActualizarInfantes()
+      
 
     });
   }
@@ -166,7 +164,36 @@ export default function Usuarios() {
 
   function Colocao(rut){
       setRutInfante(rut)
-      setListo(2)
+
+      if (info.gestion_infante === true ){
+          if(info.gestion_ficha === true && info.gestion_evaluacion === true){ 
+              setListo(4)
+          }
+          else if(info.gestion_ficha === true && info.gestion_evaluacion === false){ 
+              setListo(9)
+          }
+          else if(info.gestion_ficha === false && info.gestion_evaluacion === true){
+              setListo(10)
+          }
+          else if(info.gestion_ficha === false && info.gestion_evaluacion === false){
+              setListo(11)
+          }
+      }
+      else if (info.gestion_infante === false){
+
+        if(info.gestion_ficha === true && info.gestion_evaluacion === true){
+              setListo(5)
+        }
+        else if(info.gestion_ficha === true && info.gestion_evaluacion === false){ 
+              setListo(6)
+        }
+        else if(info.gestion_ficha === false && info.gestion_evaluacion === true){
+              setListo(7)
+        }
+        else if(info.gestion_ficha === false && info.gestion_evaluacion === false){
+              setListo(8)
+        } 
+      }
   }
   function RecibirFicha(){
     fetch('/infante/ver_ficha/'+RutInfante.toString(), {
@@ -398,7 +425,7 @@ export default function Usuarios() {
   }
   function VisualizarDatos(rut_infante){
     let bolean = true;
-    if(Listo === 2){
+    if(Listo === 3){
       while(rows.length > 0) {
         rows.pop();
       }
@@ -653,86 +680,82 @@ export default function Usuarios() {
         setListo(0);
     })
   }
-  function ActualizarInfantes_Aux(){
-    if(info == null){
-      hist.push('/authentication/sign-in');
-    }
-  if (Listo == 0){
-    while(rows.length > 0) {
-    rows.pop();
-    }
-    fetch('/infante/ver_infantes')
-      .then(res => {
-        if(res.status == 404){
-          alert("Error en la conexión")
-        }
-          return res.json()
-      })
-      .then(users => {
-        for(let i=0; i < users.length;i++){
-          let aux = true;
-          for(let e=0;e < rows.length;e++){
-            if(users[i].rut == rows[e].rut){
-              aux=false;
-            }
-          }
-          let fecha_nacimiento = users[i].fecha_nacimiento;
-          fecha_nacimiento = fecha_nacimiento.toString();
-          fecha_nacimiento = fecha_nacimiento.slice(0,9);
-          if(aux == true){
-            rows.push({nombre:users[i].nombre,
-              rut: users[i].rut,
-              fecha_nacimiento: fecha_nacimiento,
-              nombre_apoderado: users[i].nombre_apoderado,
-              telefono_apoderado: users[i].telefono,
-              visualizar: <Boton1 rut={users[i].rut}/>
-            })
-          }
-        }
-        setListo(7);
-      });
-  }}
   function ActualizarInfantes(){
     if(info == null){
       hist.push('/authentication/sign-in');
     }
+
     if (Listo == 0){
-      while(rows.length > 0) {
-      rows.pop();
-      }
-      fetch('/infante/ver_infantes')
-        .then(res => {
-          if(res.status == 404){
-            alert("Error en la conexión")
+          while(rows.length > 0) {
+            rows.pop();
           }
-            return res.json()
-        })
-        .then(users => {
-          for(let i=0; i < users.length;i++){
-            let aux = true;
-            for(let e=0;e < rows.length;e++){
-              if(users[i].rut == rows[e].rut){
-                aux=false;
-              }
-            }
-            let fecha_nacimiento = users[i].fecha_nacimiento;
-            fecha_nacimiento = fecha_nacimiento.toString();
-            fecha_nacimiento = fecha_nacimiento.slice(0,10);
-            if(aux == true){
-              rows.push({nombre:users[i].nombre,
-                rut: users[i].rut,
-                fecha_nacimiento: fecha_nacimiento,
-                nombre_apoderado: users[i].nombre_apoderado,
-                telefono_apoderado: users[i].telefono,
-                visualizar: <Boton1 rut={users[i].rut}/>,
-                eliminar: <Boton2 rut={users[i].rut}/>
+
+          if(info.gestion_infante === true){
+              fetch('/infante/ver_infantes')
+                .then(res => {
+                  if(res.status == 404){
+                    alert("Error en la conexión")
+                  }
+                    return res.json()
+                })
+                .then(users => {
+                  for(let i=0; i < users.length;i++){
+                    let aux = true;
+                    for(let e=0;e < rows.length;e++){
+                      if(users[i].rut == rows[e].rut){
+                        aux=false;
+                      }
+                    }
+                    let fecha_nacimiento = users[i].fecha_nacimiento;
+                    fecha_nacimiento = fecha_nacimiento.toString();
+                    fecha_nacimiento = fecha_nacimiento.slice(0,10);
+                    if(aux == true){
+                      rows.push({nombre:users[i].nombre,
+                        rut: users[i].rut,
+                        fecha_nacimiento: fecha_nacimiento,
+                        nombre_apoderado: users[i].nombre_apoderado,
+                        telefono_apoderado: users[i].telefono,
+                        visualizar: <Boton1 rut={users[i].rut}/>,
+                        eliminar: <Boton2 rut={users[i].rut}/>
+                      })
+                    }
+                  }
+                  
+                  setListo(1);
+                });
+            }else if (info.gestion_infante === false){
+              fetch('/infante/ver_infantes')
+              .then(res => {
+                if(res.status == 404){
+                  alert("Error en la conexión")
+                }
+                  return res.json()
               })
+              .then(users => {
+                for(let i=0; i < users.length;i++){
+                  let aux = true;
+                  for(let e=0;e < rows.length;e++){
+                    if(users[i].rut == rows[e].rut){
+                      aux=false;
+                    }
+                  }
+                  let fecha_nacimiento = users[i].fecha_nacimiento;
+                  fecha_nacimiento = fecha_nacimiento.toString();
+                  fecha_nacimiento = fecha_nacimiento.slice(0,9);
+                  if(aux == true){
+                    rows.push({nombre:users[i].nombre,
+                      rut: users[i].rut,
+                      fecha_nacimiento: fecha_nacimiento,
+                      nombre_apoderado: users[i].nombre_apoderado,
+                      telefono_apoderado: users[i].telefono,
+                      visualizar: <Boton1 rut={users[i].rut}/>
+                    })
+                  }
+                }
+                setListo(2);
+              });
             }
-          }
-          
-          setListo(1);
-        });
-    }
+      }
   }
   function Formulario2({r_i, n_i, f_n, r_a, n_a, t, e}){
     rut_infante = r_i;
@@ -1007,9 +1030,28 @@ export default function Usuarios() {
     );
   }
 
-  getInfo();
 
-  if(Listo === 1){
+
+  if (Listo === 0){
+          getInfo();
+        return(
+          <DashboardLayout>
+            <DashboardNavbar/>
+            <SuiBox py={3}>
+              <SuiBox mb={3}>
+                <Card>
+                  Cargando...
+                </Card>
+              </SuiBox>
+              <Card>
+              </Card>
+            </SuiBox>
+            <Footer />
+          </DashboardLayout>
+        );
+  }
+
+  else if(Listo === 1){
   return (
     <DashboardLayout>
       <DashboardNavbar/>
@@ -1028,7 +1070,9 @@ export default function Usuarios() {
       <Footer />
     </DashboardLayout>
   );
-  }else if(Listo === 7){
+  }
+  
+  else if(Listo === 2){
     return (
       <DashboardLayout>
       <DashboardNavbar/>
@@ -1048,28 +1092,11 @@ export default function Usuarios() {
       </DashboardLayout>
     );
   }
-  if (Listo === 0){
-      getInfo();
-    return(
-      <DashboardLayout>
-        <DashboardNavbar/>
-        <SuiBox py={3}>
-          <SuiBox mb={3}>
-            <Card>
-              Cargando...
-            </Card>
-          </SuiBox>
-          <Card>
-          </Card>
-        </SuiBox>
-        <Footer />
-      </DashboardLayout>
-    );
-  }
-  else if (Listo === 2){
-    if(Listo === 2){
+
+  else if (Listo === 3){
+
       VisualizarDatos(RutInfante)
-    }
+    
     return(
         <DashboardLayout>
           <DashboardNavbar/>
@@ -1086,7 +1113,8 @@ export default function Usuarios() {
         </DashboardLayout>
       );
   }
-  if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === true){
+
+  else if (Listo === 4){
     return(
     <DashboardLayout>
       <DashboardNavbar/>
@@ -1206,7 +1234,7 @@ export default function Usuarios() {
   );
   }
 
-    else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === true && info.gestion_ficha === true){
+  else if (Listo === 5){
     return(
     <DashboardLayout>
       <DashboardNavbar/>
@@ -1305,9 +1333,104 @@ export default function Usuarios() {
     </SuiBox>
     <Footer />
   </DashboardLayout>
-  );}
+  );
+  }
 
-  else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === true && info.gestion_ficha === false){
+  else if (Listo === 6){
+    return(
+    <DashboardLayout>
+      <DashboardNavbar/>
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
+        <Card>
+
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del usuario</h3>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del usuario: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del usuario: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
+              </Grid>
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+        <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+          <SuiButton onClick={handleSubmission}>
+            Subir
+          </SuiButton>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2_aux} rows={rows2} />
+          </SuiBox>
+        </TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+  );
+  }
+
+  else if (Listo === 7){
     return(
     <DashboardLayout>
       <DashboardNavbar/>
@@ -1404,7 +1527,7 @@ export default function Usuarios() {
   </DashboardLayout>
   );}
 
-  else if (Listo === 3 && info.gestion_infante === false && info.gestion_evaluacion === false && info.gestion_ficha === false){
+  else if (Listo === 8){
     return(
     <DashboardLayout>
       <DashboardNavbar/>
@@ -1492,9 +1615,117 @@ export default function Usuarios() {
     </SuiBox>
     <Footer />
   </DashboardLayout>
-  );}
+  );
+  }
+  else if (Listo === 9){
+    return(
+    <DashboardLayout>
+      <DashboardNavbar/>
+    <SuiBox py={6}>
+      <SuiBox mb={6}>
+      <Tabs value={tabValue} onChange={handleSetTabValue}>
+        <Tab label="Datos" {...a11yProps(0)}/>
+        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
+        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
+      </Tabs>
+      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
+        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
+        </SuiButton>
+        <Card>
 
-  else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === false){
+        <TabPanel value={tabValue} index={0}>
+          <Box sx={{ width: '100%' }}>
+            <h3>Datos personales del usuario</h3>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del usuario: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutInfante}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del usuario: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameChild}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Fecha de nacimiento: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Date}</Item>
+                </Grid>
+              </Grid>
+              <h3>Datos personales del apoderado</h3>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid item xs={6}>
+                  <Item>RUT del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{RutApoderado}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Nombre del apoderado: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{NameFather}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Email: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Email}</Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>Telefóno: </Item>
+                </Grid>
+                <Grid item xs={6}>
+                  <Item>{Phone}</Item>
+                </Grid>
+            </Grid>
+          </Box>
+
+          <SuiButton buttonColor="info" 
+          onClick={async () => {
+            const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
+              'Edición infante '+RutInfante.toString());
+            if (result) {
+              EditarInfante(RutInfante);
+            } else {
+              // Сonfirmation not confirmed
+            }
+          }}
+          >
+            Editar usuario
+            <Icon classsName="material-icons-round">edit</Icon>
+          </SuiButton>
+
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+        <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+          <SuiButton onClick={handleSubmission}>
+            Subir
+          </SuiButton>
+          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            Visualizar
+          </SuiButton>
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+
+          <SuiBox customClass={classes.tables_table}>
+            <Table columns={columns2_aux} rows={rows2} />
+          </SuiBox>
+        </TabPanel>
+        </Card>
+      </SuiBox>
+      <Card>
+      </Card>
+    </SuiBox>
+    <Footer />
+  </DashboardLayout>
+  );
+  }
+  else if (Listo === 11){
     return(
     <DashboardLayout>
       <DashboardNavbar/>
@@ -1598,7 +1829,7 @@ export default function Usuarios() {
     <Footer />
   </DashboardLayout>
   );}
-  else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === true && info.gestion_ficha === false){
+  else if (Listo === 10){
     return(
     <DashboardLayout>
       <DashboardNavbar/>
@@ -1710,115 +1941,9 @@ export default function Usuarios() {
     <Footer />
   </DashboardLayout>
   );}  
-  else if (Listo === 3 && info.gestion_infante === true && info.gestion_evaluacion === false && info.gestion_ficha === true){
-    return(
-    <DashboardLayout>
-      <DashboardNavbar/>
-    <SuiBox py={6}>
-      <SuiBox mb={6}>
-      <Tabs value={tabValue} onChange={handleSetTabValue}>
-        <Tab label="Datos" {...a11yProps(0)}/>
-        <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
-        <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
-      </Tabs>
-      <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
-        <Icon classsName="material-icons-round">keyboard_backspace</Icon>
-        </SuiButton>
-        <Card>
 
-        <TabPanel value={tabValue} index={0}>
-          <Box sx={{ width: '100%' }}>
-            <h3>Datos personales del usuario</h3>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid item xs={6}>
-                  <Item>RUT del usuario: </Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>{RutInfante}</Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>Nombre del usuario: </Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>{NameChild}</Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>Fecha de nacimiento: </Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>{Date}</Item>
-                </Grid>
-              </Grid>
-              <h3>Datos personales del apoderado</h3>
-              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid item xs={6}>
-                  <Item>RUT del apoderado: </Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>{RutApoderado}</Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>Nombre del apoderado: </Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>{NameFather}</Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>Email: </Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>{Email}</Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>Telefóno: </Item>
-                </Grid>
-                <Grid item xs={6}>
-                  <Item>{Phone}</Item>
-                </Grid>
-            </Grid>
-          </Box>
 
-          <SuiButton buttonColor="info" 
-          onClick={async () => {
-            const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
-              'Edición infante '+RutInfante.toString());
-            if (result) {
-              EditarInfante(RutInfante);
-            } else {
-              // Сonfirmation not confirmed
-            }
-          }}
-          >
-            Editar usuario
-            <Icon classsName="material-icons-round">edit</Icon>
-          </SuiButton>
-
-        </TabPanel>
-        <TabPanel value={tabValue} index={1}>
-        <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
-          <SuiButton onClick={handleSubmission}>
-            Subir
-          </SuiButton>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
-        </TabPanel>
-        <TabPanel value={tabValue} index={2}>
-
-          <SuiBox customClass={classes.tables_table}>
-            <Table columns={columns2_aux} rows={rows2} />
-          </SuiBox>
-        </TabPanel>
-        </Card>
-      </SuiBox>
-      <Card>
-      </Card>
-    </SuiBox>
-    <Footer />
-  </DashboardLayout>
-  );}
-
-  if(Listo === 5){
+  if(Listo === 12){
     return(
       <DashboardLayout>
         <DashboardNavbar/>
