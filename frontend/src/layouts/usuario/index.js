@@ -1531,7 +1531,7 @@ export default function Usuarios() {
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
-            <SuiButton onClick={async() => {setListo(5)
+            <SuiButton onClick={async() => {setListo(12)
             setValue('')
             setID(0)}}>
               <Icon classsName="material-icons-round">
@@ -1951,7 +1951,7 @@ export default function Usuarios() {
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
-            <SuiButton onClick={async() => {setListo(5)
+            <SuiButton onClick={async() => {setListo(12)
             setValue('')
             setID(0)}}>
               <Icon classsName="material-icons-round">
