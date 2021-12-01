@@ -69,8 +69,58 @@ export default function Usuarios() {
     })
     .then(users => {
       info = users
+      if (users.gestion_infante === true){
+          ActualizarInfantes()
+      }
+      else if (users.gestion_infante === false){
+          ActualizarInfantes_Aux()
+      }
+      
 
-      ActualizarInfantes()
+    });
+  }
+
+  function getInfo2(){
+    fetch("sesion/datos_usuario/")
+    .then( (response) => {
+      console.log(response.status)
+      if (response.status === 404){
+        //hist.push('/authentication/sign-in')
+      }
+        return response.json()
+  
+    })
+    .then(users => {
+      info = users
+      if (users.gestion_infante === true ){
+        if(users.gestion_ficha === true && users.gestion_evaluacion === true){ 
+            setListo(4)
+        }
+        else if(users.gestion_ficha === true && users.gestion_evaluacion === false){ 
+            setListo(9)
+        }
+        else if(users.gestion_ficha === false && users.gestion_evaluacion === true){
+            setListo(10)
+        }
+        else if(users.gestion_ficha === false && users.gestion_evaluacion === false){
+            setListo(11)
+        }
+    }
+    else if (users.gestion_infante === false){
+  
+      if(users.gestion_ficha === true && users.gestion_evaluacion === true){
+            setListo(5)
+      }
+      else if(users.gestion_ficha === true && users.gestion_evaluacion === false){ 
+            setListo(6)
+      }
+      else if(users.gestion_ficha === false && users.gestion_evaluacion === true){
+            setListo(7)
+      }
+      else if(users.gestion_ficha === false && users.gestion_evaluacion === false){
+            setListo(8)
+      } 
+    }
       
 
     });
@@ -164,36 +214,7 @@ export default function Usuarios() {
 
   function Colocao(rut){
       setRutInfante(rut)
-
-      if (info.gestion_infante === true ){
-          if(info.gestion_ficha === true && info.gestion_evaluacion === true){ 
-              setListo(4)
-          }
-          else if(info.gestion_ficha === true && info.gestion_evaluacion === false){ 
-              setListo(9)
-          }
-          else if(info.gestion_ficha === false && info.gestion_evaluacion === true){
-              setListo(10)
-          }
-          else if(info.gestion_ficha === false && info.gestion_evaluacion === false){
-              setListo(11)
-          }
-      }
-      else if (info.gestion_infante === false){
-
-        if(info.gestion_ficha === true && info.gestion_evaluacion === true){
-              setListo(5)
-        }
-        else if(info.gestion_ficha === true && info.gestion_evaluacion === false){ 
-              setListo(6)
-        }
-        else if(info.gestion_ficha === false && info.gestion_evaluacion === true){
-              setListo(7)
-        }
-        else if(info.gestion_ficha === false && info.gestion_evaluacion === false){
-              setListo(8)
-        } 
-      }
+      setListo(3)
   }
   function RecibirFicha(){
     fetch('/infante/ver_ficha/'+RutInfante.toString(), {
@@ -425,7 +446,6 @@ export default function Usuarios() {
   }
   function VisualizarDatos(rut_infante){
     let bolean = true;
-    if(Listo === 3){
       while(rows.length > 0) {
         rows.pop();
       }
@@ -496,11 +516,15 @@ export default function Usuarios() {
           console.log(users)
         });
       }
-    }
+    
     if(bolean == true){
-      setListo(3);
+      getInfo2()
     }
   }
+
+
+
+
   function Formulario(){
     return(
       <>
@@ -680,6 +704,40 @@ export default function Usuarios() {
         setListo(0);
     })
   }
+
+  function ActualizarInfantes_Aux(){
+    fetch('/infante/ver_infantes')
+    .then(res => {
+      if(res.status == 404){
+        alert("Error en la conexión")
+      }
+        return res.json()
+    })
+    .then(users => {
+      for(let i=0; i < users.length;i++){
+        let aux = true;
+        for(let e=0;e < rows.length;e++){
+          if(users[i].rut == rows[e].rut){
+            aux=false;
+          }
+        }
+        let fecha_nacimiento = users[i].fecha_nacimiento;
+        fecha_nacimiento = fecha_nacimiento.toString();
+        fecha_nacimiento = fecha_nacimiento.slice(0,9);
+        if(aux == true){
+          rows.push({nombre:users[i].nombre,
+            rut: users[i].rut,
+            fecha_nacimiento: fecha_nacimiento,
+            nombre_apoderado: users[i].nombre_apoderado,
+            telefono_apoderado: users[i].telefono,
+            visualizar: <Boton1 rut={users[i].rut}/>
+          })
+        }
+      }
+      setListo(2);
+    });
+  }
+
   function ActualizarInfantes(){
     if(info == null){
       hist.push('/authentication/sign-in');
@@ -690,7 +748,7 @@ export default function Usuarios() {
             rows.pop();
           }
 
-          if(info.gestion_infante === true){
+         
               fetch('/infante/ver_infantes')
                 .then(res => {
                   if(res.status == 404){
@@ -723,38 +781,8 @@ export default function Usuarios() {
                   
                   setListo(1);
                 });
-            }else if (info.gestion_infante === false){
-              fetch('/infante/ver_infantes')
-              .then(res => {
-                if(res.status == 404){
-                  alert("Error en la conexión")
-                }
-                  return res.json()
-              })
-              .then(users => {
-                for(let i=0; i < users.length;i++){
-                  let aux = true;
-                  for(let e=0;e < rows.length;e++){
-                    if(users[i].rut == rows[e].rut){
-                      aux=false;
-                    }
-                  }
-                  let fecha_nacimiento = users[i].fecha_nacimiento;
-                  fecha_nacimiento = fecha_nacimiento.toString();
-                  fecha_nacimiento = fecha_nacimiento.slice(0,9);
-                  if(aux == true){
-                    rows.push({nombre:users[i].nombre,
-                      rut: users[i].rut,
-                      fecha_nacimiento: fecha_nacimiento,
-                      nombre_apoderado: users[i].nombre_apoderado,
-                      telefono_apoderado: users[i].telefono,
-                      visualizar: <Boton1 rut={users[i].rut}/>
-                    })
-                  }
-                }
-                setListo(2);
-              });
-            }
+     
+       
       }
   }
   function Formulario2({r_i, n_i, f_n, r_a, n_a, t, e}){
@@ -1525,7 +1553,8 @@ export default function Usuarios() {
     </SuiBox>
     <Footer />
   </DashboardLayout>
-  );}
+  );
+  }
 
   else if (Listo === 8){
     return(
@@ -1617,6 +1646,7 @@ export default function Usuarios() {
   </DashboardLayout>
   );
   }
+
   else if (Listo === 9){
     return(
     <DashboardLayout>
@@ -1725,6 +1755,7 @@ export default function Usuarios() {
   </DashboardLayout>
   );
   }
+
   else if (Listo === 11){
     return(
     <DashboardLayout>
@@ -1828,7 +1859,9 @@ export default function Usuarios() {
     </SuiBox>
     <Footer />
   </DashboardLayout>
-  );}
+  );
+  }
+
   else if (Listo === 10){
     return(
     <DashboardLayout>
@@ -1940,10 +1973,10 @@ export default function Usuarios() {
     </SuiBox>
     <Footer />
   </DashboardLayout>
-  );}  
+  );
+  }
 
-
-  if(Listo === 12){
+  else if(Listo === 12){
     return(
       <DashboardLayout>
         <DashboardNavbar/>
