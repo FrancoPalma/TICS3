@@ -99,7 +99,7 @@ usuarioController.postEditarPassword = async (req, res) => {
 
 usuarioController.postAgregarUsuario = (req, res) => {
 	let RErut = new RegExp('^([0-9][0-9]|[0-9])[0-9][0-9][0-9][0-9][0-9][0-9]-([0-9]|k|K)+$')
-	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]+$');
+	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ]+$');
 	let REnumeros = new RegExp('^[0-9]+$')
 	let REemail = new RegExp('[@]')
 
@@ -108,6 +108,7 @@ usuarioController.postAgregarUsuario = (req, res) => {
 	let telefono = req.body.telefono;
 	let email = req.body.email;
 	let especialidad = req.body.especialidad;
+	let password = req.body.password
 
 	if(RErut.test(rut) && REletras.test(nombre) && REletras.test(especialidad) && REnumeros.test(telefono) && REemail.test(email) && telefono.length <= 11 && telefono.length >= 9){
 		pool.query('SELECT * FROM usuario WHERE rut = $1' , [rut], async (err, usuario) => {
@@ -121,7 +122,7 @@ usuarioController.postAgregarUsuario = (req, res) => {
 			let passHash = await bcrypt.hash(password, 8);
 			pool.query('BEGIN', (err) => {
 				if(err){return res.sendStatus(404)}
-				pool.query('INSERT INTO usuario (id_jardin, rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.body.id_jardin, rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err) => {
+				pool.query('INSERT INTO usuario (id_jardin, rut, nombre, telefono, email,especialidad, password) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.user.id_jardin, rut, req.body.nombre, req.body.telefono, req.body.email, req.body.especialidad, passHash], (err) => {
 				if(err){return res.sendStatus(404);}
 				pool.query('INSERT INTO privilegios (rut_usuario, gestion_usuario, gestion_ficha, gestion_priv, gestion_evaluacion, gestion_infante, administrador) VALUES ($1, $2, $3, $4, $5, $6, $7)', [rut, true, true, true, true, true, true], (err) => {
 					if(err){return res.sendStatus(404);}
