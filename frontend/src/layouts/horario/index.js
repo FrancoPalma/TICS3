@@ -119,10 +119,10 @@ export default function Horario() {
       }
       fetch('/usuario/ver_usuarios')
       .then(res => {
-          return res.json()
           if(res.status === 404){
             setListo(1);
           }
+          return res.json()
       })
       .then(users => {
         for(let i=0; i < users.length;i++){

@@ -200,7 +200,7 @@ export default function Profesionales() {
       <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
             const result = await Confirm(<Checks rut={rut} p1={p1} p2={p2} p3={p3} p4={p4} p5={p5} p6={p6}/>, 
-              'Edición usuario '+rut.toString());
+              'Editar Profesional '+rut.toString());
             
             if (result) {
               EditarEmpleado(rut={rut})
@@ -214,7 +214,7 @@ export default function Profesionales() {
         <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
             const result = await Confirm(<Texto rut={rut}/>, 
-              'Confirmación de eliminación '+rut.toString());
+              'Eliminar Profesional '+rut.toString());
             
             if (result) {
               EliminarEmpleado()
@@ -235,7 +235,7 @@ export default function Profesionales() {
       <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
             const result = await Confirm(<Formulario2 r={rut} n={nom} t={telefono} e={email}  es={especialidad} />, 
-              'Edición usuario '+rut.toString());
+              'Editar Profesional '+rut.toString());
             
             if (result) {
               EditarEmpleado2(rut, nombre);
@@ -249,7 +249,7 @@ export default function Profesionales() {
         <SuiButton buttonColor="info" iconOnly
           onClick={async () => {
             const result = await Confirm(<Texto rut={rut}/>, 
-              'Confirmación de eliminación '+rut.toString());
+              'Eliminar Profesional '+rut.toString());
             
             if (result) {
               EliminarEmpleado()
@@ -307,6 +307,7 @@ export default function Profesionales() {
           variant="outlined"
             type="text"
             name="telefono"
+            defaultValue={569}
             display="flex"
             onChange={(e) => {
               telefono = e.target.value;
@@ -465,7 +466,7 @@ export default function Profesionales() {
       <SuiButton buttonColor="info" 
             onClick={async () => {
               const result = await Confirm(<Formulario/>, 
-                'Agregar ');
+                'Agregar Profesional');
               if (result) {
                 AgregarProfesional();
               } else {
