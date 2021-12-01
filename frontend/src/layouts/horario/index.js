@@ -120,6 +120,9 @@ export default function Horario() {
       fetch('/usuario/ver_usuarios')
       .then(res => {
           return res.json()
+          if(res.status === 404){
+            setListo(1);
+          }
       })
       .then(users => {
         for(let i=0; i < users.length;i++){
@@ -545,17 +548,8 @@ export default function Horario() {
       <DashboardLayout>
         <SuiBox py={3}>
           <SuiBox mb={3}>
-          <Tabs value={tabValue} onChange={handleSetTabValue}>
-            <Tab label="Buscar" {...a11yProps(0)}/>
-            <Tab label="Añadir" {...a11yProps(1)}/>
-          </Tabs>
             <Card>
-            <TabPanel value={tabValue} index={0}>
               Cargando...
-            </TabPanel>
-            <TabPanel value={tabValue} index={1}>
-              Cargando...
-            </TabPanel>
             </Card>
           </SuiBox>
           <Card>
