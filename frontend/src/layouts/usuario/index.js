@@ -62,7 +62,7 @@ export default function Usuarios() {
     .then( (response) => {
       console.log(response.status)
       if (response.status === 404){
-        //hist.push('/authentication/sign-in')
+        hist.push('/authentication/sign-in')
       }
         return response.json()
   
@@ -85,7 +85,7 @@ export default function Usuarios() {
     .then( (response) => {
       console.log(response.status)
       if (response.status === 404){
-        //hist.push('/authentication/sign-in')
+        hist.push('/authentication/sign-in')
       }
         return response.json()
   
@@ -522,9 +522,6 @@ export default function Usuarios() {
     }
   }
 
-
-
-
   function Formulario(){
     return(
       <>
@@ -958,7 +955,7 @@ export default function Usuarios() {
         if(response.status === 200) {
 
             alert("Editado correctamente")
-            setListo(2)
+            setListo(3)
 
         }else if(response.status === 404){
             alert("Error en la conexión")
