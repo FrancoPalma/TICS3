@@ -697,6 +697,8 @@ export default function Usuarios() {
           alert("Error en la conexión")
         }else if(response.status === 405){
           alert("Datos ingresados inválidos")
+        }else if (response.status === 406){
+          alert("Usuario ya existe")
         }
         setListo(0);
     })

@@ -452,7 +452,7 @@ export default function Profesionales() {
                   alert('Error en la conexión por favor volver a intentarlo')
               } else if (response.status === 405){
                   alert("Datos ingresado inválidos")
-              }
+              } 
           })
           .catch((error) => {
               alert(error)
@@ -650,7 +650,7 @@ export default function Profesionales() {
         } else if (response.status === 405){
             alert('Datos ingresados inválidos')
         }else{
-          alert('Hubo un error')
+          alert('Error en la conexión')
         }
     })
     .catch((error) => {
@@ -679,8 +679,10 @@ export default function Profesionales() {
             window.location.href = window.location.href;
         } else if (response.status === 405){
           alert('Datos ingresados inválidos')
+        }else if (response.status === 406){
+          alert("Profesional ya existe")
         }else{
-          alert('Hubo un error')
+          alert('Error en la conexión')
         }
     })
     .catch((error) => {
@@ -703,7 +705,7 @@ export default function Profesionales() {
             alert("Eliminado correctamente");
             window.location.href = window.location.href;
         } else {
-          alert('Hubo un error')
+          alert('Error en la conexión')
         }
     })
     .catch((error) => {
