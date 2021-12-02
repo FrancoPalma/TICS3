@@ -766,12 +766,17 @@ export default function Profesionales() {
         <DashboardNavbar/>
         <SuiBox py={6}>
           <SuiBox mb={6}>
+          <Tabs value={tabValue} onChange={handleSetTabValue}>
+              <Tab label="Datos" {...a11yProps(0)}/>
+          </Tabs>
+          <TabPanel value={tabValue} index={0}>
             <Card>
               <BotonAgregar/>
               <SuiBox customClass={classes.tables_table}>
                 <Table columns={columns2} rows={rows2} />
               </SuiBox>
             </Card>
+          </TabPanel>
           </SuiBox>
         </SuiBox>
         <Footer />
@@ -783,11 +788,16 @@ export default function Profesionales() {
         <DashboardNavbar/>
         <SuiBox py={6}>
           <SuiBox mb={6}>
+          <Tabs value={tabValue} onChange={handleSetTabValue}>
+              <Tab label="Privilegios" {...a11yProps(0)}/>
+          </Tabs>
+          <TabPanel value={tabValue} index={0}>
             <Card>
               <SuiBox customClass={classes.tables_table}>
                 <Table columns={columns} rows={rows} />
               </SuiBox>
             </Card>
+          </TabPanel>
           </SuiBox>
         </SuiBox>
         <Footer />

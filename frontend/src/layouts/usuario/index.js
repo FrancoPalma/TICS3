@@ -522,7 +522,6 @@ export default function Usuarios() {
       getInfo2()
     }
   }
-
   function Formulario(){
     return(
       <>
@@ -704,7 +703,6 @@ export default function Usuarios() {
         setListo(0);
     })
   }
-
   function ActualizarInfantes_Aux(){
     fetch('/infante/ver_infantes')
     .then(res => {
@@ -737,7 +735,6 @@ export default function Usuarios() {
       setListo(2);
     });
   }
-
   function ActualizarInfantes(){
     if(info == null){
       hist.push('/authentication/sign-in');
@@ -1057,8 +1054,6 @@ export default function Usuarios() {
     );
   }
 
-
-
   if (Listo === 0){
           getInfo();
         return(
@@ -1225,16 +1220,29 @@ export default function Usuarios() {
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
           <center>
-          <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
-          <SuiButton onClick={handleSubmission} buttonColor = "secondary">
-            Subir
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Subir una ficha medica
+              <br/>
+            </SuiTypography>
+            <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+            <SuiButton onClick={handleSubmission} buttonColor = "secondary">
+              Subir
             <Icon classsName="material-icons-round">file_upload</Icon>
-          </SuiButton>
+            </SuiButton>
+            </Grid>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+            </Grid>
+          </Grid>
           </center>
-          <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
-         
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
@@ -1330,13 +1338,30 @@ export default function Usuarios() {
           </Box>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
-          <SuiButton onClick={handleSubmission}>
-            Subir
-          </SuiButton>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
+          <center>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Subir una ficha medica
+              <br/>
+            </SuiTypography>
+            <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+            <SuiButton onClick={handleSubmission} buttonColor = "secondary">
+              Subir
+            <Icon classsName="material-icons-round">file_upload</Icon>
+            </SuiButton>
+            </Grid>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+            </Grid>
+          </Grid>
+          </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
@@ -1433,13 +1458,30 @@ export default function Usuarios() {
 
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-        <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
-          <SuiButton onClick={handleSubmission}>
-            Subir
-          </SuiButton>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
+          <center>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Subir una ficha medica
+              <br/>
+            </SuiTypography>
+            <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+            <SuiButton onClick={handleSubmission} buttonColor = "secondary">
+              Subir
+            <Icon classsName="material-icons-round">file_upload</Icon>
+            </SuiButton>
+            </Grid>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+            </Grid>
+          </Grid>
+          </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
 
@@ -1526,9 +1568,15 @@ export default function Usuarios() {
           </Box>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
+          <center>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+          </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
@@ -1624,9 +1672,15 @@ export default function Usuarios() {
           </Box>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
+          <center>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+          </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
@@ -1731,13 +1785,30 @@ export default function Usuarios() {
 
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-        <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
-          <SuiButton onClick={handleSubmission}>
-            Subir
-          </SuiButton>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
+          <center>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Subir una ficha medica
+              <br/>
+            </SuiTypography>
+            <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+            <SuiButton onClick={handleSubmission} buttonColor = "secondary">
+              Subir
+            <Icon classsName="material-icons-round">file_upload</Icon>
+            </SuiButton>
+            </Grid>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+            </Grid>
+          </Grid>
+          </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
 
@@ -1840,9 +1911,15 @@ export default function Usuarios() {
 
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
+          <center>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+          </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
 
@@ -1946,9 +2023,15 @@ export default function Usuarios() {
 
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
-            Visualizar
-          </SuiButton>
+          <center>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+          </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <SuiBox>
@@ -2057,14 +2140,31 @@ export default function Usuarios() {
             </SuiButton>
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
-            <SuiInput type="file" name="ficha" id ="ficha" onChange={changeHandler} />
-            <SuiButton onClick={handleSubmission}>
+          <center>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Subir una ficha medica
+              <br/>
+            </SuiTypography>
+            <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
+            <SuiButton onClick={handleSubmission} buttonColor = "secondary">
               Subir
+            <Icon classsName="material-icons-round">file_upload</Icon>
             </SuiButton>
-            <SuiButton variant="gradient" buttonColor="info" fullWidth onClick={RecibirFicha} mb={2}>
+            </Grid>
+            <Grid item xs={12} lg={5}>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Visualizar ficha medica existente
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
               Visualizar
             </SuiButton>
-          </TabPanel>
+            </Grid>
+          </Grid>
+          </center>
+        </TabPanel>
           <TabPanel value={tabValue} index={2}>
             <Editor
               value={value}
