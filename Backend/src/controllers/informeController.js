@@ -92,9 +92,9 @@ informeController.postEliminarInforme = async (req, res) => {
     let archivo_pdf = path.join(__dirname, '../public/informes/informe' + id_informe+ '.pdf');
     let archivo_html = path.join(__dirname, '../public/informes/informe' + id_informe+ '.html');
     fs.unlink(archivo_html, (err) => {
-      if(err){return res.sendStatus(404)}
+      if(err){console.log(err)}
       fs.unlink(archivo_pdf, (err) => {
-        if(err){return res.sendStatus(404)}
+        if(err){console.log(err)}
         return res.sendStatus(200);
       })
     })
