@@ -1150,9 +1150,9 @@ export default function Usuarios() {
       <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0); setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
-        <Card>
-
+        
         <TabPanel value={tabValue} index={0}>
+        <Card>
           <Box sx={{ width: '100%' }}>
             <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -1217,13 +1217,24 @@ export default function Usuarios() {
             Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
+          </Card>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
           <center>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
+          <Card>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Subir una ficha medica
+              Visualizar ficha médica existente
+              <br/>
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+            </Card>
+            <br/>
+            <Card>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Subir una ficha médica
               <br/>
             </SuiTypography>
             <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
@@ -1231,20 +1242,14 @@ export default function Usuarios() {
               Subir
             <Icon classsName="material-icons-round">file_upload</Icon>
             </SuiButton>
-            </Grid>
-            <Grid item xs={12} lg={5}>
-            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
-              <br/>
-            </SuiTypography>
-            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
-              Visualizar
-            </SuiButton>
-            </Grid>
-          </Grid>
+            </Card>
+            <br/>
+            
+
           </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
+        <Card>
           <SuiBox>
             <SuiButton onClick={async() => {setListo(12)
             setValue('')
@@ -1258,11 +1263,9 @@ export default function Usuarios() {
           <SuiBox customClass={classes.tables_table}>
             <Table columns={columns2} rows={rows2} />
           </SuiBox>
+          </Card>
         </TabPanel>
-        </Card>
       </SuiBox>
-      <Card>
-      </Card>
     </SuiBox>
     <Footer />
   </DashboardLayout>
@@ -1283,9 +1286,8 @@ export default function Usuarios() {
       <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0); setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
-        <Card>
-
         <TabPanel value={tabValue} index={0}>
+        <Card>
           <Box sx={{ width: '100%' }}>
             <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -1336,13 +1338,24 @@ export default function Usuarios() {
                 </Grid>
             </Grid>
           </Box>
+          </Card>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
           <center>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
+          <Card>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Subir una ficha medica
+              Visualizar ficha médica existente
+              <br/>
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+            </Card>
+            <br/>
+            <Card>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Subir una ficha médica
               <br/>
             </SuiTypography>
             <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
@@ -1350,20 +1363,12 @@ export default function Usuarios() {
               Subir
             <Icon classsName="material-icons-round">file_upload</Icon>
             </SuiButton>
-            </Grid>
-            <Grid item xs={12} lg={5}>
-            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
-              <br/>
-            </SuiTypography>
-            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
-              Visualizar
-            </SuiButton>
-            </Grid>
-          </Grid>
+            </Card>
+            
           </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
+        <Card>
           <SuiBox>
             <SuiButton onClick={async() => {setListo(12)
             setValue('')
@@ -1377,11 +1382,9 @@ export default function Usuarios() {
           <SuiBox customClass={classes.tables_table}>
             <Table columns={columns2} rows={rows2} />
           </SuiBox>
-        </TabPanel>
-        </Card>
+          </Card>
+        </TabPanel> 
       </SuiBox>
-      <Card>
-      </Card>
     </SuiBox>
     <Footer />
   </DashboardLayout>
@@ -1402,9 +1405,8 @@ export default function Usuarios() {
       <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
-        <Card>
-
         <TabPanel value={tabValue} index={0}>
+        <Card>
           <Box sx={{ width: '100%' }}>
             <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -1455,14 +1457,24 @@ export default function Usuarios() {
                 </Grid>
             </Grid>
           </Box>
-
+        </Card>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
           <center>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
+          <Card>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Subir una ficha medica
+              Visualizar ficha médica existente
+              <br/>
+              <br/>
+            </SuiTypography>
+            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+              Visualizar
+            </SuiButton>
+            </Card>
+            <br/>
+            <Card>
+            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+              Subir una ficha médica
               <br/>
             </SuiTypography>
             <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
@@ -1470,29 +1482,17 @@ export default function Usuarios() {
               Subir
             <Icon classsName="material-icons-round">file_upload</Icon>
             </SuiButton>
-            </Grid>
-            <Grid item xs={12} lg={5}>
-            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
-              <br/>
-            </SuiTypography>
-            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
-              Visualizar
-            </SuiButton>
-            </Grid>
-          </Grid>
+            </Card>            
           </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
-
+        <Card>
           <SuiBox customClass={classes.tables_table}>
             <Table columns={columns2_aux} rows={rows2} />
           </SuiBox>
-        </TabPanel>
         </Card>
+        </TabPanel>
       </SuiBox>
-      <Card>
-      </Card>
     </SuiBox>
     <Footer />
   </DashboardLayout>
@@ -1513,9 +1513,8 @@ export default function Usuarios() {
       <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
-        <Card>
-
         <TabPanel value={tabValue} index={0}>
+        <Card>
           <Box sx={{ width: '100%' }}>
             <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -1566,19 +1565,24 @@ export default function Usuarios() {
                 </Grid>
             </Grid>
           </Box>
+          </Card>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
+        <Card>
           <center>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
+              Visualizar ficha médica existente
+              <br/>
               <br/>
             </SuiTypography>
             <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
               Visualizar
             </SuiButton>
           </center>
+        </Card>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
+        <Card>
           <SuiBox>
             <SuiButton onClick={async() => {setListo(12)
             setValue('')
@@ -1592,11 +1596,9 @@ export default function Usuarios() {
           <SuiBox customClass={classes.tables_table}>
             <Table columns={columns2} rows={rows2} />
           </SuiBox>
-        </TabPanel>
         </Card>
+        </TabPanel>
       </SuiBox>
-      <Card>
-      </Card>
     </SuiBox>
     <Footer />
   </DashboardLayout>
@@ -1617,9 +1619,8 @@ export default function Usuarios() {
       <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
-        <Card>
-
         <TabPanel value={tabValue} index={0}>
+        <Card>
           <Box sx={{ width: '100%' }}>
             <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -1670,30 +1671,29 @@ export default function Usuarios() {
                 </Grid>
             </Grid>
           </Box>
+          </Card>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
+        <Card>
           <center>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
-              <br/>
+              Visualizar ficha médica existente
+              <br/><br/>
             </SuiTypography>
             <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
               Visualizar
             </SuiButton>
           </center>
+        </Card>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
-          <SuiBox>
-
-          </SuiBox>
+        <Card>
           <SuiBox customClass={classes.tables_table}>
             <Table columns={columns2_aux} rows={rows2} />
           </SuiBox>
-        </TabPanel>
         </Card>
+        </TabPanel>
       </SuiBox>
-      <Card>
-      </Card>
     </SuiBox>
     <Footer />
   </DashboardLayout>
@@ -1713,10 +1713,9 @@ export default function Usuarios() {
       </Tabs>
       <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
-        </SuiButton>
-        <Card>
-
+      </SuiButton>
         <TabPanel value={tabValue} index={0}>
+        <Card>
           <Box sx={{ width: '100%' }}>
             <h3>Datos personales del usuario</h3>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -1782,14 +1781,23 @@ export default function Usuarios() {
             Editar usuario
             <Icon classsName="material-icons-round">edit</Icon>
           </SuiButton>
-
+        </Card>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
           <center>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
+            <Card>
+              <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
+                Visualizar ficha médica existente
+                <br/><br/>
+              </SuiTypography>
+              <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
+                Visualizar
+              </SuiButton>
+            </Card>
+            <br/>
+            <Card>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Subir una ficha medica
+              Subir una ficha médica
               <br/>
             </SuiTypography>
             <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
@@ -1797,17 +1805,7 @@ export default function Usuarios() {
               Subir
             <Icon classsName="material-icons-round">file_upload</Icon>
             </SuiButton>
-            </Grid>
-            <Grid item xs={12} lg={5}>
-            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
-              <br/>
-            </SuiTypography>
-            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
-              Visualizar
-            </SuiButton>
-            </Grid>
-          </Grid>
+            </Card>
           </center>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
@@ -1816,10 +1814,7 @@ export default function Usuarios() {
             <Table columns={columns2_aux} rows={rows2} />
           </SuiBox>
         </TabPanel>
-        </Card>
       </SuiBox>
-      <Card>
-      </Card>
     </SuiBox>
     <Footer />
   </DashboardLayout>
@@ -1841,7 +1836,6 @@ export default function Usuarios() {
         <Icon classsName="material-icons-round">keyboard_backspace</Icon>
         </SuiButton>
         <Card>
-
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ width: '100%' }}>
             <h3>Datos personales del usuario</h3>
@@ -1893,7 +1887,6 @@ export default function Usuarios() {
                 </Grid>
             </Grid>
           </Box>
-
           <SuiButton buttonColor="info" 
           onClick={async () => {
             const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
@@ -1913,8 +1906,8 @@ export default function Usuarios() {
         <TabPanel value={tabValue} index={1}>
           <center>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
-              <br/>
+              Visualizar ficha médica existente
+              <br/><br/>
             </SuiTypography>
             <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
               Visualizar
@@ -1930,8 +1923,6 @@ export default function Usuarios() {
         </TabPanel>
         </Card>
       </SuiBox>
-      <Card>
-      </Card>
     </SuiBox>
     <Footer />
   </DashboardLayout>
@@ -2025,7 +2016,8 @@ export default function Usuarios() {
         <TabPanel value={tabValue} index={1}>
           <center>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
+              Visualizar ficha médica existente
+              <br/>
               <br/>
             </SuiTypography>
             <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
@@ -2050,8 +2042,6 @@ export default function Usuarios() {
         </TabPanel>
         </Card>
       </SuiBox>
-      <Card>
-      </Card>
     </SuiBox>
     <Footer />
   </DashboardLayout>
@@ -2064,108 +2054,10 @@ export default function Usuarios() {
         <DashboardNavbar/>
       <SuiBox py={6}>
         <SuiBox mb={6}>
-        <Tabs value={tabValue} onChange={handleSetTabValue}>
-          <Tab label="Datos" {...a11yProps(0)}/>
-          <Tab label="Fichas Técnicas" {...a11yProps(1)}/>
-          <Tab label="Informes de Evaluaciones" {...a11yProps(2)}/>
-        </Tabs>
         <SuiButton  buttonColor="info" iconOnly onClick = {async() => {setListo(0);setTabValue(0)}}>
           <Icon classsName="material-icons-round">keyboard_backspace</Icon>
           </SuiButton>
           <Card>
-          <TabPanel value={tabValue} index={0}>
-            <Box sx={{ width: '100%' }}>
-              <h3>Datos personales del usuario</h3>
-              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                  <Grid item xs={6}>
-                    <Item>RUT del usuario: </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>{RutInfante}</Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>Nombre del usuario: </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>{NameChild}</Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>Fecha de nacimiento: </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>{Date}</Item>
-                  </Grid>
-                </Grid>
-                <h3>Datos personales del apoderado</h3>
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                  <Grid item xs={6}>
-                    <Item>RUT del apoderado: </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>{RutApoderado}</Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>Nombre del apoderado: </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>{NameFather}</Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>Email: </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>{Email}</Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>Telefóno: </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>{Phone}</Item>
-                  </Grid>
-              </Grid>
-            </Box>
-            <SuiButton buttonColor="info" 
-            onClick={async () => {
-              const result = await Confirm(<Formulario2 r_i={RutInfante} n_i={NameChild} f_n={Date} r_a={RutApoderado} n_a ={NameFather} t={Phone} e={Email}   />, 
-                'Edición infante '+RutInfante.toString());
-              if (result) {
-                EditarInfante(RutInfante);
-              } else {
-                // Сonfirmation not confirmed
-              }
-            }}
-            >
-              Editar usuario
-              <Icon classsName="material-icons-round">edit</Icon>
-            </SuiButton>
-          </TabPanel>
-          <TabPanel value={tabValue} index={1}>
-          <center>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
-            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Subir una ficha medica
-              <br/>
-            </SuiTypography>
-            <SuiInput type="file" name="file" id ="file" onChange={changeHandler} />
-            <SuiButton onClick={handleSubmission} buttonColor = "secondary">
-              Subir
-            <Icon classsName="material-icons-round">file_upload</Icon>
-            </SuiButton>
-            </Grid>
-            <Grid item xs={12} lg={5}>
-            <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
-              Visualizar ficha medica existente
-              <br/>
-            </SuiTypography>
-            <SuiButton variant="gradient" buttonColor="info"  onClick={RecibirFicha}    >
-              Visualizar
-            </SuiButton>
-            </Grid>
-          </Grid>
-          </center>
-        </TabPanel>
-          <TabPanel value={tabValue} index={2}>
             <Editor
               value={value}
               onInit={(evt, editor) => {
@@ -2205,7 +2097,6 @@ export default function Usuarios() {
               </SuiButton>
             </SuiBox>
           </SuiBox>
-          </TabPanel>
           </Card>
         </SuiBox>
         <Card>
