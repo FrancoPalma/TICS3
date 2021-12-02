@@ -62,7 +62,7 @@ usuarioController.postEditarUsuario = (req, res) => {
 	let especialidad = req.body.especialidad;
 
 	let REletras = new RegExp('^[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]+$');
-	let REnumeros = new RegExp('[0-9]')
+	let REnumeros = new RegExp('^[0-9]+$')
 	let REemail = new RegExp('[@]')
 
 	if(REletras.test(nombre) && REletras.test(especialidad) && REnumeros.test(telefono) && REemail.test(email) && telefono.length <= 11 && telefono.length >= 9){

@@ -797,7 +797,7 @@ export default function Usuarios() {
   
     return(
       <>
-      <h3>Datos del infante</h3>
+      <h3>Datos del usuario</h3>
       <Grid container spacing={3} display="row">
 
       <Grid item xs={6}>
@@ -809,7 +809,7 @@ export default function Usuarios() {
 
 
       <Grid item xs={6}>
-        <label>Nombre del usuario: </label>
+        <label>Nombre y apellido: </label>
         </Grid>
         
         <Grid item xs={6}>
@@ -849,7 +849,7 @@ export default function Usuarios() {
         </Grid>
 
         <Grid item xs={6}>
-        <label>Nombre del apoderado: </label>
+        <label>Nombre y apellido: </label>
         </Grid>
         
         <Grid item xs={6}>
