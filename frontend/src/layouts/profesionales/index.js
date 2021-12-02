@@ -284,7 +284,7 @@ export default function Profesionales() {
         </Grid>
         
         <Grid item xs={6}>
-        <label>Nombre: </label>
+        <label>Nombre y apellido: </label>
         </Grid>
         
         <Grid item xs={6}>
