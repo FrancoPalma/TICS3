@@ -178,9 +178,9 @@ export default function Profesionales() {
         <FormGroup>
           <FormControlLabel control={<Checkbox onChange={handleChange0} defaultChecked={aux[0]} />} label="Gestión Evaluación" />
           <FormControlLabel control={<Checkbox onChange={handleChange1} defaultChecked={aux[1]}/>} label="Gestión Ficha" />
-          <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Infante" />
+          <FormControlLabel control={<Checkbox onChange={handleChange2} defaultChecked={aux[2]}/>} label="Gestión Usuario" />
           <FormControlLabel control={<Checkbox onChange={handleChange3} defaultChecked={aux[3]}/>} label="Gestión Privilegios" />
-          <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Usuarios" />
+          <FormControlLabel control={<Checkbox onChange={handleChange4} defaultChecked={aux[4]}/>} label="Gestión Profesional" />
         </FormGroup>
       </div>
     )
