@@ -394,7 +394,7 @@ export default function Usuarios() {
           
           let date = users.fecha_nacimiento;
           date = date.toString();
-          date = date.slice(0,9);
+          date = date.slice(0,10);
           setNameChild(users.nombre)
           setDate(date)
           setRutApoderado(users.rut_apoderado)
@@ -430,7 +430,7 @@ export default function Usuarios() {
               console.log(users[i])
               let date = users[i].fecha;
               date = date.toString();
-              date = date.slice(0,9);
+              date = date.slice(0,10);
               rows2.push({id: users[i].id,
                 fecha: date,
                 visualizar: <Boton3 id = {users[i].id}/>,
@@ -721,7 +721,7 @@ export default function Usuarios() {
         }
         let fecha_nacimiento = users[i].fecha_nacimiento;
         fecha_nacimiento = fecha_nacimiento.toString();
-        fecha_nacimiento = fecha_nacimiento.slice(0,9);
+        fecha_nacimiento = fecha_nacimiento.slice(0,10);
         if(aux == true){
           rows.push({nombre:users[i].nombre,
             rut: users[i].rut,
