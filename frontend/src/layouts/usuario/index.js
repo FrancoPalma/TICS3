@@ -838,11 +838,23 @@ export default function Usuarios() {
 
 
         <Grid item xs={6}>
+
         <label>RUT del apoderado: </label>
         </Grid>
         
         <Grid item xs={6}>
-            {rut_apoderado}
+
+        <TextField
+          variant="outlined"
+            type="text"
+            name="nombre_infante"
+            defaultValue={rut_apoderado}
+            display="flex"
+            onChange={(e) => {
+              rut_apoderado = e.target.value;
+            }}
+          />
+
         </Grid>
 
         <Grid item xs={6}>
