@@ -35,15 +35,6 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Profesionales",
-    key: "profesionales",
-    route: "/profesionales",
-    icon: <Document size="12px" />,
-    component: Profesionales,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
     name: "Horario",
     key: "horario",
     route: "/horario",
@@ -67,6 +58,15 @@ const routes = [
     route: "/perfil",
     icon: <CustomerSupport size="12px" />,
     component: Perfil,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Profesionales",
+    key: "profesionales",
+    route: "/profesionales",
+    icon: <Document size="12px" />,
+    component: Profesionales,
     noCollapse: true,
   },
   {

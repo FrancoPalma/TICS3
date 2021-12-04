@@ -812,7 +812,7 @@ export default function Profesionales() {
             <Card>
             <SuiTypography variant="h3" textColor="text" display="flex" fontWeight="medium">
               <center>
-                Usted no tiene acceso a este modulo
+                Módulo inhabilitado
               </center>
             </SuiTypography>
             </Card>
